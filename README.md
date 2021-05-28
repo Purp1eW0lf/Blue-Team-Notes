@@ -162,7 +162,8 @@ IF ($c -eq 'True') {Write-Host "C:\Program Files (x86)\sysmon present"} ELSE {Wr
 IF ($d -eq 'True') {Write-Host "C:\Program Files\sysmon present"} ELSE {Write-Host "C:\Program Files\sysmon absent"}
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119979754-443f9180-bfb3-11eb-9259-5409a0d98c04.png)
-You can use `test-path` to query REG, but even the Microsoft docs say that this can give inconsistent docs
+
+You can use `test-path` to query Registry, but even the 2007 [Microsoft docs say](https://devblogs.microsoft.com/powershell/test-path-we-goofed/) that this can give inconsistent results, so I wouldn't bother with test-path for reg stuff when it's during an IR
 
 ### Recursively look for particular file types, and once you find the files get their hashes
 This one-liner was a godsend during the Microsoft Exchange ballache back in early 2021
