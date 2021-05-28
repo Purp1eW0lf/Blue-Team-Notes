@@ -157,6 +157,14 @@ $ProcessName = "symon" ; $ProcessName = (Get-Process -Id $ProcessPID).Name; $Cpu
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119982326-9a620400-bfb6-11eb-9a66-ad5a5661bc8a.png)
 
+# Sort by CPU usage
+On the second line, you can change the `-first` flag to `-last`, which will show the lower cpu-using proccesses...useful as malicious process probably won't be as big a CPU as Chrome, for example
+```powershell
+Get-Process | Sort CPU -descending |
+Select -first 20 -Property ID,ProcessName,CPU 
+| format-table -autosize
+```
+
 ## Sch Task Queries
 ### To find the commands a task is running
 Identify the user behind a command. Great at catching out malicious schtasks that perhaps are imitating names, or a process name
