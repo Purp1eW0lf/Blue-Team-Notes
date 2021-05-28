@@ -15,6 +15,7 @@ $Bit = (get-wmiobject Win32_OperatingSystem).OSArchitecture ; $V = $host | selec
 $Build = (Get-WmiObject -class Win32_OperatingSystem).Caption ; 
 write-host "$env:computername is a $Bit $Build with Pwsh $V
 ```
+![image](https://user-images.githubusercontent.com/44196051/119976027-75699300-bfae-11eb-8baa-42f9bbccbce2.png)
 
 ### Disconnect network adaptor, firewall the fuck out of an endpoint, and display warning box
 This is a code-red command. Used to isolate a machine in an emergency.
@@ -30,31 +31,46 @@ Add-Type -AssemblyName PresentationCore,PresentationFramework;
 
 ### Is a specific process a running on a machine or not
 ```powershell
-if (get-process | select-object -property ProcessName | where-object {$_.ProcessName -Match "memes*"})
+if (get-process | select-object -property ProcessName | where-object {$_.ProcessName -Match "memes"})
 {Write-Host "memes successfully installed on " -NoNewline ; hostname} 
 else {write-host "memes absent from " -NoNewline ; hostname}
 ```
+Example of process that is absent
+![image](https://user-images.githubusercontent.com/44196051/119976215-b1045d00-bfae-11eb-806c-49a62f5aab15.png)
+Example of process that is present
+![image](https://user-images.githubusercontent.com/44196051/119976374-ea3ccd00-bfae-11eb-94cd-37ed4233564d.png)
+
 
 ### Get process hash
-Great to make malicious process stand out
+Great to make malicious process stand out. If you want a different alogrithmn, just change it after `-Algorithmn` to something like `sha256` 
 ```powershell
 foreach ($proc in Get-Process | select path -Unique)
 {try { Get-FileHash $proc.path -Algorithm md5 -ErrorAction stop | Select-Object -property hash,path}catch{}}
 ```
+![image](https://user-images.githubusercontent.com/44196051/119976802-8cf54b80-bfaf-11eb-82de-1a92bbcae4f9.png)
+
 ### Show all DLLs loaded with a process
 ```powershell
 get-process -name "memestask" -module 
 ```
+![image](https://user-images.githubusercontent.com/44196051/119976958-bdd58080-bfaf-11eb-8833-7fdf78045967.png)
 
-### Create hashes and print full paths for files.
+Alternatively, pipe `|fl` and it will give a granularity to the DLLs
+
+![image](https://user-images.githubusercontent.com/44196051/119977057-db0a4f00-bfaf-11eb-97ce-1e762088de8e.png)
+
+### Recursively look for particular file types, and once you find the files get their hashes
 This one-liner was a godsend during the Microsoft Exchange ballache back in early 2021
 ```powershell
 Get-ChildItem -path "C:\windows\temp" -Recurse -Force -File -Include *.aspx, *.js, *.zip| Get-FileHash | Select-Object -property hash, path
 ```
+![image](https://user-images.githubusercontent.com/44196051/119977578-887d6280-bfb0-11eb-9e56-fad64296128f.png)
+
 Here's the a bash alternative
 ```bash
 find . type f -exec sha256sum {} \; 2> /dev/null | grep -Ei 'asp|js' | sort
 ```
+![image](https://user-images.githubusercontent.com/44196051/119977935-e7db7280-bfb0-11eb-8ee0-4da29089c736.png)
 
 ### To find the commands a task is running
 Identify the user behind a command. Great at catching out malicious schtasks that perhaps are imitating names, or a process name
@@ -119,6 +135,7 @@ setx prompt $D$S$T$H$H$H$S$B$S$P$_--$g
 ##we are writing the prompt's new timestamp value in the cmd line into the reg
 #so it stays perimnent, otherwise it would not stay in the cmdline when we closed it.
 ```
+![image](https://user-images.githubusercontent.com/44196051/119978466-97b0e000-bfb1-11eb-83e1-022efba7dc96.png)
 
 #### Pwsh
 ```powershell
@@ -131,6 +148,7 @@ function prompt{ "[$(Get-Date)]" +" | PS "+ "$(Get-Location) > "}
 #run as powershell admin
 Set-ExecutionPolicy RemoteSigned
 ```
+![image](https://user-images.githubusercontent.com/44196051/119978226-486aaf80-bfb1-11eb-8e9e-52eabf2cde4c.png)
 
 #### Bash
 ```bash
