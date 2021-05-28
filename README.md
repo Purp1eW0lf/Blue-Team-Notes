@@ -79,7 +79,7 @@ $Bit = (get-wmiobject Win32_OperatingSystem).OSArchitecture ; $V = $host | selec
 $Build = (Get-WmiObject -class Win32_OperatingSystem).Caption ; 
 write-host "$env:computername is a $Bit $Build with Pwsh $V
 ```
-![image](https://user-images.githubusercontent.com/44196051/119976027-75699300-bfae-11eb-8baa-42f9bbccbce2.png)ries
+![image](https://user-images.githubusercontent.com/44196051/119976027-75699300-bfae-11eb-8baa-42f9bbccbce2.png)
 
 ## Network Queries
 ### Find internet established connections, and sort by time established
