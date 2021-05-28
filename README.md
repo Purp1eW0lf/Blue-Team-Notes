@@ -9,6 +9,7 @@ I've included screenshots where possible so you know what you're getting. Some s
 ## Contact me
 If you see a mistake, or have an easier way to run a command then you're welcome to hit me up on [Twitter](https://twitter.com/Purp1eW0lf) or commit an issue here
 
+## Table of Contents
 - [Shell Style](#shell-style)
 - [Powershell](#Powershell)
   * [OSInfo](#osinfo)
@@ -26,14 +27,13 @@ If you see a mistake, or have an easier way to run a command then you're welcome
 ### Give shell timestamp
 For screenshots during IR, I like to have the date, time, and timezone in my shell
 #### CMD
-```cmd
+```bat
 setx prompt $D$S$T$H$H$H$S$B$S$P$_--$g
-## all the H's are to backspace the stupid microsecond timestamp
-## $_ and --$g seperate the date/time and path from the actual shell
-# We make the use of the prompt command: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/prompt
-##setx is in fact the command line command to write variables to the registery
-##we are writing the prompt's new timestamp value in the cmd line into the reg
-#so it stays perimnent, otherwise it would not stay in the cmdline when we closed it.
+:: all the H's are to backspace the stupid microsecond timestamp
+:: $_ and --$g seperate the date/time and path from the actual shell
+:: We make the use of the prompt command: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/prompt
+:: setx is in fact the command line command to write variables to the registery
+:: We are writing the prompt's new timestamp value in the cmd line into the reg so it stays, otherwise it would not stay in the cmdline when we closed it.
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119978466-97b0e000-bfb1-11eb-83e1-022efba7dc96.png)
 
