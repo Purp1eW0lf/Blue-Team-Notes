@@ -28,6 +28,7 @@ $adapter = Get-NetAdapter|foreach { $_.Name } ; Disable-NetAdapter -Name "$adapt
 Add-Type -AssemblyName PresentationCore,PresentationFramework; 
 [System.Windows.MessageBox]::Show('Your Computer has been Disconnected from the Internet for Security Issues. Please do not try to re-connect to the internet. Contact Security Helpdesk Desk ',' CompanyNameHere Security Alert',[System.Windows.MessageBoxButton]::OK,[System.Windows.MessageBoxImage]::Information)
 ```
+![image](https://user-images.githubusercontent.com/44196051/119979598-0e9aa880-bfb3-11eb-9882-08d02a0d3026.png)
 
 ### Is a specific process a running on a machine or not
 ```powershell
@@ -77,11 +78,15 @@ Identify the user behind a command. Great at catching out malicious schtasks tha
 ```powershell
 Get-ScheduledTask | Select-Object -Property TaskName,author | fl 
 ```
+![image](https://user-images.githubusercontent.com/44196051/119978821-01c98500-bfb2-11eb-9149-fc1a96a1af87.png)
+
 Great one liner to find exactly WHAT a regular task is doing
 ```powershell
 $task = Get-ScheduledTask | where TaskName -EQ "meme task"; 
 $task.Actions
 ```
+![image](https://user-images.githubusercontent.com/44196051/119979087-5f5dd180-bfb2-11eb-9d4d-bbbf66043535.png)
+
 To stop the task
 ```powershell
 Get-ScheduledTask "memetask" | Stop-ScheduledTask
@@ -95,6 +100,8 @@ Specifically get the last time sysmon was written to
 ```powershell
 (Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational).lastwritetime 
 ```
+![image](https://user-images.githubusercontent.com/44196051/119979946-81a41f00-bfb3-11eb-8bc0-f2e893440b18.png)
+
 Checks if the date was written recently, and if so, just print _sysmon working_ if not recent, then print the date last written. I've found sometimes that sometimes sysmon bugs out on a machine, and stops committing to logs. Change the number after `-ge` to be more flexible than the one day it currently compares to
 
 ```powershell
@@ -102,10 +109,13 @@ $b = (Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational).lastwritetime;
 $a = Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational | where-object {(new-timespan $_.LastWriteTime).days -ge 1}; 
 if ($a -eq $null){Write-host "sysmon_working"} else {Write-host "$env:computername $b"}
 ```
+![image](https://user-images.githubusercontent.com/44196051/119979908-72bd6c80-bfb3-11eb-9bff-856ebcc01375.png)
+
 test the permissions of winrm - used to see windows event forwarding working, which uses winrm usually on endpoints and wecsvc account on servers
 ```cmd
 netsh http show urlacl url=http://+:5985/wsman/ && netsh http show urlacl url=https://+:5986/wsman/
 ``` 
+![image](https://user-images.githubusercontent.com/44196051/119980070-ae583680-bfb3-11eb-8da7-51d7e5393599.png)
 
 ### test if  files and directories are present or absent
 This is great to just sanity check if things exist. Great when you're trying to check if files or directories have been left behind when you're cleaning stuff up.
@@ -118,10 +128,13 @@ IF ($b -eq 'True') {Write-Host "C:\Windows\SysmonDrv.sys present"} ELSE {Write-H
 IF ($c -eq 'True') {Write-Host "C:\Program Files (x86)\sysmon present"} ELSE {Write-Host "C:\Program Files (x86)\sysmon absent"}; 
 IF ($d -eq 'True') {Write-Host "C:\Program Files\sysmon present"} ELSE {Write-Host "C:\Program Files\sysmon absent"}
 ```
+![image](https://user-images.githubusercontent.com/44196051/119979754-443f9180-bfb3-11eb-9259-5409a0d98c04.png)
+
 ### get specific info about the full path binary that a process is running
 ```powershell
 get-process -name "memetask" | select-object -property Name, Id, Path
 ```
+![image](https://user-images.githubusercontent.com/44196051/119979341-bb285a80-bfb2-11eb-89a8-83b4c8f732c5.png)
 
 ### Give shell timestamp
 For screenshots during IR, I like to have the date, time, and timezone in my shell
