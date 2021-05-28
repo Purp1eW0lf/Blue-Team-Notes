@@ -13,9 +13,11 @@ If you see a mistake, or have an easier way to run a command then you're welcome
 - [Shell Style](#shell-style)
 - [Powershell](#Powershell)
   * [OSInfo](#osinfo)
+  * [Network Queries](#network-queries)
   * [Process Queries](#process-queries)
   * [Sch Task Queries](#sch-task-queries)
   * [File Queries](#file-queries)
+  * [Reg Queries](#reg-queries)
   * [WEF & WEC Troubleshooting](#wef-wec-troubleshooting)
   * [Code Red](#code-red)
 - [Linux](#linux)
@@ -72,6 +74,19 @@ $Build = (Get-WmiObject -class Win32_OperatingSystem).Caption ;
 write-host "$env:computername is a $Bit $Build with Pwsh $V
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119976027-75699300-bfae-11eb-8baa-42f9bbccbce2.png)ries
+
+## Network Queries
+### Find internet established connections, and sort by time established
+You can always sort by whatever value you want really. CreationTime is just an example
+``powershell
+Get-NetTCPConnection -AppliedSetting Internet |
+select-object -property remoteaddress, remoteport, creationtime |
+Sort-Object -Property creationtime |
+format-table -autosize
+``
+![image](https://user-images.githubusercontent.com/44196051/120002550-dacc7c80-bfcc-11eb-95f5-1743307a55c4.png)
+
+### 
 
 ## Process Queries
 
@@ -178,6 +193,41 @@ find . type f -exec sha256sum {} \; 2> /dev/null | grep -Ei 'asp|js' | sort
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119977935-e7db7280-bfb0-11eb-8ee0-4da29089c736.png)
 
+## Reg Queries
+
+#### Show reg keys
+```powershell
+##show all reg keys
+(Gci -Path Registry::).name
+
+##lets take HKEY_CURRENT_USER as a subkey example. Let's see the entries in this subkey
+(Gci -Path HKCU:\).name
+
+# If you want to absolutely fuck your life up, you can list the names recursively....will take forever though
+(Gci -Path HKCU:\ -recurse).name
+```
+![image](https://user-images.githubusercontent.com/44196051/119998273-75768c80-bfc8-11eb-869a-807a140d7a52.png)
+
+
+#### Read a reg entry
+```powershell
+ Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\SysmonDrv"
+```
+![image](https://user-images.githubusercontent.com/44196051/119994436-832a1300-bfc4-11eb-98cb-b4148413ac97.png)
+
+#### Remove a reg entry
+If there's a malicious reg entry, you can remove it this way
+```powershell
+# Read the reg to make sure this is the bad boy you want
+get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\'
+#remove it by piping it to remove-item
+get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\' | Remove-Item -force
+# double check it's gone by trying to re-read it
+get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\'
+```
+![image](https://user-images.githubusercontent.com/44196051/119999624-d8b4ee80-bfc9-11eb-9770-5ec6e78f9714.png)
+
+
 ## WEF & WEC Troubleshooting 
 I've tended to use these commands to troubleshoot Windows Event Forwarding and other log related stuff
 #### Overview of what the sysmon/operational log is up to
@@ -283,3 +333,20 @@ cat malware.txt
 
 Example of Capa output for the keylogger
 ![image](https://user-images.githubusercontent.com/44196051/119991358-44df2480-bfc1-11eb-9e6f-23ff445a4900.png)
+
+
+## Processes and Networks
+### Track parent-child processes easier
+```bash
+ps -aux --forest
+```
+![image](https://user-images.githubusercontent.com/44196051/120000069-54af3680-bfca-11eb-91a8-221562914878.png)
+
+#### Get a quick overview of network activity
+```bash
+netstat -plunt
+#if you don't have netstat, try ss
+ss -plunt
+```
+![image](https://user-images.githubusercontent.com/44196051/120000196-79a3a980-bfca-11eb-89ed-bbc87b4ca0bc.png)
+
