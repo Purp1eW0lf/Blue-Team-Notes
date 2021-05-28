@@ -9,26 +9,22 @@ I've included screenshots where possible so you know what you're getting. Some s
 ## Contact me
 If you see a mistake, or have an easier way to run a command then you're welcome to hit me up on [Twitter](https://twitter.com/Purp1eW0lf) or commit an issue here
 
+## OSInfo
 ### Get OS and Pwsh info
 ```powershell
 $Bit = (get-wmiobject Win32_OperatingSystem).OSArchitecture ; $V = $host | select-object -property "Version" ; 
 $Build = (Get-WmiObject -class Win32_OperatingSystem).Caption ; 
 write-host "$env:computername is a $Bit $Build with Pwsh $V
 ```
-![image](https://user-images.githubusercontent.com/44196051/119976027-75699300-bfae-11eb-8baa-42f9bbccbce2.png)
+![image](https://user-images.githubusercontent.com/44196051/119976027-75699300-bfae-11eb-8baa-42f9bbccbce2.png)ries
 
-### Disconnect network adaptor, firewall the fuck out of an endpoint, and display warning box
-This is a code-red command. Used to isolate a machine in an emergency.
-Will isolate a machine and display a warning box. 
-In the penultimate and final line, you can change the text and title that will pop up for the user
+## Process Queries
+
+### Get specific info about the full path binary that a process is running
 ```powershell
-New-NetFirewallRule -DisplayName "Block all outbound traffic" -Direction Outbound -Action Block | out-null; 
-New-NetFirewallRule -DisplayName "Block all inbound traffic" -Direction Inbound -Action Block | out-null; 
-$adapter = Get-NetAdapter|foreach { $_.Name } ; Disable-NetAdapter -Name "$adapter" -Confirm:$false; 
-Add-Type -AssemblyName PresentationCore,PresentationFramework; 
-[System.Windows.MessageBox]::Show('Your Computer has been Disconnected from the Internet for Security Issues. Please do not try to re-connect to the internet. Contact Security Helpdesk Desk ',' CompanyNameHere Security Alert',[System.Windows.MessageBoxButton]::OK,[System.Windows.MessageBoxImage]::Information)
+get-process -name "memetask" | select-object -property Name, Id, Path
 ```
-![image](https://user-images.githubusercontent.com/44196051/119979598-0e9aa880-bfb3-11eb-9882-08d02a0d3026.png)
+![image](https://user-images.githubusercontent.com/44196051/119979341-bb285a80-bfb2-11eb-89a8-83b4c8f732c5.png)
 
 ### Is a specific process a running on a machine or not
 ```powershell
@@ -40,7 +36,6 @@ Example of process that is absent
 ![image](https://user-images.githubusercontent.com/44196051/119976215-b1045d00-bfae-11eb-806c-49a62f5aab15.png)
 Example of process that is present
 ![image](https://user-images.githubusercontent.com/44196051/119976374-ea3ccd00-bfae-11eb-94cd-37ed4233564d.png)
-
 
 ### Get process hash
 Great to make malicious process stand out. If you want a different alogrithmn, just change it after `-Algorithmn` to something like `sha256` 
@@ -60,19 +55,19 @@ Alternatively, pipe `|fl` and it will give a granularity to the DLLs
 
 ![image](https://user-images.githubusercontent.com/44196051/119977057-db0a4f00-bfaf-11eb-97ce-1e762088de8e.png)
 
-### Recursively look for particular file types, and once you find the files get their hashes
-This one-liner was a godsend during the Microsoft Exchange ballache back in early 2021
+### Identify process CPU usage 
 ```powershell
-Get-ChildItem -path "C:\windows\temp" -Recurse -Force -File -Include *.aspx, *.js, *.zip| Get-FileHash | Select-Object -property hash, path
+ (Get-Process -name "googleupdate").CPU | fl 
 ```
-![image](https://user-images.githubusercontent.com/44196051/119977578-887d6280-bfb0-11eb-9e56-fad64296128f.png)
+![image](https://user-images.githubusercontent.com/44196051/119982198-756d9100-bfb6-11eb-8645-e41cf46116b3.png)
 
-Here's the a bash alternative
-```bash
-find . type f -exec sha256sum {} \; 2> /dev/null | grep -Ei 'asp|js' | sort
+I get mixed results with this command but it's supposed to give the percent of CPU usage.
+```powershell
+$ProcessName = "symon" ; $ProcessName = (Get-Process -Id $ProcessPID).Name; $CpuCores = (Get-WMIObject Win32_ComputerSystem).NumberOfLogicalProcessors; $Samples = (Get-Counter "\Process($Processname*)\% Processor Time").CounterSamples; $Samples | Select `InstanceName,@{Name="CPU %";Expression={[Decimal]::Round(($_.CookedValue / $CpuCores), 2)}}
 ```
-![image](https://user-images.githubusercontent.com/44196051/119977935-e7db7280-bfb0-11eb-8ee0-4da29089c736.png)
+![image](https://user-images.githubusercontent.com/44196051/119982326-9a620400-bfb6-11eb-9a66-ad5a5661bc8a.png)
 
+## Sch Task Queries
 ### To find the commands a task is running
 Identify the user behind a command. Great at catching out malicious schtasks that perhaps are imitating names, or a process name
 ```powershell
@@ -91,35 +86,18 @@ To stop the task
 ```powershell
 Get-ScheduledTask "memetask" | Stop-ScheduledTask
 ```
-### some WEF / WEC troubleshooting focused commands
-I've tended to use these commands to troubleshoot Windows Event Forwarding
-```powershell
-Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational | Format-List -Property * 
-```
-Specifically get the last time sysmon was written to
-```powershell
-(Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational).lastwritetime 
-```
-![image](https://user-images.githubusercontent.com/44196051/119979946-81a41f00-bfb3-11eb-8bc0-f2e893440b18.png)
 
-Checks if the date was written recently, and if so, just print _sysmon working_ if not recent, then print the date last written. I've found sometimes that sometimes sysmon bugs out on a machine, and stops committing to logs. Change the number after `-ge` to be more flexible than the one day it currently compares to
+## File Queries
+### Check if a specific file or path is alive. 
 
-```powershell
-$b = (Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational).lastwritetime; 
-$a = Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational | where-object {(new-timespan $_.LastWriteTime).days -ge 1}; 
-if ($a -eq $null){Write-host "sysmon_working"} else {Write-host "$env:computername $b"}
+I've found that this is a great one to quickly check for specific vulnerabilities. Take for example, CVE-2021-21551. The one below this one is an excellent way of utilising the 'true/false' binary results that test-path can give
+``` powershell
+test-path -path "C:\windows\temp\DBUtil_2_3.Sys"
 ```
-![image](https://user-images.githubusercontent.com/44196051/119979908-72bd6c80-bfb3-11eb-9bff-856ebcc01375.png)
-
-test the permissions of winrm - used to see windows event forwarding working, which uses winrm usually on endpoints and wecsvc account on servers
-```cmd
-netsh http show urlacl url=http://+:5985/wsman/ && netsh http show urlacl url=https://+:5986/wsman/
-``` 
-![image](https://user-images.githubusercontent.com/44196051/119980070-ae583680-bfb3-11eb-8da7-51d7e5393599.png)
+![image](https://user-images.githubusercontent.com/44196051/119982761-283def00-bfb7-11eb-83ab-061b6c628372.png)
 
 ### test if  files and directories are present or absent
 This is great to just sanity check if things exist. Great when you're trying to check if files or directories have been left behind when you're cleaning stuff up.
-You can use `test-path` to query REG, but even the Microsoft docs say that this can give inconsistent docs
 ```powershell
 $a = Test-Path C:\windows\sysmon.exe; $b= Test-Path "C:\Windows\SysmonDrv.sys"; $c = test-path "C:\Program Files (x86)\sysmon"; $d = test-path "C:\Program Files\sysmon"; 
 $env:computername; 
@@ -129,13 +107,65 @@ IF ($c -eq 'True') {Write-Host "C:\Program Files (x86)\sysmon present"} ELSE {Wr
 IF ($d -eq 'True') {Write-Host "C:\Program Files\sysmon present"} ELSE {Write-Host "C:\Program Files\sysmon absent"}
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119979754-443f9180-bfb3-11eb-9259-5409a0d98c04.png)
+You can use `test-path` to query REG, but even the Microsoft docs say that this can give inconsistent docs
 
-### get specific info about the full path binary that a process is running
+### Recursively look for particular file types, and once you find the files get their hashes
+This one-liner was a godsend during the Microsoft Exchange ballache back in early 2021
 ```powershell
-get-process -name "memetask" | select-object -property Name, Id, Path
+Get-ChildItem -path "C:\windows\temp" -Recurse -Force -File -Include *.aspx, *.js, *.zip| Get-FileHash | Select-Object -property hash, path
 ```
-![image](https://user-images.githubusercontent.com/44196051/119979341-bb285a80-bfb2-11eb-89a8-83b4c8f732c5.png)
+![image](https://user-images.githubusercontent.com/44196051/119977578-887d6280-bfb0-11eb-9e56-fad64296128f.png)
 
+Here's the a bash alternative
+```bash
+find . type f -exec sha256sum {} \; 2> /dev/null | grep -Ei 'asp|js' | sort
+```
+![image](https://user-images.githubusercontent.com/44196051/119977935-e7db7280-bfb0-11eb-8ee0-4da29089c736.png)
+
+## WEF & WEC Troubleshooting 
+I've tended to use these commands to troubleshoot Windows Event Forwarding and other log related stuff
+#### Overview of what the sysmon/operational log is up to
+```powershell
+Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational | Format-List -Property * 
+```
+#### Specifically get the last time sysmon log was written to
+```powershell
+(Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational).lastwritetime 
+```
+![image](https://user-images.githubusercontent.com/44196051/119979946-81a41f00-bfb3-11eb-8bc0-f2e893440b18.png)
+
+#### Compare last sysmon log written date to X day ago
+Checks if the date was written recently, and if so, just print _sysmon working_ if not recent, then print the date last written. I've found sometimes that sometimes sysmon bugs out on a machine, and stops committing to logs. Change the number after `-ge` to be more flexible than the one day it currently compares to
+
+```powershell
+$b = (Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational).lastwritetime; 
+$a = Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational | where-object {(new-timespan $_.LastWriteTime).days -ge 1}; 
+if ($a -eq $null){Write-host "sysmon_working"} else {Write-host "$env:computername $b"}
+```
+![image](https://user-images.githubusercontent.com/44196051/119979908-72bd6c80-bfb3-11eb-9bff-856ebcc01375.png)
+
+#### WinRM & WECSVC permissions
+Test the permissions of winrm - used to see windows event forwarding working, which uses winrm usually on endpoints and wecsvc account on servers
+```cmd
+netsh http show urlacl url=http://+:5985/wsman/ && netsh http show urlacl url=https://+:5986/wsman/
+``` 
+![image](https://user-images.githubusercontent.com/44196051/119980070-ae583680-bfb3-11eb-8da7-51d7e5393599.png)
+
+## Code Red
+### Disconnect network adaptor, firewall the fuck out of an endpoint, and display warning box
+This is a code-red command. Used to isolate a machine in an emergency.
+Will isolate a machine and display a warning box. 
+In the penultimate and final line, you can change the text and title that will pop up for the user
+```powershell
+New-NetFirewallRule -DisplayName "Block all outbound traffic" -Direction Outbound -Action Block | out-null; 
+New-NetFirewallRule -DisplayName "Block all inbound traffic" -Direction Inbound -Action Block | out-null; 
+$adapter = Get-NetAdapter|foreach { $_.Name } ; Disable-NetAdapter -Name "$adapter" -Confirm:$false; 
+Add-Type -AssemblyName PresentationCore,PresentationFramework; 
+[System.Windows.MessageBox]::Show('Your Computer has been Disconnected from the Internet for Security Issues. Please do not try to re-connect to the internet. Contact Security Helpdesk Desk ',' CompanyNameHere Security Alert',[System.Windows.MessageBoxButton]::OK,[System.Windows.MessageBoxImage]::Information)
+```
+![image](https://user-images.githubusercontent.com/44196051/119979598-0e9aa880-bfb3-11eb-9882-08d02a0d3026.png)
+
+## Shell Style
 ### Give shell timestamp
 For screenshots during IR, I like to have the date, time, and timezone in my shell
 #### CMD
