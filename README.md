@@ -24,6 +24,7 @@ If you see a mistake, or have an easier way to run a command then you're welcome
   * [Bash History](#bash-history)
   * [Grep and Ack](#grep-and-ack)
   * [Rapid Malware Analaysis](#rapid-malware-analaysis)
+  * [Processes and Networks](#processes-and-networks)
 
 # Shell Style
 ### Give shell timestamp
@@ -78,15 +79,29 @@ write-host "$env:computername is a $Bit $Build with Pwsh $V
 ## Network Queries
 ### Find internet established connections, and sort by time established
 You can always sort by whatever value you want really. CreationTime is just an example
-``powershell
+```powershell
 Get-NetTCPConnection -AppliedSetting Internet |
 select-object -property remoteaddress, remoteport, creationtime |
 Sort-Object -Property creationtime |
 format-table -autosize
-``
+```
 ![image](https://user-images.githubusercontent.com/44196051/120002550-dacc7c80-bfcc-11eb-95f5-1743307a55c4.png)
 
-### 
+### Sort remote IP connections, and then unique them
+This really makes strange IPs stand out....may show some C2 call back addresses if lucky. 
+```
+(Get-NetTCPConnection).remoteaddress | Sort-Object -Unique 
+```
+![image](https://user-images.githubusercontent.com/44196051/120003762-f1bf9e80-bfcd-11eb-9bf7-bcf487f032d6.png)
+
+#### Hone in on a suspicious IP
+If you see suspicious IP address in any of the above, then I would hone in on it
+```powershell
+Get-NetTCPConnection |
+? {($_.RemoteAddress -eq "1.52.93.4")} |
+select-object -property state, creationtime, localport,remoteport
+```
+![image](https://user-images.githubusercontent.com/44196051/120005113-7101a200-bfcf-11eb-8ae4-673c27d01eb8.png)
 
 ## Process Queries
 
