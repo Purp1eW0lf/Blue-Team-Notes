@@ -9,21 +9,59 @@ I've included screenshots where possible so you know what you're getting. Some s
 ## Contact me
 If you see a mistake, or have an easier way to run a command then you're welcome to hit me up on [Twitter](https://twitter.com/Purp1eW0lf) or commit an issue here
 
-
-- [Blue Team Notes](#blue-team-notes)
-  * [Contact me](#contact-me)
-  * [Shell Style](#shell-style)
+- [Shell Style](#shell-style)
 - [Powershell](#Powershell)
   * [OSInfo](#osinfo)
   * [Process Queries](#process-queries)
   * [Sch Task Queries](#sch-task-queries)
   * [File Queries](#file-queries)
-  * [WEF & WEC Troubleshooting](#wef---wec-troubleshooting)
+  * [WEF & WEC Troubleshooting](#wef-wec-troubleshooting)
   * [Code Red](#code-red)
 - [Linux](#linux)
   * [Bash History](#bash-history)
   * [Grep and Ack](#grep-and-ack)
   * [Rapid Malware Analaysis](#rapid-malware-analaysis)
+
+# Shell Style
+### Give shell timestamp
+For screenshots during IR, I like to have the date, time, and timezone in my shell
+#### CMD
+```cmd
+setx prompt $D$S$T$H$H$H$S$B$S$P$_--$g
+## all the H's are to backspace the stupid microsecond timestamp
+## $_ and --$g seperate the date/time and path from the actual shell
+# We make the use of the prompt command: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/prompt
+##setx is in fact the command line command to write variables to the registery
+##we are writing the prompt's new timestamp value in the cmd line into the reg
+#so it stays perimnent, otherwise it would not stay in the cmdline when we closed it.
+```
+![image](https://user-images.githubusercontent.com/44196051/119978466-97b0e000-bfb1-11eb-83e1-022efba7dc96.png)
+
+#### Pwsh
+```powershell
+###create a powershell profile, if it doesnt exist already
+New-Item $Profile -ItemType file –Force
+##open it in notepad to edit
+function prompt{ "[$(Get-Date)]" +" | PS "+ "$(Get-Location) > "}
+##risky move, need to tighten this up. Change your execution policy or it won't
+#run the profile ps1
+#run as powershell admin
+Set-ExecutionPolicy RemoteSigned
+```
+![image](https://user-images.githubusercontent.com/44196051/119978226-486aaf80-bfb1-11eb-8e9e-52eabf2cde4c.png)
+
+#### Bash
+```bash
+##open .bashrc
+sudo nano .bashrc
+#https://www.howtogeek.com/307701/how-to-customize-and-colorize-your-bash-prompt/
+##date, time, colour, and parent+child directory only, and -> promptt
+PS1='\[\033[00;35m\][`date  +"%d-%b-%y %T %Z"]` ${PWD#"${PWD%/*/*}/"}\n\[\033[01;36m\]-> \[\033[00;37m\]'
+      ##begin purple  #year,month,day,time,timezone #show last 2 dir #next line, cyan,->prompt #back to normal white text
+#restart the bash source
+source ~/.bashrc
+```
+![image](https://user-images.githubusercontent.com/44196051/119981537-a7cabe80-bfb5-11eb-8b7e-1e5ba7f5ba99.png)
 
 # Powershell
 ## OSInfo
@@ -181,48 +219,6 @@ Add-Type -AssemblyName PresentationCore,PresentationFramework;
 [System.Windows.MessageBox]::Show('Your Computer has been Disconnected from the Internet for Security Issues. Please do not try to re-connect to the internet. Contact Security Helpdesk Desk ',' CompanyNameHere Security Alert',[System.Windows.MessageBoxButton]::OK,[System.Windows.MessageBoxImage]::Information)
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119979598-0e9aa880-bfb3-11eb-9882-08d02a0d3026.png)
-
-## Shell Style
-### Give shell timestamp
-For screenshots during IR, I like to have the date, time, and timezone in my shell
-#### CMD
-```cmd
-setx prompt $D$S$T$H$H$H$S$B$S$P$_--$g
-## all the H's are to backspace the stupid microsecond timestamp
-## $_ and --$g seperate the date/time and path from the actual shell
-# We make the use of the prompt command: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/prompt
-##setx is in fact the command line command to write variables to the registery
-##we are writing the prompt's new timestamp value in the cmd line into the reg
-#so it stays perimnent, otherwise it would not stay in the cmdline when we closed it.
-```
-![image](https://user-images.githubusercontent.com/44196051/119978466-97b0e000-bfb1-11eb-83e1-022efba7dc96.png)
-
-#### Pwsh
-```powershell
-###create a powershell profile, if it doesnt exist already
-New-Item $Profile -ItemType file –Force
-##open it in notepad to edit
-function prompt{ "[$(Get-Date)]" +" | PS "+ "$(Get-Location) > "}
-##risky move, need to tighten this up. Change your execution policy or it won't
-#run the profile ps1
-#run as powershell admin
-Set-ExecutionPolicy RemoteSigned
-```
-![image](https://user-images.githubusercontent.com/44196051/119978226-486aaf80-bfb1-11eb-8e9e-52eabf2cde4c.png)
-
-#### Bash
-```bash
-##open .bashrc
-sudo nano .bashrc
-#https://www.howtogeek.com/307701/how-to-customize-and-colorize-your-bash-prompt/
-##date, time, colour, and parent+child directory only, and -> promptt
-PS1='\[\033[00;35m\][`date  +"%d-%b-%y %T %Z"]` ${PWD#"${PWD%/*/*}/"}\n\[\033[01;36m\]-> \[\033[00;37m\]'
-      ##begin purple  #year,month,day,time,timezone #show last 2 dir #next line, cyan,->prompt #back to normal white text
-#restart the bash source
-source ~/.bashrc
-```
-![image](https://user-images.githubusercontent.com/44196051/119981537-a7cabe80-bfb5-11eb-8b7e-1e5ba7f5ba99.png)
-
 
 # Linux
 This section is a bit dry, forgive me. My Bash DFIR tends to be a lot more spontaneous and therefore I don't write them down as much as I do the Pwsh one-liners
