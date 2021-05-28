@@ -157,13 +157,14 @@ $ProcessName = "symon" ; $ProcessName = (Get-Process -Id $ProcessPID).Name; $Cpu
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119982326-9a620400-bfb6-11eb-9a66-ad5a5661bc8a.png)
 
-# Sort by CPU usage
-On the second line, you can change the `-first` flag to `-last`, which will show the lower cpu-using proccesses...useful as malicious process probably won't be as big a CPU as Chrome, for example
+### Sort by least CPU-intensive processes
+On the second line, you can change the `-last` flag to `-first`. Right now will show the lower cpu-using proccesses...useful as malicious process probably won't be as big a CPU as Chrome, for example. But change to `first` if you want to see the chungus processes
 ```powershell
 Get-Process | Sort CPU -descending |
-Select -first 20 -Property ID,ProcessName,CPU 
+Select -last 20 -Property ID,ProcessName,CPU 
 | format-table -autosize
 ```
+![image](https://user-images.githubusercontent.com/44196051/120009189-9db7b880-bfd3-11eb-860f-8de8446550eb.png)
 
 ## Sch Task Queries
 ### To find the commands a task is running
