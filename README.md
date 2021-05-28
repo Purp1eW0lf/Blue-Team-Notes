@@ -9,6 +9,23 @@ I've included screenshots where possible so you know what you're getting. Some s
 ## Contact me
 If you see a mistake, or have an easier way to run a command then you're welcome to hit me up on [Twitter](https://twitter.com/Purp1eW0lf) or commit an issue here
 
+
+- [Blue Team Notes](#blue-team-notes)
+  * [Contact me](#contact-me)
+  * [Shell Style](#shell-style)
+- [Powershell](#Powershell)
+  * [OSInfo](#osinfo)
+  * [Process Queries](#process-queries)
+  * [Sch Task Queries](#sch-task-queries)
+  * [File Queries](#file-queries)
+  * [WEF & WEC Troubleshooting](#wef---wec-troubleshooting)
+  * [Code Red](#code-red)
+- [Linux](#linux)
+  * [Bash History](#bash-history)
+  * [Grep and Ack](#grep-and-ack)
+  * [Rapid Malware Analaysis](#rapid-malware-analaysis)
+
+# Powershell
 ## OSInfo
 ### Get OS and Pwsh info
 ```powershell
