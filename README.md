@@ -254,3 +254,18 @@ One thing I really like about Ack is that it can highlight words easily, which i
 ack -i '159.89.95.163|86.105.18.116' *
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119987996-879efd80-bfbd-11eb-98ac-4c1720c5c9d9.png)
+
+## Rapid Malware Analaysis
+### Capa
+[Capa](https://github.com/fireeye/capa) is a great tool to quickly examine wtf a binary does. This tool is great, it previously helped me identify a keylogger that was pretending to be an update.exe for a program
+Usage
+```bash
+./capa malware.exe > malware.txt
+# I tend to do normal run and then verbose
+./capa -vv malware.exe >> malware.txt
+cat malware.txt
+```
+![image](https://user-images.githubusercontent.com/44196051/119991809-c1720300-bfc1-11eb-8409-6523a9b0019b.png)
+
+Example of Capa output for the keylogger
+![image](https://user-images.githubusercontent.com/44196051/119991358-44df2480-bfc1-11eb-9e6f-23ff445a4900.png)
