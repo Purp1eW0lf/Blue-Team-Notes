@@ -1,7 +1,8 @@
 <img src="https://user-images.githubusercontent.com/44196051/120006585-f0dc3c00-bfd0-11eb-98d9-da3eb59edbda.png" width="250" height="250">
 
+
 # Blue Team Notes
-A collection of one-liners useful for blue team work. Tend to be Powershell. I've generally used these  one liners on [Velociraptor](https://www.velocidex.com)
+A collection of one-liners useful for blue team work. Tend to be Powershell as these are the ones I forget the most. I've generally used these  one liners on [Velociraptor](https://www.velocidex.com)
 , which lets me query a thousand endpoints at once.
 
 I use _sysmon_ and _memetask_ as file or directory names in lieu of real file names, just replace the stupid names I've given with the files you actually need. Sorry if I blur anything, but opsec and all that.
