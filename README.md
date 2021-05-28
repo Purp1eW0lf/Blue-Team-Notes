@@ -205,3 +205,35 @@ PS1='\[\033[00;35m\][`date  +"%d-%b-%y %T %Z"]` ${PWD#"${PWD%/*/*}/"}\n\[\033[01
 source ~/.bashrc
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119981537-a7cabe80-bfb5-11eb-8b7e-1e5ba7f5ba99.png)
+
+
+# Linux
+This section is a bit dry, forgive me. My Bash DFIR tends to be a lot more spontaneous and therefore I don't write them down as much as I do the Pwsh one-liners
+
+## Bash History
+Checkout the SANS DFIR talk by Half Pomeraz called [You don't know jack about .bash_history](https://www.youtube.com/watch?v=wv1xqOV2RyE). It's a terrifying insight into how weak bash history really is by default
+#### Add add timestamps to `.bash_history`
+Via .bashrc
+```bash
+nano ~/.bashrc
+#at the bottom
+export HISTTIMEFORMAT='%d/%m/%y %T '
+#expand bash history size too
+
+#save and exit
+source ~/.bashrc
+```
+Or by /etc/profile
+```bash
+nano /etc/profile
+export HISTTIMEFORMAT='%d/%m/%y %T '
+
+#save and exit
+source /etc/profile
+```
+![image](https://user-images.githubusercontent.com/44196051/119986667-0abf5400-bfbc-11eb-98cf-17d68042250d.png)
+
+Then run the `history` command to see your timestamped bash history
+![image](https://user-images.githubusercontent.com/44196051/119987113-9507b800-bfbc-11eb-8033-064c37f5fe26.png)
+
+
