@@ -212,6 +212,7 @@ This section is a bit dry, forgive me. My Bash DFIR tends to be a lot more spont
 
 ## Bash History
 Checkout the SANS DFIR talk by Half Pomeraz called [You don't know jack about .bash_history](https://www.youtube.com/watch?v=wv1xqOV2RyE). It's a terrifying insight into how weak bash history really is by default
+
 #### Add add timestamps to `.bash_history`
 Via .bashrc
 ```bash
@@ -231,9 +232,11 @@ export HISTTIMEFORMAT='%d/%m/%y %T '
 #save and exit
 source /etc/profile
 ```
+
 ![image](https://user-images.githubusercontent.com/44196051/119986667-0abf5400-bfbc-11eb-98cf-17d68042250d.png)
 
 Then run the `history` command to see your timestamped bash history
+
 ![image](https://user-images.githubusercontent.com/44196051/119987113-9507b800-bfbc-11eb-8033-064c37f5fe26.png)
 
 
