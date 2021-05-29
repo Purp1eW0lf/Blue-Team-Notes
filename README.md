@@ -153,7 +153,11 @@ Alternatively, pipe `|fl` and it will give a granularity to the DLLs
 
 I get mixed results with this command but it's supposed to give the percent of CPU usage.
 ```powershell
-$ProcessName = "symon" ; $ProcessName = (Get-Process -Id $ProcessPID).Name; $CpuCores = (Get-WMIObject Win32_ComputerSystem).NumberOfLogicalProcessors; $Samples = (Get-Counter "\Process($Processname*)\% Processor Time").CounterSamples; $Samples | Select `InstanceName,@{Name="CPU %";Expression={[Decimal]::Round(($_.CookedValue / $CpuCores), 2)}}
+$ProcessName = "symon" ; 
+$ProcessName = (Get-Process -Id $ProcessPID).Name; 
+$CpuCores = (Get-WMIObject Win32_ComputerSystem).NumberOfLogicalProcessors; 
+$Samples = (Get-Counter "\Process($Processname*)\% Processor Time").CounterSamples; 
+$Samples | Select `InstanceName,@{Name="CPU %";Expression={[Decimal]::Round(($_.CookedValue / $CpuCores), 2)}}
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119982326-9a620400-bfb6-11eb-9a66-ad5a5661bc8a.png)
 
