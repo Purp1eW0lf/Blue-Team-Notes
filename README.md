@@ -348,13 +348,14 @@ One thing I really like about Ack is that it can highlight words easily, which i
 
 ```bash
 #install ack if you need to: sudo apt-get install ack
-ack -i '159.89.95.163|86.105.18.116' *
+ack -i '159.89.95.163|86.105.18.116' file.txt
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119987996-879efd80-bfbd-11eb-98ac-4c1720c5c9d9.png)
 
 ## Rapid Malware Analaysis
 ### Capa
 [Capa](https://github.com/fireeye/capa) is a great tool to quickly examine wtf a binary does. This tool is great, it previously helped me identify a keylogger that was pretending to be an update.exe for a program
+
 Usage
 ```bash
 ./capa malware.exe > malware.txt
