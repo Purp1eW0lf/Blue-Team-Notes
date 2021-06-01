@@ -18,6 +18,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 - [Shell Style](#shell-style)
 - [Powershell](#Powershell)
   * [OSInfo](#osinfo)
+  * [User Queries](#user-queries)
   * [Network Queries](#network-queries)
   * [Process Queries](#process-queries)
   * [Sch Task Queries](#sch-task-queries)
@@ -30,6 +31,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Grep and Ack](#grep-and-ack)
   * [Rapid Malware Analaysis](#rapid-malware-analaysis)
   * [Processes and Networks](#processes-and-networks)
+  * [Files](#Files)
 
 # Shell Style
 ### Give shell timestamp
@@ -82,6 +84,11 @@ $Build = (Get-WmiObject -class Win32_OperatingSystem).Caption ;
 write-host "$env:computername is a $Bit $Build with Pwsh $V
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120313634-2be0b700-c2d2-11eb-919f-5792169a1dba.png)
+
+#### Get Fully Qualified Domain Name
+```powershell
+([System.Net.Dns]::GetHostByName(($env:computerName))).Hostname
+```
 
 ### Time info
 #### Human Readable
@@ -142,7 +149,7 @@ $file = 'EventsInstaller.dll'; $directory = 'C:\windows' ;
 gci -Path $directory -Filter $file -Recurse -force|
 sort-object  -descending -property LastWriteTimeUtc | fl *
 ```
-We'll get a lot of information here, but we're really concerned with is the section around the various *times*. As we sort by the `LastWriteTimeUtc`, the top result should in theory be the latest file of that name...but this is not always true
+We'll get a lot of information here, but we're really concerned with is the section around the various *times*. As we sort by the `LastWriteTimeUtc`, the top result should in theory be the latest file of that name...but this is not always true.
 
 ![image](https://user-images.githubusercontent.com/44196051/120312109-37cb7980-c2d0-11eb-95e2-8655cd89f9cc.png)
 
@@ -152,6 +159,21 @@ I've noticed that sometimes there is a couple days discrepency between dates.
 ![image](https://user-images.githubusercontent.com/44196051/120313127-7d3c7680-c2d1-11eb-8941-e96575a63138.png)
 
 For example in our screenshot, on the left Microsoft's support page supposes the `EvenntsInstaller.dll` was written on the 13th January 2021. And yet our host on the right side of the screenshot comes up as the 14th January 2021. This is fine though, you've got that file don't sweat it. 
+
+## User Queries
+### Users recently created in Active Directory
+The 'when Created' field is great for noticing some inconsistencies. For example, how often are users created at 2am?
+```powershell
+import-module ActiveDirectory; $When = ((Get-Date).AddDays(-7)).Date; Get-ADUser -Filter {whenCreated -ge $When} -Properties whenCreated
+```
+![image](https://user-images.githubusercontent.com/44196051/120324990-20e05380-c2df-11eb-9e2e-fe37c1545457.png)
+
+### Hone in on suspicious user
+You can use the `SamAccountName` above to filter
+```powershell
+Get-ADUser -Identity HamBurglar -Properties *
+```
+![image](https://user-images.githubusercontent.com/44196051/120328655-f1334a80-c2e2-11eb-97da-653553b7c01a.png)
 
 ## Network Queries
 ### Find internet established connections, and sort by time established
@@ -182,9 +204,15 @@ select-object -property state, creationtime, localport,remoteport
 
 ## Process Queries
 
+### Show all processes and their associated user
+``powershell
+get-process * -Includeusername
+``
+![image](https://user-images.githubusercontent.com/44196051/120329122-70288300-c2e3-11eb-95ef-276ffd556acd.png)
+
 ### Get specific info about the full path binary that a process is running
 ```powershell
-get-process -name "memetask" | select-object -property Name, Id, Path
+get-process -name "memetask" | select-object -property Name, Id,Includeusername, Path
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119979341-bb285a80-bfb2-11eb-89a8-83b4c8f732c5.png)
 
@@ -200,7 +228,7 @@ Example of process that is present
 ![image](https://user-images.githubusercontent.com/44196051/119976374-ea3ccd00-bfae-11eb-94cd-37ed4233564d.png)
 
 ### Get process hash
-Great to make malicious process stand out. If you want a different alogrithmn, just change it after `-Algorithmn` to something like `sha256` 
+Great to make malicious process stand out. If you want a different Algorithm, just change it after `-Algorithm` to something like `sha256` 
 ```powershell
 foreach ($proc in Get-Process | select path -Unique)
 {try { Get-FileHash $proc.path -Algorithm md5 -ErrorAction stop | Select-Object -property hash,path}catch{}}
@@ -268,6 +296,11 @@ To stop the task
 ```powershell
 Get-ScheduledTask "memetask" | Stop-ScheduledTask
 ```
+### Show what programs run at startup
+```powershell
+Get-CimInstance Win32_StartupCommand | Select-Object Name, command, Location, User | Format-List 
+```
+![image](https://user-images.githubusercontent.com/44196051/120332890-12963580-c2e7-11eb-9805-feee341140fa.png)
 
 ## File Queries
 ### Check if a specific file or path is alive. 
@@ -292,6 +325,14 @@ IF ($d -eq 'True') {Write-Host "C:\Program Files\sysmon present"} ELSE {Write-Ho
 
 You can use `test-path` to query Registry, but even the 2007 [Microsoft docs say](https://devblogs.microsoft.com/powershell/test-path-we-goofed/) that this can give inconsistent results, so I wouldn't bother with test-path for reg stuff when it's during an IR
 
+### Get File info
+Seen a file you don't recognise? Find out some more about it! Remember though: don't trust timestamps!
+```powershell
+Get-item C:\Temp\Computers.csv |
+select-object -property @{N='Owner';E={$_.GetAccessControl().Owner}}, *time, versioninfo | fl 
+```
+![image](https://user-images.githubusercontent.com/44196051/120334042-3443ec80-c2e8-11eb-84a9-c141ca5198a8.png)
+
 ### Recursively look for particular file types, and once you find the files get their hashes
 This one-liner was a godsend during the Microsoft Exchange ballache back in early 2021
 ```powershell
@@ -301,10 +342,7 @@ Select-Object -property hash, path
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119977578-887d6280-bfb0-11eb-9e56-fad64296128f.png)
 
-Here's the a bash alternative
-```bash
-find . type f -exec sha256sum {} \; 2> /dev/null | grep -Ei 'asp|js' | sort
-```
+
 ### Find files written after X date
 I personally wouldn't use this for DFIR. It's easy to manipulate timestamps....plus, Windows imports the original compiled date for some files and binaries if I'm not mistaken
 
@@ -318,6 +356,11 @@ Sort-Object -property LastWriteTime | format-table lastwritetime, fullname -auto
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/120306808-2b442280-c2ca-11eb-82f8-bca23b5ee0d1.png)
+
+### copy multiple files to new location
+```powershell
+copy-item "C:\windows\System32\winevt\Logs\Security.evtx", "C:\windows\System32\winevt\Logs\Windows PowerShell.evtx" -destination C:\temp
+```
 
 ## Reg Queries
 
@@ -333,7 +376,6 @@ Sort-Object -property LastWriteTime | format-table lastwritetime, fullname -auto
 (Gci -Path HKCU:\ -recurse).name
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119998273-75768c80-bfc8-11eb-869a-807a140d7a52.png)
-
 
 #### Read a reg entry
 ```powershell
@@ -476,4 +518,13 @@ netstat -plunt
 ss -plunt
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120000196-79a3a980-bfca-11eb-89ed-bbc87b4ca0bc.png)
+
+## Files
+### Recursively look for particular file types, and once you find the files get their hashes
+Here's the bash alternative
+```bash
+find . type f -exec sha256sum {} \; 2> /dev/null | grep -Ei '.asp|.js' | sort
+```
+![image](https://user-images.githubusercontent.com/44196051/120331789-0cec2000-c2e6-11eb-9617-129c9948666b.png)
+
 
