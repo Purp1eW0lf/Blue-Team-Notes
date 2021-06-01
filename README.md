@@ -162,7 +162,7 @@ For example in our screenshot, on the left Microsoft's support page supposes the
 
 ## User Queries
 ### Users recently created in Active Directory
-Run on a Domain Controller
+*Run on a Domain Controller*
 
 The 'when Created' field is great for noticing some inconsistencies. For example, how often are users created at 2am?
 ```powershell
@@ -174,9 +174,19 @@ $When = ((Get-Date).AddDays(-7)).Date; Get-ADUser -Filter {whenCreated -ge $When
 ### Hone in on suspicious user
 You can use the `SamAccountName` above to filter
 ```powershell
+import-module ActiveDirectory;
 Get-ADUser -Identity HamBurglar -Properties *
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120328655-f1334a80-c2e2-11eb-97da-653553b7c01a.png)
+
+### Show Service Accounts
+Utilise Get-WmiObject(gwmi) to show all service accounts on a machine, and then sort to show the running accounts first and the stopped accounts second.
+```powershelll
+ gwmi -Class Win32_Service|
+ select-object -Property Name, StartName, state, Caption, ProcessId |
+ sort-object -property state
+```
+![image](https://user-images.githubusercontent.com/44196051/120340005-89cec800-c2ed-11eb-8468-f35d4e8e655d.png)
 
 ## Network Queries
 ### Find internet established connections, and sort by time established
