@@ -81,6 +81,29 @@ write-host "$env:computername is a $Bit $Build with Pwsh $V
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119976027-75699300-bfae-11eb-8baa-42f9bbccbce2.png)
 
+### Time info
+#### Human Readable
+Get something human readable
+```powershell
+Get-Date -UFormat "%a %Y-%b-%d %T UTC:%Z" 
+```
+![image](https://user-images.githubusercontent.com/44196051/120298372-f03df100-c2c1-11eb-92ab-d642c26133ab.png)
+
+#### Machine comparable
+This one is great for doing comparisons
+```powershell
+[Xml.XmlConvert]::ToString((Get-Date).ToUniversalTime(), [System.Xml.XmlDateTimeSerializationMode]::Utc) 
+```
+![image](https://user-images.githubusercontent.com/44196051/120297663-3a72a280-c2c1-11eb-8eb4-6ec5a41ee09f.png)
+
+#### Compare UTC time from Local time
+```powershell
+$Local = get-date;$UTC = (get-date).ToUniversalTime();
+write-host "LocalTime is: $Local";write-host "UTC is: $UTC"
+```
+![image](https://user-images.githubusercontent.com/44196051/120301782-1fa22d00-c2c5-11eb-908f-763897fac25f.png)
+
+
 ## Network Queries
 ### Find internet established connections, and sort by time established
 You can always sort by whatever value you want really. CreationTime is just an example
