@@ -484,13 +484,15 @@ format-table LogName -autosize -wrap
 ```powershell
 Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational | Format-List -Property * 
 ```
+![image](https://user-images.githubusercontent.com/44196051/120352076-547ba780-c2f8-11eb-8fa7-f8b11f4776b1.png)
+
 #### Specifically get the last time sysmon log was written to
 ```powershell
 (Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational).lastwritetime 
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119979946-81a41f00-bfb3-11eb-8bc0-f2e893440b18.png)
 
-#### Compare last sysmon log written date to X day ago
+#### Compare last log written date to X day ago
 Checks if the date was written recently, and if so, just print _sysmon working_ if not recent, then print the date last written. I've found sometimes that sometimes sysmon bugs out on a machine, and stops committing to logs. Change the number after `-ge` to be more flexible than the one day it currently compares to
 
 ```powershell
