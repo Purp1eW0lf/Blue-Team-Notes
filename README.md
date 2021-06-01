@@ -259,7 +259,7 @@ where-object {$_.lastwritetime -gt [datetime]::parse("$date")}|
 Sort-Object -property LastWriteTime | format-table lastwritetime, fullname -autosize
 ```
 
-![image](https://user-images.githubusercontent.com/44196051/119977935-e7db7280-bfb0-11eb-8ee0-4da29089c736.png)
+![image](https://user-images.githubusercontent.com/44196051/120306808-2b442280-c2ca-11eb-82f8-bca23b5ee0d1.png)
 
 ## Reg Queries
 
