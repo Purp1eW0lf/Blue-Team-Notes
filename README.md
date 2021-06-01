@@ -181,7 +181,7 @@ Get-ADUser -Identity HamBurglar -Properties *
 ![image](https://user-images.githubusercontent.com/44196051/120328655-f1334a80-c2e2-11eb-97da-653553b7c01a.png)
 
 ### Computer / Machine Accounts
-Adversaries like to user Machine accounts (accounts that have a $) as these often are overpowered AND fly under the defenders' radar
+Adversaries like to use Machine accounts (accounts that have a $) as these often are overpowered AND fly under the defenders' radar
 
 #### Show machine accounts that are apart of interesting groups. 
 There may be misconfigurations that an adversary could take advantadge. 
