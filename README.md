@@ -180,6 +180,7 @@ Get-ADUser -Identity HamBurglar -Properties *
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120328655-f1334a80-c2e2-11eb-97da-653553b7c01a.png)
 
+
 ## Service Queries
 
 ### Show Services & Service Accounts
