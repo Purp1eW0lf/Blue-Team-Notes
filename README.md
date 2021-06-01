@@ -180,6 +180,23 @@ Get-ADUser -Identity HamBurglar -Properties *
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120328655-f1334a80-c2e2-11eb-97da-653553b7c01a.png)
 
+### Computer / Machine Accounts
+Adversaries like to user Machine accounts (accounts that have a $) as these often are overpowered AND fly under the defenders' radar
+
+#### Show machine accounts that are apart of interesting groups. 
+There may be misconfigurations that an adversary could take advantadge. 
+```powershell
+Get-ADComputer -Filter * -Properties MemberOf | ? {$_.MemberOf}
+```
+![image](https://user-images.githubusercontent.com/44196051/120346984-cac9db00-c2f3-11eb-8ab0-1112aa2183a9.png)
+
+#### Reset password for a machine account. 
+Good for depriving adversary of pass they may have got. 
+Also good for re-establishing trust if machine is kicked out of domain trust for reasons(?)
+
+```powershell
+Reset-ComputerMachinePassword
+```
 
 ## Service Queries
 
