@@ -72,7 +72,7 @@ source ~/.bashrc
 ![image](https://user-images.githubusercontent.com/44196051/119981537-a7cabe80-bfb5-11eb-8b7e-1e5ba7f5ba99.png)
 
 # Powershell
-## OSInfo
+## OS Info
 ### Get OS and Pwsh info
 ```powershell
 $Bit = (get-wmiobject Win32_OperatingSystem).OSArchitecture ; $V = $host | select-object -property "Version" ; 
@@ -103,6 +103,53 @@ write-host "LocalTime is: $Local";write-host "UTC is: $UTC"
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120301782-1fa22d00-c2c5-11eb-908f-763897fac25f.png)
 
+### Update Info
+
+#### Get Patches
+Will show all patch IDs and their installation date
+```powershell
+get-hotfix|
+select-object HotFixID,InstalledOn|
+Sort-Object  -Descending -property InstalledOn|
+format-table -autosize
+```
+![image](https://user-images.githubusercontent.com/44196051/120307390-d5bc4580-c2ca-11eb-8ffe-d1a835b1ce40.png)
+
+#### Manually check if patch has taken
+This happened to me during the March 2021 situation with Microsoft Exchange's ProxyLogon. The sysadmin swore blind they had patched the server, but neither `systeminfo` of `get-hotfix` was returning with the correct KB patch.
+
+The manual workaround isn't too much ballache
+
+##### Microsoft Support Page
+First identify the ID number of the patch you want. And then find the dedicated Microsoft support page for it. 
+
+For demonstration purposes, let's take `KB5001078` and it's [corresponding support page](https://support.microsoft.com/en-us/topic/kb5001078-servicing-stack-update-for-windows-10-version-1607-february-12-2021-3e19bfd1-7711-48a8-978b-ce3620ec6362). You'll be fine just googling the patch ID number.
+
+![image](https://user-images.githubusercontent.com/44196051/120308871-7a8b5280-c2cc-11eb-850f-da46727a94ac.png)
+
+Then click into the dropdown relevant to your machine. 
+![image](https://user-images.githubusercontent.com/44196051/120309734-7f043b00-c2cd-11eb-9cf6-3a7ca6be6691.png)
+
+Here you can see the files that are included in a particular update. The task now is to pick a handful of the patch-files and compare your host machine. See if these files exist too, and if they do do they have similar / same dates on the host as they do in the Microsoft patch list?
+
+##### On Host
+Let us now assume you don't know the path to this file on your host machine. You will have to recursively search for the file location. It's a fair bet that the file will be in `C:\Windows\` (but not always), so lets' recursively look for `EventsInstaller.dll`
+
+```powershell
+$file = 'EventsInstaller.dll'; $directory = 'C:\windows' ;
+gci -Path $directory -Filter $file -Recurse -force|
+sort-object  -descending -property LastWriteTimeUtc | fl *
+```
+We'll get a lot of information here, but we're really concerned with is the section around the various *times*. As we sort by the `LastWriteTimeUtc`, the top result should in theory be the latest file of that name...but this is not always true
+
+![image](https://user-images.githubusercontent.com/44196051/120312109-37cb7980-c2d0-11eb-95e2-8655cd89f9cc.png)
+
+##### Discrepencies
+I've noticed that sometimes there is a couple days discrepency between dates. 
+
+![image](https://user-images.githubusercontent.com/44196051/120313127-7d3c7680-c2d1-11eb-8941-e96575a63138.png)
+
+For example in our screenshot, on the left Microsoft's support page supposes the `EvenntsInstaller.dll` was written on the 13th January 2021. And yet our host on the right side of the screenshot comes up as the 14th January 2021. This is fine though, you've got that file don't sweat it. 
 
 ## Network Queries
 ### Find internet established connections, and sort by time established
