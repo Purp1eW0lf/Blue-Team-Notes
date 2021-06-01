@@ -245,6 +245,8 @@ Select -last 20 -Property ID,ProcessName,CPU
 ### Stop a Process
 ```powershell
 Stop-Process -Name "memeprocess"
+### if persists
+Get-Process -Name "memeprocess" | Stop-Process -Force
 ```
 
 ## Sch Task Queries
