@@ -242,6 +242,11 @@ Select -last 20 -Property ID,ProcessName,CPU
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120009189-9db7b880-bfd3-11eb-860f-8de8446550eb.png)
 
+### Stop a Process
+```powershell
+Stop-Process -Name "memeprocess"
+```
+
 ## Sch Task Queries
 ### To find the commands a task is running
 Identify the user behind a command. Great at catching out malicious schtasks that perhaps are imitating names, or a process name
