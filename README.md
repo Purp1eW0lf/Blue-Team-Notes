@@ -18,6 +18,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 - [Shell Style](#shell-style)
 - [Powershell](#Powershell)
   * [OSInfo](#os-info)
+  * [Service Queries](#service-queries)
   * [User Queries](#user-queries)
   * [Network Queries](#network-queries)
   * [Process Queries](#process-queries)
@@ -160,7 +161,7 @@ I've noticed that sometimes there is a couple days discrepency between dates.
 
 For example in our screenshot, on the left Microsoft's support page supposes the `EvenntsInstaller.dll` was written on the 13th January 2021. And yet our host on the right side of the screenshot comes up as the 14th January 2021. This is fine though, you've got that file don't sweat it. 
 
-## User Queries
+## Account Queries
 ### Users recently created in Active Directory
 *Run on a Domain Controller*
 
@@ -179,17 +180,33 @@ Get-ADUser -Identity HamBurglar -Properties *
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120328655-f1334a80-c2e2-11eb-97da-653553b7c01a.png)
 
-### Show Service Accounts
+## Service Queries
+
+### Show Services & Service Accounts
 Utilise Get-WmiObject(gwmi) to show all service accounts on a machine, and then sort to show the running accounts first and the stopped accounts second.
 
 StartName is the name of the Service Account btw
 
-```powershelll
+```powershell
  gwmi -Class Win32_Service|
  select-object -Property Name, StartName, state, startmode, Caption, ProcessId |
  sort-object -property state
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120340649-23967500-c2ee-11eb-892b-0c6626072d8c.png)
+
+### Hone in on specific Service
+If a specific service catches your eye, you can get all the info for it.  Because the single and double qoutes are important to getting this right, I find it easier to just put the DisplayName of the service I want as a variable, as I tend to fuck up the displayname filter bit
+
+```powershell
+$DisName = "Active Directory Web Services"; 
+gwmi -Class Win32_Service -Filter "Displayname = '$DisName' " | fl *
+```
+![image](https://user-images.githubusercontent.com/44196051/120341774-14fc8d80-c2ef-11eb-8b1d-31db7620b7cb.png)
+
+### Kill a service
+``` powershell
+Get-Service -DisplayName "meme_service" | Stop-Service -force -confirm
+```
 
 ## Network Queries
 ### Find internet established connections, and sort by time established
