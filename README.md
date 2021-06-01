@@ -238,7 +238,7 @@ format-table -autosize
 ![image](https://user-images.githubusercontent.com/44196051/120314725-73b40e00-c2d3-11eb-9dbf-3b0582a9b2d0.png)
 
 ### Sort remote IP connections, and then unique them
-This really makes strange IPs stand out....may show some C2 call back addresses if lucky. 
+This really makes strange IPs stand out
 ```powershell
 (Get-NetTCPConnection).remoteaddress | Sort-Object -Unique 
 ```
