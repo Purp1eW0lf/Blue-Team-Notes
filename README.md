@@ -163,8 +163,10 @@ For example in our screenshot, on the left Microsoft's support page supposes the
 
 ## Account Queries
 ### Users recently created in Active Directory
-*Run on a Domain Controller*
+*Run on a Domain Controller*.
+
 Change the AddDays field to more or less days if you want. Right now set to seven days.
+
 The 'when Created' field is great for noticing some inconsistencies. For example, how often are users created at 2am?
 ```powershell
 import-module ActiveDirectory;
