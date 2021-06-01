@@ -272,9 +272,10 @@ Get-Process -Id (Get-NetTCPConnection).OwningProcess
 ![image](https://user-images.githubusercontent.com/44196051/120337318-1cba3300-c2eb-11eb-8444-0b54e67f6285.png)
 
 ### Show all processes and their associated user
-``powershell
+```powershell
 get-process * -Includeusername
-``
+```
+
 ![image](https://user-images.githubusercontent.com/44196051/120329122-70288300-c2e3-11eb-95ef-276ffd556acd.png)
 
 ### Get specific info about the full path binary that a process is running
