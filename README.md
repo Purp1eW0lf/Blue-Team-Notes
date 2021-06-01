@@ -205,7 +205,20 @@ select-object -property state, creationtime, localport,remoteport
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120313809-68141780-c2d2-11eb-85ac-5e369715f8ed.png)
 
+### Kill a connection
+There's probably a better way to do this. But essentially, get the tcp connection that has the specific remote IPv4/6 you want to kill. It will collect the OwningProcess. From here, get-process then filters for those owningprocess ID numbers. And then it will stop said process. Bit clunky
+``` powershell
+stop-process -confirm (Get-Process -Id (Get-NetTCPConnection -RemoteAddress "1.2.3.4" ).OwningProcess)
+```
+
 ## Process Queries
+
+#### Processes and TCP COnnections
+Collect the owningprocess of the TCP connections, and then ask get-process to filter and show processes that make network communications
+
+```powershell
+Get-Process -Id (Get-NetTCPConnection).OwningProcess
+```
 
 ### Show all processes and their associated user
 ``powershell
