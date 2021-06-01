@@ -219,6 +219,7 @@ Collect the owningprocess of the TCP connections, and then ask get-process to fi
 ```powershell
 Get-Process -Id (Get-NetTCPConnection).OwningProcess
 ```
+![image](https://user-images.githubusercontent.com/44196051/120337318-1cba3300-c2eb-11eb-8444-0b54e67f6285.png)
 
 ### Show all processes and their associated user
 ``powershell
