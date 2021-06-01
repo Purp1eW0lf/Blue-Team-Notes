@@ -74,12 +74,14 @@ source ~/.bashrc
 # Powershell
 ## OS Info
 ### Get OS and Pwsh info
+This will print out the hostname, the OS build info, and the powershell version
 ```powershell
-$Bit = (get-wmiobject Win32_OperatingSystem).OSArchitecture ; $V = $host | select-object -property "Version" ; 
+$Bit = (get-wmiobject Win32_OperatingSystem).OSArchitecture ; 
+$V = $host | select-object -property "Version" ; 
 $Build = (Get-WmiObject -class Win32_OperatingSystem).Caption ; 
 write-host "$env:computername is a $Bit $Build with Pwsh $V
 ```
-![image](https://user-images.githubusercontent.com/44196051/119976027-75699300-bfae-11eb-8baa-42f9bbccbce2.png)
+![image](https://user-images.githubusercontent.com/44196051/120313634-2be0b700-c2d2-11eb-919f-5792169a1dba.png)
 
 ### Time info
 #### Human Readable
@@ -94,7 +96,7 @@ This one is great for doing comparisons
 ```powershell
 [Xml.XmlConvert]::ToString((Get-Date).ToUniversalTime(), [System.Xml.XmlDateTimeSerializationMode]::Utc) 
 ```
-![image](https://user-images.githubusercontent.com/44196051/120297663-3a72a280-c2c1-11eb-8eb4-6ec5a41ee09f.png)
+![image](https://user-images.githubusercontent.com/44196051/120314399-1e77fc80-c2d3-11eb-9a75-f9e677153d86.png)
 
 #### Compare UTC time from Local time
 ```powershell
@@ -160,23 +162,23 @@ select-object -property remoteaddress, remoteport, creationtime |
 Sort-Object -Property creationtime |
 format-table -autosize
 ```
-![image](https://user-images.githubusercontent.com/44196051/120002550-dacc7c80-bfcc-11eb-95f5-1743307a55c4.png)
+![image](https://user-images.githubusercontent.com/44196051/120314725-73b40e00-c2d3-11eb-9dbf-3b0582a9b2d0.png)
 
 ### Sort remote IP connections, and then unique them
 This really makes strange IPs stand out....may show some C2 call back addresses if lucky. 
 ```powershell
 (Get-NetTCPConnection).remoteaddress | Sort-Object -Unique 
 ```
-![image](https://user-images.githubusercontent.com/44196051/120003762-f1bf9e80-bfcd-11eb-9bf7-bcf487f032d6.png)
+![image](https://user-images.githubusercontent.com/44196051/120314835-8dedec00-c2d3-11eb-8469-e658eb743364.png)
 
 #### Hone in on a suspicious IP
 If you see suspicious IP address in any of the above, then I would hone in on it
 ```powershell
 Get-NetTCPConnection |
-? {($_.RemoteAddress -eq "1.52.93.4")} |
+? {($_.RemoteAddress -eq "1.2.3.4")} |
 select-object -property state, creationtime, localport,remoteport
 ```
-![image](https://user-images.githubusercontent.com/44196051/120005113-7101a200-bfcf-11eb-8ae4-673c27d01eb8.png)
+![image](https://user-images.githubusercontent.com/44196051/120313809-68141780-c2d2-11eb-85ac-5e369715f8ed.png)
 
 ## Process Queries
 
@@ -286,7 +288,9 @@ You can use `test-path` to query Registry, but even the 2007 [Microsoft docs say
 ### Recursively look for particular file types, and once you find the files get their hashes
 This one-liner was a godsend during the Microsoft Exchange ballache back in early 2021
 ```powershell
-Get-ChildItem -path "C:\windows\temp" -Recurse -Force -File -Include *.aspx, *.js, *.zip| Get-FileHash | Select-Object -property hash, path
+Get-ChildItem -path "C:\windows\temp" -Recurse -Force -File -Include *.aspx, *.js, *.zip|
+Get-FileHash |
+Select-Object -property hash, path
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119977578-887d6280-bfb0-11eb-9e56-fad64296128f.png)
 
