@@ -17,7 +17,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 ## Table of Contents
 - [Shell Style](#shell-style)
 - [Powershell](#Powershell)
-  * [OSInfo](#osinfo)
+  * [OSInfo](#os-info)
   * [User Queries](#user-queries)
   * [Network Queries](#network-queries)
   * [Process Queries](#process-queries)
