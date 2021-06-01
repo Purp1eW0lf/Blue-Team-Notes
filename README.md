@@ -25,7 +25,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Sch Task Queries](#sch-task-queries)
   * [File Queries](#file-queries)
   * [Reg Queries](#reg-queries)
-  * [WEF & WEC Troubleshooting](#wef-wec-troubleshooting)
+  * [Log Troubleshooting](#log-troubleshooting)
   * [Code Red](#code-red)
 - [Linux](#linux)
   * [Bash History](#bash-history)
@@ -403,10 +403,13 @@ select-object -property @{N='Owner';E={$_.GetAccessControl().Owner}}, *time, ver
 
 ### Recursively look for particular file types, and once you find the files get their hashes
 This one-liner was a godsend during the Microsoft Exchange ballache back in early 2021
+
+You may find that the fullpath gets cut off with elpises (...). To counter this, pipe to ` format-table -wrap`. It will look ugly, but will ensure your stuff doesn't get cut off. 
 ```powershell
 Get-ChildItem -path "C:\windows\temp" -Recurse -Force -File -Include *.aspx, *.js, *.zip|
 Get-FileHash |
 Select-Object -property hash, path
+#optionally | format-table -wrap
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119977578-887d6280-bfb0-11eb-9e56-fad64296128f.png)
 
@@ -463,10 +466,21 @@ get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\'
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119999624-d8b4ee80-bfc9-11eb-9770-5ec6e78f9714.png)
 
-
-## WEF & WEC Troubleshooting 
+## Log Troubleshooting 
 I've tended to use these commands to troubleshoot Windows Event Forwarding and other log related stuff
-#### Overview of what the sysmon/operational log is up to
+
+### Show Logs
+Show logs that are actually enabled and whose contents isn't empty.
+```powershell
+Get-WinEvent -ListLog *|
+where-object {$_.IsEnabled -eq "True" -and $_.RecordCount -gt "0"} | 
+sort-object -property LogName | 
+format-table LogName -autosize -wrap
+```
+![image](https://user-images.githubusercontent.com/44196051/120351284-a96aee00-c2f7-11eb-906d-a8469175b209.png)
+
+
+#### Overview of what a specific log is up to
 ```powershell
 Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational | Format-List -Property * 
 ```
