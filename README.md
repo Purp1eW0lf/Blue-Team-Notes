@@ -162,9 +162,12 @@ For example in our screenshot, on the left Microsoft's support page supposes the
 
 ## User Queries
 ### Users recently created in Active Directory
+Run on a Domain Controller
+
 The 'when Created' field is great for noticing some inconsistencies. For example, how often are users created at 2am?
 ```powershell
-import-module ActiveDirectory; $When = ((Get-Date).AddDays(-7)).Date; Get-ADUser -Filter {whenCreated -ge $When} -Properties whenCreated
+import-module ActiveDirectory;
+$When = ((Get-Date).AddDays(-7)).Date; Get-ADUser -Filter {whenCreated -ge $When} -Properties whenCreated
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120324990-20e05380-c2df-11eb-9e2e-fe37c1545457.png)
 
