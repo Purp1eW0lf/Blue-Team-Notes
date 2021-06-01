@@ -247,6 +247,18 @@ Here's the a bash alternative
 ```bash
 find . type f -exec sha256sum {} \; 2> /dev/null | grep -Ei 'asp|js' | sort
 ```
+### Find files written after X date
+I personally wouldn't use this for DFIR. It's easy to manipulate timestamps....plus, Windows imports the original compiled date for some files and binaries if I'm not mistaken
+
+Change the variables in the first time to get what you're looking
+```powershell
+$date = "12/01/2021"; $directory = "C:\temp"
+get-childitem "$directory" -recurse|
+where-object {$_.mode -notmatch "d"}| 
+where-object {$_.lastwritetime -gt [datetime]::parse("$date")}|
+Sort-Object -property LastWriteTime | format-table lastwritetime, fullname -autosize
+```
+
 ![image](https://user-images.githubusercontent.com/44196051/119977935-e7db7280-bfb0-11eb-8ee0-4da29089c736.png)
 
 ## Reg Queries
