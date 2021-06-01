@@ -181,12 +181,15 @@ Get-ADUser -Identity HamBurglar -Properties *
 
 ### Show Service Accounts
 Utilise Get-WmiObject(gwmi) to show all service accounts on a machine, and then sort to show the running accounts first and the stopped accounts second.
+
+StartName is the name of the Service Account btw
+
 ```powershelll
  gwmi -Class Win32_Service|
- select-object -Property Name, StartName, state, Caption, ProcessId |
+ select-object -Property Name, StartName, state, startmode, Caption, ProcessId |
  sort-object -property state
 ```
-![image](https://user-images.githubusercontent.com/44196051/120340005-89cec800-c2ed-11eb-8468-f35d4e8e655d.png)
+![image](https://user-images.githubusercontent.com/44196051/120340649-23967500-c2ee-11eb-892b-0c6626072d8c.png)
 
 ## Network Queries
 ### Find internet established connections, and sort by time established
