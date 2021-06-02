@@ -570,6 +570,22 @@ hostname | clip
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120554093-3e9ddd80-c3f1-11eb-9ddb-d24b8e87481b.png)
 
+### Re-run commands
+If you had a command that was great, you can re-run it again from your powershell history!
+```powershell
+##list out history
+get-history
+#pick the command you want, and then write down the corresponding number
+#now invoke history
+Invoke-History -id 38
+
+## You can do the alias / abbrevated method for speed
+h
+r 43
+```
+![image](https://user-images.githubusercontent.com/44196051/120559078-48770f00-c3f8-11eb-8726-fd7e627df473.png)
+![image](https://user-images.githubusercontent.com/44196051/120559222-8f650480-c3f8-11eb-9b84-ef98dc26cb5c.png)
+
 # Linux
 This section is a bit dry, forgive me. My Bash DFIR tends to be a lot more spontaneous and therefore I don't write them down as much as I do the Pwsh one-liners
 
