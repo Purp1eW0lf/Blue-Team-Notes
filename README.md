@@ -25,6 +25,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Reg Queries](#reg-queries)
   * [Log Troubleshooting](#log-troubleshooting)
   * [Code Red](#code-red)
+  * [Powershell Tips](#powershell-tips)
 - [Linux](#linux)
   * [Bash History](#bash-history)
   * [Grep and Ack](#grep-and-ack)
@@ -389,6 +390,17 @@ IF ($d -eq 'True') {Write-Host "C:\Program Files\sysmon present"} ELSE {Write-Ho
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119979754-443f9180-bfb3-11eb-9259-5409a0d98c04.png)
 
+^ The above is a bit over-engineered. Here's an an abbrevated version
+```powershell
+$Paths = "C:\windows" , "C:\temp", "C:\windows\system32", "C:\DinosaurFakeDir" ; 
+foreach ($Item in $Paths){if (test-path $Item) {write "$Item present"}else{write "$Item absent"}}
+```
+![image](https://user-images.githubusercontent.com/44196051/120552156-c7ffe080-c3ee-11eb-8f81-3983cab8083b.png)
+
+We can also make this conditional
+
+
+
 You can use `test-path` to query Registry, but even the 2007 [Microsoft docs say](https://devblogs.microsoft.com/powershell/test-path-we-goofed/) that this can give inconsistent results, so I wouldn't bother with test-path for reg stuff when it's during an IR
 
 ### Get File info
@@ -520,6 +532,25 @@ Add-Type -AssemblyName PresentationCore,PresentationFramework;
 [System.Windows.MessageBox]::Show('Your Computer has been Disconnected from the Internet for Security Issues. Please do not try to re-connect to the internet. Contact Security Helpdesk Desk ',' CompanyNameHere Security Alert',[System.Windows.MessageBoxButton]::OK,[System.Windows.MessageBoxImage]::Information)
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119979598-0e9aa880-bfb3-11eb-9882-08d02a0d3026.png)
+
+## Powershell Tips
+### Get Alias
+PwSh is great at abbreviating the commands. Unfortunately, when you're trying to read someone else's abbreviated PwSh it can be ballache to figure out exactly what each weird abbrevation does.
+
+Equally, if you're trying to write something smol and cute you'll want to use abbrevations!
+
+Whatever you're trying, you can use `Get-Alias` to figure all of it out
+```powershell
+#What does an abbrevation do
+get-alias -name gwmi
+#What is the abbrevation for this
+get-alias -definition write-output
+#List all alias' and their full command
+get-alias
+```
+
+![image](https://user-images.githubusercontent.com/44196051/120551039-81f64d00-c3ed-11eb-8cea-dadb07066942.png)
+
 
 # Linux
 This section is a bit dry, forgive me. My Bash DFIR tends to be a lot more spontaneous and therefore I don't write them down as much as I do the Pwsh one-liners
