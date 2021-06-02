@@ -184,6 +184,20 @@ Get-ADUser -Identity HamBurglar -Properties *
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120328655-f1334a80-c2e2-11eb-97da-653553b7c01a.png)
 
+### Retrieve local user accounts that are enabled
+```powershell
+ Get-LocalUser | ? Enabled -eq "True"
+```
+![image](https://user-images.githubusercontent.com/44196051/120561793-216f0c00-c3fd-11eb-9738-76e778c79763.png)
+
+### Find all users currently logged in
+```powershell
+Get-CimInstance -classname win32_computersystem |
+select username, domain, DNSHostName | ft -autosize
+```
+![image](https://user-images.githubusercontent.com/44196051/120562311-1072ca80-c3fe-11eb-995f-9d42d1c451d6.png)
+
+
 ### Computer / Machine Accounts
 Adversaries like to use Machine accounts (accounts that have a $) as these often are overpowered AND fly under the defenders' radar
 
@@ -253,7 +267,12 @@ If you see suspicious IP address in any of the above, then I would hone in on it
 ```powershell
 Get-NetTCPConnection |
 ? {($_.RemoteAddress -eq "1.2.3.4")} |
-select-object -property state, creationtime, localport,remoteport
+select-object -property state, creationtime, localport,remoteport | ft -autosize
+
+## can do this as well 
+ Get-NetTCPConnection -remoteaddress 0.0.0.0 |
+ select state, creationtime, localport,remoteport | ft -autosize
+
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120313809-68141780-c2d2-11eb-85ac-5e369715f8ed.png)
 
