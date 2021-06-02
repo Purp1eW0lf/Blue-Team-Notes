@@ -288,10 +288,9 @@ get-process -name "memetask" | select-object -property Name, Id,Includeusername,
 
 ### Is a specific process a running on a machine or not
 ```powershell
-if (get-process | select-object -property ProcessName | where-object {$_.ProcessName -Match "memes"})
-{Write-Host "memes successfully installed on " -NoNewline ; hostname} 
-else {write-host "memes absent from " -NoNewline ; hostname}
+if (ps |  where-object ProcessName -Match "memes") {Write-Host "memes successfully installed on " -NoNewline ; hostname} else {write-host "memes absent from " -NoNewline ; hostname}
 ```
+
 Example of process that is absent
 ![image](https://user-images.githubusercontent.com/44196051/119976215-b1045d00-bfae-11eb-806c-49a62f5aab15.png)
 Example of process that is present
