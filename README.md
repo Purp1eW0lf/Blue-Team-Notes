@@ -654,4 +654,25 @@ find . type f -exec sha256sum {} \; 2> /dev/null | grep -Ei '.asp|.js' | sort
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120331789-0cec2000-c2e6-11eb-9617-129c9948666b.png)
 
+### Tree
+`Tree` is an amazing command. Please bask in its glory. It will recursively list out folders and filders in their parent-child relationship.....or tree-branch relationship I suppose?
+
+```bash
+#install sudo apt-get install tree
+tree 
+```
+
+![image](https://user-images.githubusercontent.com/44196051/120555193-9f79e580-c3f2-11eb-99e4-bf23930e2e54.png)
+
+But WAIT! There's more!
+
+#### Tree and show the users who own the files and directories
+```bash
+tree -u
+#stack this with a grep to find a particular user you're looking for
+tree -u | grep 'root'
+```
+![image](https://user-images.githubusercontent.com/44196051/120555360-de0fa000-c3f2-11eb-8670-fdc522d03418.png)
+![image](https://user-images.githubusercontent.com/44196051/120555562-27f88600-c3f3-11eb-891a-98bf39b5cd71.png)
+
 
