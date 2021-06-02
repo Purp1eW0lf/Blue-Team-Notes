@@ -170,7 +170,7 @@ The 'when Created' field is great for noticing some inconsistencies. For example
 import-module ActiveDirectory;
 $When = ((Get-Date).AddDays(-7)).Date; Get-ADUser -Filter {whenCreated -ge $When} -Properties whenCreated
 ```
-![image](https://user-images.githubusercontent.com/44196051/120324990-20e05380-c2df-11eb-9e2e-fe37c1545457.png)
+![image](https://user-images.githubusercontent.com/44196051/120461945-614cd980-c392-11eb-8352-2141ee42efdf.png)
 
 ### Hone in on suspicious user
 You can use the `SamAccountName` above to filter
