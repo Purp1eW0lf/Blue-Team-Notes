@@ -422,13 +422,14 @@ Get-ScheduledTask
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120563312-2d100200-c400-11eb-8f47-cd3e76df4165.png)
 
-### To find the commands a task is running
+### Identify user-author of schtask
 Identify the user behind a command. Great at catching out malicious schtasks that perhaps are imitating names, or a process name
 ```powershell
 Get-ScheduledTask | Select-Object -Property TaskName,author | fl 
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119978821-01c98500-bfb2-11eb-9149-fc1a96a1af87.png)
 
+### To find the commands a task is running
 Great one liner to find exactly WHAT a regular task is doing
 ```powershell
 $task = Get-ScheduledTask | where TaskName -EQ "meme task"; 
@@ -437,14 +438,13 @@ $task.Actions
 ![image](https://user-images.githubusercontent.com/44196051/119979087-5f5dd180-bfb2-11eb-9d4d-bbbf66043535.png)
 
 And a command to get granularity behind the schtask requires you to give the taskpath. Tasks with more than one taskpath will throw an error here
-```powershelll
+```powershell
 $task = "CacheTask";
 get-scheduledtask -taskpath (Get-ScheduledTask -Taskname "$task").taskpath | Export-ScheduledTask
 #this isn't the way the microsoft docs advise. 
      ##But I prefer this, as it means I don't need to go and get the taskpath when I already know the taskname
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120563667-18803980-c401-11eb-9b10-621169f38437.png)
-
 
 ### To stop the task
 ```powershell
@@ -457,6 +457,24 @@ Get-CimInstance Win32_StartupCommand | Select-Object Name, command, Location, Us
 ![image](https://user-images.githubusercontent.com/44196051/120332890-12963580-c2e7-11eb-9805-feee341140fa.png)
 
 
+### Scheduled Jobs
+Surprisingly, not many people know about [Scheduled Jobs](https://devblogs.microsoft.com/scripting/introduction-to-powershell-scheduled-jobs/). They're not anything too strange or different, they're just scheduled tasks that are specificially powershell
+
+#### Find out what scheduled jobs are on the machine
+```powershell
+ Get-ScheduledJob
+ # pipe to | fl * for greater granularity
+```
+![image](https://user-images.githubusercontent.com/44196051/120564374-a7418600-c402-11eb-8b7c-92fd86c9df2f.png)
+
+#### Get detail behind scheduled jobs
+```powershell
+Get-ScheduledJob | Get-JobTrigger | 
+Ft -Property @{Label="ScheduledJob";Expression={$_.JobDefinition.Name}},ID,Enabled, At, frequency, DaysOfWeek
+#pipe to fl or ft, whatever you like the look of more in the screenshot
+```
+
+![image](https://user-images.githubusercontent.com/44196051/120564784-92192700-c403-11eb-930a-3aa0ba178434.png)
 
 
 ## File Queries
