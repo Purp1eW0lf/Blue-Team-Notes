@@ -33,7 +33,8 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Grep and Ack](#grep-and-ack)
   * [Rapid Malware Analaysis](#rapid-malware-analaysis)
   * [Processes and Networks](#processes-and-networks)
-  * [Files](#Files)
+  * [Files](#files)
+  * [Bash Tips](#bash-tips)
 
 # Shell Style
 ### Give shell timestamp
@@ -675,4 +676,46 @@ tree -u | grep 'root'
 ![image](https://user-images.githubusercontent.com/44196051/120555360-de0fa000-c3f2-11eb-8670-fdc522d03418.png)
 ![image](https://user-images.githubusercontent.com/44196051/120555562-27f88600-c3f3-11eb-891a-98bf39b5cd71.png)
 
+## Bash Tips
+### Fixing Mistakes
+We all make mistakes, don't worry. Bash forgives you
 
+#### Forget to run as sudo?
+We've all done it mate. Luckily, `!!` has your back. The exclamation mark is a history related bash thing. 
+
+Using two exclamations, we can return our previous command. By prefixing `sudo` we are bringing our command back but running it as sudo
+
+```bash
+#for testing, fuck up a command that needed sudo but you forgot
+cat /etc/shadow
+# fix it!
+sudo !!
+```
+![image](https://user-images.githubusercontent.com/44196051/120555899-abb27280-c3f3-11eb-8807-f65b74373ad9.png)
+
+#### Typos in a big old one liner?
+The `fc` command is interesting. It gets what was just run in terminal, and puts it in a text editor environment. You can the ammend whatever mistakes you may have made. Then if you save and exit, it will execute your newly ammended command
+
+```bash
+##messed up command
+cat /etc/prozile
+#fix it
+fc
+#then save and exit
+```
+![image](https://user-images.githubusercontent.com/44196051/120556440-69d5fc00-c3f4-11eb-98ba-ca1c6ac9d8b5.png)
+![image](https://user-images.githubusercontent.com/44196051/120556467-70647380-c3f4-11eb-98a1-4f0dd2fef693.png)
+
+#### Re-run a command in History
+If you had a beautiful command you ran ages ago, but can't remember it, you can utilise `history`. But don't copy and paste like a chump. 
+
+Instead, utilise exclamation marks and the corresponding number entry for your command in the history file. This is highlighted in red below
+
+```bash
+#bring up your History
+history
+#pick a command you want to re-run.
+# now put one exclamation mark, and the corresponding number for the command you want
+!12
+```
+![image](https://user-images.githubusercontent.com/44196051/120556698-c3d6c180-c3f4-11eb-967d-c5ff873ebb56.png)
