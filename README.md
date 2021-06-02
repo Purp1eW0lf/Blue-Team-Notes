@@ -288,7 +288,8 @@ get-process -name "memetask" | select-object -property Name, Id,Includeusername,
 
 ### Is a specific process a running on a machine or not
 ```powershell
-if (ps |  where-object ProcessName -Match "memes") {Write-Host "memes successfully installed on " -NoNewline ; hostname} else {write-host "memes absent from " -NoNewline ; hostname}
+$process = "memes";
+if (ps |  where-object ProcessName -Match "$process") {Write-Host "$process successfully installed on " -NoNewline ; hostname} else {write-host "$process absent from " -NoNewline ; hostname}
 ```
 
 Example of process that is absent
@@ -299,8 +300,9 @@ Example of process that is present
 ### Get process hash
 Great to make malicious process stand out. If you want a different Algorithm, just change it after `-Algorithm` to something like `sha256` 
 ```powershell
-foreach ($proc in Get-Process | select path -Unique)
-{try { Get-FileHash $proc.path -Algorithm md5 -ErrorAction stop | Select-Object -property hash,path}catch{}}
+foreach ($proc in Get-Process | select path -Unique){try
+{ Get-FileHash $proc.path -Algorithm md5 -ErrorAction stop|
+Select-Object -property hash,path}catch{}}
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119976802-8cf54b80-bfaf-11eb-82de-1a92bbcae4f9.png)
 
@@ -394,14 +396,16 @@ IF ($d -eq 'True') {Write-Host "C:\Program Files\sysmon present"} ELSE {Write-Ho
 ^ The above is a bit over-engineered. Here's an an abbrevated version
 ```powershell
 $Paths = "C:\windows" , "C:\temp", "C:\windows\system32", "C:\DinosaurFakeDir" ; 
-foreach ($Item in $Paths){if (test-path $Item) {write "$Item present"}else{write "$Item absent"}}
+foreach ($Item in $Paths){if
+(test-path $Item) {write "$Item present"}else{write "$Item absent"}}
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120552156-c7ffe080-c3ee-11eb-8f81-3983cab8083b.png)
 
 We can also make this conditional. Let's say if Process MemeProcess is NOT running, we can then else it to go and check if files exist
 ```powershell
 $Paths = "C:\windows" , "C:\temp", "C:\windows\system32", "C:\DinosaurFakeDir" ; 
-if (Get-Process | where-object Processname -eq "explorer") {write "process working"} else {foreach ($Item in $Paths){if (test-path $Item) {write "$Item present"}else{write "$Item absent"}}}
+if (Get-Process | where-object Processname -eq "explorer") {write "process working"} else {
+foreach ($Item in $Paths){if (test-path $Item) {write "$Item present"}else{write "$Item absent"}}}
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120553995-1c0bc480-c3f1-11eb-811d-eca65d10328d.png)
 
