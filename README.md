@@ -263,6 +263,43 @@ There's probably a better way to do this. But essentially, get the tcp connectio
 stop-process -confirm (Get-Process -Id (Get-NetTCPConnection -RemoteAddress "1.2.3.4" ).OwningProcess)
 ```
 
+### Firewall Queries
+Should this get it's own section? I _feel_ like it's part of network queries
+
+#### Retreieve Firewall profile names
+```powershell
+(Get-NetFirewallProfile).name
+```
+![image](https://user-images.githubusercontent.com/44196051/120560271-53cb3a00-c3fa-11eb-83f7-f60f431d0c7b.png)
+
+#### Retrieve rules of specific profile
+Not likely to be too useful getting all of this information raw, so add plenty of filters
+```powershell
+Get-NetFirewallProfile -Name Public | Get-NetFirewallRule
+##filtering it to only show rules that are actually enabled
+Get-NetFirewallProfile -Name Public | Get-NetFirewallRule | ? Enabled -eq "true"
+```
+![image](https://user-images.githubusercontent.com/44196051/120560766-3cd91780-c3fb-11eb-9781-bf933c4b0efa.png)
+
+#### Filter all firewall rules
+```powershell
+
+#show firewall rules that are enabled
+Get-NetFirewallRule | ? Enabled -eq "true"
+#will show rules that are not enabled
+Get-NetFirewallRule | ? Enabled -notmatch "true"
+
+##show firewall rules that pertain to inbound
+Get-NetFirewallRule | ? direction -eq "inbound"
+#or outbound
+Get-NetFirewallRule | ? direction -eq "outbound"
+
+##stack these filters
+Get-NetFirewallRule | where {($_.Enabled -eq "true" -and $_.Direction -eq "inbound")}
+#or just use the built in flags lol
+Get-NetFirewallRule -Enabled True -Direction Inbound
+```
+
 ## Process Queries
 
 #### Processes and TCP COnnections
