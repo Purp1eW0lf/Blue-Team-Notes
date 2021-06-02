@@ -555,6 +555,24 @@ Sort-Object -property LastWriteTime | format-table lastwritetime, fullname -auto
 copy-item "C:\windows\System32\winevt\Logs\Security.evtx", "C:\windows\System32\winevt\Logs\Windows PowerShell.evtx" -destination C:\temp
 ```
 
+### Query file contents
+
+#### Alternate data streams
+```powershell
+# show streams that aren't the normal $DATA
+get-item evil.ps1 -stream "*" | where stream -ne ":$DATA"
+# If you see an option that isn't $DATA, hone in on it
+get-content evil.ps1 -steam "evil_stream"
+```
+
+#### Read hex of file
+```
+gc .\evil.ps1 -encoding byte | 
+Format-Hex
+```
+![image](https://user-images.githubusercontent.com/44196051/120565546-3e0f4200-c405-11eb-9045-e38fc79e2810.png)
+
+
 ## Reg Queries
 
 #### Show reg keys
