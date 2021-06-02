@@ -22,7 +22,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [User Queries](#user-queries)
   * [Network Queries](#network-queries)
   * [Process Queries](#process-queries)
-  * [Recurring Task Queries](#reccuring-task-queries)
+  * [Recurring Task Queries](#recurring-task-queries)
   * [File Queries](#file-queries)
   * [Reg Queries](#reg-queries)
   * [Log Troubleshooting](#log-troubleshooting)
