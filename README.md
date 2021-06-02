@@ -272,9 +272,16 @@ select-object -property state, creationtime, localport,remoteport | ft -autosize
 ## can do this as well 
  Get-NetTCPConnection -remoteaddress 0.0.0.0 |
  select state, creationtime, localport,remoteport | ft -autosize
+ ```
+ ![image](https://user-images.githubusercontent.com/44196051/120313809-68141780-c2d2-11eb-85ac-5e369715f8ed.png)
 
+### Show UDP connections
+You can generally filter pwsh UDP the way we did the above TCP
+```powershell
+ Get-NetUDPEndpoint | select local*,creationtime, remote* | ft -autosize
 ```
-![image](https://user-images.githubusercontent.com/44196051/120313809-68141780-c2d2-11eb-85ac-5e369715f8ed.png)
+![image](https://user-images.githubusercontent.com/44196051/120562989-7744b380-c3ff-11eb-963b-443cc9176643.png)
+
 
 ### Kill a connection
 There's probably a better way to do this. But essentially, get the tcp connection that has the specific remote IPv4/6 you want to kill. It will collect the OwningProcess. From here, get-process then filters for those owningprocess ID numbers. And then it will stop said process. Bit clunky
@@ -405,6 +412,16 @@ Get-Process -Name "memeprocess" | Stop-Process -Force
 ```
 
 ## Sch Task Queries
+
+### Get a specific schtask
+```powershell
+Get-ScheduledTask -Taskname "wifi*"
+
+## or just list them all
+Get-ScheduledTask
+```
+![image](https://user-images.githubusercontent.com/44196051/120563312-2d100200-c400-11eb-8f47-cd3e76df4165.png)
+
 ### To find the commands a task is running
 Identify the user behind a command. Great at catching out malicious schtasks that perhaps are imitating names, or a process name
 ```powershell
@@ -419,7 +436,17 @@ $task.Actions
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119979087-5f5dd180-bfb2-11eb-9d4d-bbbf66043535.png)
 
-To stop the task
+And a command to get granularity behind the schtask requires you to give the taskpath. Tasks with more than one taskpath will throw an error here
+```powershelll
+$task = "CacheTask";
+get-scheduledtask -taskpath (Get-ScheduledTask -Taskname "$task").taskpath | Export-ScheduledTask
+#this isn't the way the microsoft docs advise. 
+     ##But I prefer this, as it means I don't need to go and get the taskpath when I already know the taskname
+```
+![image](https://user-images.githubusercontent.com/44196051/120563667-18803980-c401-11eb-9b10-621169f38437.png)
+
+
+### To stop the task
 ```powershell
 Get-ScheduledTask "memetask" | Stop-ScheduledTask
 ```
@@ -428,6 +455,9 @@ Get-ScheduledTask "memetask" | Stop-ScheduledTask
 Get-CimInstance Win32_StartupCommand | Select-Object Name, command, Location, User | Format-List 
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120332890-12963580-c2e7-11eb-9805-feee341140fa.png)
+
+
+
 
 ## File Queries
 ### Check if a specific file or path is alive. 
