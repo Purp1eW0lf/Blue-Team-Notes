@@ -565,9 +565,9 @@ One thing I really like about Ack is that it can highlight words easily, which i
 
 ```bash
 #install ack if you need to: sudo apt-get install ack
-ack -i '159.89.95.163|86.105.18.116' file.txt
+ack -i '127.0.0.1|1.1.1.1' --passthru file.txt
 ```
-![image](https://user-images.githubusercontent.com/44196051/119987996-879efd80-bfbd-11eb-98ac-4c1720c5c9d9.png)
+![image](https://user-images.githubusercontent.com/44196051/120458382-24331800-c38f-11eb-9527-4c6682be2f5c.png)
 
 ## Rapid Malware Analaysis
 ### Capa
