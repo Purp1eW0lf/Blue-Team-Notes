@@ -382,7 +382,6 @@ test-path -path "C:\windows\temp\DBUtil_2_3.Sys"
 This is great to just sanity check if things exist. Great when you're trying to check if files or directories have been left behind when you're cleaning stuff up.
 ```powershell
 $a = Test-Path "C:\windows\sysmon.exe"; $b= Test-Path "C:\Windows\SysmonDrv.sys"; $c = test-path "C:\Program Files (x86)\sysmon"; $d = test-path "C:\Program Files\sysmon"; 
-$env:computername; 
 IF ($a -eq 'True') {Write-Host "C:\windows\sysmon.exe present"} ELSE {Write-Host "C:\windows\sysmon.exe absent"}; 
 IF ($b -eq 'True') {Write-Host "C:\Windows\SysmonDrv.sys present"} ELSE {Write-Host "C:\Windows\SysmonDrv.sys absent"} ; 
 IF ($c -eq 'True') {Write-Host "C:\Program Files (x86)\sysmon present"} ELSE {Write-Host "C:\Program Files (x86)\sysmon absent"}; 
@@ -397,9 +396,12 @@ foreach ($Item in $Paths){if (test-path $Item) {write "$Item present"}else{write
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120552156-c7ffe080-c3ee-11eb-8f81-3983cab8083b.png)
 
-We can also make this conditional
-
-
+We can also make this conditional. Let's say if Process MemeProcess is NOT running, we can then else it to go and check if files exist
+```powershell
+$Paths = "C:\windows" , "C:\temp", "C:\windows\system32", "C:\DinosaurFakeDir" ; 
+if (Get-Process | where-object Processname -eq "explorer") {write "process working"} else {foreach ($Item in $Paths){if (test-path $Item) {write "$Item present"}else{write "$Item absent"}}}
+```
+![image](https://user-images.githubusercontent.com/44196051/120553995-1c0bc480-c3f1-11eb-811d-eca65d10328d.png)
 
 You can use `test-path` to query Registry, but even the 2007 [Microsoft docs say](https://devblogs.microsoft.com/powershell/test-path-we-goofed/) that this can give inconsistent results, so I wouldn't bother with test-path for reg stuff when it's during an IR
 
@@ -548,9 +550,19 @@ get-alias -definition write-output
 #List all alias' and their full command
 get-alias
 ```
-
 ![image](https://user-images.githubusercontent.com/44196051/120551039-81f64d00-c3ed-11eb-8cea-dadb07066942.png)
 
+### Clip
+You can pipe straight to your clipboard. Then all you have to do is paste
+```powershell
+# this will write to terminal
+hostname
+# this will pipe to clipboard and will NOT write to terminal
+hostname | clip
+# then paste to test
+#ctrl+v
+```
+![image](https://user-images.githubusercontent.com/44196051/120554093-3e9ddd80-c3f1-11eb-9ddb-d24b8e87481b.png)
 
 # Linux
 This section is a bit dry, forgive me. My Bash DFIR tends to be a lot more spontaneous and therefore I don't write them down as much as I do the Pwsh one-liners
