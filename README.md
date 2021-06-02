@@ -22,7 +22,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [User Queries](#user-queries)
   * [Network Queries](#network-queries)
   * [Process Queries](#process-queries)
-  * [Sch Task Queries](#sch-task-queries)
+  * [Recurring Task Queries](#reccuring-task-queries)
   * [File Queries](#file-queries)
   * [Reg Queries](#reg-queries)
   * [Log Troubleshooting](#log-troubleshooting)
@@ -411,7 +411,7 @@ Stop-Process -Name "memeprocess"
 Get-Process -Name "memeprocess" | Stop-Process -Force
 ```
 
-## Sch Task Queries
+## Recurring Task Queries
 
 ### Get a specific schtask
 ```powershell
