@@ -34,7 +34,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 
 # Shell Style
 ### Give shell timestamp
-For screenshots during IR, I like to have the date, time, and timezone in my shell
+For screenshots during IR, I like to have the date, time, and sometimes the timezone in my shell
 #### CMD
 ```bat
 setx prompt $D$S$T$H$H$H$S$B$S$P$_--$g
