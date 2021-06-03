@@ -819,6 +819,29 @@ tree- F
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120661487-3c369480-c480-11eb-8103-fda15e2cbec4.png)
 
+### Get information about a file
+`stat` is a great command to get lots of information about a file
+ ```bash
+stat file.txt
+```
+![image](https://user-images.githubusercontent.com/44196051/120663875-57a29f00-c482-11eb-8ce9-b4738ce6017a.png)
+
+### Files and Dates
+Be careful with this, as timestamps can be manipulated and can't be trusted during an IR
+
+#### This one will print the files and their corresponding timestamp
+```bash
+find . -printf "%T+ %p\n"
+```
+![image](https://user-images.githubusercontent.com/44196051/120664233-acdeb080-c482-11eb-8a85-922965bd575e.png)
+
+### Show all files created between two dates
+I've got to be honest with you, this is one of my favourite commands. The level of granularity you can get is crazy. You can find files that have changed state by the MINUTE if you really wanted.
+
+```bash
+find -newerct "01 Jun 2021 18:30:00" ! -newerct "03 Jun 2021 19:00:00" -ls | sort
+```
+![image](https://user-images.githubusercontent.com/44196051/120664969-460dc700-c483-11eb-8c1b-a2223549a97f.png)
 
 ## Bash Tips
 ### Fixing Mistakes
