@@ -1,4 +1,6 @@
-<img src="https://user-images.githubusercontent.com/44196051/120006585-f0dc3c00-bfd0-11eb-98d9-da3eb59edbda.png" width="250" height="250">
+<p align="center">
+  <img width="300" height="300" src="https://user-images.githubusercontent.com/44196051/120006585-f0dc3c00-bfd0-11eb-98d9-da3eb59edbda.png">
+</p>
 
 # Blue Team Notes
 A collection of one-liners useful for blue team work. Tend to be Powershell as these are the ones I forget the most. I've generally used these one liners on [Velociraptor](https://www.velocidex.com), which can query a thousands of endpoints at once.
