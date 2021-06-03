@@ -37,6 +37,8 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Processes and Networks](#processes-and-networks)
   * [Files](#files)
   * [Bash Tips](#bash-tips)
+- [Malware](#Malware)
+  * [Process Monitor](#process-monitor)
 
 # Shell Style
 ### Give shell timestamp
@@ -873,3 +875,15 @@ history
 !12
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120556698-c3d6c180-c3f4-11eb-967d-c5ff873ebb56.png)
+
+# Malware
+## Process Monitor
+[ProcMon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) is a great tool to figure out what a potentially malicious binary is doing on an endpoint.
+
+There are plenty of alternatives to monitor the child processes that a parent spawns, like [any.run](https://any.run/). But I'd like to focus on the free tools to be honest.
+
+When I get started with ProcMon, I have a bit of a habit. I stop capture, clear the hits, and then begin capture again. The screenshot details this as steps 1, 2, and 3
+
+![2021-06-03_10-12](https://user-images.githubusercontent.com/44196051/120619727-2d39ed00-c454-11eb-80d3-4547928a1db6.png)
+
+
