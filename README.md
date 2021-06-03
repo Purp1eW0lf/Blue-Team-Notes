@@ -523,13 +523,28 @@ foreach ($Item in $Paths){if (test-path $Item) {write "$Item present"}else{write
 
 You can use `test-path` to query Registry, but even the 2007 [Microsoft docs say](https://devblogs.microsoft.com/powershell/test-path-we-goofed/) that this can give inconsistent results, so I wouldn't bother with test-path for reg stuff when it's during an IR
 
-### Get File info
+### Query File Contents
+
 Seen a file you don't recognise? Find out some more about it! Remember though: don't trust timestamps!
 ```powershell
 Get-item C:\Temp\Computers.csv |
 select-object -property @{N='Owner';E={$_.GetAccessControl().Owner}}, *time, versioninfo | fl 
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120334042-3443ec80-c2e8-11eb-84a9-c141ca5198a8.png)
+
+#### Alternate data streams
+```powershell
+# show streams that aren't the normal $DATA
+get-item evil.ps1 -stream "*" | where stream -ne ":$DATA"
+# If you see an option that isn't $DATA, hone in on it
+get-content evil.ps1 -steam "evil_stream"
+```
+#### Read hex of file
+```powershell
+gc .\evil.ps1 -encoding byte | 
+Format-Hex
+```
+![image](https://user-images.githubusercontent.com/44196051/120565546-3e0f4200-c405-11eb-9045-e38fc79e2810.png)
 
 ### Recursively look for particular file types, and once you find the files get their hashes
 This one-liner was a godsend during the Microsoft Exchange ballache back in early 2021
@@ -562,24 +577,6 @@ Sort-Object -property LastWriteTime | format-table lastwritetime, fullname -auto
 ```powershell
 copy-item "C:\windows\System32\winevt\Logs\Security.evtx", "C:\windows\System32\winevt\Logs\Windows PowerShell.evtx" -destination C:\temp
 ```
-
-### Query file contents
-
-#### Alternate data streams
-```powershell
-# show streams that aren't the normal $DATA
-get-item evil.ps1 -stream "*" | where stream -ne ":$DATA"
-# If you see an option that isn't $DATA, hone in on it
-get-content evil.ps1 -steam "evil_stream"
-```
-
-#### Read hex of file
-```
-gc .\evil.ps1 -encoding byte | 
-Format-Hex
-```
-![image](https://user-images.githubusercontent.com/44196051/120565546-3e0f4200-c405-11eb-9045-e38fc79e2810.png)
-
 
 ## Reg Queries
 
