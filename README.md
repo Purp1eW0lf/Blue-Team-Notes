@@ -812,6 +812,14 @@ tree -u | grep 'root'
 ![image](https://user-images.githubusercontent.com/44196051/120555360-de0fa000-c3f2-11eb-8670-fdc522d03418.png)
 ![image](https://user-images.githubusercontent.com/44196051/120555562-27f88600-c3f3-11eb-891a-98bf39b5cd71.png)
 
+If you find it a bit long and confusing to track which file belongs to what directory, this flag on tree will print the fullpath
+```bash
+tree- F
+# pipe with | grep 'reports' to highlight a directory or file you are looking for
+```
+![image](https://user-images.githubusercontent.com/44196051/120661487-3c369480-c480-11eb-8103-fda15e2cbec4.png)
+
+
 ## Bash Tips
 ### Fixing Mistakes
 We all make mistakes, don't worry. Bash forgives you
