@@ -3,7 +3,9 @@
 </p>
 
 # Blue Team Notes
-A collection of one-liners and small scripts useful for blue team work. Tend to be Powershell as these are the ones I forget the most. I've generally used these one liners on [Velociraptor](https://www.velocidex.com), which can query thousands of endpoints at once.
+A collection of one-liners, small scripts, ans some useful tips for blue team work. 
+
+The command line stuff tends to be Powershell, as these are the ones I forget the most. I've generally used these with [Velociraptor](https://www.velocidex.com), which can query thousands of endpoints at once.
 
 I use _sysmon_ and _memetask_ as file or directory names in lieu of real file names, just replace the stupid names I've given with the files you actually need. 
 
