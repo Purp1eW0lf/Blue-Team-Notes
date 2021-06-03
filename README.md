@@ -904,10 +904,14 @@ Right-click, and add the parent-child processes to the filter, so we can investi
 ProcMon says that keylogger.exe writes something to a particular file....
 
 ![2021-06-03_10-27](https://user-images.githubusercontent.com/44196051/120621914-42178000-c456-11eb-8adf-a43f4249ed08.png)
+
+You can right click and see the properties
+
 ![2021-06-03_10-30](https://user-images.githubusercontent.com/44196051/120622483-c2d67c00-c456-11eb-8746-ee8bb9a65bf6.png)
 
 
 And if we go to that particular file, we can see the keylogger was outputting our keystrokes to the policy.vpol file
+
 ![2021-06-03_10-29](https://user-images.githubusercontent.com/44196051/120622218-8571ee80-c456-11eb-9b23-ed31ef4ec04e.png)
 
-
+That's that then, ProcMon helped us figure out what a suspicious binary was up to!
