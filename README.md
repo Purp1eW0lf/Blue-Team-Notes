@@ -882,8 +882,32 @@ history
 
 There are plenty of alternatives to monitor the child processes that a parent spawns, like [any.run](https://any.run/). But I'd like to focus on the free tools to be honest.
 
-When I get started with ProcMon, I have a bit of a habit. I stop capture, clear the hits, and then begin capture again. The screenshot details this as steps 1, 2, and 3
+### Process Monitor: Keylogger Example
+Let's go through a small investigation together, focusing on a real life keylogger found in an incident
+
+When I get started with ProcMon, I have a bit of a habit. I stop capture, clear the hits, and then begin capture again. The screenshot details this as steps 1, 2, and 3. 
 
 ![2021-06-03_10-12](https://user-images.githubusercontent.com/44196051/120619727-2d39ed00-c454-11eb-80d3-4547928a1db6.png)
+
+I then like to go to filter by process tree, and see what processes are running
+
+![2021-06-03_10-20](https://user-images.githubusercontent.com/44196051/120620977-62930a80-c455-11eb-85e4-3062fbaadee4.png)
+
+When we look at the process tree, we can see something called Keylogger.exe is running!
+
+![2021-06-03_10-23](https://user-images.githubusercontent.com/44196051/120621364-b7368580-c455-11eb-8af9-b2577e0113ce.png)
+
+Right-click, and add the parent-child processes to the filter, so we can investigate what's going on
+
+![2021-06-03_10-24](https://user-images.githubusercontent.com/44196051/120621605-eea53200-c455-11eb-9769-96e489708280.png)
+
+ProcMon says that keylogger.exe writes something to a particular file....
+
+![2021-06-03_10-27](https://user-images.githubusercontent.com/44196051/120621914-42178000-c456-11eb-8adf-a43f4249ed08.png)
+![2021-06-03_10-30](https://user-images.githubusercontent.com/44196051/120622483-c2d67c00-c456-11eb-8746-ee8bb9a65bf6.png)
+
+
+And if we go to that particular file, we can see the keylogger was outputting our keystrokes to the policy.vpol file
+![2021-06-03_10-29](https://user-images.githubusercontent.com/44196051/120622218-8571ee80-c456-11eb-9b23-ed31ef4ec04e.png)
 
 
