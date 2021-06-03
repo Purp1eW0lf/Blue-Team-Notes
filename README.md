@@ -97,14 +97,14 @@ write-host "$env:computername is a $Bit $Build with Pwsh $V
 
 ### Time info
 #### Human Readable
-Get something human readable
+Get a time that's human readable
 ```powershell
 Get-Date -UFormat "%a %Y-%b-%d %T UTC:%Z" 
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120298372-f03df100-c2c1-11eb-92ab-d642c26133ab.png)
 
 #### Machine comparable
-This one is great for doing comparisons
+This one is great for doing comparisons between two strings of time
 ```powershell
 [Xml.XmlConvert]::ToString((Get-Date).ToUniversalTime(), [System.Xml.XmlDateTimeSerializationMode]::Utc) 
 ```
