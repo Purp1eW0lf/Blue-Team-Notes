@@ -458,7 +458,7 @@ Get-CimInstance Win32_StartupCommand | Select-Object Name, command, Location, Us
 
 
 ### Scheduled Jobs
-Surprisingly, not many people know about [Scheduled Jobs](https://devblogs.microsoft.com/scripting/introduction-to-powershell-scheduled-jobs/). They're not anything too strange or different, they're just scheduled tasks that are specificially powershell
+Surprisingly, not many people know about [Scheduled Jobs](https://devblogs.microsoft.com/scripting/introduction-to-powershell-scheduled-jobs/). They're not anything too strange or different, they're just scheduled tasks that are specificially powershell. 
 
 #### Find out what scheduled jobs are on the machine
 ```powershell
@@ -476,6 +476,14 @@ Ft -Property @{Label="ScheduledJob";Expression={$_.JobDefinition.Name}},ID,Enabl
 
 ![image](https://user-images.githubusercontent.com/44196051/120564784-92192700-c403-11eb-930a-3aa0ba178434.png)
 
+#### Kill job
+The following all work.
+```powershell
+Disable-ScheduledJob -Name evil_sched
+Unregister-ScheduledJob -Name eviler_sched
+Remove-Job -id 3
+#then double check it's gone with Get-ScheduledJob
+```
 
 ## File Queries
 ### Check if a specific file or path is alive. 
