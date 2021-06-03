@@ -39,7 +39,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 - [Malware](#Malware)
   * [Rapid Malware Analaysis](#rapid-malware-analaysis)
   * [Process Monitor](#process-monitor)
-  * [Hash check files](#Hash-check-files)
+  * [Hash Check Malware](#hash-check-malware)
 
 # Shell Style
 ### Give shell timestamp
