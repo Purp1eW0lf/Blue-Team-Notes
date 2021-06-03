@@ -44,6 +44,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Hash Check Malware](#hash-check-malware)
 - [SOC](#SOC)
   * [Sigma Converter](#sigma-converter)
+  * [SOC Prime](#soc-prime)
 
 
 # Shell Style
@@ -1028,4 +1029,14 @@ You can convert ONE standard Sigma rule into a range of other search syntax lang
 Here, we can see that a sigma rule for CS process injection is automtically converted from a standard sigma rule into a *Kibana Saved Search*
 
 ![image](https://user-images.githubusercontent.com/44196051/120666031-2a56f080-c484-11eb-907c-dad340bade0f.png)
+
+## SOC Prime
+
+[SOC Prime](https://tdm.socprime.com/) is a market place of Sigma rules for the latest and greatest exploits and vulnerabilities
+
+https://tdm.socprime.com/
+
+You can pick a rule here, and convert it there and then for the search langauge you use in your SOC
+
+![image](https://user-images.githubusercontent.com/44196051/120675130-b66d1600-c48c-11eb-9377-27098fce2283.png)
 
