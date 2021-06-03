@@ -1034,7 +1034,7 @@ Here, we can see that a sigma rule for CS process injection is automtically conv
 
 [SOC Prime](https://tdm.socprime.com/) is a market place of Sigma rules for the latest and greatest exploits and vulnerabilities
 
-https://tdm.socprime.com/
+![image](https://user-images.githubusercontent.com/44196051/120675327-def51000-c48c-11eb-8dcf-a07b98288661.png)
 
 You can pick a rule here, and convert it there and then for the search langauge you use in your SOC
 
