@@ -949,3 +949,35 @@ sha256sum file.txt
 ![2021-06-03_10-46](https://user-images.githubusercontent.com/44196051/120624759-e7335800-c458-11eb-9f67-4bfb1238f5f7.png)
 ![2021-06-03_10-54](https://user-images.githubusercontent.com/44196051/120625949-139ba400-c45a-11eb-997d-d6e33917efb5.png)
 
+
+## Check the hash
+
+### Virus Total
+One option is to compare the hash on [Virus Total](https://www.virustotal.com/gui/home/search)
+
+![image](https://user-images.githubusercontent.com/44196051/120631699-100b1b80-c460-11eb-87e7-bebe116b038a.png)
+
+Sometimes it's scary how many vendors' products don't show flag malware as malicious....
+
+![image](https://user-images.githubusercontent.com/44196051/120631921-5496b700-c460-11eb-8f02-3d276a74ed16.png)
+
+The details tab can often be enlightening too
+
+![image](https://user-images.githubusercontent.com/44196051/120632008-6d06d180-c460-11eb-9c19-758ef3bd9904.png)
+
+### Malware Bazaar
+[Malware Bazaar](https://bazaar.abuse.ch/) is a great alternative. It has more stuff than VT, but is a bit more difficult to use
+
+You'll need to prefix what you are searching with on Malware Bazaar. So, in our instance we have a `sha256` hash and need to explicitly search that.
+
+![image](https://user-images.githubusercontent.com/44196051/120632396-d4bd1c80-c460-11eb-94c3-af0f975d8b1f.png)
+
+Notice how much Malware Bazaar offers. You can go and get malware samples from here and download it yourself. 
+
+![image](https://user-images.githubusercontent.com/44196051/120632712-282f6a80-c461-11eb-8d84-7727d05df187.png)
+
+Sometimes, Malware Bazaar offers insight into the malware is delivered too
+
+![image](https://user-images.githubusercontent.com/44196051/120632964-7cd2e580-c461-11eb-8a37-1dcf3506f90e.png)
+
+
