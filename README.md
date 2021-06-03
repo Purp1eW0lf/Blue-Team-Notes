@@ -934,11 +934,13 @@ Changing the hash of a file is easily done. So don't rely on this method. You co
 And BTW, do your best NOT to upload the binary to VT or the like, the straight away. Adversaries wait to see if their malware is uploaded to such blue team websites, as it gives them an indication they have been burned. This isn't to say DON'T ever share the malware. Of course share with the community....but wait unitl you have stopped their campaign in your environment
 
 ### Collect the hash
+In Windows
 ```powershell
 get-filehash file.txt
 # optionally pipe to |fl or | ft
 ```
-OR
+
+In Linux
 ```bash
 sha256sum file.txt
 ```
