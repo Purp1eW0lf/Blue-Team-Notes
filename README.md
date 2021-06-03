@@ -33,12 +33,13 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 - [Linux](#linux)
   * [Bash History](#bash-history)
   * [Grep and Ack](#grep-and-ack)
-  * [Rapid Malware Analaysis](#rapid-malware-analaysis)
   * [Processes and Networks](#processes-and-networks)
   * [Files](#files)
   * [Bash Tips](#bash-tips)
 - [Malware](#Malware)
+  * [Rapid Malware Analaysis](#rapid-malware-analaysis)
   * [Process Monitor](#process-monitor)
+  * [Hash check files](#Hash-check-files)
 
 # Shell Style
 ### Give shell timestamp
@@ -765,29 +766,6 @@ ack -i '127.0.0.1|1.1.1.1' --passthru file.txt
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120458382-24331800-c38f-11eb-9527-4c6682be2f5c.png)
 
-## Rapid Malware Analaysis
-### Capa
-[Capa](https://github.com/fireeye/capa) is a great tool to quickly examine wtf a binary does. This tool is great, it previously helped me identify a keylogger that was pretending to be an update.exe for a program
-
-Usage
-```bash
-./capa malware.exe > malware.txt
-# I tend to do normal run and then verbose
-./capa -vv malware.exe >> malware.txt
-cat malware.txt
-```
-![image](https://user-images.githubusercontent.com/44196051/119991809-c1720300-bfc1-11eb-8409-6523a9b0019b.png)
-
-Example of Capa output for the keylogger
-![image](https://user-images.githubusercontent.com/44196051/119991358-44df2480-bfc1-11eb-9e6f-23ff445a4900.png)
-
-### Strings
-Honestly, when you're pressed for time don't knock `strings`. It's helped me out when I'm under pressure and don't have time to go and disassemble a compiled binary.
-
-Strings is great as it can sometimes reveal what a binary is doing and give you a hint what to expect - for example, it may include a hardcoded malicious IP.
-![image](https://user-images.githubusercontent.com/44196051/120565891-f2a96380-c405-11eb-925c-2471fa3673fe.png)
-
-
 ## Processes and Networks
 ### Track parent-child processes easier
 ```bash
@@ -877,6 +855,31 @@ history
 ![image](https://user-images.githubusercontent.com/44196051/120556698-c3d6c180-c3f4-11eb-967d-c5ff873ebb56.png)
 
 # Malware
+
+## Rapid Malware Analaysis
+
+### Capa
+[Capa](https://github.com/fireeye/capa) is a great tool to quickly examine wtf a binary does. This tool is great, it previously helped me identify a keylogger that was pretending to be an update.exe for a program
+
+Usage
+```bash
+./capa malware.exe > malware.txt
+# I tend to do normal run and then verbose
+./capa -vv malware.exe >> malware.txt
+cat malware.txt
+```
+![image](https://user-images.githubusercontent.com/44196051/119991809-c1720300-bfc1-11eb-8409-6523a9b0019b.png)
+
+Example of Capa output for the keylogger
+![image](https://user-images.githubusercontent.com/44196051/119991358-44df2480-bfc1-11eb-9e6f-23ff445a4900.png)
+
+### Strings
+Honestly, when you're pressed for time don't knock `strings`. It's helped me out when I'm under pressure and don't have time to go and disassemble a compiled binary.
+
+Strings is great as it can sometimes reveal what a binary is doing and give you a hint what to expect - for example, it may include a hardcoded malicious IP.
+![image](https://user-images.githubusercontent.com/44196051/120565891-f2a96380-c405-11eb-925c-2471fa3673fe.png)
+
+
 ## Process Monitor
 [ProcMon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) is a great tool to figure out what a potentially malicious binary is doing on an endpoint.
 
@@ -885,6 +888,7 @@ There are plenty of alternatives to monitor the child processes that a parent sp
 ### Process Monitor: Keylogger Example
 Let's go through a small investigation together, focusing on a real life keylogger found in an incident
 
+#### Clearing and Filtering
 When I get started with ProcMon, I have a bit of a habit. I stop capture, clear the hits, and then begin capture again. The screenshot details this as steps 1, 2, and 3. 
 
 ![2021-06-03_10-12](https://user-images.githubusercontent.com/44196051/120619727-2d39ed00-c454-11eb-80d3-4547928a1db6.png)
@@ -892,6 +896,8 @@ When I get started with ProcMon, I have a bit of a habit. I stop capture, clear 
 I then like to go to filter by process tree, and see what processes are running
 
 ![2021-06-03_10-20](https://user-images.githubusercontent.com/44196051/120620977-62930a80-c455-11eb-85e4-3062fbaadee4.png)
+
+#### Process tree
 
 When we look at the process tree, we can see something called Keylogger.exe is running!
 
@@ -901,6 +907,8 @@ Right-click, and add the parent-child processes to the filter, so we can investi
 
 ![2021-06-03_10-24](https://user-images.githubusercontent.com/44196051/120621605-eea53200-c455-11eb-9769-96e489708280.png)
 
+#### Honing in on a child-process
+
 ProcMon says that keylogger.exe writes something to a particular file....
 
 ![2021-06-03_10-27](https://user-images.githubusercontent.com/44196051/120621914-42178000-c456-11eb-8adf-a43f4249ed08.png)
@@ -909,9 +917,30 @@ You can right click and see the properties
 
 ![2021-06-03_10-30](https://user-images.githubusercontent.com/44196051/120622483-c2d67c00-c456-11eb-8746-ee8bb9a65bf6.png)
 
+#### Zero in on malice
 
 And if we go to that particular file, we can see the keylogger was outputting our keystrokes to the policy.vpol file
 
 ![2021-06-03_10-29](https://user-images.githubusercontent.com/44196051/120622218-8571ee80-c456-11eb-9b23-ed31ef4ec04e.png)
 
 That's that then, ProcMon helped us figure out what a suspicious binary was up to!
+
+## Hash Check Malware
+
+#### Word of Warning
+Changing the hash of a file is easily done. So don't rely on this method. You could very well check the hash on virus total and it says 'not malicious', when in fact it is recently compiled by the adversary and therefore the hash is not a known-bad
+
+And BTW, do your best NOT to upload the binary to VT or the like, the straight away. Adversaries wait to see if their malware is uploaded to such blue team websites, as it gives them an indication they have been burned. This isn't to say DON'T ever share the malware. Of course share with the community....but wait unitl you have stopped their campaign in your environment
+
+### Collect the hash
+```powershell
+get-filehash file.txt
+# optionally pipe to |fl or | ft
+```
+OR
+```bash
+sha256sum file.txt
+```
+![2021-06-03_10-46](https://user-images.githubusercontent.com/44196051/120624759-e7335800-c458-11eb-9f67-4bfb1238f5f7.png)
+![2021-06-03_10-54](https://user-images.githubusercontent.com/44196051/120625949-139ba400-c45a-11eb-997d-d6e33917efb5.png)
+
