@@ -42,6 +42,9 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Rapid Malware Analaysis](#rapid-malware-analaysis)
   * [Process Monitor](#process-monitor)
   * [Hash Check Malware](#hash-check-malware)
+- [SOC](#SOC)
+  * [Sigma Converter](#sigma-converter)
+
 
 # Shell Style
 ### Give shell timestamp
@@ -1011,4 +1014,18 @@ Sometimes, Malware Bazaar offers insight into the malware is delivered too
 
 ![image](https://user-images.githubusercontent.com/44196051/120632964-7cd2e580-c461-11eb-8a37-1dcf3506f90e.png)
 
+# SOC
+
+## Sigma Converter
+
+The TL;DR of [Sigma](https://github.com/SigmaHQ/sigma) is that it's awesome. I won't go into detail on what Sigma is, but I will tell you about an awesome tool that lets you convert sigma rules into whatever syntax your SOC uses: [Uncoder](https://uncoder.io/) 
+
+You can convert ONE standard Sigma rule into a range of other search syntax languages automatically
+![image](https://user-images.githubusercontent.com/44196051/120665902-16ab8a00-c484-11eb-992d-621decf78a0c.png)
+
+### Uncoder Example: Colbalt Strike
+
+Here, we can see that a sigma rule for CS process injection is automtically converted from a standard sigma rule into a *Kibana Saved Search*
+
+![image](https://user-images.githubusercontent.com/44196051/120666031-2a56f080-c484-11eb-907c-dad340bade0f.png)
 
