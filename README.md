@@ -885,9 +885,11 @@ Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\**\*"  | ft -property PSC
 
 #### Filtering Reg ImagePath
 
-Remember above, we saw the ImagePath had the value of C:\temp\evil.exe. And we're seeing a load of .sys here. So can we specifically just look for .exes in the ImagePath. I have to mention, don't write .sys files off as harmless. Rootkits and bootkits weaponise .sys, for example.
-
 Let's continue to use the \Services\ reg as our example. But we could look at any of the registeries.
+
+Remember in the above example of a malicious reg, we saw the ImagePath had the value of C:\temp\evil.exe. And we're seeing a load of .sys here. So can we specifically just filter for .exes in the ImagePath. 
+
+I have to mention, don't write .sys files off as harmless. Rootkits and bootkits weaponise .sys, for example.
 
 ```powershell
 Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
