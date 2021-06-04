@@ -110,8 +110,12 @@ source ~/.bashrc
     <summary>section contents</summary>
   
   + [Get OS and Pwsh info](#get-os-and-pwsh-info)
-    - [Get Fully Qualified Domain Name](#get-fully-qualified-domain-name)
-    - [CMD](#cmd)
+  + [Get Fully Qualified Domain Name](#get-fully-qualified-domain-name)
+  + [Time info](#time-info)
+    - [Human Readable](#human-readable)
+    - [Machine comparable](#machine-comparable)
+    - [Compare UTC time from Local time](#compare-utc-time-from-local-time)
+
 
 </details>
   
