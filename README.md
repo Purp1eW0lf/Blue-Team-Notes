@@ -460,6 +460,7 @@ Remove-SmbShare -Name MaliciousShare  -Confirm:$false
 ---
 
 ## Process Queries
+
 <details>
     <summary>section contents</summary>
   
@@ -474,7 +475,6 @@ Remove-SmbShare -Name MaliciousShare  -Confirm:$false
   + [Stop a Process](#stop-a-process)
   
 </details>
-
 
 ### Processes and TCP Connections
 Collect the owningprocess of the TCP connections, and then ask get-process to filter and show processes that make network communications
@@ -653,6 +653,22 @@ Remove-Job -id 3
 ---
 
 ## File Queries
+
+<details>
+    <summary>section contents</summary>
+
+  + [Check if a specific file or path is alive.](#check-if-a-specific-file-or-path-is-alive)
+  + [test if  files and directories are present or absent](#test-if--files-and-directories-are-present-or-absent)
+  + [Query File Contents](#query-file-contents)
+    - [Alternate data streams](#alternate-data-streams)
+    - [Read hex of file](#read-hex-of-file)
+  + [Recursively look for particular file types, and once you find the files get their hashes](#recursively-look-for-particular-file-types--and-once-you-find-the-files-get-their-hashes)
+  + [Compare two files' hashes](#compare-two-files--hashes)
+  + [Find files written after X date](#find-files-written-after-x-date)
+  + [copy multiple files to new location](#copy-multiple-files-to-new-location)
+ 
+</details>
+
 ### Check if a specific file or path is alive. 
 
 I've found that this is a great one to quickly check for specific vulnerabilities. Take for example, CVE-2021-21551. The one below this one is an excellent way of utilising the 'true/false' binary results that test-path can give
@@ -754,7 +770,17 @@ copy-item "C:\windows\System32\winevt\Logs\Security.evtx", "C:\windows\System32\
 
 ## Reg Queries
 
-#### Show reg keys
+<details>
+    <summary>section contents</summary>
+
+  + [Show reg keys](#show-reg-keys)
+  + [Read a reg entry](#read-a-reg-entry)
+  + [Remove a reg entry](#remove-a-reg-entry)
+
+
+</details>
+
+### Show reg keys
 ```powershell
 ##show all reg keys
 (Gci -Path Registry::).name
@@ -767,13 +793,13 @@ copy-item "C:\windows\System32\winevt\Logs\Security.evtx", "C:\windows\System32\
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119998273-75768c80-bfc8-11eb-869a-807a140d7a52.png)
 
-#### Read a reg entry
+### Read a reg entry
 ```powershell
  Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\SysmonDrv"
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119994436-832a1300-bfc4-11eb-98cb-b4148413ac97.png)
 
-#### Remove a reg entry
+### Remove a reg entry
 If there's a malicious reg entry, you can remove it this way
 ```powershell
 # Read the reg to make sure this is the bad boy you want
@@ -788,6 +814,18 @@ get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\'
 ---
 
 ## Log Troubleshooting 
+
+<details>
+    <summary>section contents</summary>
+  
+  + [Show Logs](#show-logs)
+    - [Overview of what a specific log is up to](#overview-of-what-a-specific-log-is-up-to)
+    - [Specifically get the last time a log was written to](#specifically-get-the-last-time-a-log-was-written-to)
+    - [Compare the date and time a log was last written to](#compare-the-date-and-time-a-log-was-last-written-to)
+  + [WinRM & WECSVC permissions](#winrm---wecsvc-permissions)
+
+</details>
+
 I've tended to use these commands to troubleshoot Windows Event Forwarding and other log related stuff
 
 ### Show Logs
@@ -823,7 +861,7 @@ if ($a -eq $null){Write-host "sysmon_working"} else {Write-host "$env:computerna
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119979908-72bd6c80-bfb3-11eb-9bff-856ebcc01375.png)
 
-#### WinRM & WECSVC permissions
+### WinRM & WECSVC permissions
 Test the permissions of winrm - used to see windows event forwarding working, which uses winrm usually on endpoints and wecsvc account on servers
 ```cmd
 netsh http show urlacl url=http://+:5985/wsman/ && netsh http show urlacl url=https://+:5986/wsman/
@@ -833,10 +871,19 @@ netsh http show urlacl url=http://+:5985/wsman/ && netsh http show urlacl url=ht
 ---
 
 ## Code Red
-### Disconnect network adaptor, firewall the fuck out of an endpoint, and display warning box
+<details>
+    <summary>section contents</summary>
+
+  + [Isolate Endpoint](#isolate-endpoint)
+
+</details>
+### Isolate Endpoint
+Disconnect network adaptor, firewall the fuck out of an endpoint, and display warning box
+
 This is a code-red command. Used to isolate a machine in an emergency.
-Will isolate a machine and display a warning box. 
+
 In the penultimate and final line, you can change the text and title that will pop up for the user
+
 ```powershell
 New-NetFirewallRule -DisplayName "Block all outbound traffic" -Direction Outbound -Action Block | out-null; 
 New-NetFirewallRule -DisplayName "Block all inbound traffic" -Direction Inbound -Action Block | out-null; 
