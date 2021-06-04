@@ -280,6 +280,15 @@ Reset-ComputerMachinePassword
 
 ## Service Queries
 
+<details>
+    <summary>section contents</summary>
+
+  + [Show Services & Service Accounts](#show-services---service-accounts)
+  + [Hone in on specific Service](#hone-in-on-specific-service)
+  + [Kill a service](#kill-a-service)
+  
+</details>
+
 ### Show Services & Service Accounts
 Utilise Get-WmiObject(gwmi) to show all service accounts on a machine, and then sort to show the running accounts first and the stopped accounts second.
 
@@ -309,6 +318,18 @@ Get-Service -DisplayName "meme_service" | Stop-Service -force -confirm
 ---
 
 ## Network Queries
+
+<details>
+    <summary>section contents</summary>
+
+  + [Find internet established connections, and sort by time established](#find-internet-established-connections--and-sort-by-time-established)
+  + [Sort remote IP connections, and then unique them](#sort-remote-ip-connections--and-then-unique-them)
+    - [Hone in on a suspicious IP](#hone-in-on-a-suspicious-ip)
+  + [Show UDP connections](#show-udp-connections)
+  + [Kill a connection](#kill-a-connection)
+
+</details>
+
 ### Find internet established connections, and sort by time established
 You can always sort by whatever value you want really. CreationTime is just an example
 ```powershell
