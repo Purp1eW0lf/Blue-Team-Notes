@@ -52,6 +52,13 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 
 
 # Shell Style
+###### Section Contents
+<details><summary>section contents</summary>
+<p>
+  * [OSInfo](#os-info)
+* [OSInfo](#os-info)
+</p>
+</details>
 ### Give shell timestamp
 For screenshots during IR, I like to have the date, time, and sometimes the timezone in my shell
 #### CMD
