@@ -376,6 +376,15 @@ stop-process -confirm (Get-Process -Id (Get-NetTCPConnection -RemoteAddress "1.2
 
 ## Firewall Queries
 
+<details>
+    <summary>section contents</summary>
+
+  + [Retreieve Firewall profile names](#retreieve-firewall-profile-names)
+    - [Retrieve rules of specific profile](#retrieve-rules-of-specific-profile)
+  + [Filter all firewall rules](#filter-all-firewall-rules)
+ 
+</details>
+
 ### Retreieve Firewall profile names
 ```powershell
 (Get-NetFirewallProfile).name
@@ -414,7 +423,16 @@ Get-NetFirewallRule -Enabled True -Direction Inbound
 
 ## SMB Queries
 
-#### List Shares
+<details>
+    <summary>section contents</summary>
+
+  + [List Shares](#list-shares)
+  + [List client-to-server SMB Connections](#list-client-to-server-smb-connections)
+  + [Remove an SMB Share](#remove-an-smb-share)
+
+</details>
+
+### List Shares
 ```powershell
   Get-SMBShare
 ```
@@ -442,8 +460,23 @@ Remove-SmbShare -Name MaliciousShare  -Confirm:$false
 ---
 
 ## Process Queries
+<details>
+    <summary>section contents</summary>
+  
+  + [Processes and TCP Connections](#processes-and-tcp-connections)
+  + [Show all processes and their associated user](#show-all-processes-and-their-associated-user)
+  + [Get specific info about the full path binary that a process is running](#get-specific-info-about-the-full-path-binary-that-a-process-is-running)
+  + [Is a specific process a running on a machine or not](#is-a-specific-process-a-running-on-a-machine-or-not)
+  + [Get process hash](#get-process-hash)
+  + [Show all DLLs loaded with a process](#show-all-dlls-loaded-with-a-process)
+  + [Identify process CPU usage](#identify-process-cpu-usage)
+    - [Sort by least CPU-intensive processes](#sort-by-least-cpu-intensive-processes)
+  + [Stop a Process](#stop-a-process)
+  
+</details>
 
-#### Processes and TCP COnnections
+
+### Processes and TCP Connections
 Collect the owningprocess of the TCP connections, and then ask get-process to filter and show processes that make network communications
 
 ```powershell
@@ -529,6 +562,21 @@ Get-Process -Name "memeprocess" | Stop-Process -Force
 ---
 
 ## Recurring Task Queries
+
+<details>
+    <summary>section contents</summary>
+  
+  + [Get a specific schtask](#get-a-specific-schtask)
+  + [Identify user-author of schtask](#identify-user-author-of-schtask)
+  + [To find the commands a task is running](#to-find-the-commands-a-task-is-running)
+  + [To stop the task](#to-stop-the-task)
+  + [Show what programs run at startup](#show-what-programs-run-at-startup)
+  + [Scheduled Jobs](#scheduled-jobs)
+    - [Find out what scheduled jobs are on the machine](#find-out-what-scheduled-jobs-are-on-the-machine)
+    - [Get detail behind scheduled jobs](#get-detail-behind-scheduled-jobs)
+    - [Kill job](#kill-job)
+
+</details>
 
 ### Get a specific schtask
 ```powershell
