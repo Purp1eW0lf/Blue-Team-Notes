@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="300" height="300" src="https://user-images.githubusercontent.com/44196051/120006585-f0dc3c00-bfd0-11eb-98d9-da3eb59edbda.png">
+  <img width="450" height="450" src="https://user-images.githubusercontent.com/44196051/120006585-f0dc3c00-bfd0-11eb-98d9-da3eb59edbda.png">
 </p>
 
 # Blue Team Notes
