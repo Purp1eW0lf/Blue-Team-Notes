@@ -569,6 +569,11 @@ Select-Object -property hash, path
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119977578-887d6280-bfb0-11eb-9e56-fad64296128f.png)
 
+### Compare two files' hashes
+```powershell
+get-filehash "C:\windows\sysmondrv.sys" , "C:\Windows\HelpPane.exe"
+```
+![image](https://user-images.githubusercontent.com/44196051/120772800-97b46100-c518-11eb-84bf-409640c516bc.png)
 
 ### Find files written after X date
 I personally wouldn't use this for DFIR. It's easy to manipulate timestamps....plus, Windows imports the original compiled date for some files and binaries if I'm not mistaken
