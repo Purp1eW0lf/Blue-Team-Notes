@@ -108,11 +108,12 @@ source ~/.bashrc
 
 <details>
     <summary>section contents</summary>
-+ [Get OS and Pwsh info](#get-os-and-pwsh-info)
+  
+  + [Get OS and Pwsh info](#get-os-and-pwsh-info)
     - [Get Fully Qualified Domain Name](#get-fully-qualified-domain-name)
-   
- </details>
+    - [CMD](#cmd)
 
+</details>
   
 ### Get OS and Pwsh info
 This will print out the hostname, the OS build info, and the powershell version
