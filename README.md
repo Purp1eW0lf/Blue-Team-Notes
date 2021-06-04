@@ -860,9 +860,15 @@ Now we know how reg entries are compromised, how can we search?
 The below takes the services reg as an example, and searches for specifically just the reg-key Name and Image Path. 
  
 ```powershell
+# This one-liner is over-engineered. The below one-liner is a better, succint alternative
 $keys = Get-ChildItem -Path "HKLM:\System\CurrentControlSet\services\";
 $Items = $Keys | Foreach-Object {Get-ItemProperty $_.PsPath };
 ForEach ($Item in $Items) {"{0,-35} {1,-10} " -f $Item.PSChildName, $Item.ImagePath} 
+
+# This command is the MUCH easier than the above. 
+Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*"  | select-object -property PSChildName, ImagePath  | ft -wrap
+#You can search recursively with this, kind of, if you use wildcards in the path names. Will take longer if you do recursively search though
+Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\**\*"  | select-object -property PSChildName, ImagePath  | ft -wrap 
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120826886-ccdda500-c552-11eb-923f-d9f5d76168d9.png)
 
@@ -871,6 +877,7 @@ ForEach ($Item in $Items) {"{0,-35} {1,-10} " -f $Item.PSChildName, $Item.ImageP
 Remember above, we saw the ImagePath had the value of C:\temp\evil.exe. And we're seeing a load of .sys here. So can we specifically just look for .exes in the ImagePath
 
 ```powershell
+
 ```
 
 ---
