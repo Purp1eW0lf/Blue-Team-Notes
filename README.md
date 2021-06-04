@@ -57,9 +57,9 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   <summary>section contents</summary>
 
 + [Give shell timestamp](#give-shell-timestamp)
-      - [CMD](#cmd)
-      - [Pwsh](#pwsh)
-      - [Bash](#bash)
+  - [CMD](#cmd)
+  - [Pwsh](#pwsh)
+  - [Bash](#bash)
 
 </details>
 
