@@ -776,6 +776,7 @@ copy-item "C:\windows\System32\winevt\Logs\Security.evtx", "C:\windows\System32\
   + [Show reg keys](#show-reg-keys)
   + [Read a reg entry](#read-a-reg-entry)
   + [Remove a reg entry](#remove-a-reg-entry)
+  + [Example Malicious Reg](#example-malicious-reg)
 
 
 </details>
@@ -810,6 +811,67 @@ get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\' | Remove-Item -force
 get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\'
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119999624-d8b4ee80-bfc9-11eb-9770-5ec6e78f9714.png)
+
+### Understanding Reg Permissions
+
+Reg permissions, and ACL and SDDL in general really, are a bit long to understand. But worth it, as adversaries like using the reg.
+
+Adversaries will look for registries with loose permissions, so let's show how we first can identify loose permissions
+
+#### Get-ACl
+
+The Access Control List (ACL) considers the permissions associated with an object on a Windows machine. It's how the machine understands privileges, and who is allowed to do what.
+
+Problem is, if you get and `get-acl` for a particular object, it ain't a pretty thing
+
+```powershell
+Get-Acl -Path hklm:\System\CurrentControlSet\services\ | fl
+```
+There's a lot going on here. Moreover, what the fuck is that SDDL string at the bottom? 
+
+The Security Descriptor Definition Language (SDDL) is a representation for ACL permissions, essentially
+
+![image](https://user-images.githubusercontent.com/44196051/120821264-378be200-c54d-11eb-8ca6-436393b3fb8e.png)
+
+#### Convert SDDL
+You could figure out what the wacky ASCII chunks mean in SDDL....but I'd much rather convert the permissions to something human readable
+
+Here, an adversary is looking for a user they control to have permissions to maniptulate the service, likely they want *Full Control*
+```powershell
+$acl = Get-Acl -Path hklm:\System\CurrentControlSet\services\;
+ConvertFrom-SddlString -Sddl $acl.Sddl | Foreach-Object {$_.DiscretionaryAcl[0]};
+ConvertFrom-SddlString -Sddl $acl.Sddl -Type RegistryRights | Foreach-Object {$_.DiscretionaryAcl[0]}
+# bottom one specifices the  registry access rights when you create RegistrySecurity objects
+```
+![image](https://user-images.githubusercontent.com/44196051/120823443-58edcd80-c54f-11eb-850f-4f0049bcae95.png)
+
+
+#### What could they do?
+
+An adversary in control of a loosely permissioned registry entry for a service, for example, could give themselves a privesc or persistence. For example:
+```powershelll
+#don't actually run this
+Set-ItemProperty -path HKLM:\System\CurrentControlSet\services\example_service -name ImagePath -value "C:\temp\evil.exe"
+```
+### Hunting for Reg evil
+
+Now we know how reg entries are compromised, how can we search? 
+
+The below takes the services reg as an example, and searches for specifically just the reg-key Name and Image Path. 
+ 
+```powershell
+$keys = Get-ChildItem -Path "HKLM:\System\CurrentControlSet\services\";
+$Items = $Keys | Foreach-Object {Get-ItemProperty $_.PsPath };
+ForEach ($Item in $Items) {"{0,-35} {1,-10} " -f $Item.PSChildName, $Item.ImagePath} 
+```
+![image](https://user-images.githubusercontent.com/44196051/120826886-ccdda500-c552-11eb-923f-d9f5d76168d9.png)
+
+#### Filtering Reg ImagePath
+
+Remember above, we saw the ImagePath had the value of C:\temp\evil.exe. And we're seeing a load of .sys here. So can we specifically just look for .exes in the ImagePath
+
+```powershell
+```
 
 ---
 
