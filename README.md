@@ -50,7 +50,6 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 
 ---
 
-
 # Shell Style
 
 <details>
@@ -212,6 +211,20 @@ For example in our screenshot, on the left Microsoft's support page supposes the
 ---
 
 ## Account Queries
+
+<details>
+    <summary>section contents</summary>
+
+  + [Users recently created in Active Directory](#users-recently-created-in-active-directory)
+  + [Hone in on suspicious user](#hone-in-on-suspicious-user)
+  + [Retrieve local user accounts that are enabled](#retrieve-local-user-accounts-that-are-enabled)
+  + [Find all users currently logged in](#find-all-users-currently-logged-in)
+  + [Computer / Machine Accounts](#computer---machine-accounts)
+    - [Show machine accounts that are apart of interesting groups.](#show-machine-accounts-that-are-apart-of-interesting-groups)
+    - [Reset password for a machine account.](#reset-password-for-a-machine-account)
+
+</details>
+
 ### Users recently created in Active Directory
 *Run on a Domain Controller*.
 
