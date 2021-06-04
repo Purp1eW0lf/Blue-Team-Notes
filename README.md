@@ -115,7 +115,12 @@ source ~/.bashrc
     - [Human Readable](#human-readable)
     - [Machine comparable](#machine-comparable)
     - [Compare UTC time from Local time](#compare-utc-time-from-local-time)
-
+  + [Update Info](#update-info)
+    - [Get Patches](#get-patches)
+    - [Manually check if patch has taken](#manually-check-if-patch-has-taken)
+      * [Microsoft Support Page](#microsoft-support-page)
+      * [On Host](#on-host)
+      * [Discrepencies](#discrepencies)
 
 </details>
   
