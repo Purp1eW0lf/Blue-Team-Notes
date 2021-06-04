@@ -52,8 +52,8 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 
 
 # Shell Style
-<sub><sup>
-  <details>
+
+<details>
     <summary>section contents</summary>
 
   + [Give shell timestamp](#give-shell-timestamp)
@@ -61,8 +61,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
     - [Pwsh](#pwsh)
     - [Bash](#bash)
 
-  </details>
-</sup></sub>
+</details>
 
 ### Give shell timestamp
 For screenshots during IR, I like to have the date, time, and sometimes the timezone in my shell
@@ -104,7 +103,17 @@ source ~/.bashrc
 ![image](https://user-images.githubusercontent.com/44196051/119981537-a7cabe80-bfb5-11eb-8b7e-1e5ba7f5ba99.png)
 ---
 # Powershell
+
 ## OS Info
+
+<details>
+    <summary>section contents</summary>
++ [Get OS and Pwsh info](#get-os-and-pwsh-info)
+    - [Get Fully Qualified Domain Name](#get-fully-qualified-domain-name)
+   
+ </details>
+
+  
 ### Get OS and Pwsh info
 This will print out the hostname, the OS build info, and the powershell version
 ```powershell
@@ -115,7 +124,7 @@ write-host "$env:computername is a $Bit $Build with Pwsh $V
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120313634-2be0b700-c2d2-11eb-919f-5792169a1dba.png)
 
-#### Get Fully Qualified Domain Name
+## Get Fully Qualified Domain Name
 ```powershell
 ([System.Net.Dns]::GetHostByName(($env:computerName))).Hostname
 ```
