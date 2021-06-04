@@ -877,6 +877,7 @@ netsh http show urlacl url=http://+:5985/wsman/ && netsh http show urlacl url=ht
   + [Isolate Endpoint](#isolate-endpoint)
 
 </details>
+
 ### Isolate Endpoint
 Disconnect network adaptor, firewall the fuck out of an endpoint, and display warning box
 
@@ -896,6 +897,16 @@ Add-Type -AssemblyName PresentationCore,PresentationFramework;
 ---
 
 ## Powershell Tips
+
+<details>
+    <summary>section contents</summary>
+
+  + [Get Alias](#get-alias)
+  + [Clip](#clip)
+  + [Re-run commands](#re-run-commands)
+
+</details>
+
 ### Get Alias
 PwSh is great at abbreviating the commands. Unfortunately, when you're trying to read someone else's abbreviated PwSh it can be ballache to figure out exactly what each weird abbrevation does.
 
@@ -946,6 +957,14 @@ r 43
 This section is a bit dry, forgive me. My Bash DFIR tends to be a lot more spontaneous and therefore I don't write them down as much as I do the Pwsh one-liners
 
 ## Bash History
+
+<details>
+    <summary>section contents</summary>
+  
+  + [Add add timestamps to `.bash_history`](#add-add-timestamps-to--bash-history-)
+
+</details>
+
 Checkout the SANS DFIR talk by Half Pomeraz called [You don't know jack about .bash_history](https://www.youtube.com/watch?v=wv1xqOV2RyE). It's a terrifying insight into how weak bash history really is by default
 
 #### Add add timestamps to `.bash_history`
@@ -977,11 +996,20 @@ Then run the `history` command to see your timestamped bash history
 ---
 
 ## Grep and Ack
-#### Grep Regex extract IPv4
+
+<details>
+    <summary>section contents</summary>
+
+  + [Grep Regex extract IPv4](#grep-regex-extract-ipv4)
+  + [Use Ack to highlight!](#use-ack-to-highlight-)
+ 
+</details>
+
+### Grep Regex extract IPv4
 ```bash
 grep -E -o "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" file.txt | sort | uniq 
 ```
-#### Use Ack to highlight!
+### Use Ack to highlight!
 One thing I really like about Ack is that it can highlight words easily, which is great for screenshots and reporting. So take the above example, let's say we're looking for two specific IP, we can have ack filter and highlight those
 
 [Ack](https://linux.die.net/man/1/ack) is like Grep's younger, more refined brother. Has some of greps' flags as default, and just makes life a bit easier.
@@ -995,13 +1023,22 @@ ack -i '127.0.0.1|1.1.1.1' --passthru file.txt
 ---
 
 ## Processes and Networks
+
+<details>
+    <summary>section contents</summary>
+
+  + [Track parent-child processes easier](#track-parent-child-processes-easier)
+  + [Get a quick overview of network activity](#get-a-quick-overview-of-network-activity)
+  
+</details>
+
 ### Track parent-child processes easier
 ```bash
 ps -aux --forest
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120000069-54af3680-bfca-11eb-91a8-221562914878.png)
 
-#### Get a quick overview of network activity
+### Get a quick overview of network activity
 ```bash
 netstat -plunt
 #if you don't have netstat, try ss
@@ -1012,6 +1049,21 @@ ss -plunt
 ---
 
 ## Files
+
+<details>
+    <summary>section contents</summary>
+
+  + [Recursively look for particular file types, and once you find the files get their hashes](#recursively-look-for-particular-file-types--and-once-you-find-the-files-get-their-hashes-1)
+  + [Tree](#tree)
+    - [Tree and show the users who own the files and directories](#tree-and-show-the-users-who-own-the-files-and-directories)
+  + [Get information about a file](#get-information-about-a-file)
+  + [Files and Dates](#files-and-dates)
+    - [This one will print the files and their corresponding timestamp](#this-one-will-print-the-files-and-their-corresponding-timestamp)
+  + [Show all files created between two dates](#show-all-files-created-between-two-dates)
+
+</details>
+
+
 ### Recursively look for particular file types, and once you find the files get their hashes
 Here's the bash alternative
 ```bash
