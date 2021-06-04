@@ -777,11 +777,20 @@ copy-item "C:\windows\System32\winevt\Logs\Security.evtx", "C:\windows\System32\
   + [Read a reg entry](#read-a-reg-entry)
   + [Remove a reg entry](#remove-a-reg-entry)
   + [Example Malicious Reg](#example-malicious-reg)
+  + [Understanding Reg Permissions](#understanding-reg-permissions)
+  - [Get-ACl](#get-acl)
+    - [Convert SDDL](#convert-sddl)
+    - [What could they do?](#what-could-they-do-)
+  + [Hunting for Reg evil](#hunting-for-reg-evil)
+    - [Filtering Reg ImagePath](#filtering-reg-imagepath)
 
 
 </details>
 
 ### Show reg keys
+
+[Microsoft Docs](https://docs.microsoft.com/en-us/troubleshoot/windows-server/performance/windows-registry-advanced-users) detail the regs: their full names, abbrevated names, and what their subkeys generally house 
+
 ```powershell
 ##show all reg keys
 (Gci -Path Registry::).name
@@ -876,9 +885,9 @@ Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\**\*"  | ft -property PSC
 
 #### Filtering Reg ImagePath
 
-Remember above, we saw the ImagePath had the value of C:\temp\evil.exe. And we're seeing a load of .sys here. So can we specifically just look for .exes in the ImagePath
+Remember above, we saw the ImagePath had the value of C:\temp\evil.exe. And we're seeing a load of .sys here. So can we specifically just look for .exes in the ImagePath. I have to mention, don't write .sys files off as harmless. Rootkits and bootkits weaponise .sys, for example.
 
-I have to mention, don't write .sys files off as harmless. Rootkits and bootkits weaponise .sys, for example
+Let's continue to use the \Services\ reg as our example. But we could look at any of the registeries.
 
 ```powershell
 Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
@@ -900,6 +909,10 @@ ft -property PSChildName, ImagePath -wrap
 Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
 ? {($_.ImagePath -notlike "*.exe*" -and $_.Imagepath -notlike "*.sys*")} | 
 ft -property PSChildName, ImagePath -wrap
+
+#If you don't care about Reg Entry name, and just want the ImagePath
+(Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*").ImagePath  
+
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120833359-9bb4a300-c559-11eb-8647-69d990227dbb.png)
 
