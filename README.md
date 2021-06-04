@@ -25,6 +25,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Service Queries](#service-queries)
   * [User Queries](#user-queries)
   * [Network Queries](#network-queries)
+  * [Firewall Queries](#firewall-queries)
   * [SMB Queries](#smb-queries)
   * [Process Queries](#process-queries)
   * [Recurring Task Queries](#recurring-task-queries)
@@ -46,6 +47,8 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 - [SOC](#SOC)
   * [Sigma Converter](#sigma-converter)
   * [SOC Prime](#soc-prime)
+
+---
 
 
 # Shell Style
@@ -87,7 +90,7 @@ PS1='\[\033[00;35m\][`date  +"%d-%b-%y %T %Z"]` ${PWD#"${PWD%/*/*}/"}\n\[\033[01
 source ~/.bashrc
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119981537-a7cabe80-bfb5-11eb-8b7e-1e5ba7f5ba99.png)
-
+---
 # Powershell
 ## OS Info
 ### Get OS and Pwsh info
@@ -175,6 +178,8 @@ I've noticed that sometimes there is a couple days discrepency between dates.
 
 For example in our screenshot, on the left Microsoft's support page supposes the `EvenntsInstaller.dll` was written on the 13th January 2021. And yet our host on the right side of the screenshot comes up as the 14th January 2021. This is fine though, you've got that file don't sweat it. 
 
+---
+
 ## Account Queries
 ### Users recently created in Active Directory
 *Run on a Domain Controller*.
@@ -227,6 +232,7 @@ Also good for re-establishing trust if machine is kicked out of domain trust for
 ```powershell
 Reset-ComputerMachinePassword
 ```
+---
 
 ## Service Queries
 
@@ -255,6 +261,8 @@ gwmi -Class Win32_Service -Filter "Displayname = '$DisName' " | fl *
 ``` powershell
 Get-Service -DisplayName "meme_service" | Stop-Service -force -confirm
 ```
+
+---
 
 ## Network Queries
 ### Find internet established connections, and sort by time established
@@ -301,10 +309,9 @@ There's probably a better way to do this. But essentially, get the tcp connectio
 stop-process -confirm (Get-Process -Id (Get-NetTCPConnection -RemoteAddress "1.2.3.4" ).OwningProcess)
 ```
 
-### Firewall Queries
-Should this get it's own section? I _feel_ like it's part of network queries
+## Firewall Queries
 
-#### Retreieve Firewall profile names
+### Retreieve Firewall profile names
 ```powershell
 (Get-NetFirewallProfile).name
 ```
@@ -319,7 +326,7 @@ Get-NetFirewallProfile -Name Public | Get-NetFirewallRule | ? Enabled -eq "true"
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120560766-3cd91780-c3fb-11eb-9781-bf933c4b0efa.png)
 
-#### Filter all firewall rules
+### Filter all firewall rules
 ```powershell
 
 #show firewall rules that are enabled
@@ -338,9 +345,9 @@ Get-NetFirewallRule | where {($_.Enabled -eq "true" -and $_.Direction -eq "inbou
 Get-NetFirewallRule -Enabled True -Direction Inbound
 ```
 
-## SMB Queries
+---
 
-This is technically a network query? Maybe it deserves it's own catagory.
+## SMB Queries
 
 #### List Shares
 ```powershell
@@ -366,6 +373,8 @@ select Dialect, Servername, Sharename | sort Dialect
 ```powershell
 Remove-SmbShare -Name MaliciousShare  -Confirm:$false
 ```
+
+---
 
 ## Process Queries
 
@@ -452,6 +461,8 @@ Stop-Process -Name "memeprocess"
 Get-Process -Name "memeprocess" | Stop-Process -Force
 ```
 
+---
+
 ## Recurring Task Queries
 
 ### Get a specific schtask
@@ -525,6 +536,8 @@ Unregister-ScheduledJob -Name eviler_sched
 Remove-Job -id 3
 #then double check it's gone with Get-ScheduledJob
 ```
+
+---
 
 ## File Queries
 ### Check if a specific file or path is alive. 
@@ -624,6 +637,8 @@ Sort-Object -property LastWriteTime | format-table lastwritetime, fullname -auto
 copy-item "C:\windows\System32\winevt\Logs\Security.evtx", "C:\windows\System32\winevt\Logs\Windows PowerShell.evtx" -destination C:\temp
 ```
 
+---
+
 ## Reg Queries
 
 #### Show reg keys
@@ -656,6 +671,8 @@ get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\' | Remove-Item -force
 get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\'
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119999624-d8b4ee80-bfc9-11eb-9770-5ec6e78f9714.png)
+
+---
 
 ## Log Troubleshooting 
 I've tended to use these commands to troubleshoot Windows Event Forwarding and other log related stuff
@@ -700,6 +717,8 @@ netsh http show urlacl url=http://+:5985/wsman/ && netsh http show urlacl url=ht
 ``` 
 ![image](https://user-images.githubusercontent.com/44196051/119980070-ae583680-bfb3-11eb-8da7-51d7e5393599.png)
 
+---
+
 ## Code Red
 ### Disconnect network adaptor, firewall the fuck out of an endpoint, and display warning box
 This is a code-red command. Used to isolate a machine in an emergency.
@@ -713,6 +732,8 @@ Add-Type -AssemblyName PresentationCore,PresentationFramework;
 [System.Windows.MessageBox]::Show('Your Computer has been Disconnected from the Internet for Security Issues. Please do not try to re-connect to the internet. Contact Security Helpdesk Desk ',' CompanyNameHere Security Alert',[System.Windows.MessageBoxButton]::OK,[System.Windows.MessageBoxImage]::Information)
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119979598-0e9aa880-bfb3-11eb-9882-08d02a0d3026.png)
+
+---
 
 ## Powershell Tips
 ### Get Alias
@@ -759,6 +780,8 @@ r 43
 ![image](https://user-images.githubusercontent.com/44196051/120559078-48770f00-c3f8-11eb-8726-fd7e627df473.png)
 ![image](https://user-images.githubusercontent.com/44196051/120559222-8f650480-c3f8-11eb-9b84-ef98dc26cb5c.png)
 
+---
+
 # Linux
 This section is a bit dry, forgive me. My Bash DFIR tends to be a lot more spontaneous and therefore I don't write them down as much as I do the Pwsh one-liners
 
@@ -791,6 +814,8 @@ Then run the `history` command to see your timestamped bash history
 
 ![image](https://user-images.githubusercontent.com/44196051/119987113-9507b800-bfbc-11eb-8033-064c37f5fe26.png)
 
+---
+
 ## Grep and Ack
 #### Grep Regex extract IPv4
 ```bash
@@ -807,6 +832,8 @@ ack -i '127.0.0.1|1.1.1.1' --passthru file.txt
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120458382-24331800-c38f-11eb-9527-4c6682be2f5c.png)
 
+---
+
 ## Processes and Networks
 ### Track parent-child processes easier
 ```bash
@@ -821,6 +848,8 @@ netstat -plunt
 ss -plunt
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120000196-79a3a980-bfca-11eb-89ed-bbc87b4ca0bc.png)
+
+---
 
 ## Files
 ### Recursively look for particular file types, and once you find the files get their hashes
@@ -882,6 +911,8 @@ find -newerct "01 Jun 2021 18:30:00" ! -newerct "03 Jun 2021 19:00:00" -ls | sor
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120664969-460dc700-c483-11eb-8c1b-a2223549a97f.png)
 
+---
+
 ## Bash Tips
 ### Fixing Mistakes
 We all make mistakes, don't worry. Bash forgives you
@@ -926,6 +957,8 @@ history
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120556698-c3d6c180-c3f4-11eb-967d-c5ff873ebb56.png)
 
+---
+
 # Malware
 
 ## Rapid Malware Analaysis
@@ -952,6 +985,7 @@ Strings is great as it can sometimes reveal what a binary is doing and give you 
 
 ![image](https://user-images.githubusercontent.com/44196051/120565891-f2a96380-c405-11eb-925c-2471fa3673fe.png)
 
+---
 
 ## Process Monitor
 [ProcMon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) is a great tool to figure out what a potentially malicious binary is doing on an endpoint.
@@ -997,6 +1031,8 @@ And if we go to that particular file, we can see the keylogger was outputting ou
 ![2021-06-03_10-29](https://user-images.githubusercontent.com/44196051/120622218-8571ee80-c456-11eb-9b23-ed31ef4ec04e.png)
 
 That's that then, ProcMon helped us figure out what a suspicious binary was up to!
+
+---
 
 ## Hash Check Malware
 
@@ -1050,6 +1086,8 @@ Sometimes, Malware Bazaar offers insight into the malware is delivered too
 
 ![image](https://user-images.githubusercontent.com/44196051/120632964-7cd2e580-c461-11eb-8a37-1dcf3506f90e.png)
 
+---
+
 # SOC
 
 ## Sigma Converter
@@ -1064,6 +1102,8 @@ You can convert ONE standard Sigma rule into a range of other search syntax lang
 Here, we can see that a sigma rule for CS process injection is automtically converted from a standard sigma rule into a *Kibana Saved Search*
 
 ![image](https://user-images.githubusercontent.com/44196051/120666031-2a56f080-c484-11eb-907c-dad340bade0f.png)
+
+---
 
 ## SOC Prime
 
