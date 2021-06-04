@@ -25,6 +25,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Service Queries](#service-queries)
   * [User Queries](#user-queries)
   * [Network Queries](#network-queries)
+  * [SMB Queries](#smb-queries)
   * [Process Queries](#process-queries)
   * [Recurring Task Queries](#recurring-task-queries)
   * [File Queries](#file-queries)
@@ -337,7 +338,7 @@ Get-NetFirewallRule | where {($_.Enabled -eq "true" -and $_.Direction -eq "inbou
 Get-NetFirewallRule -Enabled True -Direction Inbound
 ```
 
-### SMB Share Queries
+## SMB Queries
 
 This is technically a network query? Maybe it deserves it's own catagory.
 
@@ -361,6 +362,10 @@ select Dialect, Servername, Sharename | sort Dialect
 
 ![image](https://user-images.githubusercontent.com/44196051/120797860-795c5e80-c534-11eb-87fb-cc02ca70b4b0.png)
 
+### Remove an SMB Share
+```powershell
+Remove-SmbShare -Name MaliciousShare  -Confirm:$false
+```
 
 ## Process Queries
 
