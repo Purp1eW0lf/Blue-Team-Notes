@@ -337,6 +337,31 @@ Get-NetFirewallRule | where {($_.Enabled -eq "true" -and $_.Direction -eq "inbou
 Get-NetFirewallRule -Enabled True -Direction Inbound
 ```
 
+### SMB Share Queries
+
+This is technically a network query? Maybe it deserves it's own catagory.
+
+#### List Shares
+```powershell
+  Get-SMBShare
+```
+![image](https://user-images.githubusercontent.com/44196051/120796972-5c735b80-c533-11eb-8502-888440c21e94.png)
+
+### List client-to-server SMB Connections
+Dialect just means verison. SMB3, SMB2 etc
+
+``` powershell
+Get-SmbConnection
+ 
+#just show SMB Versions being used. Great for enumeration flaws in enviro - i.e, smb1 being used somewhere
+Get-SmbConnection |
+select Dialect, Servername, Sharename | sort Dialect   
+```
+![image](https://user-images.githubusercontent.com/44196051/120797516-0eab2300-c534-11eb-9568-7753ad58cdf7.png)
+
+![image](https://user-images.githubusercontent.com/44196051/120797860-795c5e80-c534-11eb-87fb-cc02ca70b4b0.png)
+
+
 ## Process Queries
 
 #### Processes and TCP COnnections
