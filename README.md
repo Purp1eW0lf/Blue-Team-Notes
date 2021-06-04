@@ -3,7 +3,7 @@
 </p>
 
 # Blue Team Notes
-A collection of one-liners, small scripts, ans some useful tips for blue team work. 
+A collection of one-liners, small scripts, and some useful tips for blue team work. 
 
 The command line stuff tends to be Powershell, as these are the ones I forget the most. I've generally used these with [Velociraptor](https://www.velocidex.com), which can query thousands of endpoints at once.
 
