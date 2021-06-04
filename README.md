@@ -55,8 +55,8 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 ###### Section Contents
 <details><summary>section contents</summary>
 <p>
-  * [OSInfo](#os-info)
-* [OSInfo](#os-info)
+[CMD](#CMD)
+
 </p>
 </details>
 ### Give shell timestamp
