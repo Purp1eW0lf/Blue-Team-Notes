@@ -1126,6 +1126,17 @@ find -newerct "01 Jun 2021 18:30:00" ! -newerct "03 Jun 2021 19:00:00" -ls | sor
 ---
 
 ## Bash Tips
+
+<details>
+    <summary>section contents</summary>
+
+  + [Fixing Mistakes](#fixing-mistakes)
+    - [Forget to run as sudo?](#forget-to-run-as-sudo-)
+    - [Typos in a big old one liner?](#typos-in-a-big-old-one-liner-)
+    - [Re-run a command in History](#re-run-a-command-in-history)
+
+</details>
+
 ### Fixing Mistakes
 We all make mistakes, don't worry. Bash forgives you
 
@@ -1175,6 +1186,14 @@ history
 
 ## Rapid Malware Analaysis
 
+<details>
+    <summary>section contents</summary>
+
+  + [Capa](#capa)
+  + [Strings](#strings)
+
+</details>
+
 ### Capa
 [Capa](https://github.com/fireeye/capa) is a great tool to quickly examine wtf a binary does. This tool is great, it previously helped me identify a keylogger that was pretending to be an update.exe for a program
 
@@ -1200,6 +1219,15 @@ Strings is great as it can sometimes reveal what a binary is doing and give you 
 ---
 
 ## Process Monitor
+
+<details>
+    <summary>section contents</summary>
+
+  + [Process Monitor: Keylogger Example](#process-monitor--keylogger-example)
+  
+</details>
+
+
 [ProcMon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) is a great tool to figure out what a potentially malicious binary is doing on an endpoint.
 
 There are plenty of alternatives to monitor the child processes that a parent spawns, like [any.run](https://any.run/). But I'd like to focus on the free tools to be honest.
@@ -1247,6 +1275,17 @@ That's that then, ProcMon helped us figure out what a suspicious binary was up t
 ---
 
 ## Hash Check Malware
+
+<details>
+    <summary>section contents</summary>
+
+  + [Give shell timestamp](#give-shell-timestamp)
+    - [CMD](#cmd)
+    + [Collect the hash](#collect-the-hash)
+    + [Check the hash](#check-the-hash)
+      - [Virus Total](#virus-total)
+      - [Malware Bazaar](#malware-bazaar)
+</details>
 
 #### Word of Warning
 Changing the hash of a file is easily done. So don't rely on this method. You could very well check the hash on virus total and it says 'not malicious', when in fact it is recently compiled by the adversary and therefore the hash is not a known-bad
