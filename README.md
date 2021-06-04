@@ -866,9 +866,11 @@ $Items = $Keys | Foreach-Object {Get-ItemProperty $_.PsPath };
 ForEach ($Item in $Items) {"{0,-35} {1,-10} " -f $Item.PSChildName, $Item.ImagePath} 
 
 # This command is the MUCH easier than the above. 
-Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*"  | select-object -property PSChildName, ImagePath  | ft -wrap
+Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*"  | ft -property PSChildName, ImagePath -wrap
 #You can search recursively with this, kind of, if you use wildcards in the path names. Will take longer if you do recursively search though
-Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\**\*"  | select-object -property PSChildName, ImagePath  | ft -wrap 
+Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\**\*"  | ft -property PSChildName, ImagePath -wrap
+#We have to wrap and it looks ugly I know
+
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120826886-ccdda500-c552-11eb-923f-d9f5d76168d9.png)
 
@@ -876,9 +878,30 @@ Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\**\*"  | select-object -p
 
 Remember above, we saw the ImagePath had the value of C:\temp\evil.exe. And we're seeing a load of .sys here. So can we specifically just look for .exes in the ImagePath
 
-```powershell
+I have to mention, don't write .sys files off as harmless. Rootkits and bootkits weaponise .sys, for example
 
+```powershell
+Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
+where ImagePath -like "*.exe*" | 
+ft -property PSChildName, ImagePath -wrap
+
+# if you notice, on line two we wrap in TWO *.exe* in wildcards. Why? 
+  # The first wildcard is to ensure we're kind of 'grepping' for a file that ends in a .exe. 
+    # Without the first wildcard, we'd be looking for literal .exe
+  # The second wildcard is to ensure we're looking for the things that come after the .exe
+     # This is to make sure we aren't losine the flags and args of an executable
+
+# We can filter however we wish, so we can actively NOT look for .exes
+Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
+where ImagePath -notlike "*.exe*" | 
+ft -property PSChildName, ImagePath -wrap
+
+#fuck it, double stack your filters to not look for an exe or a sys...not sure why, but go for it!
+Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
+? {($_.ImagePath -notlike "*.exe*" -and $_.Imagepath -notlike "*.sys*")} | 
+ft -property PSChildName, ImagePath -wrap
 ```
+![image](https://user-images.githubusercontent.com/44196051/120833359-9bb4a300-c559-11eb-8647-69d990227dbb.png)
 
 ---
 
