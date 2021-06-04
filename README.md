@@ -52,17 +52,17 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 
 
 # Shell Style
+<sub><sup>
+  <details>
+    <summary>section contents</summary>
 
-<details>
-  <summary>section contents</summary>
+  + [Give shell timestamp](#give-shell-timestamp)
+    - [CMD](#cmd)
+    - [Pwsh](#pwsh)
+    - [Bash](#bash)
 
-+ [Give shell timestamp](#give-shell-timestamp)
-  - [CMD](#cmd)
-  - [Pwsh](#pwsh)
-  - [Bash](#bash)
-
-</details>
-
+  </details>
+</sup></sub>
 ### Give shell timestamp
 For screenshots during IR, I like to have the date, time, and sometimes the timezone in my shell
 #### CMD
