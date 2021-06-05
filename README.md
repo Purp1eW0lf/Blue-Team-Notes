@@ -814,7 +814,7 @@ If there's a malicious reg entry, you can remove it this way
 # Read the reg to make sure this is the bad boy you want
 get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\'
 #remove it by piping it to remove-item
-get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\' | Remove-Item -force
+get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\' | Remove-Item -Force -Confirm:$false
 # double check it's gone by trying to re-read it
 get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\'
 ```
