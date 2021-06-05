@@ -1386,12 +1386,11 @@ That's that then, ProcMon helped us figure out what a suspicious binary was up t
 <details>
     <summary>section contents</summary>
 
-  + [Give shell timestamp](#give-shell-timestamp)
-    - [CMD](#cmd)
-    + [Collect the hash](#collect-the-hash)
-    + [Check the hash](#check-the-hash)
-      - [Virus Total](#virus-total)
-      - [Malware Bazaar](#malware-bazaar)
+  + [Collect the hash](#collect-the-hash)
+  + [Check the hash](#check-the-hash)
+    - [Virus Total](#virus-total)
+    - [Malware Bazaar](#malware-bazaar)
+
 </details>
 
 #### Word of Warning
