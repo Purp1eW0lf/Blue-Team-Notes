@@ -857,7 +857,7 @@ ConvertFrom-SddlString -Sddl $acl.Sddl -Type RegistryRights | Foreach-Object {$_
 #### What could they do?
 
 An adversary in control of a loosely permissioned registry entry for a service, for example, could give themselves a privesc or persistence. For example:
-```powershelll
+```powershell
 #don't actually run this
 Set-ItemProperty -path HKLM:\System\CurrentControlSet\services\example_service -name ImagePath -value "C:\temp\evil.exe"
 ```
