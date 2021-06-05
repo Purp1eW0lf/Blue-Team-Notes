@@ -292,13 +292,12 @@ Reset-ComputerMachinePassword
 ### Show Services & Service Accounts
 
 Let's get all the services and sort by what's running
-```
+```powershell
 get-service|Select Name,DisplayName,Status|
 sort status -descending | ft -Property * -AutoSize|
 Out-String -Width 4096
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120901027-354e8400-c630-11eb-8ac8-869864349cf5.png)
-
 
 Utilise Get-WmiObject(gwmi) to show all service accounts on a machine, and then sort to show the running accounts first and the stopped accounts second.
 
@@ -502,7 +501,7 @@ Get-Process -Id (Get-NetTCPConnection).OwningProcess
 ```powershell
 get-process * -Includeusername
 
-# get more detail
+# get more detail. 
 gwmi win32_process | Select Name,ProcessID,@{n='Owner';e={$_.GetOwner().User}},CommandLine | 
 sort name | ft -wrap -autosize | out-string
 
@@ -585,8 +584,8 @@ Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false
 <details>
     <summary>section contents</summary>
   
+  + [Get scheduled tasks](#get-scheduled-tasks)
   + [Get a specific schtask](#get-a-specific-schtask)
-  + [Identify user-author of schtask](#identify-user-author-of-schtask)
   + [To find the commands a task is running](#to-find-the-commands-a-task-is-running)
   + [To stop the task](#to-stop-the-task)
   + [Show what programs run at startup](#show-what-programs-run-at-startup)
@@ -597,29 +596,27 @@ Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false
 
 </details>
 
+### Get scheduled tasks
+Identify the user behind a command too. Great at catching out malicious schtasks that perhaps are imitating names, or a process name
+```powershell
+schtasks /query /FO CSV /v | convertfrom-csv |
+where { $_.TaskName -ne "TaskName" } |
+select "TaskName","Run As User", Author, "Task to Run"| 
+fl | out-string
+```
+![image](https://user-images.githubusercontent.com/44196051/120901651-27026700-c634-11eb-9aa2-6a4812450ac2.png)
+
 ### Get a specific schtask
 ```powershell
-Get-ScheduledTask -Taskname "wifi*"
-
-## or just list them all
-Get-ScheduledTask
+Get-ScheduledTask -Taskname "wifi*" | fl *
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120563312-2d100200-c400-11eb-8f47-cd3e76df4165.png)
-
-### Identify user-author of schtask
-Identify the user behind a command. Great at catching out malicious schtasks that perhaps are imitating names, or a process name
-```powershell
-Get-ScheduledTask | Select-Object -Property TaskName,author | fl 
-```
-![image](https://user-images.githubusercontent.com/44196051/119978821-01c98500-bfb2-11eb-9149-fc1a96a1af87.png)
 
 ### To find the commands a task is running
 Great one liner to find exactly WHAT a regular task is doing
 ```powershell
 $task = Get-ScheduledTask | where TaskName -EQ "meme task"; 
 $task.Actions
-
-# Or
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119979087-5f5dd180-bfb2-11eb-9d4d-bbbf66043535.png)
 
