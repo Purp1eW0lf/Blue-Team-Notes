@@ -454,7 +454,7 @@ select Dialect, Servername, Sharename | sort Dialect
 
 ### Remove an SMB Share
 ```powershell
-Remove-SmbShare -Name MaliciousShare  -Confirm:$false
+Remove-SmbShare -Name MaliciousShare -Confirm:$false
 ```
 
 ---
