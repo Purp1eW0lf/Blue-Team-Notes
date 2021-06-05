@@ -962,7 +962,7 @@ Checks if the date was written recently, and if so, just print _sysmon working_ 
 
 ```powershell
 $b = (Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational).lastwritetime; 
-$a = Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational | where-object {(new-timespan $_.LastWriteTime).days -ge 1}; 
+$a = Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational| where-object {(new-timespan $_.LastWriteTime).days -ge 1}; 
 if ($a -eq $null){Write-host "sysmon_working"} else {Write-host "$env:computername $b"}
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119979908-72bd6c80-bfb3-11eb-9bff-856ebcc01375.png)
