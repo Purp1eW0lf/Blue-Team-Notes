@@ -895,7 +895,7 @@ Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" |
 where ImagePath -like "*.exe*" | 
 ft -property PSChildName, ImagePath -wrap
 
-# if you notice, on line two we wrap in TWO *.exe* in wildcards. Why? 
+# if you notice, on line two we wrap .exe in TWO in wildcards. Why? 
   # The first wildcard is to ensure we're kind of 'grepping' for a file that ends in a .exe. 
     # Without the first wildcard, we'd be looking for literal .exe
   # The second wildcard is to ensure we're looking for the things that come after the .exe
