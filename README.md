@@ -899,7 +899,7 @@ ft -property PSChildName, ImagePath -wrap
   # The first wildcard is to ensure we're kind of 'grepping' for a file that ends in a .exe. 
     # Without the first wildcard, we'd be looking for literal .exe
   # The second wildcard is to ensure we're looking for the things that come after the .exe
-     # This is to make sure we aren't losine the flags and args of an executable
+     # This is to make sure we aren't losing the flags and args of an executable
 
 # We can filter however we wish, so we can actively NOT look for .exes
 Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
