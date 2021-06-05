@@ -290,6 +290,16 @@ Reset-ComputerMachinePassword
 </details>
 
 ### Show Services & Service Accounts
+
+Let's get all the services and sort by what's running
+```
+get-service|Select Name,DisplayName,Status|
+sort status -descending | ft -Property * -AutoSize|
+Out-String -Width 4096
+```
+![image](https://user-images.githubusercontent.com/44196051/120901027-354e8400-c630-11eb-8ac8-869864349cf5.png)
+
+
 Utilise Get-WmiObject(gwmi) to show all service accounts on a machine, and then sort to show the running accounts first and the stopped accounts second.
 
 StartName is the name of the Service Account btw
@@ -305,10 +315,14 @@ StartName is the name of the Service Account btw
 If a specific service catches your eye, you can get all the info for it.  Because the single and double qoutes are important to getting this right, I find it easier to just put the DisplayName of the service I want as a variable, as I tend to fuck up the displayname filter bit
 
 ```powershell
-$DisName = "Active Directory Web Services"; 
-gwmi -Class Win32_Service -Filter "Displayname = '$DisName' " | fl *
+$Name = "eventlog"; 
+gwmi -Class Win32_Service -Filter "Name = '$Name' " | fl *
+
+#or this, but you get less information compared to the one about tbh
+get-service -name "eventlog" | fl *   
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120341774-14fc8d80-c2ef-11eb-8b1d-31db7620b7cb.png)
+
 
 ### Kill a service
 ``` powershell
@@ -487,15 +501,22 @@ Get-Process -Id (Get-NetTCPConnection).OwningProcess
 ### Show all processes and their associated user
 ```powershell
 get-process * -Includeusername
-```
 
+# get more detail
+gwmi win32_process | Select Name,ProcessID,@{n='Owner';e={$_.GetOwner().User}},CommandLine | 
+sort name | ft -wrap -autosize | out-string
+
+```
 ![image](https://user-images.githubusercontent.com/44196051/120329122-70288300-c2e3-11eb-95ef-276ffd556acd.png)
 
-### Get specific info about the full path binary that a process is running
+![image](https://user-images.githubusercontent.com/44196051/120901193-4350d480-c631-11eb-81c4-41c832d064de.png)
+
+
+### Get specific info a process is running
 ```powershell
-get-process -name "memetask" | select-object -property Name, Id,Includeusername, Path
+get-process -name "nc" | ft Name, Id, Path,StartTime,Includeusername -autosize 
 ```
-![image](https://user-images.githubusercontent.com/44196051/119979341-bb285a80-bfb2-11eb-89a8-83b4c8f732c5.png)
+![Images](https://user-images.githubusercontent.com/44196051/120901392-78a9f200-c632-11eb-84df-2168226375a7.png)
 
 ### Is a specific process a running on a machine or not
 ```powershell
@@ -597,6 +618,8 @@ Great one liner to find exactly WHAT a regular task is doing
 ```powershell
 $task = Get-ScheduledTask | where TaskName -EQ "meme task"; 
 $task.Actions
+
+# Or
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119979087-5f5dd180-bfb2-11eb-9d4d-bbbf66043535.png)
 
