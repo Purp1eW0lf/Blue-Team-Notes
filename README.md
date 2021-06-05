@@ -312,7 +312,7 @@ gwmi -Class Win32_Service -Filter "Displayname = '$DisName' " | fl *
 
 ### Kill a service
 ``` powershell
-Get-Service -DisplayName "meme_service" | Stop-Service -force -confirm
+Get-Service -DisplayName "meme_service" | Stop-Service -Force -Confirm:$false
 ```
 
 ---
@@ -554,9 +554,7 @@ Select -last 20 -Property ID,ProcessName,CPU
 
 ### Stop a Process
 ```powershell
-Stop-Process -Name "memeprocess"
-### if persists
-Get-Process -Name "memeprocess" | Stop-Process -Force
+Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false
 ```
 
 ---
@@ -613,7 +611,7 @@ get-scheduledtask -taskpath (Get-ScheduledTask -Taskname "$task").taskpath | Exp
 
 ### To stop the task
 ```powershell
-Get-ScheduledTask "memetask" | Stop-ScheduledTask
+Get-ScheduledTask "memetask" | Stop-ScheduledTask -Force -Confirm:$false
 ```
 ### Show what programs run at startup
 ```powershell
