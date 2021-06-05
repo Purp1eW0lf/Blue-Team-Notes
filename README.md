@@ -646,6 +646,7 @@ Disable-ScheduledJob -Name evil_sched
 Unregister-ScheduledJob -Name eviler_sched
 Remove-Job -id 3
 #then double check it's gone with Get-ScheduledJob
+#if persists, tack on -Force -Confirm:$false
 ```
 
 ---
