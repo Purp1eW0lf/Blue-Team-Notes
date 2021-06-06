@@ -154,6 +154,7 @@ gcim -ClassName Win32_ComputerSystem | fl Manufacturer, Systemfamily, Model, Sys
 gcim  -ClassName Win32_LogicalDisk |
 Select -Property DeviceID, DriveType, @{L='FreeSpaceGB';E={"{0:N2}" -f ($_.FreeSpace /1GB)}}, @{L="Capacity";E={"{0:N2}" -f ($_.Size/1GB)}} | fl
 ```
+![image](https://user-images.githubusercontent.com/44196051/120922608-0c76cf00-c6c2-11eb-810b-288db6256bba.png)
 
 ### Time info
 #### Human Readable
