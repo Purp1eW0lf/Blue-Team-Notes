@@ -340,6 +340,8 @@ Get-Service -DisplayName "meme_service" | Stop-Service -Force -Confirm:$false
     - [Hone in on a suspicious IP](#hone-in-on-a-suspicious-ip)
   + [Show UDP connections](#show-udp-connections)
   + [Kill a connection](#kill-a-connection)
+  + [Check Hosts file](#check-Hosts-file)
+    - [Check Host file Time](#Check-Host-file-time)
 
 </details>
 
@@ -386,6 +388,22 @@ There's probably a better way to do this. But essentially, get the tcp connectio
 ``` powershell
 stop-process -confirm (Get-Process -Id (Get-NetTCPConnection -RemoteAddress "1.2.3.4" ).OwningProcess)
 ```
+
+### Check Hosts file
+Some malware may attempt DNS hijacking, and alter your Hosts file
+```powershell
+gc -tail 4 "C:\Windows\System32\Drivers\etc\hosts"
+
+#the above gets the most important bit of the hosts file. If you want more, try this:
+gc "C:\Windows\System32\Drivers\etc\hosts"
+```
+#### Check Host file Time
+Don't trust timestamps....however, may be interesting to see if altered recently
+```powershell
+gci "C:\Windows\System32\Drivers\etc\hosts" | fl *Time* 
+
+```
+![image](https://user-images.githubusercontent.com/44196051/120916488-d4f82a80-c6a1-11eb-8551-ac495ce2de68.png)
 
 ## Firewall Queries
 
