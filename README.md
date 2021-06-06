@@ -110,7 +110,7 @@ source ~/.bashrc
 
   + [Get Fully Qualified Domain Name](#get-fully-qualified-domain-name)
   + [Get OS and Pwsh info](#get-os-and-pwsh-info)
-    -[Hardware Info](hardware-info)
+    - [Hardware Info](hardware-info)
   + [Time info](#time-info)
     - [Human Readable](#human-readable)
     - [Machine comparable](#machine-comparable)
