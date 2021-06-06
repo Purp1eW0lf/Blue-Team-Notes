@@ -1048,6 +1048,7 @@ Add-Type -AssemblyName PresentationCore,PresentationFramework;
   + [Get Alias](#get-alias)
   + [Clip](#clip)
   + [Re-run commands](#re-run-commands)
+  + [Stop Truncation](#stop-trunction)
 
 </details>
 
@@ -1094,6 +1095,23 @@ r 43
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120559078-48770f00-c3f8-11eb-8726-fd7e627df473.png)
 ![image](https://user-images.githubusercontent.com/44196051/120559222-8f650480-c3f8-11eb-9b84-ef98dc26cb5c.png)
+
+
+### Stop Trunction
+For reasons(?) powershell truncates stuff, even when it's really unhelpful and pointless for it to do so. Take the below for example: our hash AND path is cut off....WHY?! :rage:
+
+![image(]https://user-images.githubusercontent.com/44196051/120917435-3ec70300-c6a7-11eb-8b81-9832cd9c6cb6.png)
+
+To fix this, use `out-string`
+
+```
+#put this at the very end of whatever you're running and is getting truncated
+| outstring -width 250
+# or even more
+| outstring -width 4096
+```
+Look no elipses!
+![image](https://user-images.githubusercontent.com/44196051/120917410-0e7f6480-c6a7-11eb-8546-0a59da8cd181.png)
 
 ---
 
