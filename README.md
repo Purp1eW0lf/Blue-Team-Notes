@@ -107,9 +107,10 @@ source ~/.bashrc
 
 <details>
     <summary>section contents</summary>
-  
-  + [Get OS and Pwsh info](#get-os-and-pwsh-info)
+
   + [Get Fully Qualified Domain Name](#get-fully-qualified-domain-name)
+  + [Get OS and Pwsh info](#get-os-and-pwsh-info)
+    -[Hardware Info](hardware-info)
   + [Time info](#time-info)
     - [Human Readable](#human-readable)
     - [Machine comparable](#machine-comparable)
@@ -122,6 +123,11 @@ source ~/.bashrc
       * [Discrepencies](#discrepencies)
 
 </details>
+
+## Get Fully Qualified Domain Name
+```powershell
+([System.Net.Dns]::GetHostByName(($env:computerName))).Hostname
+```
   
 ### Get OS and Pwsh info
 This will print out the hostname, the OS build info, and the powershell version
@@ -133,9 +139,20 @@ write-host "$env:computername is a $Bit $Build with Pwsh $V
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120313634-2be0b700-c2d2-11eb-919f-5792169a1dba.png)
 
-## Get Fully Qualified Domain Name
+#### Hardware Info
+
+If you want, you can get Hardware, BIOS, and Disk Space info of a machine
+
 ```powershell
-([System.Net.Dns]::GetHostByName(($env:computerName))).Hostname
+#Get BIOS Info
+gcim -ClassName Win32_BIOS | fl Manufacturer, Name, SerialNumber, Version;
+#Get processor info
+gcim -ClassName Win32_Processor | fl caption, Name, SocketDesignation;
+#Computer Model
+gcim -ClassName Win32_ComputerSystem | fl Manufacturer, Systemfamily, Model, SystemType
+#Disk space in Gigs, as who wants bytes?
+gcim  -ClassName Win32_LogicalDisk |
+Select -Property DeviceID, DriveType, @{L='FreeSpaceGB';E={"{0:N2}" -f ($_.FreeSpace /1GB)}}, @{L="Capacity";E={"{0:N2}" -f ($_.Size/1GB)}} | fl
 ```
 
 ### Time info
