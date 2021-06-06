@@ -769,14 +769,13 @@ Format-Hex
 ### Recursively look for particular file types, and once you find the files get their hashes
 This one-liner was a godsend during the Microsoft Exchange ballache back in early 2021
 
-You may find that the fullpath gets cut off with elpises (...). To counter this, pipe to ` format-table -wrap`. It will look ugly, but will ensure your stuff doesn't get cut off. 
 ```powershell
 Get-ChildItem -path "C:\windows\temp" -Recurse -Force -File -Include *.aspx, *.js, *.zip|
 Get-FileHash |
-Select-Object -property hash, path
-#optionally | format-table -wrap
+format-table hash, path -autosize | out-string -width 800
 ```
-![image](https://user-images.githubusercontent.com/44196051/119977578-887d6280-bfb0-11eb-9e56-fad64296128f.png)
+![image](https://user-images.githubusercontent.com/44196051/120917857-66b76600-c6a9-11eb-85f3-cce3ff502476.png)
+
 
 ### Compare two files' hashes
 ```powershell
@@ -906,19 +905,22 @@ Now we know how reg entries are compromised, how can we search?
 The below takes the services reg as an example, and searches for specifically just the reg-key Name and Image Path. 
  
 ```powershell
-# This one-liner is over-engineered. The below one-liner is a better, succint alternative
-$keys = Get-ChildItem -Path "HKLM:\System\CurrentControlSet\services\";
+
+Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
+ft PSChildName, ImagePath -autosize | out-string -width 800 
+
+#You can search recursively with this, kind of, if you use wildcards in the path names. Will take longer if you do recursively search though
+Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\**\*" | 
+ft PSChildName, ImagePath -autosize | out-string -width 800 
+
+# This one-liner is over-engineered. # But it's a other way to be recursive if you start from a higher directory in reg
+# will take a while though
+$keys = Get-ChildItem -Path "HKLM:\System\CurrentControlSet\" -recurse -force ;
 $Items = $Keys | Foreach-Object {Get-ItemProperty $_.PsPath };
 ForEach ($Item in $Items) {"{0,-35} {1,-10} " -f $Item.PSChildName, $Item.ImagePath} 
-
-# This command is the MUCH easier than the above. 
-Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*"  | ft -property PSChildName, ImagePath -wrap
-#You can search recursively with this, kind of, if you use wildcards in the path names. Will take longer if you do recursively search though
-Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\**\*"  | ft -property PSChildName, ImagePath -wrap
-#We have to wrap and it looks ugly I know
-
 ```
-![image](https://user-images.githubusercontent.com/44196051/120826886-ccdda500-c552-11eb-923f-d9f5d76168d9.png)
+
+![image](https://user-images.githubusercontent.com/44196051/120918169-e560d300-c6aa-11eb-98a4-a9a27f264a0b.png)
 
 #### Filtering Reg ImagePath
 
@@ -931,7 +933,7 @@ I have to mention, don't write .sys files off as harmless. Rootkits and bootkits
 ```powershell
 Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
 where ImagePath -like "*.exe*" | 
-ft -property PSChildName, ImagePath -wrap
+ft PSChildName, ImagePath -autosize | out-string -width 800 
 
 # if you notice, on line two we wrap .exe in TWO in wildcards. Why? 
   # The first wildcard is to ensure we're kind of 'grepping' for a file that ends in a .exe. 
@@ -942,12 +944,14 @@ ft -property PSChildName, ImagePath -wrap
 # We can filter however we wish, so we can actively NOT look for .exes
 Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
 where ImagePath -notlike "*.exe*" | 
-ft -property PSChildName, ImagePath -wrap
+ft PSChildName, ImagePath -autosize | out-string -width 800 
 
 #fuck it, double stack your filters to not look for an exe or a sys...not sure why, but go for it!
 Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
 ? {($_.ImagePath -notlike "*.exe*" -and $_.Imagepath -notlike "*.sys*")} | 
-ft -property PSChildName, ImagePath -wrap
+ft PSChildName, ImagePath -autosize | out-string -width 800 
+
+
 
 #If you don't care about Reg Entry name, and just want the ImagePath
 (Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*").ImagePath  
@@ -1113,6 +1117,10 @@ To fix this, use `out-string`
 # or even more
 | outstring -width 4096
 #use whatever width number appropiate to print your results without truncation
+
+#you can also stack it with ft. For example: 
+Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
+ft PSChildName, ImagePath -autosize | out-string -width 800 
 ```
 Look no elipses!
 ![image](https://user-images.githubusercontent.com/44196051/120917410-0e7f6480-c6a7-11eb-8546-0a59da8cd181.png)
