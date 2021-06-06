@@ -924,11 +924,13 @@ ForEach ($Item in $Items) {"{0,-35} {1,-10} " -f $Item.PSChildName, $Item.ImageP
 
 #### Filtering Reg ImagePath
 
-Let's continue to use the \Services\ reg as our example. But we could look at any of the registeries.
+Let's continue to use the \Services\ reg as our example. 
 
 Remember in the above example of a malicious reg, we saw the ImagePath had the value of C:\temp\evil.exe. And we're seeing a load of .sys here. So can we specifically just filter for .exes in the ImagePath. 
 
 I have to mention, don't write .sys files off as harmless. Rootkits and bootkits weaponise .sys, for example.
+
+If you see a suspicious file in reg, you can go and collect it and investigate it, or collect it's hash. When it comes to the ImagePath, \SystemRoot\ is usually C:\Windows\, but you can confirm with `$Env:systemroot` . 
 
 ```powershell
 Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
@@ -950,8 +952,6 @@ ft PSChildName, ImagePath -autosize | out-string -width 800
 Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
 ? {($_.ImagePath -notlike "*.exe*" -and $_.Imagepath -notlike "*.sys*")} | 
 ft PSChildName, ImagePath -autosize | out-string -width 800 
-
-
 
 #If you don't care about Reg Entry name, and just want the ImagePath
 (Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*").ImagePath  
