@@ -1306,7 +1306,7 @@ tree -u | grep 'root'
 
 If you find it a bit long and confusing to track which file belongs to what directory, this flag on tree will print the fullpath
 ```bash
-tree- F
+tree -F
 # pipe with | grep 'reports' to highlight a directory or file you are looking for
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120661487-3c369480-c480-11eb-8103-fda15e2cbec4.png)
