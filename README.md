@@ -1049,6 +1049,8 @@ Add-Type -AssemblyName PresentationCore,PresentationFramework;
   + [Clip](#clip)
   + [Re-run commands](#re-run-commands)
   + [Stop Truncation](#stop-trunction)
+    - [Out-String](#out-string)
+    - [-Wrap](#-wrap)
 
 </details>
 
@@ -1098,20 +1100,39 @@ r 43
 
 
 ### Stop Trunction
+#### Out-String
 For reasons(?) powershell truncates stuff, even when it's really unhelpful and pointless for it to do so. Take the below for example: our hash AND path is cut off....WHY?! :rage:
 
 ![image](https://user-images.githubusercontent.com/44196051/120917435-3ec70300-c6a7-11eb-8b81-9832cd9c6cb6.png)
 
 To fix this, use `out-string`
 
-```
+```powershell
 #put this at the very end of whatever you're running and is getting truncated
 | outstring -width 250
 # or even more
 | outstring -width 4096
+#use whatever width number appropiate to print your results without truncation
 ```
 Look no elipses!
 ![image](https://user-images.githubusercontent.com/44196051/120917410-0e7f6480-c6a7-11eb-8546-0a59da8cd181.png)
+
+#### -Wrap
+In some places, it doesn't make sense to use out-string as it prints strangely. In these instances, try the `-wrap` function of `format-table`
+
+This, for example is a mess because we used out-string. It's wrapping the final line in an annoying and strange way.
+
+![image](https://user-images.githubusercontent.com/44196051/120917702-88641d80-c6a8-11eb-8f2e-676e2c358546.png)
+
+```powershell
+| ft -property * -autosize -wrap 
+#you don't always need to the -property * bit. But if you find it isn't printing as you want, try again.
+| ft -autosize -wrap 
+```
+
+Isn't this much better now?
+
+![image](https://user-images.githubusercontent.com/44196051/120917736-bc3f4300-c6a8-11eb-955e-f876d2e1dd8e.png)
 
 ---
 
