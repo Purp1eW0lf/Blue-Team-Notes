@@ -571,7 +571,7 @@ Alternatively, pipe `|fl` and it will give a granularity to the DLLs
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119982198-756d9100-bfb6-11eb-8645-e41cf46116b3.png)
 
-I get mixed results with this command but it's supposed to give the percent of CPU usage.
+I get mixed results with this command but it's supposed to give the percent of CPU usage. I need to work on this, but I'm putting it in here so the world may bare wittness to my smooth brain. 
 ```powershell
 $ProcessName = "symon" ; 
 $ProcessName = (Get-Process -Id $ProcessPID).Name; 
