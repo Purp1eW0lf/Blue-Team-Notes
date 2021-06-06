@@ -567,8 +567,8 @@ Example of process that is present
 Great to make malicious process stand out. If you want a different Algorithm, just change it after `-Algorithm` to something like `sha256` 
 ```powershell
 foreach ($proc in Get-Process | select path -Unique){try
-{ Get-FileHash $proc.path -Algorithm md5 -ErrorAction stop|
-Select-Object -property hash,path}catch{}}
+{ Get-FileHash $proc.path -Algorithm sha256 -ErrorAction stop |
+ft hash, path -autosize -HideTableHeaders | out-string -width 800 }catch{}}
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119976802-8cf54b80-bfaf-11eb-82de-1a92bbcae4f9.png)
 
@@ -599,13 +599,16 @@ $Samples | Select `InstanceName,@{Name="CPU %";Expression={[Decimal]::Round(($_.
 ![image](https://user-images.githubusercontent.com/44196051/119982326-9a620400-bfb6-11eb-9a66-ad5a5661bc8a.png)
 
 ### Sort by least CPU-intensive processes
-On the second line, you can change the `-last` flag to `-first`. Right now will show the lower cpu-using proccesses...useful as malicious process probably won't be as big a CPU as Chrome, for example. But change to `first` if you want to see the chungus processes
+
+Right now will show the lower cpu-using proccesses...useful as malicious process probably won't be as big a CPU as Chrome, for example. But change first line to `Sort CPU -descending` if you want to see the chungus processes first
+
 ```powershell
-Get-Process | Sort CPU -descending |
-Select -last 20 -Property ID,ProcessName,CPU 
-| format-table -autosize
+gps | Sort CPU |
+Select -Property ProcessName, CPU, ID, StartTime | 
+ft -autosize -wrap | out-string -width 800
 ```
-![image](https://user-images.githubusercontent.com/44196051/120009189-9db7b880-bfd3-11eb-860f-8de8446550eb.png)
+
+![image](https://user-images.githubusercontent.com/44196051/120922422-f87e9d80-c6c0-11eb-8901-77ba9c95432c.png)
 
 ### Stop a Process
 ```powershell
