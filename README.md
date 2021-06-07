@@ -153,6 +153,14 @@ gcim -ClassName Win32_ComputerSystem | fl Manufacturer, Systemfamily, Model, Sys
 #Disk space in Gigs, as who wants bytes?
 gcim  -ClassName Win32_LogicalDisk |
 Select -Property DeviceID, DriveType, @{L='FreeSpaceGB';E={"{0:N2}" -f ($_.FreeSpace /1GB)}}, @{L="Capacity";E={"{0:N2}" -f ($_.Size/1GB)}} | fl
+
+## Let's calculate an individual directory, C:\Sysmon, and compare with disk memory stats
+$size = (gci c:\sysmon | measure Length -s).sum / 1Gb;
+write-host " Sysmon Directory in Gigs: $size";
+$free = gcim  -ClassName Win32_LogicalDisk | select @{L='FreeSpaceGB';E={"{0:N2}" -f ($_.FreeSpace /1GB)}};
+echo "$free";
+$cap = gcim  -ClassName Win32_LogicalDisk | select @{L="Capacity";E={"{0:N2}" -f ($_.Size/1GB)}} 
+echo "$cap"
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120922608-0c76cf00-c6c2-11eb-810b-288db6256bba.png)
 
