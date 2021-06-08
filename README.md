@@ -1091,6 +1091,7 @@ netsh http show urlacl url=http://+:5985/wsman/ && netsh http show urlacl url=ht
     <summary>section contents</summary>
 
   + [Get Alias](#get-alias)
+  + [WhatIf](#whatif)
   + [Clip](#clip)
   + [Re-run commands](#re-run-commands)
   + [Stop Truncation](#stop-trunction)
@@ -1114,6 +1115,14 @@ get-alias -definition write-output
 get-alias
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120551039-81f64d00-c3ed-11eb-8cea-dadb07066942.png)
+
+### WhatIf
+`-WhatIf` is quite a cool flag, as it will tell you what will happen if you run a command. So before you kill a vital process for example, if you include whatif you'll gain some insight into the irreversible future!
+
+```powershell
+get-process -name "excel" | stop-process -whatif
+```
+![image](https://user-images.githubusercontent.com/44196051/121262413-02b0bf80-c8ac-11eb-9448-c76f26aff0df.png)
 
 ### Clip
 You can pipe straight to your clipboard. Then all you have to do is paste
