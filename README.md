@@ -875,8 +875,8 @@ copy-item "C:\windows\System32\winevt\Logs\Security.evtx", "C:\windows\System32\
 <details>
     <summary>section contents</summary>
   
-  + [Get-ACl](#get-acl)
-    - [Convert SDDL](#convert-sddl)
+  + [Printer Drivers](#printer-drivers)
+  + [System Drivers](#system-drivers)
  
 </details>
 
