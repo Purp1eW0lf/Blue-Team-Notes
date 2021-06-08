@@ -32,7 +32,6 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [File Queries](#file-queries)
   * [Reg Queries](#reg-queries)
   * [Log Troubleshooting](#log-troubleshooting)
-  * [Code Red](#code-red)
   * [Powershell Tips](#powershell-tips)
 - [Linux](#linux)
   * [Bash History](#bash-history)
@@ -439,7 +438,9 @@ gci "C:\Windows\System32\Drivers\etc\hosts" | fl *Time*
   + [Retreieve Firewall profile names](#retreieve-firewall-profile-names)
     - [Retrieve rules of specific profile](#retrieve-rules-of-specific-profile)
   + [Filter all firewall rules](#filter-all-firewall-rules)
- 
+  + [Code Red](#code-red)
+    - [Isolate Endpoint](#isolate-endpoint)
+
 </details>
 
 ### Retreieve Firewall profile names
@@ -475,6 +476,27 @@ Get-NetFirewallRule | where {($_.Enabled -eq "true" -and $_.Direction -eq "inbou
 #or just use the built in flags lol
 Get-NetFirewallRule -Enabled True -Direction Inbound
 ```
+
+### Code Red
+
+#### Isolate Endpoint
+Disconnect network adaptor, firewall the fuck out of an endpoint, and display warning box
+
+This is a code-red command. Used to isolate a machine in an emergency.
+
+In the penultimate and final line, you can change the text and title that will pop up for the user
+
+```powershell
+New-NetFirewallRule -DisplayName "Block all outbound traffic" -Direction Outbound -Action Block | out-null; 
+New-NetFirewallRule -DisplayName "Block all inbound traffic" -Direction Inbound -Action Block | out-null; 
+$adapter = Get-NetAdapter|foreach { $_.Name } ; Disable-NetAdapter -Name "$adapter" -Confirm:$false; 
+Add-Type -AssemblyName PresentationCore,PresentationFramework; 
+[System.Windows.MessageBox]::Show('Your Computer has been Disconnected from the Internet for Security Issues. Please do not try to re-connect to the internet. Contact Security Helpdesk Desk ',' CompanyNameHere Security Alert',[System.Windows.MessageBoxButton]::OK,[System.Windows.MessageBoxImage]::Information)
+```
+![image](https://user-images.githubusercontent.com/44196051/119979598-0e9aa880-bfb3-11eb-9882-08d02a0d3026.png)
+
+---
+
 
 ---
 
@@ -1044,32 +1066,6 @@ Test the permissions of winrm - used to see windows event forwarding working, wh
 netsh http show urlacl url=http://+:5985/wsman/ && netsh http show urlacl url=https://+:5986/wsman/
 ``` 
 ![image](https://user-images.githubusercontent.com/44196051/119980070-ae583680-bfb3-11eb-8da7-51d7e5393599.png)
-
----
-
-## Code Red
-<details>
-    <summary>section contents</summary>
-
-  + [Isolate Endpoint](#isolate-endpoint)
-
-</details>
-
-### Isolate Endpoint
-Disconnect network adaptor, firewall the fuck out of an endpoint, and display warning box
-
-This is a code-red command. Used to isolate a machine in an emergency.
-
-In the penultimate and final line, you can change the text and title that will pop up for the user
-
-```powershell
-New-NetFirewallRule -DisplayName "Block all outbound traffic" -Direction Outbound -Action Block | out-null; 
-New-NetFirewallRule -DisplayName "Block all inbound traffic" -Direction Inbound -Action Block | out-null; 
-$adapter = Get-NetAdapter|foreach { $_.Name } ; Disable-NetAdapter -Name "$adapter" -Confirm:$false; 
-Add-Type -AssemblyName PresentationCore,PresentationFramework; 
-[System.Windows.MessageBox]::Show('Your Computer has been Disconnected from the Internet for Security Issues. Please do not try to re-connect to the internet. Contact Security Helpdesk Desk ',' CompanyNameHere Security Alert',[System.Windows.MessageBoxButton]::OK,[System.Windows.MessageBoxImage]::Information)
-```
-![image](https://user-images.githubusercontent.com/44196051/119979598-0e9aa880-bfb3-11eb-9882-08d02a0d3026.png)
 
 ---
 
