@@ -1091,7 +1091,7 @@ netsh http show urlacl url=http://+:5985/wsman/ && netsh http show urlacl url=ht
     <summary>section contents</summary>
 
   + [Get Alias](#get-alias)
-  + [Get Command](#get-command)
+  + [Get Command & Get Help](#get-command-&-get-help)
   + [WhatIf](#whatif)
   + [Clip](#clip)
   + [Re-run commands](#re-run-commands)
@@ -1117,13 +1117,17 @@ get-alias
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120551039-81f64d00-c3ed-11eb-8cea-dadb07066942.png)
 
-### Get Command
+### Get Command & Get Help
 This is similar to `apropos`in Bash. Essentially, you can search for commands related to keywords you give. 
 
 Try to give singulars, not plural. For example, instead of `drivers` just do `driver`
 
 ```powershell
 get-command *driver* 
+
+## Once you see a particular command or function, to know what THAT does use get-help. 
+# get-help [thing]
+Get-Help Get-SystemDriver
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/121262958-d6e20980-c8ac-11eb-8aff-3ad46128da00.png)
