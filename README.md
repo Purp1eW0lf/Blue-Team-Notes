@@ -744,7 +744,7 @@ Remove-Job -id 3
 
 <details>
     <summary>section contents</summary>
-
+  + [Wildcard paths and files](#wildcard-paths-and-files)
   + [Check if a specific file or path is alive.](#check-if-a-specific-file-or-path-is-alive)
   + [test if  files and directories are present or absent](#test-if--files-and-directories-are-present-or-absent)
   + [Query File Contents](#query-file-contents)
@@ -756,6 +756,22 @@ Remove-Job -id 3
   + [copy multiple files to new location](#copy-multiple-files-to-new-location)
  
 </details>
+
+
+### Wildcard paths and files
+You can chuck wildcards in directories for gci, as well as wildcard to include file types.
+
+Let's say we want to look in all of the Users \temp\ directories. We don't want to put their names in, so we wildcard it.
+
+We also might only be interested in the pwsh scripts in their \temp\, so let's filter for those only
+
+```powershell
+gci "C:\Users\*\AppData\Local\Temp\*" -Recurse -Force -File  -Include *.ps1, *.psm1, *.txt | 
+ft lastwritetime, name -autosize | 
+out-string -width 800
+```
+![image](https://user-images.githubusercontent.com/44196051/121200190-741c4e00-c86b-11eb-800e-f3170c2a02e5.png)
+
 
 ### Check if a specific file or path is alive. 
 
