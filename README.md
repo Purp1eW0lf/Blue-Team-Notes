@@ -877,6 +877,7 @@ copy-item "C:\windows\System32\winevt\Logs\Security.evtx", "C:\windows\System32\
   
   + [Printer Drivers](#printer-drivers)
   + [System Drivers](#system-drivers)
+    - [Other Drivers](#other-drivers)
  
 </details>
 
@@ -899,6 +900,15 @@ fl DeviceName, FriendlyName, DriverProviderName, Manufacturer, InfName, IsSigned
 
 ![image](https://user-images.githubusercontent.com/44196051/121267019-6ee2f180-c8b3-11eb-83e9-d4f9218dfdaf.png)
 
+#### Other Drivers 
+
+Gets all 3rd party drivers 
+
+```powershell
+ Get-WindowsDriver -Online -All | 
+ fl Driver, ProviderName, ClassName, ClassDescription, Date, OriginalFileName, DriverSignature 
+```
+![image](https://user-images.githubusercontent.com/44196051/121268822-97b8b600-c8b6-11eb-87ba-787fa5dd4d92.png)
 
 ---
 
