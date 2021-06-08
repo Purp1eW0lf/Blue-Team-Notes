@@ -654,9 +654,9 @@ Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false
     <summary>section contents</summary>
   
   + [Get scheduled tasks](#get-scheduled-tasks)
-  + [Get a specific schtask](#get-a-specific-schtask)
-  + [To find the commands a task is running](#to-find-the-commands-a-task-is-running)
-  + [To stop the task](#to-stop-the-task)
+    - [Get a specific schtask](#get-a-specific-schtask)
+    - [To find the commands a task is running](#to-find-the-commands-a-task-is-running)
+    - [To stop the task](#to-stop-the-task)
   + [Show what programs run at startup](#show-what-programs-run-at-startup)
   + [Scheduled Jobs](#scheduled-jobs)
     - [Find out what scheduled jobs are on the machine](#find-out-what-scheduled-jobs-are-on-the-machine)
@@ -675,13 +675,13 @@ fl | out-string
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120901651-27026700-c634-11eb-9aa2-6a4812450ac2.png)
 
-### Get a specific schtask
+#### Get a specific schtask
 ```powershell
 Get-ScheduledTask -Taskname "wifi*" | fl *
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120563312-2d100200-c400-11eb-8f47-cd3e76df4165.png)
 
-### To find the commands a task is running
+#### To find the commands a task is running
 Great one liner to find exactly WHAT a regular task is doing
 ```powershell
 $task = Get-ScheduledTask | where TaskName -EQ "meme task"; 
@@ -698,7 +698,7 @@ get-scheduledtask -taskpath (Get-ScheduledTask -Taskname "$task").taskpath | Exp
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120563667-18803980-c401-11eb-9b10-621169f38437.png)
 
-### To stop the task
+#### To stop the task
 ```powershell
 Get-ScheduledTask "memetask" | Stop-ScheduledTask -Force -Confirm:$false
 ```
