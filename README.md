@@ -744,6 +744,7 @@ Remove-Job -id 3
 
 <details>
     <summary>section contents</summary>
+  
   + [Wildcard paths and files](#wildcard-paths-and-files)
   + [Check if a specific file or path is alive.](#check-if-a-specific-file-or-path-is-alive)
   + [test if  files and directories are present or absent](#test-if--files-and-directories-are-present-or-absent)
@@ -756,7 +757,6 @@ Remove-Job -id 3
   + [copy multiple files to new location](#copy-multiple-files-to-new-location)
  
 </details>
-
 
 ### Wildcard paths and files
 You can chuck wildcards in directories for gci, as well as wildcard to include file types.
