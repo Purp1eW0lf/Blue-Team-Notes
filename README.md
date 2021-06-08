@@ -1091,7 +1091,7 @@ netsh http show urlacl url=http://+:5985/wsman/ && netsh http show urlacl url=ht
     <summary>section contents</summary>
 
   + [Get Alias](#get-alias)
-  + [Get Command & Get Help](#get-command-&-get-help)
+  + [Get Command and Get Help](#get-command-and-get-help)
   + [WhatIf](#whatif)
   + [Clip](#clip)
   + [Re-run commands](#re-run-commands)
@@ -1117,7 +1117,7 @@ get-alias
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120551039-81f64d00-c3ed-11eb-8cea-dadb07066942.png)
 
-### Get Command & Get Help
+### Get Command and Get Help
 This is similar to `apropos`in Bash. Essentially, you can search for commands related to keywords you give. 
 
 Try to give singulars, not plural. For example, instead of `drivers` just do `driver`
