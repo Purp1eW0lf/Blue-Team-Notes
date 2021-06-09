@@ -1790,8 +1790,8 @@ Through experience, we can eventually keep two things in mind about decoding pow
 
 We can then input those options in Cyberchef . The order we stack these are important! 
 
-![image](https://user-images.githubusercontent.com/44196051/121333852-12162400-c911-11eb-92c4-11fec95b2a72.png <https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true)Decode_text('UTF-16LE%20(1200)')>)
-
+![image](https://user-images.githubusercontent.com/44196051/121333852-12162400-c911-11eb-92c4-11fec95b2a72.png)
+<https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true)Decode_text('UTF-16LE%20(1200)')>
 
 
 #### Obfuscation
