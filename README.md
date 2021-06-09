@@ -1824,7 +1824,37 @@ Don't ....don't run this.
 ```
 
 #### Building on what we know
-[We already discussed](#setup-cyberchef) how to set cyberchef
+[We already discussed](#setup-cyberchef) how to set cyberchef.
+
+But keep in mind, to make this work we need to remove human-readable text....if we do this, we may lose track of what powershell the malware is actually deploying. So it's a good idea to make extensive notes.
+
+![image](https://user-images.githubusercontent.com/44196051/121336621-9c5f8780-c913-11eb-86b4-fcb43c5d5a58.png)
+
+We get some interestng stuff here. First, we can see it goes to base64 AGAIN; second, we can see that gzip is being brought into the game
+
+#### Magic
+But let's pretend we didn't see the Gzip part of the script. Is there a way we can 'guess' what methods obfscuation takes?
+
+Absolutely, the option is called Magic in CyberChef. It's a kind of brute forcer for detecting encoding, and then offering a snippet of what the text would look like decoded.
+
+![image](https://user-images.githubusercontent.com/44196051/121337043-04ae6900-c914-11eb-8243-72b2945fdd90.png)
+
+So take the base64 text from the script, and re-enter it by itself
+![image](https://user-images.githubusercontent.com/44196051/121337257-417a6000-c914-11eb-95f3-5e4bf9527974.png)
+
+We can turn the UTF option off now, and turn magic on. I tend to give it a higher intensive number, as it's all client-side resource use so it's as strong as your machine is!
+![image](https://user-images.githubusercontent.com/44196051/121337381-62db4c00-c914-11eb-9dce-58f81df1924e.png)
+
+Well looky here, we can see some human-readable text. So now we know to stack add gzip to our decoding stack in cyberchef. From Magic, just click the link of the particular decoding option it offers
+
+![image](https://user-images.githubusercontent.com/44196051/121337595-9f0eac80-c914-11eb-9b8d-093ad936d68c.png)
+
+#### Gzip Decoded
+
+We're starting to get somewhere with this script! But we're gonna need to do some more decoding unfortunately.
+
+![image](https://user-images.githubusercontent.com/44196051/121337938-f14fcd80-c914-11eb-9d6f-8b435b13cd6b.png)
+
 
 
 # SOC
