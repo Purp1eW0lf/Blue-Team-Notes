@@ -477,12 +477,12 @@ $ExecutionContext.SessionState.LanguageMode
 ### RDP settings
 
 You can check if RDP capability is permissioned on an endpoint
-```
+```powershell
 if ((Get-ItemProperty "hklm:\System\CurrentControlSet\Control\Terminal Server").fDenyTSConnections -eq 0){write-host "RDP Enabled" } else { echo "RDP Disabled" }
 ```
 
 If you want to block RDP
-```
+```powershell
 Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -value 1
 #Firewall it out too
 Disable-NetFirewallRule -DisplayGroup "Remote Desktop"
@@ -492,7 +492,7 @@ Disable-NetFirewallRule -DisplayGroup "Remote Desktop"
 ### Check Certificates
 
 ```powershell
-ci "cert:\" -recurse | fl FriendlyName, Subject, Not* 
+gci "cert:\" -recurse | fl FriendlyName, Subject, Not* 
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/121305446-7d51fd00-c8f5-11eb-918b-da6b7f09d2eb.png)
