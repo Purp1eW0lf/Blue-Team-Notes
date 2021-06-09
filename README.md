@@ -369,6 +369,8 @@ Get-Service -DisplayName "meme_service" | Stop-Service -Force -Confirm:$false
   + [Kill a connection](#kill-a-connection)
   + [Check Hosts file](#check-Hosts-file)
     - [Check Host file Time](#Check-Host-file-time)
+  + [IPv6](#ipv6)
+    - [Disable Priority Treatment of IPv6](#Disable-Priority-Treatment-of-IPv6)
 
 </details>
 
@@ -431,6 +433,38 @@ gci "C:\Windows\System32\Drivers\etc\hosts" | fl *Time*
 
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120916488-d4f82a80-c6a1-11eb-8551-ac495ce2de68.png)
+
+
+### IPv6
+
+Since Windows Vitsa, the Windows OS prioritises IPv6 over IPv4. This lends itself to man-in-the-middle attacks, you can find some more info on exploitation [here](https://www.youtube.com/watch?v=zzbIuslB58c)
+
+Get IPv6 addresses and networks
+
+```powershell
+Get-NetIPAddress -AddressFamily IPv6  | ft Interfacealias, IPv6Address
+```
+![image](https://user-images.githubusercontent.com/44196051/121316010-c8bdd880-c900-11eb-92d5-740b38a98a35.png)
+
+#### Disable Priority Treatment of IPv6
+
+You probably don't want to switch IPv6 straight off. And if you DO want to, then it's probably better at a DHCP level. But what we can do is change how the OS will prioritise the IPv6 over IPv4.
+
+```powershell
+#check if machine prioritises IPv6
+ping $env:COMPUTERNAME -n 4 # if this returns an IPv6, the machine prioritises this over IPv4
+
+#Reg changes to de-prioritise IPv6
+New-ItemProperty “HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters\” -Name “DisabledComponents” -Value 0x20 -PropertyType “DWord”
+
+#If this reg already exists and has values, change the value
+Set-ItemProperty “HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters\” -Name “DisabledComponents” -Value 0x20
+
+#you need to restart the computer for this to take affect
+#Restart-Computer
+```
+![image](https://user-images.githubusercontent.com/44196051/121317107-e2135480-c901-11eb-9832-5930a94f80ac.png
+)
 
 
 ## Remoting Queries
