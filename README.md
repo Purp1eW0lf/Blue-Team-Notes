@@ -1175,7 +1175,9 @@ You can also leverage the Registry to look at drivers
 get-itemproperty -path "HKLM:\System\CurrentControlSet\Services\DBUtil*" 
 
 #You'll likely not know the path though, so just filter for drivers that have \drivers\ in their ImagePath
-get-itemproperty -path "HKLM:\System\CurrentControlSet\Services\*"  | ? ImagePath -like "*drivers*" | fl ImagePath, DisplayName
+get-itemproperty -path "HKLM:\System\CurrentControlSet\Services\*"  | 
+? ImagePath -like "*drivers*" | 
+fl ImagePath, DisplayName
 ```
 (![image](https://user-images.githubusercontent.com/44196051/121329227-eb55ee80-c90c-11eb-808d-0e24fdfd2594.png)
 
