@@ -1815,11 +1815,10 @@ And now if we send it through, we get the decoded command!
 
 I had an instance where 'fileless malware' appeared on a user's endpoint. Whilst I won't take us all the way through that investigation, I'll focus on how we can unobfuscate the malware.
 
-We have two bits of help
+We have two guides of help: 
+* [Reversing Malware](https://haxys.net/tutorials/reversing/powershell2/0-reverse/#:~:text=func_get_proc_address&text=This%20memory%20address%20is%20returned,declared%20in%20the%20function%20call)
+* [Using cyberchef](https://medium.com/mii-cybersec/malicious-powershell-deobfuscation-using-cyberchef-dfb9faff29f)
 
-https://haxys.net/tutorials/reversing/powershell2/0-reverse/#:~:text=func_get_proc_address&text=This%20memory%20address%20is%20returned,declared%20in%20the%20function%20call
-
-https://medium.com/mii-cybersec/malicious-powershell-deobfuscation-using-cyberchef-dfb9faff29f
 
 #### Example string
 
