@@ -438,13 +438,41 @@ gci "C:\Windows\System32\Drivers\etc\hosts" | fl *Time*
 <details>
     <summary>section contents</summary>
 
+  + [Powershell Remoting](#powershell-remoting)
+    - [Remoting Permissions](#remoting-permissions)
+    - [Check Constrained Language](#check-constrained-language)
   + [Check Certificates](#check-certificates)
     - [Certificate Dates](#certificate-dates)
   
-  + [Sort remote IP connections, and then unique them](#sort-remote-ip-connections--and-then-unique-them)
-    - [Hone in on a suspicious IP](#hone-in-on-a-suspicious-ip)
-  
 </details>
+
+### Powershell Remoting
+
+Get Powershell sessions created
+
+```powershell
+Get-PSSession
+```
+
+#### Remoting Permissions
+```powershell
+Get-PSSessionConfiguration | 
+fl Name, PSVersion, Permission
+```
+
+![image](https://user-images.githubusercontent.com/44196051/121309128-b8eec600-c8f9-11eb-955b-99c70cb30dea.png)
+
+
+### Check Constrained Language
+
+To be honest, constrained language mode in Powershell can be trivally easy to mitigate for an adversary. And it's difficult to implement persistently. But anyway. You can use this quick variable to confirm if a machine has a constrained language mode for pwsh.
+
+```powershell
+$ExecutionContext.SessionState.LanguageMode
+```
+
+![image](https://user-images.githubusercontent.com/44196051/121309801-8b564c80-c8fa-11eb-9955-15bf209844e3.png)
+
 
 ### Check Certificates
 
