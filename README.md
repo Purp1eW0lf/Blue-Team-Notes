@@ -33,7 +33,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [File Queries](#file-queries)
   * [Reg Queries](#reg-queries)
   * [Driver Queries](#driver-queries)
-  * [Log Troubleshooting](#log-troubleshooting)
+  * [Log Queries](#log-troubleshooting)
   * [Powershell Tips](#powershell-tips)
 - [Linux](#linux)
   * [Bash History](#bash-history)
@@ -1193,7 +1193,7 @@ Gets all 3rd party drivers
 ![image](https://user-images.githubusercontent.com/44196051/121268822-97b8b600-c8b6-11eb-87ba-787fa5dd4d92.png)
 
 
-## Log Troubleshooting 
+## Log Queries 
 
 <details>
     <summary>section contents</summary>
@@ -1206,7 +1206,11 @@ Gets all 3rd party drivers
 
 </details>
 
-I've tended to use these commands to troubleshoot Windows Event Forwarding and other log related stuff
+From a security perspective, you probably don't want to query logs on the endpoint itself....endpoints after a malicious event can't be trusted. You're better to focus on the logs that have been forwarded from endpoints and centralised in your SIEM. 
+
+If you REALLY want to query local logs for security-related instances, I can recommend this [awesome repo](https://gist.github.com/exp0se/b57f434c9c34b98f84a2)
+
+I've tended to use these commands to troubleshoot Windows Event Forwarding and other log related stuff.
 
 ### Show Logs
 Show logs that are actually enabled and whose contents isn't empty.
