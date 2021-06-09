@@ -1169,6 +1169,16 @@ fl DeviceName, FriendlyName, DriverProviderName, Manufacturer, InfName, IsSigned
 
 ![image](https://user-images.githubusercontent.com/44196051/121267019-6ee2f180-c8b3-11eb-83e9-d4f9218dfdaf.png)
 
+You can also leverage the Registry to look at drivers
+```powershell
+#if you know the driver, you can just give the full path and wildcard the end if you aren't sure of full spelling
+get-itemproperty -path "HKLM:\System\CurrentControlSet\Services\DBUtil*" 
+
+#You'll likely not know the path though, so just filter for drivers that have \drivers\ in their ImagePath
+get-itemproperty -path "HKLM:\System\CurrentControlSet\Services\*"  | ? ImagePath -like "*drivers*" | fl ImagePath, DisplayName
+```
+(![image](https://user-images.githubusercontent.com/44196051/121329227-eb55ee80-c90c-11eb-808d-0e24fdfd2594.png)
+
 #### Other Drivers 
 
 Gets all 3rd party drivers 
