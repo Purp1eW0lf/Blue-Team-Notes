@@ -200,6 +200,13 @@ format-table -autosize
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120307390-d5bc4580-c2ca-11eb-8ffe-d1a835b1ce40.png)
 
+Find why an update failed
+```powershell
+$Failures = gwmi -Class Win32_ReliabilityRecords;
+$Failures | ? message -match 'failure'  | Select -ExpandProperty message 
+```
+
+
 #### Manually check if patch has taken
 This happened to me during the March 2021 situation with Microsoft Exchange's ProxyLogon. The sysadmin swore blind they had patched the server, but neither `systeminfo` of `get-hotfix` was returning with the correct KB patch.
 
