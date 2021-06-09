@@ -25,6 +25,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Service Queries](#service-queries)
   * [User Queries](#user-queries)
   * [Network Queries](#network-queries)
+  * [Remoting Queries](#remoting-queries)
   * [Firewall Queries](#firewall-queries)
   * [SMB Queries](#smb-queries)
   * [Process Queries](#process-queries)
@@ -430,6 +431,37 @@ gci "C:\Windows\System32\Drivers\etc\hosts" | fl *Time*
 
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120916488-d4f82a80-c6a1-11eb-8551-ac495ce2de68.png)
+
+
+## Remoting Queries
+
+<details>
+    <summary>section contents</summary>
+
+  + [Check Certificates](#check-certificates)
+    - [Certificate Dates](#certificate-dates)
+  
+  + [Sort remote IP connections, and then unique them](#sort-remote-ip-connections--and-then-unique-them)
+    - [Hone in on a suspicious IP](#hone-in-on-a-suspicious-ip)
+  
+</details>
+
+### Check Certificates
+
+```powershell
+ci "cert:\" -recurse | fl FriendlyName, Subject, Not* 
+```
+
+![image](https://user-images.githubusercontent.com/44196051/121305446-7d51fd00-c8f5-11eb-918b-da6b7f09d2eb.png)
+
+#### Certificate Dates
+
+You will be dissapointed how many certificates are expired but still in use. Use the `-ExpiringInDays` flag
+
+```powershell
+ gci "cert:\*" -recurse -ExpiringInDays 0 | fl FriendlyName, Subject, Not*  
+ 
+```
 
 ## Firewall Queries
 
