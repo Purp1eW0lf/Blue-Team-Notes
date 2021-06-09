@@ -1815,6 +1815,12 @@ And now if we send it through, we get the decoded command!
 
 I had an instance where 'fileless malware' appeared on a user's endpoint. Whilst I won't take us all the way through that investigation, I'll focus on how we can unobfuscate the malware.
 
+We have two bits of help
+
+https://haxys.net/tutorials/reversing/powershell2/0-reverse/#:~:text=func_get_proc_address&text=This%20memory%20address%20is%20returned,declared%20in%20the%20function%20call
+
+https://medium.com/mii-cybersec/malicious-powershell-deobfuscation-using-cyberchef-dfb9faff29f
+
 #### Example string
 
 Don't ....don't run this.
@@ -1843,18 +1849,28 @@ So take the base64 text from the script, and re-enter it by itself
 ![image](https://user-images.githubusercontent.com/44196051/121337257-417a6000-c914-11eb-95f3-5e4bf9527974.png)
 
 We can turn the UTF option off now, and turn magic on. I tend to give it a higher intensive number, as it's all client-side resource use so it's as strong as your machine is!
+
 ![image](https://user-images.githubusercontent.com/44196051/121337381-62db4c00-c914-11eb-9dce-58f81df1924e.png)
 
 Well looky here, we can see some human-readable text. So now we know to stack add gzip to our decoding stack in cyberchef. From Magic, just click the link of the particular decoding option it offers
 
 ![image](https://user-images.githubusercontent.com/44196051/121337595-9f0eac80-c914-11eb-9b8d-093ad936d68c.png)
 
-#### Gzip Decoded
+#### Gzip and Xor
 
 We're starting to get somewhere with this script! But we're gonna need to do some more decoding unfortunately.
 
 ![image](https://user-images.githubusercontent.com/44196051/121337938-f14fcd80-c914-11eb-9d6f-8b435b13cd6b.png)
 
+There's something sneaky about this malware. It's using some encyrption....but we can break it with XOR
+
+![image](https://user-images.githubusercontent.com/44196051/121338577-89e64d80-c915-11eb-9653-3943527edec2.png)
+
+If we trial and error with the numbers and decimals, we can eventually start the cracking process
+
+![image](https://user-images.githubusercontent.com/44196051/121338868-d893e780-c915-11eb-8f3c-869d24bd4185.png)
+
+And that's as far as we'll go....for now!
 
 
 # SOC
