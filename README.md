@@ -441,6 +441,7 @@ gci "C:\Windows\System32\Drivers\etc\hosts" | fl *Time*
   + [Powershell Remoting](#powershell-remoting)
     - [Remoting Permissions](#remoting-permissions)
     - [Check Constrained Language](#check-constrained-language)
+  + [RDP Settings](#rdp-settings)
   + [Check Certificates](#check-certificates)
     - [Certificate Dates](#certificate-dates)
   
@@ -472,6 +473,20 @@ $ExecutionContext.SessionState.LanguageMode
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/121309801-8b564c80-c8fa-11eb-9955-15bf209844e3.png)
+
+### RDP settings
+
+You can check if RDP capability is permissioned on an endpoint
+```
+if ((Get-ItemProperty "hklm:\System\CurrentControlSet\Control\Terminal Server").fDenyTSConnections -eq 0){write-host "RDP Enabled" } else { echo "RDP Disabled" }
+```
+
+If you want to block RDP
+```
+Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -value 1
+#Firewall it out too
+Disable-NetFirewallRule -DisplayGroup "Remote Desktop"
+```
 
 
 ### Check Certificates
