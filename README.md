@@ -30,8 +30,8 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Process Queries](#process-queries)
   * [Recurring Task Queries](#recurring-task-queries)
   * [File Queries](#file-queries)
-  * [Driver Queries](#driver-queries)
   * [Reg Queries](#reg-queries)
+  * [Driver Queries](#driver-queries)
   * [Log Troubleshooting](#log-troubleshooting)
   * [Powershell Tips](#powershell-tips)
 - [Linux](#linux)
@@ -870,46 +870,6 @@ Sort-Object -property LastWriteTime | format-table lastwritetime, fullname -auto
 copy-item "C:\windows\System32\winevt\Logs\Security.evtx", "C:\windows\System32\winevt\Logs\Windows PowerShell.evtx" -destination C:\temp
 ```
 
-## Driver Queries
-
-<details>
-    <summary>section contents</summary>
-  
-  + [Printer Drivers](#printer-drivers)
-  + [System Drivers](#system-drivers)
-    - [Other Drivers](#other-drivers)
- 
-</details>
-
-Drivers are an interesting one. It isn't everyday you'll see malware sliding a malicious driver in ; bootkits and rootkits have been known to weaponise drivers. But it's well worth it, because it's an excellent method for persistence if an adversary can pull it off without blue-screening a machine. You can read more about it [here](https://eclypsium.com/wp-content/uploads/2019/11/Mother-of-All-Drivers.pdf)
-
-### Printer Drivers
-
-```powershell
-Get-PrinterDriver | fl Name, *path*, *file* 
-```
-
-![image](https://user-images.githubusercontent.com/44196051/121266294-2545d700-c8b2-11eb-927e-45b81f6539e6.png)
-
-### System Drivers
-
-```powershell
-Get-WmiObject Win32_PnPSignedDriver | 
-fl DeviceName, FriendlyName, DriverProviderName, Manufacturer, InfName, IsSigned, DriverVersion
-```
-
-![image](https://user-images.githubusercontent.com/44196051/121267019-6ee2f180-c8b3-11eb-83e9-d4f9218dfdaf.png)
-
-#### Other Drivers 
-
-Gets all 3rd party drivers 
-
-```powershell
- Get-WindowsDriver -Online -All | 
- fl Driver, ProviderName, ClassName, ClassDescription, Date, OriginalFileName, DriverSignature 
-```
-![image](https://user-images.githubusercontent.com/44196051/121268822-97b8b600-c8b6-11eb-87ba-787fa5dd4d92.png)
-
 ---
 
 ## Reg Queries
@@ -1068,6 +1028,48 @@ ft PSChildName, ImagePath -autosize | out-string -width 800
 ![image](https://user-images.githubusercontent.com/44196051/120833359-9bb4a300-c559-11eb-8647-69d990227dbb.png)
 
 ---
+
+
+## Driver Queries
+
+<details>
+    <summary>section contents</summary>
+  
+  + [Printer Drivers](#printer-drivers)
+  + [System Drivers](#system-drivers)
+    - [Other Drivers](#other-drivers)
+ 
+</details>
+
+Drivers are an interesting one. It isn't everyday you'll see malware sliding a malicious driver in ; bootkits and rootkits have been known to weaponise drivers. But it's well worth it, because it's an excellent method for persistence if an adversary can pull it off without blue-screening a machine. You can read more about it [here](https://eclypsium.com/wp-content/uploads/2019/11/Mother-of-All-Drivers.pdf)
+
+### Printer Drivers
+
+```powershell
+Get-PrinterDriver | fl Name, *path*, *file* 
+```
+
+![image](https://user-images.githubusercontent.com/44196051/121266294-2545d700-c8b2-11eb-927e-45b81f6539e6.png)
+
+### System Drivers
+
+```powershell
+Get-WmiObject Win32_PnPSignedDriver | 
+fl DeviceName, FriendlyName, DriverProviderName, Manufacturer, InfName, IsSigned, DriverVersion
+```
+
+![image](https://user-images.githubusercontent.com/44196051/121267019-6ee2f180-c8b3-11eb-83e9-d4f9218dfdaf.png)
+
+#### Other Drivers 
+
+Gets all 3rd party drivers 
+
+```powershell
+ Get-WindowsDriver -Online -All | 
+ fl Driver, ProviderName, ClassName, ClassDescription, Date, OriginalFileName, DriverSignature 
+```
+![image](https://user-images.githubusercontent.com/44196051/121268822-97b8b600-c8b6-11eb-87ba-787fa5dd4d92.png)
+
 
 ## Log Troubleshooting 
 
