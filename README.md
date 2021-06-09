@@ -1788,9 +1788,9 @@ powershell -ExecutionPolicy Unrestricted -encodedCommand IABnAGUAdAAtAGkAdABlAG0
 
 Through experience, we can eventually keep two things in mind about decoding powershell: the first is that it's from base64 ; the second is that the text is a very specific UTF (16 little endian). If we keep these two things in mind, we're off to a good start.
 
-We can then input those options in [Cyberchef]: <https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true)Decode_text('UTF-16LE%20(1200)')> . The order we stack these are important! 
+We can then input those options in Cyberchef . The order we stack these are important! 
 
-![image](https://user-images.githubusercontent.com/44196051/121333852-12162400-c911-11eb-92c4-11fec95b2a72.png)
+![image](https://user-images.githubusercontent.com/44196051/121333852-12162400-c911-11eb-92c4-11fec95b2a72.png <https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true)Decode_text('UTF-16LE%20(1200)')>)
 
 
 
