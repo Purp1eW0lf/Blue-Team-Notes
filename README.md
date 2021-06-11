@@ -1155,6 +1155,7 @@ ft PSChildName, ImagePath -autosize | out-string -width 800
   + [Printer Drivers](#printer-drivers)
   + [System Drivers](#system-drivers)
     - [Other Drivers](#other-drivers)
+  + [Drivers by Directory](#drivers-by-directory)
  
 </details>
 
@@ -1198,6 +1199,27 @@ Gets all 3rd party drivers
  fl Driver, ProviderName, ClassName, ClassDescription, Date, OriginalFileName, DriverSignature 
 ```
 ![image](https://user-images.githubusercontent.com/44196051/121268822-97b8b600-c8b6-11eb-87ba-787fa5dd4d92.png)
+
+#### Drivers by Directory
+
+Look for the drivers that exist via directory diving. We can focus on .INF and .SYS files, and sort by the time last written.
+
+```powershell
+#change to LastWriteTimeUtc if you need to.
+
+# first directory location
+gci C:\Windows\*\DriverStore\FileRepository\ -recurse -include *.inf | 
+sort-object LastWriteTime -Descending |
+ft FullName,LastWriteTime | out-string -width 850
+
+# second driver location
+gci -path C:\Windows\System32\drivers -include *.sys -recurse -ea SilentlyContinue | 
+sort-object LastWriteTime -Descending |
+ft FullName,LastWriteTime | out-string -width 850
+```
+
+![image](https://user-images.githubusercontent.com/44196051/121754106-acda5280-cb0b-11eb-9b5c-6c2195e17ef7.png)
+
 
 
 ## Log Queries 
