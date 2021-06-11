@@ -1270,6 +1270,7 @@ netsh http show urlacl url=http://+:5985/wsman/ && netsh http show urlacl url=ht
   + [Get Command and Get Help](#get-command-and-get-help)
   + [WhatIf](#whatif)
   + [Clip](#clip)
+  + [Output Without Headers](#output-without-headers)
   + [Re-run commands](#re-run-commands)
   + [Stop Truncation](#stop-trunction)
     - [Out-String](#out-string)
@@ -1329,6 +1330,19 @@ hostname | clip
 #ctrl+v
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120554093-3e9ddd80-c3f1-11eb-9ddb-d24b8e87481b.png)
+
+### Output Without Headers
+
+You may just want a value without the collumn header that comes. We can do that with `-ExpandProperty`
+```powershell
+# use the -expandproperty before the object you want. IN this case, ID
+ select -ExpandProperty id 
+# so for example
+get-process -Name "google*" | select -ExpandProperty id
+```
+
+![image](https://user-images.githubusercontent.com/44196051/121708986-fc9b2880-cacf-11eb-8f4a-e9a4145a9ecd.png)
+
 
 ### Re-run commands
 If you had a command that was great, you can re-run it again from your powershell history!
