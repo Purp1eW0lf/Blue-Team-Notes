@@ -1154,8 +1154,11 @@ ft PSChildName, ImagePath -autosize | out-string -width 800
   
   + [Printer Drivers](#printer-drivers)
   + [System Drivers](#system-drivers)
-    - [Other Drivers](#other-drivers)
-  + [Drivers by Directory](#drivers-by-directory)
+    - [Unsigned](#unsigned)
+    - [Signed](#Signed)
+  + [Other Drivers](#other-drivers)
+  + [Drivers by Registry](#drivers-by-registry)
+  + [Drivers by Time](#drivers-by-time)
  
 </details>
 
@@ -1171,12 +1174,59 @@ Get-PrinterDriver | fl Name, *path*, *file*
 
 ### System Drivers
 
+If drivers are or aren't signed, don't use that as the differentiation for what is legit and not legit. Some legitimate drivers are not signed ; some malicious drivers sneak a signature. 
+
+#### Unsigned
+
+Get unsigned drivers. Likely to not return much
+
+```powershell
+gci C:\Windows\*\DriverStore\FileRepository\ -recurse -include *.inf|
+Get-AuthenticodeSignature | 
+? Status -ne "Valid" | ft -autosize
+
+gci -path C:\Windows\System32\drivers -include *.sys -recurse -ea SilentlyContinue | 
+Get-AuthenticodeSignature | 
+? Status -ne "Valid" | ft -autosize
+
+```
+
+#### Signed
+
+Get the signed ones. Will return a lot. 
+
 ```powershell
 Get-WmiObject Win32_PnPSignedDriver | 
 fl DeviceName, FriendlyName, DriverProviderName, Manufacturer, InfName, IsSigned, DriverVersion
+
+# alternatives
+gci -path C:\Windows\System32\drivers -include *.sys -recurse -ea SilentlyContinue | 
+Get-AuthenticodeSignature | 
+? Status -eq "Valid" | ft -autosize 
+#or
+gci C:\Windows\*\DriverStore\FileRepository\ -recurse -include *.inf|
+Get-AuthenticodeSignature | 
+? Status -eq "Valid" | ft -autosize 
+
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/121267019-6ee2f180-c8b3-11eb-83e9-d4f9218dfdaf.png)
+
+![image](https://user-images.githubusercontent.com/44196051/121755059-207d5f00-cb0e-11eb-82b0-8a90e13153ac.png)
+
+
+### Other Drivers 
+
+Gets all 3rd party drivers 
+
+```powershell
+Get-WindowsDriver -Online -All | 
+fl Driver, ProviderName, ClassName, ClassDescription, Date, OriginalFileName, DriverSignature 
+```
+![image](https://user-images.githubusercontent.com/44196051/121268822-97b8b600-c8b6-11eb-87ba-787fa5dd4d92.png)
+
+
+### Drivers by Registry
 
 You can also leverage the Registry to look at drivers
 ```powershell
@@ -1190,19 +1240,10 @@ fl ImagePath, DisplayName
 ```
 (![image](https://user-images.githubusercontent.com/44196051/121329227-eb55ee80-c90c-11eb-808d-0e24fdfd2594.png)
 
-#### Other Drivers 
 
-Gets all 3rd party drivers 
+### Drivers by Time
 
-```powershell
- Get-WindowsDriver -Online -All | 
- fl Driver, ProviderName, ClassName, ClassDescription, Date, OriginalFileName, DriverSignature 
-```
-![image](https://user-images.githubusercontent.com/44196051/121268822-97b8b600-c8b6-11eb-87ba-787fa5dd4d92.png)
-
-#### Drivers by Directory
-
-Look for the drivers that exist via directory diving. We can focus on .INF and .SYS files, and sort by the time last written.
+Look for the drivers that exist via directory diving.. We can focus on .INF and .SYS files, and sort by the time last written.
 
 ```powershell
 #change to LastWriteTimeUtc if you need to.
