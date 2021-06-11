@@ -33,7 +33,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [File Queries](#file-queries)
   * [Reg Queries](#reg-queries)
   * [Driver Queries](#driver-queries)
-  * [Log Queries](#log-troubleshooting)
+  * [Log Queries](#log-queries)
   * [Powershell Tips](#powershell-tips)
 - [Linux](#linux)
   * [Bash History](#bash-history)
