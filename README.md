@@ -1337,11 +1337,20 @@ You may just want a value without the collumn header that comes. We can do that 
 ```powershell
 # use the -expandproperty before the object you want. IN this case, ID
  select -ExpandProperty id 
+ 
 # so for example
 get-process -Name "google*" | select -ExpandProperty id
+# lets stop the particular google ID that we want
+$PID =  get-process -Name "jmon" | ? Path -eq $Null | select -ExpandProperty id;
+Stop-Process -ID $PID -Force -Confirm:$false 
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/121708986-fc9b2880-cacf-11eb-8f4a-e9a4145a9ecd.png)
+
+If you pipe to `| format-table` you can simply use the `-HideTableHeaders` flag
+
+![image](https://user-images.githubusercontent.com/44196051/121710284-5d773080-cad1-11eb-8f2a-1bd27742a199.png)
+
 
 
 ### Re-run commands
