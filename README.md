@@ -9,7 +9,7 @@ The command line stuff tends to be Powershell, as these are the ones I forget th
 
 I use _sysmon_ and _memetask_ as file or directory names in lieu of real file names, just replace the stupid names I've given with the files you actually need. 
 
-I've tried not to use PwSh abbrevations or alias' without first writing out a verbose version of the commands. This is so no one feels fustrated that they aren't sure what a particular command is doing if it's their first time seeing the alias.
+I've tried not to use Powershell abbrevations or alias' without first writing out a verbose version of the commands. This is so no one feels fustrated that they aren't sure what a particular command is doing if it's their first time seeing the alias.
 
 I've included screenshots where possible so you know what you're getting. Some screenshots will be from a Win machine, others may be from the Velociraptor GUI but they do the same thing as if you were on a host's powershell command line.
 
