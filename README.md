@@ -1349,6 +1349,7 @@ We can apply all of the above to individual DLLs. If I notice something strange 
 gci -path C:\Windows\twain_32.dll | get-filehash
 gci -path C:\Windows\twain_32.dll | Get-AuthenticodeSignature 
 ```
+![image](https://user-images.githubusercontent.com/44196051/121808044-b4564480-cc4e-11eb-896d-8a22302e30c2.png)
 
 ##### Verify
 
