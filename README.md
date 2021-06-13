@@ -1275,7 +1275,7 @@ ft FullName,LastWriteTime | out-string -width 850
     <summary>section contents</summary>
   
   + [DLLs used in Processes](#dlls-used-in-processes)
-    - [Investigate Process DLLs](#ivestigate-process-dlls)
+    - [Investigate Process DLLs](#investigate-process-dlls)
   + [Investigate DLLs](#investigate-dlls)
     - [Generically](#generically)
     - [Invalid](#invalid)
