@@ -1269,14 +1269,88 @@ ft FullName,LastWriteTime | out-string -width 850
     <summary>section contents</summary>
   
   + [DLLs used in Processes](#dlls-used-in-processes)
-    - [Overview of what a specific log is up to](#overview-of-what-a-specific-log-is-up-to)
- 
+    - [Investigate Process DLLs](#ivestigate-process-dlls)
+  + [Investigate DLLs](#investigate-dlls)
+    - [Generically](#generically)
+    - [Invalid](#invalid)
+    - [Specifically](#specifically)
+      - [Verify](#verify)
 </details>
 
 ### DLLs Used in Processes
 We've already discussed how to show [DLLs used in processes](#show-all-dlls-loaded-with-a-process)
 
+But what about getting _granular_. Well, let's pick on a specific process we can see running, and let's get the DLLs involved, their file location, their size, and if they have a company name
 
+```powershell
+get-process -name "google*" | 
+Fl @{l="Modules";e={$_.Modules | fl FileName, Size, Company | out-string}}
+
+#alterntive version, just print filepath of specific process' DLL
+(gps -name "google*").Modules.FileName
+```
+![image(]https://user-images.githubusercontent.com/44196051/121806180-ba482780-cc46-11eb-99b3-c8e93ac53708.png)
+
+You can in theory run this without specifying a process, and it will just retrieve all of the DLLs involved in all the processes. But this will be LONG man.
+
+#### Investigate Process Dlls
+We can zero in on the DLLs that a process may call on
+```powershell
+(gps -name "google").Modules.FileName | Get-AuthenticodeSignature
+```
+![image](https://user-images.githubusercontent.com/44196051/121806887-9df9ba00-cc49-11eb-86e6-e42f609ca995.png)
+
+
+### Investigate DLLs
+#### Generically
+
+This will return a lot of DLLs and their last write time. I personally would avoid this approach
+
+```powershell
+gci -path C:\Windows\*, C:\Windows\System32\*  -file -force -include *.dll | fl Name, Lastwritetime
+
+#to get signature codes for these pipe it
+gci -path C:\Windows\*, C:\Windows\System32\*  -file -force -include *.dll | Get-AuthenticodeSignature
+#to get hashes for these, pipe it too
+gci -path C:\Windows\*, C:\Windows\System32\*  -file -force -include *.dll | get-filehash
+```
+![image](https://user-images.githubusercontent.com/44196051/121806606-77874f00-cc48-11eb-97bc-5cdea18c9513.png)
+
+#### Invalid
+
+Like drivers, if a DLL is signed or un-signed, it doesn't immediately signal malicious. There are plenty of official files on a Windows machine that are unsigned. Equally, malicious actors can get signatures for their malicious files too. 
+
+You'll get a lot of results if you look for VALID, signed DLLs. So maybe filter for INVALID ones first. Both will take some time
+```powershell
+
+#get invalid
+gci -path C:\Windows\*, C:\Windows\System32\*  -file -force -include *.dll |
+Get-AuthenticodeSignature | ? Status -ne "Valid" 
+
+#collect valid ones with this command
+gci -path C:\Windows\*, C:\Windows\System32\*  -file -force -include *.dll |
+Get-AuthenticodeSignature | ? Status -eq "Valid" 
+```
+
+![image](https://user-images.githubusercontent.com/44196051/121807259-478d7b00-cc4b-11eb-99f5-ec92f341c319.png)
+
+
+#### Specifically
+
+We can apply all of the above to individual DLLs. If I notice something strange during the [process' DLL hunt] (#dlls-used-in-processes), or if I had identified a DLL with [an invalid signature](#invalid). I'd then hone in on that specific DLL.
+
+```powershell
+gci -path C:\Windows\twain_32.dll | get-filehash
+gci -path C:\Windows\twain_32.dll | Get-AuthenticodeSignature 
+```
+
+##### Verify
+
+If you need to verify what a DLL is, you have a myriad of ways. One way is through [Winbindex](https://winbindex.m417z.com)
+
+Here, you can put the name of a DLL (or many of other filetypes), and in return get a whole SLUETH of data. You can compare the file you have locally with the Winbindex info, which may highlight malice - for example, does the hash match ? Or, is your local copy a much larger file size than the suggested size in the index?
+
+![image](https://user-images.githubusercontent.com/44196051/121807482-401aa180-cc4c-11eb-9dff-5efd9107a3cf.png)
 
 
 ## Log Queries 
