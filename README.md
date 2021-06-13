@@ -1295,7 +1295,7 @@ Fl @{l="Modules";e={$_.Modules | fl FileName, Size, Company | out-string}}
 #alterntive version, just print filepath of specific process' DLL
 (gps -name "google*").Modules.FileName
 ```
-![image(]https://user-images.githubusercontent.com/44196051/121806180-ba482780-cc46-11eb-99b3-c8e93ac53708.png)
+![image](https://user-images.githubusercontent.com/44196051/121806180-ba482780-cc46-11eb-99b3-c8e93ac53708.png)
 
 You can in theory run this without specifying a process, and it will just retrieve all of the DLLs involved in all the processes. But this will be LONG man.
 
