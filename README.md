@@ -33,6 +33,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [File Queries](#file-queries)
   * [Reg Queries](#reg-queries)
   * [Driver Queries](#driver-queries)
+  * [DLL Queries](#dll-queries)
   * [Log Queries](#log-queries)
   * [Powershell Tips](#powershell-tips)
 - [Linux](#linux)
@@ -1260,6 +1261,21 @@ ft FullName,LastWriteTime | out-string -width 850
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/121754106-acda5280-cb0b-11eb-9b5c-6c2195e17ef7.png)
+
+
+## DLL Queries
+
+<details>
+    <summary>section contents</summary>
+  
+  + [DLLs used in Processes](#dlls-used-in-processes)
+    - [Overview of what a specific log is up to](#overview-of-what-a-specific-log-is-up-to)
+ 
+</details>
+
+### DLLs Used in Processes
+We've already discussed how to show [DLLs used in processes](#show-all-dlls-loaded-with-a-process)
+
 
 
 
