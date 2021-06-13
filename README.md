@@ -1165,6 +1165,11 @@ ft PSChildName, ImagePath -autosize | out-string -width 800
 
 Drivers are an interesting one. It isn't everyday you'll see malware sliding a malicious driver in ; bootkits and rootkits have been known to weaponise drivers. But it's well worth it, because it's an excellent method for persistence if an adversary can pull it off without blue-screening a machine. You can read more about it [here](https://eclypsium.com/wp-content/uploads/2019/11/Mother-of-All-Drivers.pdf)
 
+You can utilise [Winbindex](https://winbindex.m417z.com) to investigate drivers, and compare a local copy you have with the indexed info. Malicious copies may have a hash that doesn't match, or a file size that doesn't quite match.
+
+![image](https://user-images.githubusercontent.com/44196051/121807617-d4850400-cc4c-11eb-9a47-8b3e18bfe48f.png)
+
+
 ### Printer Drivers
 
 ```powershell
@@ -1176,6 +1181,7 @@ Get-PrinterDriver | fl Name, *path*, *file*
 ### System Drivers
 
 If drivers are or aren't signed, don't use that as the differentiation for what is legit and not legit. Some legitimate drivers are not signed ; some malicious drivers sneak a signature. 
+
 
 #### Unsigned
 
@@ -1337,7 +1343,7 @@ Get-AuthenticodeSignature | ? Status -eq "Valid"
 
 #### Specifically
 
-We can apply all of the above to individual DLLs. If I notice something strange during the [process' DLL hunt] (#dlls-used-in-processes), or if I had identified a DLL with [an invalid signature](#invalid). I'd then hone in on that specific DLL.
+We can apply all of the above to individual DLLs. If I notice something strange during the [process' DLL hunt](#dlls-used-in-processes), or if I had identified a DLL with [an invalid signature](#invalid). I'd then hone in on that specific DLL.
 
 ```powershell
 gci -path C:\Windows\twain_32.dll | get-filehash
@@ -1351,6 +1357,8 @@ If you need to verify what a DLL is, you have a myriad of ways. One way is throu
 Here, you can put the name of a DLL (or many of other filetypes), and in return get a whole SLUETH of data. You can compare the file you have locally with the Winbindex info, which may highlight malice - for example, does the hash match ? Or, is your local copy a much larger file size than the suggested size in the index?
 
 ![image](https://user-images.githubusercontent.com/44196051/121807482-401aa180-cc4c-11eb-9dff-5efd9107a3cf.png)
+
+If not Windex, you have the usual Google-Fu methods, and having the file hash will aid you [here](#specifically)
 
 
 ## Log Queries 
@@ -1894,6 +1902,7 @@ That's that then, ProcMon helped us figure out what a suspicious binary was up t
   + [Check the hash](#check-the-hash)
     - [Virus Total](#virus-total)
     - [Malware Bazaar](#malware-bazaar)
+    - [Winbindex](#winbindex)
 
 </details>
 
@@ -1946,6 +1955,20 @@ Notice how much Malware Bazaar offers. You can go and get malware samples from h
 Sometimes, Malware Bazaar offers insight into the malware is delivered too
 
 ![image](https://user-images.githubusercontent.com/44196051/120632964-7cd2e580-c461-11eb-8a37-1dcf3506f90e.png)
+
+### Winbindex
+
+[Winbindex](https://winbindex.m417z.com) is awesome. The info behind the site can be read [here](https://m417z.com/Introducing-Winbindex-the-Windows-Binaries-Index/). But in essence, it's a repo of official Windows binaries and their hashes.
+
+We've already discussed it about [Drivers](#driver-queries) and [DLLs](#verify), so I won't go into too much detail. This won't give you an insight into malware, but it will return what the details of an official binary should be.
+
+This is powerfull, as it allows us to know what known-goods should look like and have. 
+
+![image](https://user-images.githubusercontent.com/44196051/121807829-b8359700-cc4d-11eb-84c4-80a6ae927dc8.png)
+
+If we click on _Extras_ we get insightful information about the legitimate filepath of a file, its timestamp, and more!
+
+![image](https://user-images.githubusercontent.com/44196051/121807894-fb900580-cc4d-11eb-8ce9-9ca176626c54.png)
 
 ---
 
