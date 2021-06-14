@@ -379,6 +379,7 @@ Get-Service -DisplayName "meme_service" | Stop-Service -Force -Confirm:$false
   + [Check Hosts file](#check-Hosts-file)
     - [Check Host file Time](#Check-Host-file-time)
   + [DNS Cache](#dns-cache)
+    - [Investigate DNS](#investigate-dns)
   + [IPv6](#ipv6)
     - [Disable Priority Treatment of IPv6](#Disable-Priority-Treatment-of-IPv6)
 
@@ -446,11 +447,29 @@ gci "C:\Windows\System32\Drivers\etc\hosts" | fl *Time*
 
 ### DNS Cache
 
+Collect the DNS cache on an endpoint. Good for catching any sneaky communication or sometimes even DNS C2
+
 ```powershell
 Get-DnsClientCache | out-string -width 1000
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/121901947-c99aa400-cd1e-11eb-8454-093c54dd2086.png)
+
+#### Investigate DNS
+
+The above command will likely return a lot of results you don't really need about the communication between 'trusted' endpoints and servers. We can filter these 'trusted' hostnames out with regex, until we're left with less common results. 
+
+On the second line of the below code, change up and insert the regex that will filter out your machines. For example, if your machines are generally called WrkSt1001.corp.local, or ServStFAX.corp.local, you can regex out that first poriton so it will exclude any and all machines that share this - so `workst|servst` would do the job.
+
+Be careful though. If you are too generic and liberal, you may end up filtering out malicious and important results. It's bettter to be a bit specific, and drill down further to amake sure you aren't filtering out important info. So for example, I wouldn't suggest filtering out short combos of letters or numbers `ae|ou|34|`
+
+```powershell
+Get-DnsClientCache | 
+? Entry -NotMatch "workst|servst||kerb|ws|ocsp" |
+out-string -width 1000  
+```
+
+If there's an IP you're sus of, you can always take it to [WHOIS](https://who.is/) or [VirusTotal](https://www.virustotal.com/gui/home/search), as well see for other instances it appears in your network and what's up to whilst it's interacting there.
 
 ### IPv6
 
