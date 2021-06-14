@@ -21,7 +21,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 ## Table of Contents
 - [Shell Style](#shell-style)
 - [Powershell](#Powershell)
-  * [OSInfo](#os-info)
+  * [OS Queries](#os-queries)
   * [Service Queries](#service-queries)
   * [User Queries](#user-queries)
   * [Network Queries](#network-queries)
@@ -106,7 +106,7 @@ source ~/.bashrc
 ---
 # Powershell
 
-## OS Info
+## OS Queries
 
 <details>
     <summary>section contents</summary>
@@ -378,6 +378,7 @@ Get-Service -DisplayName "meme_service" | Stop-Service -Force -Confirm:$false
   + [Kill a connection](#kill-a-connection)
   + [Check Hosts file](#check-Hosts-file)
     - [Check Host file Time](#Check-Host-file-time)
+  + [DNS Cache](#dns-cache)
   + [IPv6](#ipv6)
     - [Disable Priority Treatment of IPv6](#Disable-Priority-Treatment-of-IPv6)
 
@@ -443,6 +444,13 @@ gci "C:\Windows\System32\Drivers\etc\hosts" | fl *Time*
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120916488-d4f82a80-c6a1-11eb-8551-ac495ce2de68.png)
 
+### DNS Cache
+
+```powershell
+Get-DnsClientCache | out-string -width 1000
+```
+
+![image](https://user-images.githubusercontent.com/44196051/121901947-c99aa400-cd1e-11eb-8454-093c54dd2086.png)
 
 ### IPv6
 
