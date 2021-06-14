@@ -589,7 +589,7 @@ You will be dissapointed how many certificates are expired but still in use. Use
 
 </details>
 
-### Retreieve Firewall profile names
+### Retrieve Firewall profile names
 ```powershell
 (Get-NetFirewallProfile).name
 ```
