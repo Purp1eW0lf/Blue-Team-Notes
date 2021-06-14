@@ -1029,7 +1029,7 @@ copy-item "C:\windows\System32\winevt\Logs\Security.evtx", "C:\windows\System32\
   + [Understanding Reg Permissions](#understanding-reg-permissions)
     - [Get-ACl](#get-acl)
     - [Convert SDDL](#convert-sddl)
-    - [What could they do?](#what-could-they-do-)
+    - [What could they do with poor permissions?](#what-could-they-do-with-poor-permissions)
   + [Hunting for Reg evil](#hunting-for-reg-evil)
     - [Filtering Reg ImagePath](#filtering-reg-imagepath)
 
@@ -1104,7 +1104,7 @@ ConvertFrom-SddlString -Sddl $acl.Sddl -Type RegistryRights | Foreach-Object {$_
 ![image](https://user-images.githubusercontent.com/44196051/120823443-58edcd80-c54f-11eb-850f-4f0049bcae95.png)
 
 
-#### What could they do?
+#### What could they do with poor permissions?
 
 An adversary in control of a loosely permissioned registry entry for a service, for example, could give themselves a privesc or persistence. For example:
 ```powershell
