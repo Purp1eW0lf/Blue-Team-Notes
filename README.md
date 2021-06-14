@@ -459,13 +459,13 @@ Get-DnsClientCache | out-string -width 1000
 
 The above command will likely return a lot of results you don't really need about the communication between 'trusted' endpoints and servers. We can filter these 'trusted' hostnames out with regex, until we're left with less common results. 
 
-On the second line of the below code, change up and insert the regex that will filter out your machines. For example, if your machines are generally called WrkSt1001.corp.local, or ServStFAX.corp.local, you can regex out that first poriton so it will exclude any and all machines that share this - so `workst|servst` would do the job.
+On the second line of the below code, change up and insert the regex that will filter out your machines. For example, if your machines are generally called WrkSt1001.corp.local, or ServStFAX.corp.local, you can regex out that first poriton so it will exclude any and all machines that share this - so `workst|servst` would do the job. You don't need to wildcard here.
 
 Be careful though. If you are too generic and liberal, you may end up filtering out malicious and important results. It's bettter to be a bit specific, and drill down further to amake sure you aren't filtering out important info. So for example, I wouldn't suggest filtering out short combos of letters or numbers `ae|ou|34|`
 
 ```powershell
 Get-DnsClientCache | 
-? Entry -NotMatch "workst|servst||kerb|ws|ocsp" |
+? Entry -NotMatch "workst|servst|memes|kerb|ws|ocsp" |
 out-string -width 1000  
 ```
 
