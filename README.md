@@ -1027,7 +1027,7 @@ copy-item "C:\windows\System32\winevt\Logs\Security.evtx", "C:\windows\System32\
   + [Remove a reg entry](#remove-a-reg-entry)
   + [Example Malicious Reg](#example-malicious-reg)
   + [Understanding Reg Permissions](#understanding-reg-permissions)
-  + [Get-ACl](#get-acl)
+    - [Get-ACl](#get-acl)
     - [Convert SDDL](#convert-sddl)
     - [What could they do?](#what-could-they-do-)
   + [Hunting for Reg evil](#hunting-for-reg-evil)
