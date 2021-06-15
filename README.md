@@ -1706,7 +1706,7 @@ ss -plunt
   + [Get information about a file](#get-information-about-a-file)
   + [Files and Dates](#files-and-dates)
     - [This one will print the files and their corresponding timestamp](#this-one-will-print-the-files-and-their-corresponding-timestamp)
-  + [Show all files created between two dates](#show-all-files-created-between-two-dates)
+    - [Show all files created between two dates](#show-all-files-created-between-two-dates)
 
 </details>
 
@@ -1762,7 +1762,7 @@ find . -printf "%T+ %p\n"
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120664233-acdeb080-c482-11eb-8a85-922965bd575e.png)
 
-### Show all files created between two dates
+#### Show all files created between two dates
 I've got to be honest with you, this is one of my favourite commands. The level of granularity you can get is crazy. You can find files that have changed state by the MINUTE if you really wanted.
 
 ```bash
