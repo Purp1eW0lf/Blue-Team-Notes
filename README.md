@@ -1648,7 +1648,7 @@ Then run the `history` command to see your timestamped bash history
     <summary>section contents</summary>
 
   + [Grep Regex extract IPv4](#grep-regex-extract-ipv4)
-  + [Use Ack to highlight!](#use-ack-to-highlight-)
+  + [Use Ack to highlight](#use-ack-to-highlight)
  
 </details>
 
@@ -1656,7 +1656,7 @@ Then run the `history` command to see your timestamped bash history
 ```bash
 grep -E -o "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" file.txt | sort | uniq 
 ```
-### Use Ack to highlight!
+### Use Ack to highlight
 One thing I really like about Ack is that it can highlight words easily, which is great for screenshots and reporting. So take the above example, let's say we're looking for two specific IP, we can have ack filter and highlight those
 
 [Ack](https://linux.die.net/man/1/ack) is like Grep's younger, more refined brother. Has some of greps' flags as default, and just makes life a bit easier.
