@@ -712,13 +712,14 @@ Get-Process -Id (Get-NetTCPConnection).OwningProcess
 ### Show all processes and their associated user
 ```powershell
 get-process * -Includeusername
-
-# get more detail. 
-gwmi win32_process | Select Name,ProcessID,@{n='Owner';e={$_.GetOwner().User}},CommandLine | 
-sort name | ft -wrap -autosize | out-string
-
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120329122-70288300-c2e3-11eb-95ef-276ffd556acd.png)
+
+### Get specific info about the full path binary that a process is running
+```powershell
+gwmi win32_process | Select Name,ProcessID,@{n='Owner';e={$_.GetOwner().User}},CommandLine | 
+sort name | ft -wrap -autosize | out-string
+```
 
 ![image](https://user-images.githubusercontent.com/44196051/120901193-4350d480-c631-11eb-81c4-41c832d064de.png)
 
