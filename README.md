@@ -361,7 +361,7 @@ get-service -name "eventlog" | fl *
 
 ### Kill a service
 ``` powershell
-Get-Service -DisplayName "meme_service" | Stop-Service -Force -Confirm:$false
+Get-Service -DisplayName "meme_service" | Stop-Service -Force -Confirm:$false -verbose
 ```
 
 ---
@@ -426,7 +426,7 @@ You can generally filter pwsh UDP the way we did the above TCP
 ### Kill a connection
 There's probably a better way to do this. But essentially, get the tcp connection that has the specific remote IPv4/6 you want to kill. It will collect the OwningProcess. From here, get-process then filters for those owningprocess ID numbers. And then it will stop said process. Bit clunky
 ``` powershell
-stop-process -confirm (Get-Process -Id (Get-NetTCPConnection -RemoteAddress "1.2.3.4" ).OwningProcess)
+stop-process -verbose -force -Confirm:$false (Get-Process -Id (Get-NetTCPConnection -RemoteAddress "1.2.3.4" ).OwningProcess)
 ```
 
 ### Check Hosts file
@@ -679,7 +679,7 @@ select Dialect, Servername, Sharename | sort Dialect
 
 ### Remove an SMB Share
 ```powershell
-Remove-SmbShare -Name MaliciousShare -Confirm:$false
+Remove-SmbShare -Name MaliciousShare -Confirm:$false -verbose
 ```
 
 ---
@@ -790,7 +790,7 @@ ft -autosize -wrap | out-string -width 800
 
 ### Stop a Process
 ```powershell
-Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false
+Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false -verbose
 ```
 
 ---
@@ -850,7 +850,7 @@ get-scheduledtask -taskpath (Get-ScheduledTask -Taskname "$task").taskpath | Exp
 
 #### To stop the task
 ```powershell
-Get-ScheduledTask "memetask" | Stop-ScheduledTask -Force -Confirm:$false
+Get-ScheduledTask "memetask" | Stop-ScheduledTask -Force -Confirm:$false -verbose
 ```
 ### Show what programs run at startup
 ```powershell
@@ -883,9 +883,11 @@ The following all work.
 ```powershell
 Disable-ScheduledJob -Name evil_sched
 Unregister-ScheduledJob -Name eviler_sched
-Remove-Job -id 3
+Remove-Job -id 3 
 #then double check it's gone with Get-ScheduledJob
-#if persists, tack on -Force -Confirm:$false
+
+#if persists, tack on to unregister or remove-job
+-Force -Confirm:$false -verbose
 ```
 
 ### Hunt WMI Persistence
@@ -1129,7 +1131,7 @@ If there's a malicious reg entry, you can remove it this way
 # Read the reg to make sure this is the bad boy you want
 get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\'
 #remove it by piping it to remove-item
-get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\' | Remove-Item -Force -Confirm:$false
+get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\' | Remove-Item -Force -Confirm:$false -verbose
 # double check it's gone by trying to re-read it
 get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\'
 ```
@@ -1596,7 +1598,7 @@ You may just want a value without the collumn header that comes. We can do that 
 get-process -Name "google*" | select -ExpandProperty id
 # lets stop the particular google ID that we want
 $PID =  get-process -Name "jmon" | ? Path -eq $Null | select -ExpandProperty id;
-Stop-Process -ID $PID -Force -Confirm:$false 
+Stop-Process -ID $PID -Force -Confirm:$false -verbose
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/121708986-fc9b2880-cacf-11eb-8f4a-e9a4145a9ecd.png)
