@@ -809,6 +809,9 @@ Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false
     - [Find out what scheduled jobs are on the machine](#find-out-what-scheduled-jobs-are-on-the-machine)
     - [Get detail behind scheduled jobs](#get-detail-behind-scheduled-jobs)
     - [Kill job](#kill-job)
+  + [Hunt WMI Persistence](#hunt-wmi-persistence)
+    - [Removing it](#removing-it)
+    - [A note on CIM](#a-note-on-cim)
 
 </details>
 
@@ -884,6 +887,23 @@ Remove-Job -id 3
 #then double check it's gone with Get-ScheduledJob
 #if persists, tack on -Force -Confirm:$false
 ```
+
+
+### Hunting WMI Persistence
+
+WMIC can do some pretty [evil things](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/wp-windows-management-instrumentation.pdf). One sneaky, pro-gamer move it can pull is persistence.
+
+
+
+#### Removing it
+
+#### A note on CIM 
+
+You may see WMI and CIM talked about together, whether on the internet or on in the Blue Team Notes here. 
+
+CIM is a standard for language for vendor-side management of a lot of the physical and digital mechanics of what makes a computer tick. WMIC was and is Microsoft's interpretation of CIM. 
+
+However, Microsoft is going to decommision WMIC soon. So using `Get-Ciminstance` versions rather than `get-wmiobject` is probably better for us to learn in the long term. I dunno man, [It's complicated](https://devblogs.microsoft.com/scripting/should-i-use-cim-or-wmi-with-windows-powershell/). 
 
 ---
 
