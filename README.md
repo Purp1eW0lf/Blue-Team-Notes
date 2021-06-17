@@ -888,31 +888,18 @@ Remove-Job -id 3
 #if persists, tack on -Force -Confirm:$false
 ```
 
-
 ### Hunt WMI Persistence
 
 WMIC can do some pretty [evil things](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/wp-windows-management-instrumentation.pdf). One sneaky, pro-gamer move it can pull is *persistence*
 
-##### Let's be bad guys!
-For testing purposes, in your lab rig let's set up WMI persistence
-```cmd
-# Easier in cmd prompt
-#this will execute our EVIL event every 60 seconds
-wmic /NAMESPACE:"\\root\subscription" PATH __EventFilter CREATE Name="EVIL", EventNameSpace="root\cimv2",QueryLanguage="WQL", Query="SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System'"
-#this will set C:\evil.exe as our 
-wmic /NAMESPACE:"\\root\subscription" PATH CommandLineEventConsumer CREATE Name="EVIL", ExecutablePath="C:\\EVIL.exe",CommandLineTemplate="C:\EVIL.EXE
-#this will marry it all together!
-wmic /NAMESPACE:"\\root\subscription" PATH __FilterToConsumerBinding CREATE Filter="__EventFilter.Name=\"EVIL\"", Consumer="CommandLineEventConsumer.Name=\"EVIL\""
-```
+In the image below I have included a part of setting up WMI persistence
 ![image](https://user-images.githubusercontent.com/44196051/122431376-4ed6c080-cf8c-11eb-9538-55f6e0e7c7a5.png)
 
 
 ##### Finding it
 Now, our task is to find this persistent evil.
 
-###### Through Get-Ciminstance
-
-This is my preffered way. It comes out cleaner:
+Get-CimInstance comes out cleaner, but you can always rely on the alternate Get-WMIObject
 
 ```powershell
 
@@ -920,22 +907,39 @@ Get-CimInstance -Namespace root\Subscription -Class __FilterToConsumerBinding
 Get-CimInstance -Namespace root\Subscription -Class __EventFilter
 Get-CimInstance -Namespace root\Subscription -Class __EventConsumer
 
-```
-![image](https://user-images.githubusercontent.com/44196051/122433194-e7217500-cf8d-11eb-94b1-957254bf0f4c.png)
-![image](https://user-images.githubusercontent.com/44196051/122433360-0fa96f00-cf8e-11eb-90f6-4c3baafaeddd.png)
-![image](https://user-images.githubusercontent.com/44196051/122433449-26e85c80-cf8e-11eb-9226-ce9f6985d76b.png)
+## OR
 
-###### Through Get-WMIObject
-
-You can do it through WMI, but I find it comes out messier and during an IR you don't want to be struggling to read something. You want to read it quick!
-
-```powershell
 Get-WMIObject -Namespace root\Subscription -Class __EventFilter
 Get-WMIObject -Namespace root\Subscription -Class __FilterToConsumerBinding
 Get-WMIObject -Namespace root\Subscription -Class __EventConsumer
 ```
 
+![image](https://user-images.githubusercontent.com/44196051/122433194-e7217500-cf8d-11eb-94b1-957254bf0f4c.png)
+![image](https://user-images.githubusercontent.com/44196051/122433360-0fa96f00-cf8e-11eb-90f6-4c3baafaeddd.png)
+![image](https://user-images.githubusercontent.com/44196051/122433449-26e85c80-cf8e-11eb-9226-ce9f6985d76b.png)
+
 #### Removing it
+
+Now we've identified the evil WMI persistence, let us be rid of it! 
+
+We can specify the Name as `EVIL` as that's what it was called across the three services. Whatever your persistence calls itself, change the name for that
+
+```powershell
+#notice this time, we use the abbrevated version of CIM and WMI
+
+gcim -Namespace root\Subscription -Class __EventFilter | 
+? Name -eq "EVIL" | Remove-CimInstance -verbose
+
+gcim -Namespace root\Subscription -Class __EventConsumer| 
+? Name -eq "EVIL" | Remove-CimInstance -verbose
+
+#it's actually easier to use gwmi here instead of gcim
+gwmi -Namespace root\Subscription -Class __FilterToConsumerBinding | 
+? Consumer -match "EVIL" | Remove-WmiObject -verbose
+```
+
+![image](https://user-images.githubusercontent.com/44196051/122436413-b55ddd80-cf90-11eb-9cb5-7854ddf6225d.png)
+
 
 #### A note on CIM 
 
