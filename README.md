@@ -2231,6 +2231,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
   + [Add Colour](#add-colour)
   + [Add Time](#add-time)
   + [Add Readable Detail](#add-readable-detail)
+  + [Ideal base for any TShark command](#ideal-base-for-any-tshark-command)
   + [Change Format of Packet](#change-format-of-packets)
     - [Get format options](#get-format-options)
       - [Prepare for Elastic](#prepare-for-elastic)
@@ -2258,16 +2259,20 @@ TShark is the terminal implementation of Wireshark. Both Tshark and Wireshark ca
 
 There are resource advantages to using TShark, as you are keeping everything command line and can pre-filter before you even ingest and read a file. A meaty pcap will take a while to be ingested by Wireshark on the other hand. But once ingested, Wireshark proves to be the better option. If you're in a hurry, TShark will give you the answers you need at break-neck speed!
 
+
 ---
 
 ### Add Colour
 
 An essential part of making TShark _aesthetically_ pop. Adding colour makes an analysts life easier. 
 
-However the `--color` flag doesn't stack well with other flags. 
+However the `--color` flag doesn't stack well with other flags, so be careful. 
 
 ```bash
 tshark --color -r c42-MTA6.pcap
+
+## stacks well with these flags
+tshark -t ud -r c42-MTA6.pcap -x -P --color
 ```
 ![2021-06-18_17-40](https://user-images.githubusercontent.com/44196051/122593574-c45e9180-d05d-11eb-8d93-f03d3f67ee09.png)
 
@@ -2301,13 +2306,33 @@ Also, you can add verbose mode which includes all of Wireshark's drop-down detai
 
 ```bash
 #just verbose
-tshark -r Voip-trace.pcap -v
+tshark -r Voip-trace.pcap -V
 
 #filtered a bit to focus on sip protocol only
-tshark -r Voip-trace.pcap -v -x -Y sip
+tshark -r Voip-trace.pcap -V -x -Y sip
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122620266-68f6c880-d08a-11eb-85dc-f414e28e154d.png)
 
+
+You'll also probably want to print the packet line too, with `-P`
+
+```bash
+tshark -r c42-MTA6.pcap -V -x -Y dns -P
+
+```
+![image](https://user-images.githubusercontent.com/44196051/122622067-6e0a4680-d08f-11eb-820d-0a82847ec904.png)
+
+#### Ideal base for any TShark command
+
+We can stack lots and lots of things in TShark, but there are some ideal flags that we've already mentioned (or not yet mentioned) that form a solid base. Adding these flags in, or variations of them, will usually always ensure we don't get too lost. 
+
+```bash
+#read the pcacp, print time in UTC, verbose details, hex/ascii, print packet summary line, AND filter by a protocol (in this case DNS)
+tshark -r c42-MTA6.pcap -t ud -V -x -P -Y dns
+
+##print all the packets and the hex/ASCII, with color
+tshark -t ud -r c42-MTA6.pcap -x -P --color
+```
 ---
 
 ### Change Format of Packet
