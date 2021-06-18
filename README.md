@@ -2298,6 +2298,9 @@ You know how in Wireshark you can open up the drop-down tabs to filter and get m
 You can do that in TShark too. Though it just prints ALL of the tabs
 ```bash
 tshark -T tabs -V -r c42-MTA6.pcap
+
+#can do more or less the same just flagging -V from normal
+tshark -V -r c42-MTA6.pcap
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122599551-77cb8400-d066-11eb-929a-38dc7f2d0f64.png)
 
