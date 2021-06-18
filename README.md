@@ -2248,6 +2248,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
       - [Stats on Protocols Involved in Traffic](#stats-on-protocols-involved-in-traffic)
     - [HTTP](#http)
       - [Resolve Hosts](#resolve-hosts)
+      - [Find User Agents](#find-user-agents)
     - [Get Credentials](#get-credentials)
   
 </details>
@@ -2554,6 +2555,13 @@ Collect IPs and the hostname they resolved to at the time
 tshark -r c42-MTA6.pcap -q -z hosts
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122611483-4dcf8d00-d079-11eb-843d-78e565630f89.png)
+
+##### Find User Agents
+```bash
+tshark -r Voip-trace.pcap -Y http.request -T fields -e http.host -e http.user_agent | sort -u
+```
+![image](https://user-images.githubusercontent.com/44196051/122619105-92fabb80-d087-11eb-9742-56cac00b6a37.png)
+
 
 #### Get Credentials
 In theory, `-z credentials` will collect the credentials in packets. I, however, have not had much success with this tbh. 
