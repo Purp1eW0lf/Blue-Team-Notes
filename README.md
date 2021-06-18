@@ -50,7 +50,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 - [SOC](#SOC)
   * [Sigma Converter](#sigma-converter)
   * [SOC Prime](#soc-prime)
- - [Network Traffic](#network-traffic)
+- [Network Traffic](#network-traffic)
   * [TShark](#tshark)
    
 
@@ -2207,6 +2207,7 @@ You can pick a rule here, and convert it there and then for the search langauge 
 
 ![image](https://user-images.githubusercontent.com/44196051/120675130-b66d1600-c48c-11eb-9377-27098fce2283.png)
 
+---
 
 # Network Traffic
 
@@ -2220,6 +2221,9 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
     <summary>section contents</summary>
 
   + [Add Colour](#add-colour)
+  + [Change Format of Packet](#change-format-of-packets)
+    - [Get format options](#get-format-options)
+      - [Prepare for Elastic](#prepare-for-elastic)
   
 </details>
 
@@ -2233,4 +2237,48 @@ An essential part of making TShark _aesthetically_ pop. Adding colour makes an a
 tshark --color -r c42-MTA6.pcap
 ```
 ![2021-06-18_17-40](https://user-images.githubusercontent.com/44196051/122593574-c45e9180-d05d-11eb-8d93-f03d3f67ee09.png)
+
+
+### Change Format of Packet
+
+For reasons various, you may not be satisfied with how a packet is printed by default. 
+
+#### Get Format Options
+To find out the options you have and the descriptions behind them, run this bad boy:
+
+```bash
+#the help will fail to do anything but don't worry about that
+tshark -T help
+```
+![image](https://user-images.githubusercontent.com/44196051/122594520-05a37100-d05f-11eb-9292-e96863f185c8.png)
+
+
+##### Prepare for Elastic
+
+Say for example we want to upload a packet into an ELK stack, we can print the PCAP in Elastic format.
+```bash
+#print it to terminal in Elastic format
+  # -P means packet summary
+  # -V means packet details
+tshark -T ek -P -V -r c42-MTA6.pcap
+
+#output it to elastic format and save in a file, to be ingested by an ELK later
+tshark -T ek -P -V -r c42-MTA6.pcap > elastic.json
+```
+
+Notice how Elastic wraps things around `{}`, the curly brackets.
+
+![image](https://user-images.githubusercontent.com/44196051/122594999-ad20a380-d05f-11eb-94d5-72c19044bfca.png)
+
+Moreover, Elastic needs a *mapping index* as a template to convert this packet business into somthing ELK can understand. 
+
+```bash
+#this is a BIG output
+tshark -G elastic-mapping > map.index
+#You can filter by protocol
+tshark -G elastic-mapping --elastic-mapping-filter ip,smb,dns,tcp  > map.index
+```
+![image](https://user-images.githubusercontent.com/44196051/122596008-2a98e380-d061-11eb-9af4-16a3a9c75801.png)
+
+![image](https://user-images.githubusercontent.com/44196051/122596228-75b2f680-d061-11eb-81aa-9bdf6beed4dc.png)
 
