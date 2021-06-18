@@ -50,6 +50,9 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 - [SOC](#SOC)
   * [Sigma Converter](#sigma-converter)
   * [SOC Prime](#soc-prime)
+ - [Network Traffic](#network-traffic)
+  * [TShark](#tshark)
+   
 
 ---
 
@@ -2203,4 +2206,31 @@ Here, we can see that a sigma rule for CS process injection is automtically conv
 You can pick a rule here, and convert it there and then for the search langauge you use in your SOC
 
 ![image](https://user-images.githubusercontent.com/44196051/120675130-b66d1600-c48c-11eb-9377-27098fce2283.png)
+
+
+# Network Traffic
+
+I'll be honest with you. Network traffic is where it's at. Endpoints and their logs are fallible, they can be made to LIE to you by an adversary. But packets? Packet's don't lie.
+
+There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-network-driven-incident-investigations-119100) and [corresponding paper](https://www.sans.org/reading-room/whitepapers/analyst/membership/40300), called _Packets or it Didn't Happen_,  all about the utility of network traffic's advantadges over endpoint log monitoring. 
+
+## TShark
+
+<details>
+    <summary>section contents</summary>
+
+  + [Add Colour](#add-colour)
+  
+</details>
+
+TShark is the terminal implementation of Wireshark. There are resource advantadges to using TShark, as you are keeping everything command line and can pre-filter before you even ingest and read a file.
+
+### Add Colour
+
+An essential part of making TShark _aesthetically_ pop. Adding colour makes an analysts life easier.
+
+```bash
+tshark --color -r c42-MTA6.pcap
+```
+![2021-06-18_17-40](https://user-images.githubusercontent.com/44196051/122593574-c45e9180-d05d-11eb-8d93-f03d3f67ee09.png)
 
