@@ -2230,6 +2230,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
 
   + [Add Colour](#add-colour)
   + [Add Time](#add-time)
+  + [Add Readable Detail](#add-readable-detail)
   + [Change Format of Packet](#change-format-of-packets)
     - [Get format options](#get-format-options)
       - [Prepare for Elastic](#prepare-for-elastic)
@@ -2261,7 +2262,9 @@ There are resource advantages to using TShark, as you are keeping everything com
 
 ### Add Colour
 
-An essential part of making TShark _aesthetically_ pop. Adding colour makes an analysts life easier.
+An essential part of making TShark _aesthetically_ pop. Adding colour makes an analysts life easier. 
+
+However the `--color` flag doesn't stack well with other flags. 
 
 ```bash
 tshark --color -r c42-MTA6.pcap
@@ -2283,6 +2286,27 @@ tshark -r c42-MTA6.pcap -t ad
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/122607616-c41cc100-d072-11eb-9cc1-884454f3bf68.png)
+
+
+### Add Readable Detail
+
+What's a packet without the decoded text! Use the `-x` flag to get some insight into what's occuring
+
+```bash
+tshark -r Voip-trace.pcap -x
+```
+![image](https://user-images.githubusercontent.com/44196051/122620121-06053180-d08a-11eb-9058-7c466642a571.png)
+
+Also, you can add verbose mode which includes all of Wireshark's drop-down details that you'd normally get. This can yield a whole lot of data, so best to try and filter this bad boy
+
+```bash
+#just verbose
+tshark -r Voip-trace.pcap -v
+
+#filtered a bit to focus on sip protocol only
+tshark -r Voip-trace.pcap -v -x -Y sip
+```
+![image](https://user-images.githubusercontent.com/44196051/122620266-68f6c880-d08a-11eb-85dc-f414e28e154d.png)
 
 ---
 
