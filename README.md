@@ -2222,12 +2222,14 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
     <summary>section contents</summary>
 
   + [Add Colour](#add-colour)
+  + [Add Time](#add-time)
   + [Change Format of Packet](#change-format-of-packets)
     - [Get format options](#get-format-options)
       - [Prepare for Elastic](#prepare-for-elastic)
       - [Tabs](#tabs)
       - [Other Formats](#other-formats)
   + [Filtering](#filtering)
+    - [Glossary](#glossary)
     - [By Protocol](#by-protocol)
     - [By IP](#by-ip)
   
@@ -2243,6 +2245,12 @@ An essential part of making TShark _aesthetically_ pop. Adding colour makes an a
 tshark --color -r c42-MTA6.pcap
 ```
 ![2021-06-18_17-40](https://user-images.githubusercontent.com/44196051/122593574-c45e9180-d05d-11eb-8d93-f03d3f67ee09.png)
+
+
+### Add Time
+
+By default, packets' time will show the time lasped between packets. This may not be the most useful method if you're trying to quickly time correleate 
+
 
 
 ### Change Format of Packet
@@ -2351,6 +2359,23 @@ Converted to PDF
 
 ### Filtering
 
+#### Glossary
+
+`-G` is a GREAT flag. Using `tshark -G help` you can get an overview for everything the Glossary can show you
+
+![image](https://user-images.githubusercontent.com/44196051/122604193-75b8f380-d06d-11eb-9b0b-6aa4e5236f9a.png)
+
+##### Protocols
+```bash
+tshark -G protocols
+
+#If you know the family of protocol you already want, grep for it
+tshark -G protocols | grep -i smb
+```
+
+![image](https://user-images.githubusercontent.com/44196051/122604416-d6483080-d06d-11eb-9454-4c710bd8aa90.png)
+
+
 #### By Protocol
 
 Filter the protocols you want under the -Y flag
@@ -2363,7 +2388,19 @@ tshark -r c42-MTA6.pcap -Y "dhcp or http"
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122602566-f62a2500-d06a-11eb-8eb5-4419774cd3f3.png)
 
-## By IPs
+
+If you want to only show detail for particuar protocols, but not filter OUT existing protocols and packets, then the `-O` is your man
+```bash
+tshark -r c42-MTA6.pcap -O http
+
+#You can have more than one by comma seperation
+tshark -r c42-MTA6.pcap -O http,ip
+
+```
+![image](https://user-images.githubusercontent.com/44196051/122605195-08a65d80-d06f-11eb-8c20-30d194754cc1.png)
+
+
+#### By IPs
 
 You can can hunt down what a particular IP is up to in your packet
 
