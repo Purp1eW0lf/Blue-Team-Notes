@@ -2553,7 +2553,7 @@ In theory, `-z credentials` will collect the credentials in packets. I, however,
 tshark -r ftp.pcap -z credentials
 
 #alternative, less refined, works sometimes tho
-tshark -r ftp.pcap -V | ack 'user|password'
-
+tshark -r ftp.pcap -VV | ack -i 'user|password'
 ```
-![image](https://user-images.githubusercontent.com/44196051/122615591-ac4c3980-d080-11eb-868b-cd19ff3839e3.png)
+![image](https://user-images.githubusercontent.com/44196051/122616716-db63aa80-d082-11eb-8c73-e3aab0ada366.png)
+
