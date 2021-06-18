@@ -2287,6 +2287,20 @@ tshark -G elastic-mapping --elastic-mapping-filter ip,smb,dns,tcp  > map.index
 
 ![image](https://user-images.githubusercontent.com/44196051/122596228-75b2f680-d061-11eb-81aa-9bdf6beed4dc.png)
 
+
+##### Tabs
+
+You know how in Wireshark you can open up the drop-down tabs to filter and get more info?
+
+![image](https://user-images.githubusercontent.com/44196051/122599438-481c7c00-d066-11eb-9eda-f9f7fb23751f.png)
+
+You can do that in TShark too. Though it just prints ALL of the tabs
+```bash
+tshark -T tabs -V -r c42-MTA6.pcap
+```
+![image](https://user-images.githubusercontent.com/44196051/122599551-77cb8400-d066-11eb-929a-38dc7f2d0f64.png)
+
+
 ##### Other Formats
 
 You can always do JSON 
