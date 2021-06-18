@@ -898,6 +898,7 @@ Remove-Job -id 3
 WMIC can do some pretty [evil things](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/wp-windows-management-instrumentation.pdf). One sneaky, pro-gamer move it can pull is *persistence*
 
 In the image below I have included a part of setting up WMI persistence
+
 ![image](https://user-images.githubusercontent.com/44196051/122431376-4ed6c080-cf8c-11eb-9538-55f6e0e7c7a5.png)
 
 
@@ -2224,6 +2225,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
   + [Change Format of Packet](#change-format-of-packets)
     - [Get format options](#get-format-options)
       - [Prepare for Elastic](#prepare-for-elastic)
+      - [Other Formats](#other-formats)
   
 </details>
 
@@ -2262,6 +2264,9 @@ Say for example we want to upload a packet into an ELK stack, we can print the P
   # -V means packet details
 tshark -T ek -P -V -r c42-MTA6.pcap
 
+#you can always filter by protocls with -j
+tshark -T ek -j "http tcp ip" -P -V -r c42-MTA6.pcap
+
 #output it to elastic format and save in a file, to be ingested by an ELK later
 tshark -T ek -P -V -r c42-MTA6.pcap > elastic.json
 ```
@@ -2281,4 +2286,46 @@ tshark -G elastic-mapping --elastic-mapping-filter ip,smb,dns,tcp  > map.index
 ![image](https://user-images.githubusercontent.com/44196051/122596008-2a98e380-d061-11eb-9af4-16a3a9c75801.png)
 
 ![image](https://user-images.githubusercontent.com/44196051/122596228-75b2f680-d061-11eb-81aa-9bdf6beed4dc.png)
+
+##### Other Formats
+
+You can always do JSON 
+
+```bash
+tshark -T json -r c42-MTA6.pcap
+```
+![image](https://user-images.githubusercontent.com/44196051/122597042-b8c19980-d062-11eb-8702-b8369334b2dd.png)
+
+Packet Details Markup Language (PDML) is an XML-style represenation
+
+```bash
+tshark -T pdml -r c42-MTA6.pcap
+```
+![image](https://user-images.githubusercontent.com/44196051/122597477-51581980-d063-11eb-9098-8adb8d604805.png)
+
+PostScript (PS) is an interesting one. I don't particularly know the purpose of it to be honest with you. All I know is it can eventually create a cool looking pdf.
+
+```bash
+# create a ps
+tshark -T ps -r c42-MTA6.pcap > test.ps
+
+## you can be verbose. This will make a CHUNGUS file though, very unwiedly
+tshark -T ps -V -r c42-MTA6.pcap > verbose.ps
+
+#You can convert it online in various places and turn it into a PDF
+```
+
+Raw PS
+
+![image](https://user-images.githubusercontent.com/44196051/122598814-3e464900-d065-11eb-9334-717a2dee3888.png)
+
+
+Size difference between -verbose flag on and off
+
+![image](https://user-images.githubusercontent.com/44196051/122598662-09d28d00-d065-11eb-83e8-b3e242bcab00.png)
+
+Converted to PDF
+
+![image](https://user-images.githubusercontent.com/44196051/122598850-4f8f5580-d065-11eb-8757-c8329a507bfb.png)
+
 
