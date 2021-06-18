@@ -2227,6 +2227,9 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
       - [Prepare for Elastic](#prepare-for-elastic)
       - [Tabs](#tabs)
       - [Other Formats](#other-formats)
+  + [Filtering](#filtering)
+    - [By Protocol](#by-protocol)
+    - [By IP](#by-ip)
   
 </details>
 
@@ -2346,4 +2349,47 @@ Converted to PDF
 
 ![image](https://user-images.githubusercontent.com/44196051/122598850-4f8f5580-d065-11eb-8757-c8329a507bfb.png)
 
+### Filtering
+
+#### By Protocol
+
+Filter the protocols you want under the -Y flag
+```bash
+#get just the one
+tshark -r c42-MTA6.pcap -Y "dhcp"
+
+#Or treat yourself and collect more than one
+tshark -r c42-MTA6.pcap -Y "dhcp or http"
+```
+![image](https://user-images.githubusercontent.com/44196051/122602566-f62a2500-d06a-11eb-8eb5-4419774cd3f3.png)
+
+## By IPs
+
+You can can hunt down what a particular IP is up to in your packet
+
+```bash
+tshark -r c42-MTA6.pcap -Y "ip.addr==192.168.137.56" 
+
+#For style points, pipe to ack so it will highlight when your IP appears!
+| ack '192.168.137.56'
+```
+
+![image](https://user-images.githubusercontent.com/44196051/122602816-57ea8f00-d06b-11eb-9653-10c98a4f3630.png)
+
+If you want to get a list of all the IPs involved in this traffic, get by Host IP and Destination IP
+
+```bash
+# you can use the -z flag, and we'll get onto that in more detail later
+tshark -r c42-MTA6.pcap -q -z ip_hosts,tree
+tshark -r c42-MTA6.pcap -q -z ip_srcdst,tree
+```
+![image](https://user-images.githubusercontent.com/44196051/122603021-a566fc00-d06b-11eb-9156-d3a664ade21a.png)
+
+Alternatively, just do a dirty grep regex to list out all the IPs
+```bash
+tshark -r c42-MTA6.pcap |
+grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" | 
+sort -u
+```
+![image](https://user-images.githubusercontent.com/44196051/122603441-3a69f500-d06c-11eb-8068-93b4a02c6f86.png)
 
