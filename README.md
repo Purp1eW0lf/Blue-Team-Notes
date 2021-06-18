@@ -2225,6 +2225,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
   + [Change Format of Packet](#change-format-of-packets)
     - [Get format options](#get-format-options)
       - [Prepare for Elastic](#prepare-for-elastic)
+      - [Tabs](#tabs)
       - [Other Formats](#other-formats)
   
 </details>
