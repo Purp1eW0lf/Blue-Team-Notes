@@ -2234,6 +2234,10 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
     - [By IP](#by-ip)
   + [Stats](#stats)
     - [Get Conversations](#get-conversations)
+      - [IP Conversations](#ip-conversations)
+      - [DHCP Conversations](#dhcp-conversations)
+      - [DNS Conversations](#dns-conversations)
+    - [Resolve Hosts](#resolve-hosts)
   
 </details>
 
@@ -2450,11 +2454,10 @@ Get a list of all the things it can provide
 ```bash
 tshark -z help
 ```
-
 ![image](https://user-images.githubusercontent.com/44196051/122608278-d3e8d500-d073-11eb-90ca-e239b067f056.png)
 
 #### Get Conversations
-The `-z` flag can collect all the conversations that particular protocols are having. It will provide the packets and then provide a table of stats
+The `-z` flag can collect all the conversations that particular protocols are having. At the bottom, it will provide a table of stats
 
 There are the services supported 
 ![image](https://user-images.githubusercontent.com/44196051/122608683-8f116e00-d074-11eb-9a76-af2d301b241b.png)
@@ -2462,10 +2465,35 @@ There are the services supported
 
 Some examples include:
 
-All IP conversations.
+##### IP conversations.
 ```bash
-tshark -r c42-MTA6.pcap -z conv,ip
-```
+tshark -r c42-MTA6.pcap -q -z conv,ip
+# the -q flag suppresses packets and just gives the STATS
 
+#endpoints involved in traffic
+tshark -r c42-MTA6.pcap -q -z endpoints,ipv4
+```
 ![image](https://user-images.githubusercontent.com/44196051/122608548-4fe31d00-d074-11eb-9422-ea7ac45dd68e.png)
+![image](https://user-images.githubusercontent.com/44196051/122611182-cc77fa80-d078-11eb-9ad2-fbbe5188be7d.png)
+
+##### DNS Conversations
+```bash
+tshark -r c42-MTA6.pcap -q -z dns,tree
+```
+![image](https://user-images.githubusercontent.com/44196051/122610819-2c21d600-d078-11eb-98fe-f5b80606d981.png)
+
+##### DHCP conversations
+```bash
+tshark -r c42-MTA6.pcap -q -z dhcp,stat
+```
+![image](https://user-images.githubusercontent.com/44196051/122610951-668b7300-d078-11eb-993d-145108c4421b.png)
+
+#### Resolve Hosts
+
+Collect IPs and the hostname they resolved to at the time
+
+```bash
+tshark -r c42-MTA6.pcap -q -z hosts
+```
+![image](https://user-images.githubusercontent.com/44196051/122611483-4dcf8d00-d079-11eb-843d-78e565630f89.png)
 
