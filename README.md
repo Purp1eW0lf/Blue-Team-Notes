@@ -2216,6 +2216,8 @@ I'll be honest with you. Network traffic is where it's at. Endpoints and their l
 
 There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-network-driven-incident-investigations-119100) and [corresponding paper](https://www.sans.org/reading-room/whitepapers/analyst/membership/40300), called _Packets or it Didn't Happen_,  all about the utility of network traffic's advantadges over endpoint log monitoring. 
 
+---
+
 ## TShark
 
 <details>
@@ -2243,6 +2245,8 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
 
 TShark is the terminal implementation of Wireshark. There are resource advantadges to using TShark, as you are keeping everything command line and can pre-filter before you even ingest and read a file.
 
+---
+
 ### Add Colour
 
 An essential part of making TShark _aesthetically_ pop. Adding colour makes an analysts life easier.
@@ -2252,6 +2256,7 @@ tshark --color -r c42-MTA6.pcap
 ```
 ![2021-06-18_17-40](https://user-images.githubusercontent.com/44196051/122593574-c45e9180-d05d-11eb-8d93-f03d3f67ee09.png)
 
+---
 
 ### Add Time
 
@@ -2267,6 +2272,7 @@ tshark -r c42-MTA6.pcap -t ad
 
 ![image](https://user-images.githubusercontent.com/44196051/122607616-c41cc100-d072-11eb-9cc1-884454f3bf68.png)
 
+---
 
 ### Change Format of Packet
 
@@ -2372,6 +2378,8 @@ Converted to PDF
 
 ![image](https://user-images.githubusercontent.com/44196051/122598850-4f8f5580-d065-11eb-8757-c8329a507bfb.png)
 
+---
+
 ### Filtering
 
 #### Glossary
@@ -2445,8 +2453,9 @@ sort -u
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122603441-3a69f500-d06c-11eb-8068-93b4a02c6f86.png)
 
+---
 
-## Stats
+### Stats
 
 The `-z` flag is weird. It's super useful to collect and aggregate stats about particular values. Want to know all of the IPs in captured traffic AND sort them according to how prevelant they are in traffic? `-z` is your guy
 
