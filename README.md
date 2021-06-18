@@ -2244,7 +2244,9 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
       - [IP Conversations](#ip-conversations)
       - [DHCP Conversations](#dhcp-conversations)
       - [DNS Conversations](#dns-conversations)
-    - [Resolve Hosts](#resolve-hosts)
+      - [Stats on Protocols Involved in Traffic](#stats-on-protocols-involved-in-traffic)
+    - [HTTP](#http)
+      - [Resolve Hosts](#resolve-hosts)
   
 </details>
 
@@ -2410,9 +2412,12 @@ Filter the protocols you want under the -Y flag
 ```bash
 #get just the one
 tshark -r c42-MTA6.pcap -Y "dhcp"
+tshark -r c42-MTA6.pcap -V -Y "dhcp" #will be vebose and add way more info
+
 
 #Or treat yourself and collect more than one
 tshark -r c42-MTA6.pcap -Y "dhcp or http"
+tshark -r c42-MTA6.pcap -V -Y "dhcp or http" #will be vebose and add way more info
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122602566-f62a2500-d06a-11eb-8eb5-4419774cd3f3.png)
 
@@ -2503,7 +2508,35 @@ tshark -r c42-MTA6.pcap -q -z dhcp,stat
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122610951-668b7300-d078-11eb-993d-145108c4421b.png)
 
-#### Resolve Hosts
+##### Stats on Protocols Involved in Traffic
+
+This will display a heiarchy of the protocols involved in collected traffic
+
+```bash
+tshark -r c42-MTA6.pcap -q -z io,phs
+```
+![image](https://user-images.githubusercontent.com/44196051/122612981-f979dc80-d07b-11eb-8c1f-c363103a2161.png)
+
+#### HTTP
+We can collect a whole wealth of info on http stats with the `-z` flag
+
+The various HTTP codes and requests in a hierarchy
+
+```bash
+tshark -r c42-MTA6.pcap -q -z http,tree
+#change to http2,tree if necessary
+```
+![image](https://user-images.githubusercontent.com/44196051/122613334-950b4d00-d07c-11eb-9c95-b28f70b44625.png)
+
+
+Part of `-z expert` will collect all the GET and POST requests. Just scroll down to *Chats*
+```bash
+tshark -r c42-MTA6.pcap -q -z expert
+```
+![image](https://user-images.githubusercontent.com/44196051/122613985-ae60c900-d07d-11eb-8794-924f8041e218.png)
+
+
+##### Resolve Hosts
 
 Collect IPs and the hostname they resolved to at the time
 
@@ -2511,4 +2544,5 @@ Collect IPs and the hostname they resolved to at the time
 tshark -r c42-MTA6.pcap -q -z hosts
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122611483-4dcf8d00-d079-11eb-843d-78e565630f89.png)
+
 
