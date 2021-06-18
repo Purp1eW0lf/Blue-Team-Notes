@@ -2232,6 +2232,8 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
     - [Glossary](#glossary)
     - [By Protocol](#by-protocol)
     - [By IP](#by-ip)
+  + [Stats](#stats)
+    - [Get Conversations](#get-conversations)
   
 </details>
 
@@ -2249,8 +2251,17 @@ tshark --color -r c42-MTA6.pcap
 
 ### Add Time
 
-By default, packets' time will show the time lasped between packets. This may not be the most useful method if you're trying to quickly time correleate 
+By default, packets' time will show the time lasped between packets. This may not be the most useful method if you're trying to quickly correleate time
 
+```bash
+#Get the UTC.Preferable in security, where we always try to keep security tooling at UTC time, for consitency across tools
+tshark -r c42-MTA6.pcap -t ud
+
+#Get the local year, month, date, and time the packet was captured
+tshark -r c42-MTA6.pcap -t ad
+```
+
+![image](https://user-images.githubusercontent.com/44196051/122607616-c41cc100-d072-11eb-9cc1-884454f3bf68.png)
 
 
 ### Change Format of Packet
@@ -2429,4 +2440,32 @@ grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" |
 sort -u
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122603441-3a69f500-d06c-11eb-8068-93b4a02c6f86.png)
+
+
+## Stats
+
+The `-z` flag is weird. It's super useful to collect and aggregate stats about particular values. Want to know all of the IPs in captured traffic AND sort them according to how prevelant they are in traffic? `-z` is your guy
+
+Get a list of all the things it can provide 
+```bash
+tshark -z help
+```
+
+![image](https://user-images.githubusercontent.com/44196051/122608278-d3e8d500-d073-11eb-90ca-e239b067f056.png)
+
+#### Get Conversations
+The `-z` flag can collect all the conversations that particular protocols are having. It will provide the packets and then provide a table of stats
+
+There are the services supported 
+![image](https://user-images.githubusercontent.com/44196051/122608683-8f116e00-d074-11eb-9a76-af2d301b241b.png)
+![image](https://user-images.githubusercontent.com/44196051/122608725-a2bcd480-d074-11eb-8536-5aa5552be689.png)
+
+Some examples include:
+
+All IP conversations.
+```bash
+tshark -r c42-MTA6.pcap -z conv,ip
+```
+
+![image](https://user-images.githubusercontent.com/44196051/122608548-4fe31d00-d074-11eb-9422-ea7ac45dd68e.png)
 
