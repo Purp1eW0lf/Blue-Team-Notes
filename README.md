@@ -2244,6 +2244,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
       - [IP Conversations](#ip-conversations)
       - [DHCP Conversations](#dhcp-conversations)
       - [DNS Conversations](#dns-conversations)
+      - [SIP Conversations](#sip-conversations)
       - [Stats on Protocols Involved in Traffic](#stats-on-protocols-involved-in-traffic)
     - [HTTP](#http)
       - [Resolve Hosts](#resolve-hosts)
@@ -2417,7 +2418,6 @@ Filter the protocols you want under the -Y flag
 tshark -r c42-MTA6.pcap -Y "dhcp"
 tshark -r c42-MTA6.pcap -V -Y "dhcp" #will be vebose and add way more info
 
-
 #Or treat yourself and collect more than one
 tshark -r c42-MTA6.pcap -Y "dhcp or http"
 tshark -r c42-MTA6.pcap -V -Y "dhcp or http" #will be vebose and add way more info
@@ -2510,6 +2510,13 @@ tshark -r c42-MTA6.pcap -q -z dns,tree
 tshark -r c42-MTA6.pcap -q -z dhcp,stat
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122610951-668b7300-d078-11eb-993d-145108c4421b.png)
+
+##### SIP Conversations
+```bash
+tshark -r Voip-trace.pcap -q -z sip,stat 
+```
+![image](https://user-images.githubusercontent.com/44196051/122618625-832ea780-d086-11eb-8fe4-5f39d7502afa.png)
+
 
 ##### Stats on Protocols Involved in Traffic
 
