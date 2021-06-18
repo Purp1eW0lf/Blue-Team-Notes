@@ -2247,6 +2247,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
       - [Stats on Protocols Involved in Traffic](#stats-on-protocols-involved-in-traffic)
     - [HTTP](#http)
       - [Resolve Hosts](#resolve-hosts)
+    - [Get Credentials](#get-credentials)
   
 </details>
 
@@ -2545,4 +2546,14 @@ tshark -r c42-MTA6.pcap -q -z hosts
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122611483-4dcf8d00-d079-11eb-843d-78e565630f89.png)
 
+#### Get Credentials
+In theory, `-z credentials` will collect the credentials in packets. I, however, have not had much success with this tbh. 
 
+```bash
+tshark -r ftp.pcap -z credentials
+
+#alternative, less refined, works sometimes tho
+tshark -r ftp.pcap -V | ack 'user|password'
+
+```
+![image](https://user-images.githubusercontent.com/44196051/122615591-ac4c3980-d080-11eb-868b-cd19ff3839e3.png)
