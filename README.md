@@ -54,6 +54,11 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [TShark](#tshark)
    
 
+As you scroll along, it's easy to lose orientation. Wherever you are in the Blue Team Notes, if you look to the top-left of the readme you'll see a little icon. This is a small table of contents, and it will help you figure out where you are, where you've been, and where you're going
+
+![image](https://user-images.githubusercontent.com/44196051/122612244-b834fd00-d07a-11eb-9281-e4d93f4f6059.png)
+
+
 ---
 
 # Shell Style
