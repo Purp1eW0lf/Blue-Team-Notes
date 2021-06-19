@@ -1908,6 +1908,8 @@ history
 
 # Malware
 
+I'd reccomend [REMnux](https://docs.remnux.org/), a Linux distro dedicated to malware analysis. If you don't fancy downloading the VM, then maybe just keep an eye on the [Docs](https://docs.remnux.org/discover-the-tools/examine+static+properties/general) as they have some great malware analysis tools in their roster. 
+
 ## Rapid Malware Analaysis
 
 <details>
