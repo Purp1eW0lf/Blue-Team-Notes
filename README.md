@@ -2221,6 +2221,15 @@ I'll be honest with you. Network traffic is where it's at. Endpoints and their l
 
 There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-network-driven-incident-investigations-119100) and [corresponding paper](https://www.sans.org/reading-room/whitepapers/analyst/membership/40300), called _Packets or it Didn't Happen_,  all about the utility of network traffic's advantadges over endpoint log monitoring. 
 
+<details>
+    <summary>section contents</summary>
+
+  + [TShark](#tshark)
+  + [Extracting Stuff](#extracting-stuff)
+  
+</details>
+
+
 ---
 
 ## TShark
@@ -2622,4 +2631,19 @@ tshark -r ftp.pcap -z credentials
 tshark -r ftp.pcap -VV | ack -i 'user|password'
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122616716-db63aa80-d082-11eb-8c73-e3aab0ada366.png)
+
+## Extracting Stuff
+
+Wireshark sometimes sucks when you want to quickly extract stuff and just look at it. Fortunately, there are alternatives to be able to quickly get and look at files, images, credentials, and more in packets.
+
+<details>
+    <summary>section contents</summary>
+
+  + [NetworkMiner](#networkminer)
+  
+  </details>
+
+### NetworkMiner
+
+  
 
