@@ -2633,6 +2633,8 @@ tshark -r ftp.pcap -VV | ack -i 'user|password'
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122616716-db63aa80-d082-11eb-8c73-e3aab0ada366.png)
 
+---
+
 ## Extracting Stuff
 
 Wireshark sometimes sucks when you want to quickly extract stuff and just look at it. Fortunately, there are alternatives to be able to quickly get and look at files, images, credentials, and more in packets.
@@ -2641,10 +2643,23 @@ Wireshark sometimes sucks when you want to quickly extract stuff and just look a
     <summary>section contents</summary>
 
   + [NetworkMiner](#networkminer)
+    - [Images](#images)
   
   </details>
 
 ### NetworkMiner
 
-  
+NetworkMiner is GUI-based network traffic analysis tool. It can do lots of things, but the main things we can focus on here is the ability to rapidly look at all the _stuff_.
+
+You can fire up NetworkMiner from command-line to ingest a particular pcap
+```bash
+networkminer c42-MTA6.pcap 
+```
+![image](https://user-images.githubusercontent.com/44196051/122639057-a3df1780-d0ef-11eb-9c8c-f8a638041730.png)
+
+### Images
+In the top bar, you can filter for all of the images in the traffic. It will include any images rendered on websites, so you'll get a load of random crap too. 
+
+![image](https://user-images.githubusercontent.com/44196051/122639126-fae4ec80-d0ef-11eb-917e-65844a086a2a.png)
+
 
