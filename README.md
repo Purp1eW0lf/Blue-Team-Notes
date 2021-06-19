@@ -2679,4 +2679,3 @@ Once you see a file you find interesting, right-click and view the file
 
 Honestly, I find that these credential filters always suck. Maybe you'll have better luck 
 ![image](https://user-images.githubusercontent.com/44196051/122639517-2e287b00-d0f2-11eb-9b31-259b6fed6ed8.png)
-
