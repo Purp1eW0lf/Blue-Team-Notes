@@ -2643,6 +2643,7 @@ Wireshark sometimes sucks when you want to quickly extract stuff and just look a
     <summary>section contents</summary>
 
   + [NetworkMiner](#networkminer)
+    - [Files](#files)
     - [Images](#images)
   
   </details>
