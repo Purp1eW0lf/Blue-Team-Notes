@@ -2643,8 +2643,9 @@ Wireshark sometimes sucks when you want to quickly extract stuff and just look a
     <summary>section contents</summary>
 
   + [NetworkMiner](#networkminer)
-    - [Files](#files)
-    - [Images](#images)
+    - [View Files](#view-files)
+    - [View Images](#view-images)
+    - [View Creds](#view-creds)
   
   </details>
 
@@ -2652,15 +2653,30 @@ Wireshark sometimes sucks when you want to quickly extract stuff and just look a
 
 NetworkMiner is GUI-based network traffic analysis tool. It can do lots of things, but the main things we can focus on here is the ability to rapidly look at all the _stuff_.
 
+BUT, NetworkMiner has some limitations in its FREE version, so we'll just focus on some of its features. 
+
 You can fire up NetworkMiner from command-line to ingest a particular pcap
 ```bash
 networkminer c42-MTA6.pcap 
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122639057-a3df1780-d0ef-11eb-9c8c-f8a638041730.png)
 
-### Images
+### View Files
+In the top bar, you can filter for all of the files in the traffic.
+
+![image](https://user-images.githubusercontent.com/44196051/122639240-b7d74900-d0f0-11eb-9d63-d4d1fa0cb537.png)
+
+
+### View Images
 In the top bar, you can filter for all of the images in the traffic. It will include any images rendered on websites, so you'll get a load of random crap too. 
 
 ![image](https://user-images.githubusercontent.com/44196051/122639126-fae4ec80-d0ef-11eb-917e-65844a086a2a.png)
 
+Once you see a file you find interesting, right-click and view the file
+![image](https://user-images.githubusercontent.com/44196051/122639309-04bb1f80-d0f1-11eb-83d6-b01107482f99.png)
+
+### View Creds
+
+Honestly, I find that these credential filters always suck. Maybe you'll have better luck 
+![image](https://user-images.githubusercontent.com/44196051/122639517-2e287b00-d0f2-11eb-9b31-259b6fed6ed8.png)
 
