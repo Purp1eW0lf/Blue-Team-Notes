@@ -2200,7 +2200,6 @@ $bse64=New-Object IO.Me
 ```
 It isn't much, but in a big long complicated script, changing variables helps keep track of what's going on.
 
-
 After this, we need to make sure that running this script won't actually execute anything malicious on our system. We just want to see what it will do.
 
 Remove `IEX` where you see it. Don't get rid of the brackets though.
@@ -2213,7 +2212,14 @@ Once you've de-fanged the script, you are alright to run it and will just print 
 #### A Layer Deeper
 So CyberChef got us here, and we were limited there. So now let's de-fang this resulting script and see where they takes us
 
+If we scroll around, we can see see some of the logic of the script. At the bottom, we see that it will execute the output of a variable as a Job, which we've [touched on before](#scheduled-jobs)
 
+![image](https://user-images.githubusercontent.com/44196051/122642283-8fa41600-d101-11eb-8e3d-f4786027a562.png)
+
+Let's remove the IEX at the bottom, and neutralise the job by commenting it out
+![image](https://user-images.githubusercontent.com/44196051/122642412-37b9df00-d102-11eb-8be2-58be82b88062.png)
+
+....to be continued!!!
 
 # SOC
 
