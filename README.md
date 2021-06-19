@@ -2184,7 +2184,35 @@ If we trial and error with the numbers and decimals, we can eventually start the
 
 ![image](https://user-images.githubusercontent.com/44196051/121338868-d893e780-c915-11eb-8f3c-869d24bd4185.png)
 
-And that's as far as we'll go....for now!
+#### Defang
+CyberChef has taken us as far as we can go. To find out what happens next, we need to run this on a test rig. But we need to de-fang all of the dangerous bits of this script.
+
+[John Hammond](https://www.youtube.com/watch?v=SRfmBaZeVSQ), a security researcher and awesome youtuber, introduced me to the concept of replacing variables in malicious scripts. If you replace-all for the variable, you can introduce variables that are familiar.
+
+So for this script:
+```powershell
+
+#original variable
+$s==New-Object IO.MemoryStream(,[Convert]::FromBase64String("H4sIAA......
+
+#changed
+$bse64=New-Object IO.Me
+```
+It isn't much, but in a big long complicated script, changing variables helps keep track of what's going on.
+
+
+After this, we need to make sure that running this script won't actually execute anything malicious on our system. We just want to see what it will do.
+
+Remove `IEX` where you see it. Don't get rid of the brackets though.
+![image](https://user-images.githubusercontent.com/44196051/122641878-d6910c00-d0ff-11eb-9486-850b65b38d6d.png)
+
+Once you've de-fanged the script, you are alright to run it and will just print the output to the screen:
+![image](https://user-images.githubusercontent.com/44196051/122642110-a5650b80-d100-11eb-8f6b-6d9f5b33515c.png)
+
+
+#### A Layer Deeper
+So CyberChef got us here, and we were limited there. So now let's de-fang this resulting script and see where they takes us
+
 
 
 # SOC
