@@ -2873,12 +2873,15 @@ cut -f2 files.txt | sort | grep 'ps1'
 cut -f2 files.txt | sort | grep 'exe' 
 cut -f2 files.txt | sort | grep 'evtx'
 
+#Here's the Vol2 version of this
+sudo vol.py -f image_dump.mem --profile=Win10x64_19041 directoryenumerator
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122995420-820cbb80-d3a1-11eb-8085-a6b7d373065a.png)
 
 ![image](https://user-images.githubusercontent.com/44196051/122995678-d0ba5580-d3a1-11eb-98e4-8caf04205fe9.png)
 
 ![image](https://user-images.githubusercontent.com/44196051/122995929-27c02a80-d3a2-11eb-92a7-8c7517fd9387.png)
+
 
 ##### Resurrect Files
 If a file catches your eye, you can push your luck and try to bring it back to life
