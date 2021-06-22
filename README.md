@@ -2736,12 +2736,16 @@ Honestly, I find that these credential filters always suck. Maybe you'll have be
     - [Reviewing Options](#reviewing-options)
   + [Get Basics](#get-basics)
     - [Get Profile](#get-profile)
-   
+  + [Get Sus Activity](#get-sus-activity)
+    - [Get Commands](#get-commands)
+    - [Get Network Connections](#get-network-connections)
+    - [Get Processes](#get-grocesses)
+  
   </details>
 
 There are loads of tools that can assist you with forensically exmaining stuff. Volatility is awesome and can aid you on your journey. Be warned though, digital forensics in general are resource-hungry and running it on a VM without adequate storage and resource allocated will lead to a bad time. 
 
-In the Blue Team Notes, we'll use vol.py and vol3 (python2 and python3 implementation's of Volatility, respectively). In my un-educated, un-wise opinon, vol2 does SOME things better than vol3....
+In the Blue Team Notes, we'll use vol.py and vol3 (python2 and python3 implementation's of Volatility, respectively). In my un-educated, un-wise opinon, vol2 does SOME things better than vol3.
 
 
 ### Get Started
@@ -2769,6 +2773,7 @@ vol3 windows.memmap.Memmap -h
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122976503-5501de00-d38c-11eb-9eb0-83d64b49bdc1.png)
 
+Volatility has options for Linux, Mac, and Windows. The notes here mainly focus on Windows plugins, but the other OS' plugins are great fun too so give them a go sometime. 
 
 ### Get Basics
 
@@ -2791,5 +2796,31 @@ Get some basic info about the OS version of the dump
 vol3 -f dumped_image.mem windows.info.Info
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122976239-12d89c80-d38c-11eb-8666-eda08346042d.png)
+
+Get some info about the users on the machine
+```sh
+#run and output
+vol3 -f 20210430-Win10Home-20H2-64bit-memdump.mem windows.getsids.GetSIDs > sids.txt
+#then filter
+cut -f3,4,5,6 sids.txt | sort -u
+
+#or just run it all in one. But you lose visibility to processes associated
+vol3 -f 20210430-Win10Home-20H2-64bit-memdump.mem windows.getsids.GetSIDs|
+tee | cut -f3,4,5,6 | sort -u
+```
+![image](https://user-images.githubusercontent.com/44196051/122986422-55ec3d00-d397-11eb-8855-203125d6dd7e.png)
+
+
+### Get Sus Activity
+Let's focus on retrieving evidence of suspicious and/or malicious activity from this image.
+
+#### Get Commands
+It's possible to retrieve the cmds run on a machine, sort of. 
+
+
+ + [Get Sus Activity](#get-sus-activity)
+    - [Get Commands](#get-commands)
+    - [Get Network Connections](#get-network-connections)
+    - [Get Processes](#get-grocesses)
 
 
