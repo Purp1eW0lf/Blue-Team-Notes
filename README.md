@@ -53,7 +53,10 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 - [Network Traffic](#network-traffic)
   * [TShark](#tshark)
   * [Extracting Stuff](#extracting-stuff)
-   
+- [Digital Forensics](#Digital Forensics) 
+  * [Volatility](#volatility)
+
+---
 
 As you scroll along, it's easy to lose orientation. Wherever you are in the Blue Team Notes, if you look to the top-left of the readme you'll see a little icon. This is a small table of contents, and it will help you figure out where you are, where you've been, and where you're going
 
@@ -2722,3 +2725,41 @@ Once you see a file you find interesting, right-click and view the file
 
 Honestly, I find that these credential filters always suck. Maybe you'll have better luck 
 ![image](https://user-images.githubusercontent.com/44196051/122639517-2e287b00-d0f2-11eb-9b31-259b6fed6ed8.png)
+
+# Digital Forensics
+
+## volatility
+<details>
+    <summary>section contents</summary>
+
+  + [Get Basics](#get-basics)
+    - [Get Profile](#get-profile)
+   
+  </details>
+
+There are loads of tools that can assist you with forensically exmaining stuff. Volatility is awesome and can aid you on your journey. Be warned though, digital forensics in general are resource-hungry and running it on a VM without adequate storage and resource allocated will lead to a bad time. 
+
+# Get Basics
+
+Get basic info about the dumped image itself
+
+Find when the file was created
+```bash
+stat dumped_image.mem
+
+#exiftool can achieve similar
+exiftool dumped_image.mem
+```
+
+![image](https://user-images.githubusercontent.com/44196051/122972597-3994d400-d388-11eb-95fb-5f008132b359.png)
+
+
+
+### Get Profile
+
+Get some basic info about the profile 
+
+```bash
+ python vol.py imageinfo  -f dumped_image.mem
+```
+
