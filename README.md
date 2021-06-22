@@ -2958,11 +2958,17 @@ Dump files associated with a process. Usually EXEs and DLLs.
 #zero in on the process you want
 cut pslist.txt -f1,3,9,10 | grep -i note | column -t
 
-
 #then, get that first columns value. The PID
 sudo vol3 -f image_dump.mem -o . windows.dumpfiles --pid 2520
+
+#here's an alternate method. Sometimes more reliable, errors out less.
+cat pslist.txt | grep 6988
+sudo vol3 -f image_dump.mem windows.pslist --pid 6988 --dump
+sudo file pid.6988.0x1c0000.dmp
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122990657-1ecc5a80-d39c-11eb-85e0-add64e403b25.png)
+
+![image](https://user-images.githubusercontent.com/44196051/123010258-2b5dac80-d3b6-11eb-9352-a43bd1effd87.png)
 
 
 
