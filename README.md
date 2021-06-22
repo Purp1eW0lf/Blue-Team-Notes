@@ -2767,7 +2767,7 @@ Honestly, I find that these credential filters always suck. Maybe you'll have be
   + [Get Sus Activity](#get-sus-activity)
     - [Get Commands](#get-commands)
     - [Get Network Connections](#get-network-connections)
-    - [Get Processes](#get-grocesses)
+    - [Get Processes](#get-processes)
   
   </details>
 
