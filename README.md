@@ -1790,6 +1790,7 @@ ss -plunt
   + [Files and Dates](#files-and-dates)
     - [This one will print the files and their corresponding timestamp](#this-one-will-print-the-files-and-their-corresponding-timestamp)
     - [Show all files created between two dates](#show-all-files-created-between-two-dates)
+  + [Compare Files](#compare-files)
 
 </details>
 
@@ -1853,7 +1854,31 @@ find -newerct "01 Jun 2021 18:30:00" ! -newerct "03 Jun 2021 19:00:00" -ls | sor
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120664969-460dc700-c483-11eb-8c1b-a2223549a97f.png)
 
+### Compare Files
+
+`vimdiff` is my favourite way to compare two files
+```bash
+vimdiff file1.txt file2.txt
+```
+
+The colours highlight differences between the two. When you're done, use vim's method of exiting on both files: `:q!`. Do this twice
+
+![image](https://user-images.githubusercontent.com/44196051/123003853-b71e0b80-d3ab-11eb-8b9e-7e25f8f7a695.png)
+
+`diff` is the lamer, tamer version of `vimdiff`. However it does have some flags for quick analysis:
+
+```bash
+#are these files different yes or no?
+diff -q net.txt net2.txt
+
+#quickly show minimal differences
+diff -d net.txt net2.txt
+```
+![image](https://user-images.githubusercontent.com/44196051/123004215-37447100-d3ac-11eb-80e9-7f19168e022a.png)
+
+
 ---
+
 
 ## Bash Tips
 
