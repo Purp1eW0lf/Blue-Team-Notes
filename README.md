@@ -2947,15 +2947,31 @@ Get a list of processes
 ```bash
 vol3 -f image_dump.mem  windows.pslist > pslist.txt 
 cut pslist.txt -f1,3,9,10 | column -t
+
+##show IDs for parent and child, with some other stuff
+cut -f1,2,3,9,10 pslist.txt
+
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122989642-f2fca500-d39a-11eb-8a19-7bcadb83f1d9.png)
 
-Retrieve the enviro variables surronding a process
+Retrieve the enviro variables surronding processes
 ```bash
 vol3 -f image_dump.mem windows.envars.Envars > envs.txt
 cut -f2,4,5 envs.txt
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122988909-27239600-d39a-11eb-803e-812aa770077b.png)
+
+Get processes with their Parent process
+```bash
+##This command can fail
+vol3 -f image_dump.mem windows.pstree.PsTree
+
+##we can work it our manually if we follow a PID, for example:
+cat pslist.txt | grep 4352
+  #we can see in the screenshot below, 4352 starts with explorer.exe at 17:39:48.
+  # a number of subsequent processes are created, ultimately ending this process id with pwsh at 17:51:19
+```
+![image](https://user-images.githubusercontent.com/44196051/123014115-6f07e480-d3bd-11eb-9e36-0ea958b9bc2e.png)
 
 Dump files associated with a process. Usually EXEs and DLLs.
 ```bash
