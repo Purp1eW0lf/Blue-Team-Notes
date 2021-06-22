@@ -2894,12 +2894,16 @@ cat files.txt | grep -i Powershell | grep evtx
 #feed it into the --virtaddr value
 vol3 -f image_dump.mem windows.dumpfiles.DumpFiles --virtaddr 0xbf0f6d07ec10
 
-
+#If you know the offset address, it's possible to look at the ASCII from hex
+hd -n24 -s 0x45BE876 image_dump.mem
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/122997186-a5386a80-d3a3-11eb-9514-fb395171e4d1.png)
 
 ![image](https://user-images.githubusercontent.com/44196051/122997509-fcd6d600-d3a3-11eb-86e6-843ae3ca7efa.png)
+
+![image](https://user-images.githubusercontent.com/44196051/123012957-24856880-d3bb-11eb-83bd-a423443d9a53.png)
+
 
 
 ### Get Sus Activity
