@@ -139,6 +139,9 @@ source ~/.bashrc
 ## Get Fully Qualified Domain Name
 ```powershell
 ([System.Net.Dns]::GetHostByName(($env:computerName))).Hostname
+
+# Get just domain name
+(Get-WmiObject -Class win32_computersystem).domain
 ```
   
 ### Get OS and Pwsh info
