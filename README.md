@@ -2736,6 +2736,7 @@ Honestly, I find that these credential filters always suck. Maybe you'll have be
     - [Reviewing Options](#reviewing-options)
   + [Get Basics](#get-basics)
     - [Get Profile](#get-profile)
+    - [Get Files](#get-files)
   + [Get Sus Activity](#get-sus-activity)
     - [Get Commands](#get-commands)
     - [Get Network Connections](#get-network-connections)
@@ -2746,6 +2747,8 @@ Honestly, I find that these credential filters always suck. Maybe you'll have be
 There are loads of tools that can assist you with forensically exmaining stuff. Volatility is awesome and can aid you on your journey. Be warned though, digital forensics in general are resource-hungry and running it on a VM without adequate storage and resource allocated will lead to a bad time. 
 
 In the Blue Team Notes, we'll use vol.py and vol3 (python2 and python3 implementation's of Volatility, respectively). In my un-educated, un-wise opinon, vol2 does SOME things better than vol3.
+
+Because Volatility can take a while to run things, the general advice is to always run commands and output them (`> file.txt`). This way, you do not need to sit and wait for a command to run to re-check something.
 
 
 ### Get Started
@@ -2811,6 +2814,29 @@ tee | cut -f3,4 | sort -u | pr -Ttd
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122986422-55ec3d00-d397-11eb-8855-203125d6dd7e.png)
 
+#### Get Files
+This plugin can fail on ocassion. Sometimes, it's just a case of re-running it. Other times, it may be because you need to install the symbol-tables. If it continually fails, default to python2 volatility.
+
+```bash
+sudo vol3 -f image_dump.mem windows.filescan > files.txt
+cut -f2 files.txt |pr -Ttd | head -n 20
+
+#get the size of files too
+cut -f2,3 files.txt |pr -Ttd | head -n 20
+
+
+#stack this will all kinds of things to find the files you want
+cut -f2 files.txt | sort | grep 'ps1'
+cut -f2 files.txt | sort | grep 'exe' 
+cut -f2 files.txt | sort | grep 'evtx'
+
+```
+![image](https://user-images.githubusercontent.com/44196051/122995420-820cbb80-d3a1-11eb-8085-a6b7d373065a.png)
+
+![image](https://user-images.githubusercontent.com/44196051/122995678-d0ba5580-d3a1-11eb-98e4-8caf04205fe9.png)
+
+![image](https://user-images.githubusercontent.com/44196051/122995929-27c02a80-d3a2-11eb-92a7-8c7517fd9387.png)
+
 
 ### Get Sus Activity
 Let's focus on retrieving evidence of suspicious and/or malicious activity from this image.
@@ -2866,7 +2892,7 @@ cut -f2,4,5 envs.txt
 Dump files associated with a process. Usually EXEs and DLLs.
 ```bash
 #zero in on the process you want
-cut pslist.txt -f1,3,9,10 | grep -i note | | column -t
+cut pslist.txt -f1,3,9,10 | grep -i note | column -t
 
 
 #then, get that first columns value. The PID
