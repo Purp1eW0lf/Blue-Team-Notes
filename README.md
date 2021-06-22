@@ -2761,6 +2761,7 @@ Honestly, I find that these credential filters always suck. Maybe you'll have be
     - [Reviewing Options](#reviewing-options)
   + [Get Basics](#get-basics)
     - [Get Profile](#get-profile)
+      - [Vol2](#vol2)
     - [Get Files](#get-files)
       - [Resurrect Files](#Resurrect-Files)
   + [Get Sus Activity](#get-sus-activity)
@@ -2772,7 +2773,7 @@ Honestly, I find that these credential filters always suck. Maybe you'll have be
 
 There are loads of tools that can assist you with forensically exmaining stuff. Volatility is awesome and can aid you on your journey. Be warned though, digital forensics in general are resource-hungry and running it on a VM without adequate storage and resource allocated will lead to a bad time. 
 
-In the Blue Team Notes, we'll use vol.py and vol3 (python2 and python3 implementation's of Volatility, respectively). In my un-educated, un-wise opinon, vol2 does SOME things better than vol3.
+In the Blue Team Notes, we'll use vol.py and vol3 (python2 and python3 implementation's of Volatility, respectively). In my un-educated, un-wise opinon, vol2 does SOME things better than vol3 - for example, Vol2 has plugins around browser history. 
 
 Because Volatility can take a while to run things, the general advice is to always run commands and output them (`> file.txt`). This way, you do not need to sit and wait for a command to run to re-check something.
 
@@ -2839,6 +2840,22 @@ vol3 -f 20210430-Win10Home-20H2-64bit-memdump.mem windows.getsids.GetSIDs|
 tee | cut -f3,4 | sort -u | pr -Ttd
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122986422-55ec3d00-d397-11eb-8855-203125d6dd7e.png)
+
+##### Vol2
+In Volatility 2, you have to get the Profile of the image. This requires a bit more work. In theory, you can use `imageinfo` as a brute-force checker....however, this takes a long time and is probably not the best use of your valuable time.
+
+I propose instead that you run the [Vol3](#get-profile), which will suggest what OS and build you have. Then pivot back to Vol2, and do the following:
+```bash
+#Collect the various profiles that exist
+vol.py --info | grep Profile
+
+#I then put these side to side in terminals, and try the different profiles with the below command
+volatility -f image_dump.mem --profile=Win10x64_10586 systeminfo
+```
+![image](https://user-images.githubusercontent.com/44196051/123007954-f51e2e00-d3b1-11eb-938f-eb1a3cf91994.png)
+
+
+Now that you have your Vol2 profile, you can leverage the plugins of both Vol2 and Vol3 with ease. 
 
 #### Get Files
 This plugin can fail on ocassion. Sometimes, it's just a case of re-running it. Other times, it may be because you need to install the symbol-tables. If it continually fails, default to python2 volatility.
