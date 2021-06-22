@@ -2733,6 +2733,7 @@ Honestly, I find that these credential filters always suck. Maybe you'll have be
     <summary>section contents</summary>
 
   + [Get Started](#get-started)
+    - [Reviewing Options](#reviewing-options)
   + [Get Basics](#get-basics)
     - [Get Profile](#get-profile)
    
