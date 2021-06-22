@@ -2737,6 +2737,7 @@ Honestly, I find that these credential filters always suck. Maybe you'll have be
   + [Get Basics](#get-basics)
     - [Get Profile](#get-profile)
     - [Get Files](#get-files)
+      - [Resurrect Files](#Resurrect-Files)
   + [Get Sus Activity](#get-sus-activity)
     - [Get Commands](#get-commands)
     - [Get Network Connections](#get-network-connections)
@@ -2836,6 +2837,24 @@ cut -f2 files.txt | sort | grep 'evtx'
 ![image](https://user-images.githubusercontent.com/44196051/122995678-d0ba5580-d3a1-11eb-98e4-8caf04205fe9.png)
 
 ![image](https://user-images.githubusercontent.com/44196051/122995929-27c02a80-d3a2-11eb-92a7-8c7517fd9387.png)
+
+##### Resurrect Files
+If a file catches your eye, you can push your luck and try to bring it back to life
+
+```bash
+#search for a file, as an example
+cat files.txt | grep -i Powershell | grep evtx
+
+#pick the virtual address in the first columnm, circled in the first image below
+#feed it into the --virtaddr value
+vol3 -f image_dump.mem windows.dumpfiles.DumpFiles --virtaddr 0xbf0f6d07ec10
+
+
+```
+
+![image](https://user-images.githubusercontent.com/44196051/122997186-a5386a80-d3a3-11eb-9514-fb395171e4d1.png)
+
+![image](https://user-images.githubusercontent.com/44196051/122997509-fcd6d600-d3a3-11eb-86e6-843ae3ca7efa.png)
 
 
 ### Get Sus Activity
