@@ -2802,11 +2802,12 @@ Get some info about the users on the machine
 #run and output
 vol3 -f 20210430-Win10Home-20H2-64bit-memdump.mem windows.getsids.GetSIDs > sids.txt
 #then filter
-cut -f3,4,5,6 sids.txt | sort -u
+cut -f3,4 sids.txt | sort -u | pr -Ttd
+
 
 #or just run it all in one. But you lose visibility to processes associated
 vol3 -f 20210430-Win10Home-20H2-64bit-memdump.mem windows.getsids.GetSIDs|
-tee | cut -f3,4,5,6 | sort -u
+tee | cut -f3,4 | sort -u | pr -Ttd
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122986422-55ec3d00-d397-11eb-8855-203125d6dd7e.png)
 
@@ -2816,11 +2817,63 @@ Let's focus on retrieving evidence of suspicious and/or malicious activity from 
 
 #### Get Commands
 It's possible to retrieve the cmds run on a machine, sort of. 
+```bash
+vol3 -f image_dump.mem windows.cmdline > cmd.txt
+cut -f2,3 cmd.txt | | pr -Ttd
+
+#if something catches your eye, grep for it
+cut -f2,3 cmd.txt | grep -i 'powershell' | pr -Ttd
+
+#| pr -Ttd spreads out the lines
+
+```
+![image](https://user-images.githubusercontent.com/44196051/122988527-bd0af100-d399-11eb-8947-6d2fcdceb785.png)
+
+#### Get Network Connections
+
+```bash
+sudo vol3 -f image_dump.mem windows.netscan.NetScan > net.txt
+
+#get everything interesting
+cut -f2,5,6,9,10 net.txt | column -t
+#| column -t spreads out the columns to be more readable
+
+#extract just external IPs
+cut -f5 net.txt | sort -u
+#extract external IPs and their ports
+cut -f5,6 net.txt | sort -u
+```
+![image](https://user-images.githubusercontent.com/44196051/122992887-8d121c80-d39e-11eb-9d0b-738e6c188673.png)
+
+![image](https://user-images.githubusercontent.com/44196051/122992989-aadf8180-d39e-11eb-8119-77ccfef0896a.png)
+
+#### Get Processes
+
+Get a list of processes
+```bash
+vol3 -f image_dump.mem  windows.pslist > pslist.txt 
+cut pslist.txt -f1,3,9,10 | column -t
+```
+![image](https://user-images.githubusercontent.com/44196051/122989642-f2fca500-d39a-11eb-8a19-7bcadb83f1d9.png)
+
+Retrieve the enviro variables surronding a process
+```bash
+vol3 -f image_dump.mem windows.envars.Envars > envs.txt
+cut -f2,4,5 envs.txt
+```
+![image](https://user-images.githubusercontent.com/44196051/122988909-27239600-d39a-11eb-803e-812aa770077b.png)
+
+Dump files associated with a process. Usually EXEs and DLLs.
+```bash
+#zero in on the process you want
+cut pslist.txt -f1,3,9,10 | grep -i note | | column -t
 
 
- + [Get Sus Activity](#get-sus-activity)
-    - [Get Commands](#get-commands)
-    - [Get Network Connections](#get-network-connections)
-    - [Get Processes](#get-grocesses)
+#then, get that first columns value. The PID
+sudo vol3 -f image_dump.mem -o . windows.dumpfiles --pid 2520
+```
+![image](https://user-images.githubusercontent.com/44196051/122990657-1ecc5a80-d39c-11eb-85e0-add64e403b25.png)
+
+
 
 
