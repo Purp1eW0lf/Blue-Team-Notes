@@ -2732,6 +2732,7 @@ Honestly, I find that these credential filters always suck. Maybe you'll have be
 <details>
     <summary>section contents</summary>
 
+  + [Get Started](#get-started)
   + [Get Basics](#get-basics)
     - [Get Profile](#get-profile)
    
@@ -2739,7 +2740,36 @@ Honestly, I find that these credential filters always suck. Maybe you'll have be
 
 There are loads of tools that can assist you with forensically exmaining stuff. Volatility is awesome and can aid you on your journey. Be warned though, digital forensics in general are resource-hungry and running it on a VM without adequate storage and resource allocated will lead to a bad time. 
 
-# Get Basics
+In the Blue Team Notes, we'll use vol.py and vol3 (python2 and python3 implementation's of Volatility, respectively). In my un-educated, un-wise opinon, vol2 does SOME things better than vol3....
+
+
+### Get Started
+It's worth reviewing trhe Volatility docs, and make sure you've organised yourself as best as possible before getting started.
+
+One important prep task is to download the [symbols table](https://github.com/volatilityfoundation/volatility3#symbol-tables) into your local machine
+
+![image](https://user-images.githubusercontent.com/44196051/122973314-030b8900-d389-11eb-8cda-fbca5f041b09.png)
+
+#### Reviewing options
+
+Reading the [docs](https://volatility3.readthedocs.io/en/latest/) and the `-h` help option let you know exactly what options you have available
+
+Python2: `Vol.py -h`
+
+![image](https://user-images.githubusercontent.com/44196051/122974946-c2ad0a80-d38a-11eb-9773-4aaaefd3e583.png)
+
+Python3: `vol3 -h`
+
+When you see a plugin you like the look of, you can `-h` on it to get more options
+
+```bash
+#let's take the plugin windows.memmap.Memmap, for example
+vol3 windows.memmap.Memmap -h
+```
+![image](https://user-images.githubusercontent.com/44196051/122976503-5501de00-d38c-11eb-9eb0-83d64b49bdc1.png)
+
+
+### Get Basics
 
 Get basic info about the dumped image itself
 
@@ -2753,13 +2783,12 @@ exiftool dumped_image.mem
 
 ![image](https://user-images.githubusercontent.com/44196051/122972597-3994d400-d388-11eb-95fb-5f008132b359.png)
 
+#### Get Profile
 
-
-### Get Profile
-
-Get some basic info about the profile 
-
+Get some basic info about the OS version of the dump 
 ```bash
- python vol.py imageinfo  -f dumped_image.mem
+vol3 -f dumped_image.mem windows.info.Info
 ```
+![image](https://user-images.githubusercontent.com/44196051/122976239-12d89c80-d38c-11eb-8666-eda08346042d.png)
+
 
