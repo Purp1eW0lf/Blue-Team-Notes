@@ -2308,6 +2308,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
   + [Add Colour](#add-colour)
   + [Add Time](#add-time)
   + [Add Readable Detail](#add-readable-detail)
+    - [Get Specific Packet](#get-specific-packet)
   + [Ideal base for any TShark command](#ideal-base-for-any-tshark-command)
   + [Change Format of Packet](#change-format-of-packets)
     - [Get format options](#get-format-options)
@@ -2398,6 +2399,26 @@ tshark -r c42-MTA6.pcap -V -x -Y dns -P
 
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122622067-6e0a4680-d08f-11eb-820d-0a82847ec904.png)
+
+##### Get Specific Packet
+
+Say a particular packet header captures your eye. You want to get as much info as possible on that specific packet.
+
+Take note of it's packet number.
+
+![image](https://user-images.githubusercontent.com/44196051/123178706-ad65d800-d47f-11eb-8d26-2d45531544e4.png)
+
+Then, insert it's packet number under `-c`
+```bash
+tshark -r packet.pcapng -x -V -P -c 27300| tail -n 120
+#-c means show up to this number
+#the -n 120 in tail can be changed to whatever you length you need
+```
+Now we get the full packet details for the specific packet that we wanted.
+
+![image](https://user-images.githubusercontent.com/44196051/123178949-3977ff80-d480-11eb-8b7b-9ab95032f0bc.png)
+
+
 
 #### Ideal base for any TShark command
 
