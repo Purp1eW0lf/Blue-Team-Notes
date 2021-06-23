@@ -2950,8 +2950,8 @@ cut pslist.txt -f1,3,9,10 | column -t
 
 ##show IDs for parent and child, with some other stuff
 cut -f1,2,3,9,10 pslist.txt
-
 ```
+
 ![image](https://user-images.githubusercontent.com/44196051/122989642-f2fca500-d39a-11eb-8a19-7bcadb83f1d9.png)
 
 Retrieve the enviro variables surronding processes
@@ -2972,6 +2972,17 @@ cat pslist.txt | grep 4352
   # a number of subsequent processes are created, ultimately ending this process id with pwsh at 17:51:19
 ```
 ![image](https://user-images.githubusercontent.com/44196051/123014115-6f07e480-d3bd-11eb-9e36-0ea958b9bc2e.png)
+
+UserAssist records info about programs that have been executed
+```bash
+vol3 -f image_dump.mem windows.registry.userassist > userassist.txt
+grep '*' userassist.txt| cut -f2,4,6,10 | pr -Ttd
+
+#Here we get the ntuser.dat, which helps us figure our which user ran what
+  # We also get start time of a program, the program itself, and how long the program was run for 
+```
+![image](https://user-images.githubusercontent.com/44196051/123015484-6f55af00-d3c0-11eb-9230-4a0b0bd75d14.png)
+
 
 Dump files associated with a process. Usually EXEs and DLLs.
 ```bash
