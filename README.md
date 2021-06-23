@@ -2913,7 +2913,7 @@ Let's focus on retrieving evidence of suspicious and/or malicious activity from 
 It's possible to retrieve the cmds run on a machine, sort of. 
 ```bash
 vol3 -f image_dump.mem windows.cmdline > cmd.txt
-cut -f2,3 cmd.txt | | pr -Ttd
+cut -f2,3 cmd.txt | pr -Ttd
 
 #if something catches your eye, grep for it
 cut -f2,3 cmd.txt | grep -i 'powershell' | pr -Ttd
