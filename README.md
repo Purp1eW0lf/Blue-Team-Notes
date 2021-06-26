@@ -1613,7 +1613,7 @@ You may just want a value without the collumn header that comes. We can do that 
 # so for example
 get-process -Name "google*" | select -ExpandProperty id
 # lets stop the particular google ID that we want
-$PID =  get-process -Name "jmon" | ? Path -eq $Null | select -ExpandProperty id;
+$PID =  get-process -Name "google" | ? Path -eq $Null | select -ExpandProperty id;
 Stop-Process -ID $PID -Force -Confirm:$false -verbose
 ```
 
