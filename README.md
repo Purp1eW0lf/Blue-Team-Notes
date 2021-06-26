@@ -2326,6 +2326,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
       - [DNS Conversations](#dns-conversations)
       - [SIP Conversations](#sip-conversations)
       - [Stats on Protocols Involved in Traffic](#stats-on-protocols-involved-in-traffic)
+      - [Filter Between Two IPs](#filter-between-two-Ips)
     - [HTTP](#http)
       - [Resolve Hosts](#resolve-hosts)
       - [Find User Agents](#find-user-agents)
@@ -2675,6 +2676,31 @@ This will display a heiarchy of the protocols involved in collected traffic
 tshark -r c42-MTA6.pcap -q -z io,phs
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122612981-f979dc80-d07b-11eb-8c1f-c363103a2161.png)
+
+##### Filter Between Two IPs
+
+Let's say we want to know when a local machine (192.168.1.26) communicated out to an external public IP (24.39.217.246) on UDP 
+
+There are loads of ways to do this, but I'll offer two for now.
+
+You can eyeball it. 
+The advantadge of this method is that it shows the details of the communication on the right-hand size, in stats form (bytes transferred for example). But isn't helpful as you need to focus on every time the colours are on the same row, which is evidence that the two IPs are in communication. So it isn't actually clear how many times these two IPs communicated on UDP
+
+```bash
+tshark -r packet.pcapng -q -z conv,udp |ack '192.168.1.26|24.39.217.246
+```
+![image](https://user-images.githubusercontent.com/44196051/123527443-8d305600-d6d7-11eb-879c-d90c2d7cb7e1.png)
+
+
+An alternate method is to filter by protocol and ip.addr. 
+This is much more sophsticated method, as it allows greater granularity and offers flags to include UTC time. However, the tradeoff compared to the above version is that you don't get stats on the communication, like bytes communicated. You can add verbose flags, however these still don't get stats. 
+
+```bash
+tshark -r packet.pcapng -t ud 'udp and ip.addr==192.168.1.26 and ip.addr==24.39.217.246'
+# | wc -l will let you know the number of commmunications
+```
+![image](https://user-images.githubusercontent.com/44196051/123527524-5c045580-d6d8-11eb-9516-58d812e9fe3c.png)
+
 
 #### HTTP
 We can collect a whole wealth of info on http stats with the `-z` flag
