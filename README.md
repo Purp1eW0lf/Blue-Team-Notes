@@ -2329,6 +2329,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
     - [HTTP](#http)
       - [Resolve Hosts](#resolve-hosts)
       - [Find User Agents](#find-user-agents)
+      - [Get MAC Addresses](#get-mac-addresses)
     - [Get Credentials](#get-credentials)
   
 </details>
@@ -2708,6 +2709,15 @@ tshark -r c42-MTA6.pcap -q -z hosts
 tshark -r Voip-trace.pcap -Y http.request -T fields -e http.host -e http.user_agent | sort -u
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122619105-92fabb80-d087-11eb-9742-56cac00b6a37.png)
+
+#### Get MAC Addresses
+It can be useful to know what MAC addresses have been involved in a conversation
+
+```bash
+#I picked FTP as a protocol to filter by, you don't have to. You could remove the -Y flag
+tshark -r packet.pcapng -Y ftp -x -V -P | grep Ethernet | sort -u
+```
+![image](https://user-images.githubusercontent.com/44196051/123527243-b64fe700-d6d5-11eb-87db-3735d8c737b2.png)
 
 
 #### Get Credentials
