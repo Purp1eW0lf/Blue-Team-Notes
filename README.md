@@ -2319,6 +2319,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
     - [Glossary](#glossary)
     - [By Protocol](#by-protocol)
     - [By IP](#by-ip)
+    - [Using DisplayFilters](#using-displayfilters)
   + [Stats](#stats)
     - [Get Conversations](#get-conversations)
       - [IP Conversations](#ip-conversations)
@@ -2615,6 +2616,28 @@ grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" |
 sort -u
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122603441-3a69f500-d06c-11eb-8068-93b4a02c6f86.png)
+
+#### Using DisplayFilters
+
+DisplayFilters are grep-like methods to control exactly what packets are shown to you. You can use filters by themselves, or stack them. 
+
+The trick to getting specific answers in TShark is to use DisplayFilters at the right time. I regularly use [DisplayFilter cheat sheets](https://packetlife.net/media/library/13/Wireshark_Display_Filters.pdf) when I'm analysing packets.
+
+You may have seen a particular IP, and you want to know what TLS activity it's had
+
+```bash
+tshark -r packet.pcapng 'tls and ip.addr==159.65.89.65' 
+```
+![image](https://user-images.githubusercontent.com/44196051/123527803-6d4e6180-d6da-11eb-94b9-8243f7b95067.png)
+
+Or maybe you have a particularly MAC address, and you want to know FTP instances
+
+```bash
+tshark -r packet.pcapng 'ftp and eth.addr==c8:09:a8:57:47:93'
+```
+![image](https://user-images.githubusercontent.com/44196051/123527831-adaddf80-d6da-11eb-8ac9-de133f15b0d7.png)
+
+You can find another example here for a [different instance](#Filter-Between-Two-IPs)
 
 ---
 
