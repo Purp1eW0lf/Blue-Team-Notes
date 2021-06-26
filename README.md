@@ -2619,9 +2619,25 @@ sort -u
 
 #### Using DisplayFilters
 
-DisplayFilters are grep-like methods to control exactly what packets are shown to you. You can use filters by themselves, or stack them. 
+DisplayFilters are grep-like methods to control exactly what packets are shown to you. You can use filters by themselves, or stack them. I regularly use [DisplayFilter cheat sheets](https://packetlife.net/media/library/13/Wireshark_Display_Filters.pdf) as a reminder of all the filtering options avaliable. 
 
-The trick to getting specific answers in TShark is to use DisplayFilters at the right time. I regularly use [DisplayFilter cheat sheets](https://packetlife.net/media/library/13/Wireshark_Display_Filters.pdf) when I'm analysing packets.
+
+The trick to getting specific answers in TShark is to use DisplayFilters at the right time. You won't really use them for granularity at the beginning of an investigation. You may `-Y [protocol]` from the beginning, but to use DisplayFilters you need to have particular values that you are hunting for more information on. This inevitably comes as the investigation progresses. 
+
+Perhaps you want to see what kind of HTTP codes have appeared
+```bash
+tshark -r packet.pcapng -t ud -Y 'http.response.code'
+```
+Once you see a particular code (say 200), you can filter down for more info
+
+```bash
+tshark -r packet.pcapng -t ud -Y 'http.response.code==200'
+
+#to punish yourself, you can make it verbose now you've filtered it down
+tshark -r packet.pcapng -t ud -Y 'http.response.code==200' -x -V -P
+```
+
+![image](https://user-images.githubusercontent.com/44196051/123527934-87d50a80-d6db-11eb-9685-cad808ae2026.png)
 
 You may have seen a particular IP, and you want to know what TLS activity it's had
 
@@ -2637,7 +2653,11 @@ tshark -r packet.pcapng 'ftp and eth.addr==c8:09:a8:57:47:93'
 ```
 ![image](https://user-images.githubusercontent.com/44196051/123527831-adaddf80-d6da-11eb-8ac9-de133f15b0d7.png)
 
+
+
+
 You can find another example here for a [different instance](#Filter-Between-Two-IPs)
+
 
 ---
 
