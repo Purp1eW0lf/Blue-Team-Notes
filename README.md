@@ -2653,7 +2653,12 @@ tshark -r packet.pcapng 'ftp and eth.addr==c8:09:a8:57:47:93'
 ```
 ![image](https://user-images.githubusercontent.com/44196051/123527831-adaddf80-d6da-11eb-8ac9-de133f15b0d7.png)
 
+Maybe you're interested to see what DNS activity a particular IP address had
 
+```bash
+tshark -r packet.pcapng 'dns and ip.addr==192.168.1.26'
+```
+![image](https://user-images.githubusercontent.com/44196051/123528324-1a76a900-d6de-11eb-8530-a75a32c34b06.png)
 
 
 You can find another example here for a [different instance](#Filter-Between-Two-IPs)
