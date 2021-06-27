@@ -2354,6 +2354,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
       - [IP Conversations](#ip-conversations)
       - [DHCP Conversations](#dhcp-conversations)
       - [DNS Conversations](#dns-conversations)
+        - [DHCP Details](#dhcp-details)
       - [SIP Conversations](#sip-conversations)
       - [Stats on Protocols Involved in Traffic](#stats-on-protocols-involved-in-traffic)
       - [Filter Between Two IPs](#filter-between-two-Ips)
@@ -2752,6 +2753,15 @@ tshark -r c42-MTA6.pcap -q -z dns,tree
 tshark -r c42-MTA6.pcap -q -z dhcp,stat
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122610951-668b7300-d078-11eb-993d-145108c4421b.png)
+
+###### DHCP Details
+
+You can rip out some interesting details from DHCP packets. For example, the requested IP address from the client, and the host name involved
+```
+tshark -r network.pcapng -Y dhcp -V | ack 'Requested IP Address|Host Name' --nocolor
+```
+![image](https://user-images.githubusercontent.com/44196051/123548806-3752c100-d75e-11eb-9dad-51a1818cf595.png)
+
 
 ##### SIP Conversations
 ```bash
