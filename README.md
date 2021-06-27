@@ -2332,11 +2332,13 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
 <details>
     <summary>section contents</summary>
 
-  + [Add Colour](#add-colour)
-  + [Add Time](#add-time)
-  + [Add Readable Detail](#add-readable-detail)
+  + [Add](#add)
+    - [Add Colour](#add-colour)
+    - [Add Time](#add-time)
+    - [Add Space](#add-space)
+    - [Add Readable Detail](#add-readable-detail)
     - [Get Specific Packet](#get-specific-packet)
-  + [Ideal base for any TShark command](#ideal-base-for-any-tshark-command)
+    - [Ideal base for any TShark command](#ideal-base-for-any-tshark-command)
   + [Change Format of Packet](#change-format-of-packets)
     - [Get format options](#get-format-options)
       - [Prepare for Elastic](#prepare-for-elastic)
@@ -2369,8 +2371,8 @@ There are resource advantages to using TShark, as you are keeping everything com
 
 
 ---
-
-### Add Colour
+# Add
+#### Add Colour
 
 An essential part of making TShark _aesthetically_ pop. Adding colour makes an analysts life easier. 
 
@@ -2386,7 +2388,7 @@ tshark -t ud -r c42-MTA6.pcap -x -P --color
 
 ---
 
-### Add Time
+#### Add Time
 
 By default, packets' time will show the time lasped between packets. This may not be the most useful method if you're trying to quickly correleate time
 
@@ -2400,8 +2402,18 @@ tshark -r c42-MTA6.pcap -t ad
 
 ![image](https://user-images.githubusercontent.com/44196051/122607616-c41cc100-d072-11eb-9cc1-884454f3bf68.png)
 
+#### Add Space
 
-### Add Readable Detail
+Default Tshark squishes the packet headers with no gaps. You can have the packet headers print with gaps in between - which makes reading all that bit easier, using `| pr -Ttd`
+
+```bash
+tshark -r dns.pcapng | pr -Ttd
+```
+In the screenshot, you can see how spacious and luxurious the top results are, and how dirty and unreadable the second half is!
+
+![image](https://user-images.githubusercontent.com/44196051/123539120-08255b00-d730-11eb-8ad1-b426bcb20922.png)
+
+#### Add Readable Detail
 
 What's a packet without the decoded text! Use the `-x` flag to get some insight into what's occuring
 
@@ -2430,7 +2442,7 @@ tshark -r c42-MTA6.pcap -V -x -Y dns -P
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122622067-6e0a4680-d08f-11eb-820d-0a82847ec904.png)
 
-##### Get Specific Packet
+#### Get Specific Packet
 
 Say a particular packet header captures your eye. You want to get as much info as possible on that specific packet.
 
@@ -2447,7 +2459,6 @@ tshark -r packet.pcapng -x -V -P -c 27300| tail -n 120
 Now we get the full packet details for the specific packet that we wanted.
 
 ![image](https://user-images.githubusercontent.com/44196051/123178949-3977ff80-d480-11eb-8b7b-9ab95032f0bc.png)
-
 
 
 #### Ideal base for any TShark command
