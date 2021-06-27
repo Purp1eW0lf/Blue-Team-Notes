@@ -2366,6 +2366,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
       - [SMB Users](#smb-users)
     - [TCP](#tcp)
       - [Attribute Listening-ports](#attribute-listening-ports)
+      - [What Commands did an Adversary Run](#what-commands-did-an-adversary-run)
     - [Get Credentials](#get-credentials)
   
 </details>
@@ -2893,7 +2894,24 @@ tshark -r shell.pcapng -q -z conv,tcp
 ```
 ![image](https://user-images.githubusercontent.com/44196051/123541706-b84d9080-d73d-11eb-9bbb-f82c9ee32e00.png)
 
-It let's us know that 
+#### What Commands did an Adversary Run
+Honestly, this is one of those things that is easier done in _Wireshark_. Going to Analyse, Follow, and TCP Stream will reveal much
+
+![image](https://user-images.githubusercontent.com/44196051/123542287-c18c2c80-d740-11eb-94fd-14d1ece98746.png)
+
+If you absolutely want to do this in the command-line, Tshark will allow this. Under `-z` we can see `follow,X`. Any protocol  under here can be forced to show the stream of conversation.
+
+![image](https://user-images.githubusercontent.com/44196051/123542319-fbf5c980-d740-11eb-806f-d6136dfece51.png)
+
+
+We can compare what our command-line tshark implementation and our wireshark implementation look like. Though it ain't as pretty, you can see they both deliver the same amount of information. The advantadge of Tshark of course is that it does not need to ingest a packet to analyse it, whereas Wireshark does which can come at an initial performance cost.
+
+```bash
+tshark -r shell.pcapng -q -z follow,tcp,ascii,0
+```
+
+![image](https://user-images.githubusercontent.com/44196051/123542412-69a1f580-d741-11eb-8e0e-5865116799af.png)
+
 
 #### Get Credentials
 In theory, `-z credentials` will collect the credentials in packets. I, however, have not had much success with this tbh. 
