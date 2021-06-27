@@ -2384,6 +2384,7 @@ TShark is the terminal implementation of Wireshark. Both Tshark and Wireshark ca
 
 There are resource advantages to using TShark, as you are keeping everything command line and can pre-filter before you even ingest and read a file. A meaty pcap will take a while to be ingested by Wireshark on the other hand. But once ingested, Wireshark proves to be the better option. If you're in a hurry, TShark will give you the answers you need at break-neck speed!
 
+Johannes Weber has an awesome [blog with case studies](https://weberblog.net/pcaps-n-wireshark/) on advanced pcacp analysis
 
 ---
 # Add
