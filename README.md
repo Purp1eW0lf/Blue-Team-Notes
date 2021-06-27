@@ -2362,7 +2362,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
       - [Find User Agents](#find-user-agents)
       - [Get MAC Addresses](#get-mac-addresses)
     - [SMB](#smb)
-      - [SMB File Interaction](#file-interaction)
+      - [SMB File Interaction](#smb-file-interaction)
       - [SMB Users](#smb-users)
     - [Get Credentials](#get-credentials)
   
