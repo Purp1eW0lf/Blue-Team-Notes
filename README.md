@@ -5,12 +5,6 @@
 # Blue Team Notes
 A collection of one-liners, small scripts, and some useful tips for blue team work. 
 
-The command line stuff tends to be Powershell, as these are the ones I forget the most. I've generally used these with [Velociraptor](https://www.velocidex.com), which can query thousands of endpoints at once.
-
-I use _sysmon_ and _memetask_ as file or directory names in lieu of real file names, just replace the stupid names I've given with the files you actually need. 
-
-I've tried not to use Powershell abbrevations or alias' without first writing out a verbose version of the commands. This is so no one feels fustrated that they aren't sure what a particular command is doing if it's their first time seeing the alias.
-
 I've included screenshots where possible so you know what you're getting. Some screenshots will be from a Win machine, others may be from the Velociraptor GUI but they do the same thing as if you were on a host's powershell command line.
 
 ## Contact me
@@ -31,7 +25,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Process Queries](#process-queries)
   * [Recurring Task Queries](#recurring-task-queries)
   * [File Queries](#file-queries)
-  * [Reg Queries](#reg-queries)
+  * [Registry Queries](#registry-queries)
   * [Driver Queries](#driver-queries)
   * [DLL Queries](#dll-queries)
   * [Log Queries](#log-queries)
@@ -117,6 +111,31 @@ source ~/.bashrc
 ![image](https://user-images.githubusercontent.com/44196051/119981537-a7cabe80-bfb5-11eb-8b7e-1e5ba7f5ba99.png)
 ---
 # Powershell
+<details>
+    <summary>section contents</summary>
+  
+  + [OS Queries](#os-queries)
+  + [Account Queries](#account-queries)
+  + [Service Queries](#service-queries)
+  + [Network Queries](#network-queries)
+  + [Remoting Queries](#remoting-queries)
+  + [Firewall Queries](#firewall-queries)
+  + [SMB Queries](#smb-queries)
+  + [Process Queries](#process-queries)
+  + [Recurring Task Queries](#recurring-task-queries)
+  + [File Queries](#file-queries)
+  + [Registry Queries](#registry-queries)
+  + [Driver Queries](#driver-queries)
+  + [DLL Queries](#dll-queries)
+  + [Log Queries](#log-queries)
+  + [Powershell Tips](#powershell-tips)
+
+
+</details>
+ 
+I've generally used these Powershell queries with [Velociraptor](https://www.velocidex.com), which can query thousands of endpoints at once.
+
+I use _sysmon_ and _memetask_ as file or directory names in lieu of real file names, just replace the stupid names I've given with the files you actually need. 
 
 ## OS Queries
 
@@ -1100,7 +1119,7 @@ copy-item "C:\windows\System32\winevt\Logs\Security.evtx", "C:\windows\System32\
 
 ---
 
-## Reg Queries
+## Registry Queries
 
 <details>
     <summary>section contents</summary>
