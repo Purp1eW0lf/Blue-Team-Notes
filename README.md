@@ -2901,6 +2901,8 @@ Wireshark sometimes sucks when you want to quickly extract stuff and just look a
     - [View Files](#view-files)
     - [View Images](#view-images)
     - [View Creds](#view-creds)
+  + [Tshark Export Objects](#tshark-export-objects)
+    - [Export SMB files](#export-smb-files)
   
   </details>
 
@@ -2934,6 +2936,31 @@ Once you see a file you find interesting, right-click and view the file
 
 Honestly, I find that these credential filters always suck. Maybe you'll have better luck 
 ![image](https://user-images.githubusercontent.com/44196051/122639517-2e287b00-d0f2-11eb-9b31-259b6fed6ed8.png)
+
+
+## Tshark Export Objects
+For all of the protocols and detailed guidance on exporting objects, you can see [TShark docs on the matter](https://tshark.dev/export/export_regular/)
+
+![image](https://user-images.githubusercontent.com/44196051/123541036-1c6e5580-d73a-11eb-9813-f73412467493.png)
+
+### Export SMB Files
+Let's say through our packet analysis, we've identified a particular SMB file we find interesting called _TradeSecrets.txt_
+
+![image](https://user-images.githubusercontent.com/44196051/123541050-314ae900-d73a-11eb-93c9-2466b333ce3a.png)
+
+We can go and get all of the SMB files, and save it locally in a directory called smb_exported_files
+```bash
+tshark -r smb.pcapng -q --export-object smb,smb_exported_files
+#-q means don't print all of the packet headers. We don't need those flying across the screen
+#the way we export things is by protocol and then local destination directory: so --export-object `smb,local_dir`
+```
+
+![image](https://user-images.githubusercontent.com/44196051/123541137-c948d280-d73a-11eb-8be7-6f5fa636f857.png)
+
+We get the original file, as if we ourselves downloaded it. However, unfortunately we do not get the original metadata so the date and time of the file reflects our current, local time and date. But nonetheless, we have the file!
+
+![image](https://user-images.githubusercontent.com/44196051/123541225-47a57480-d73b-11eb-8b85-4ed5911bfc75.png)
+
 
 # Digital Forensics
 
