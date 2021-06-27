@@ -165,6 +165,7 @@ I use _sysmon_ and _memetask_ as file or directory names in lieu of real file na
 # Get just domain name
 (Get-WmiObject -Class win32_computersystem).domain
 ```
+![image](https://user-images.githubusercontent.com/44196051/123553586-ef3e9900-d773-11eb-9207-af279dc2b3e3.png)
   
 ### Get OS and Pwsh info
 This will print out the hostname, the OS build info, and the powershell version
