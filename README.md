@@ -2363,6 +2363,12 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
       - [Resolve Hosts](#resolve-hosts)
       - [Find User Agents](#find-user-agents)
       - [Get MAC Addresses](#get-mac-addresses)
+      - [Decrypt TLS traffic](#decrypt-tls-traffic)
+        - [Decrypt TLS traffic](#decrypt-tls-traffic)
+        - [Sanity Check the Key is working](#Sanity-Check-the-Key-is-working)
+        - [Hunting Decrypted Hosts](#Hunting-Decrypted-Hosts)
+        - [Get a decrypted stream number](#Get-a-decrypted-stream-number)
+        - [Following decrypted stream](#Following-decrypted-stream)
     - [SMB](#smb)
       - [SMB File Interaction](#smb-file-interaction)
       - [SMB Users](#smb-users)
@@ -2874,6 +2880,90 @@ It can be useful to know what MAC addresses have been involved in a conversation
 tshark -r packet.pcapng -Y ftp -x -V -P | grep Ethernet | sort -u
 ```
 ![image](https://user-images.githubusercontent.com/44196051/123527243-b64fe700-d6d5-11eb-87db-3735d8c737b2.png)
+
+#### Decrypt TLS traffic
+
+To decrypt network https traffic, you need a decryption key. I'll go over how to get those another time. For now, we'll assume we have one called _tls_decrypt_key.txt_. 
+
+This is another instance where, to be honest, Wireshark is just straight up easier to use. But for now, I'll show you TShark. We use decryption keys like so: `-o tls.keylog_file: key.txt`
+
+##### Sanity Check the Key is working
+
+First, we need to sanity check that we actually have a working decryption key. Nice and simple, let's get some stats about the traffic:
+
+```bash
+tshark -r https.pcapng -q -z io,phs,tls
+#re=run and pipe to get line numbers
+!! | wc -l
+```
+Nice and simple, there's not much going on here. Only 12 or so lines of info
+
+![image](https://user-images.githubusercontent.com/44196051/123551570-4b9cbb00-d76a-11eb-824a-688149342266.png)
+
+Well, now let's compare what kind of data we get when we insert our decryption key. 
+```bash
+tshark -r https.pcapng -o tls.keylog_file:tls_decrypt_key.txt  -q -z io,phs,tls
+#re=run and pipe to get line numbers
+!! | wc -l
+```
+![image](https://user-images.githubusercontent.com/44196051/123551674-ba7a1400-d76a-11eb-8aec-f6ecf5fff437.png)
+
+That's quite a lot more information....61 lines now, significantly more than 12. Which suggests our decryption efforts worked.
+
+![image](https://user-images.githubusercontent.com/44196051/123551699-cc5bb700-d76a-11eb-983b-4f130da87f6c.png)
+
+##### Hunting Decrypted Hosts
+
+Now that we've done that, let's go and hunt for some decrypted traffic to look at. We'll start by ripping out all of the website names
+```bash
+tshark -r https.pcapng -o tls.keylog_file:tls_decrypt_key.txt \
+-T fields -e frame.number -e http.host| 
+sort -k2 -u
+#there's a lot going on here, so just a reminder
+  # -r means read the given packets
+  # -o is the decrypion key
+  # -T is where we are changing print format to utilise fields
+  # -e is where we are filtering to only print the website name and it's corresponding packet number
+  # sort's -k2 flag picks the second column to filter on and ignores sorting on the first column
+  # sort -u flag removes duplicate website names
+```
+In the top half of the screenshot, you can see the results we WOULD have got if we hunted without a decryption key. On the bottom half of the screenshot, you can see we get a lot more information now we can decrypt the traffic.
+
+![image](https://user-images.githubusercontent.com/44196051/123551995-15603b00-d76c-11eb-819f-a51dde4d4a1d.png)
+
+##### Get a decrypted stream number
+
+Let's say we've seen a suspicious website (we'll choose web01.fruitinc.xyz), identify it's corresponding packet number (675) and let's go and hunt for a stream number
+```bash
+tshark -r https.pcapng -o tls.keylog_file:tls_decrypt_key.txt -c675 -V -P | 
+tail -n120 | ack -i --passthru 'stream index'
+```
+
+![image](https://user-images.githubusercontent.com/44196051/123552167-cc5cb680-d76c-11eb-84e8-d4e64e29a8fa.png)
+
+Not bad, we've identified the stream conversation is 27. Now let's go and follow it
+
+##### Following decrypted stream
+
+Let's check on the decrypted TLS interactions first
+```bash
+tshark -r https.pcapng -o tls.keylog_file:tls_decrypt_key.txt -q \
+-z follow,tls,ascii,27
+#follow is essentially follow stream
+#tls is the protocol we specify
+#ascii is the printed format we want
+#27 is the Stream Index we want to follow
+```
+And here we get the decrypted TLS communication. 
+
+![image](https://user-images.githubusercontent.com/44196051/123552273-5442c080-d76d-11eb-9aed-d4a3cd521aa5.png)
+
+This screenshot shows what happens if we run the same without the decryption key
+![image](https://user-images.githubusercontent.com/44196051/123552339-953ad500-d76d-11eb-9c4a-1b5a5ecf14bf.png)
+
+You get much of the same result if we check on HTTP interactions next
+
+![image](https://user-images.githubusercontent.com/44196051/123552404-e8148c80-d76d-11eb-903a-a66c0a030215.png)
 
 ### SMB
 Be sure you're using DisplayFilters specific to [SMB1](https://www.wireshark.org/docs/dfref/s/smb.html) and [SMB2](https://www.wireshark.org/docs/dfref/s/smb2.html)
