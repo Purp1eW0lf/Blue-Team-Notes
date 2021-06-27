@@ -2361,6 +2361,9 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
       - [Resolve Hosts](#resolve-hosts)
       - [Find User Agents](#find-user-agents)
       - [Get MAC Addresses](#get-mac-addresses)
+    - [SMB](#smb)
+      - [SMB File Interaction](#file-interaction)
+      - [SMB Users](#smb-users)
     - [Get Credentials](#get-credentials)
   
 </details>
@@ -2830,6 +2833,36 @@ It can be useful to know what MAC addresses have been involved in a conversation
 tshark -r packet.pcapng -Y ftp -x -V -P | grep Ethernet | sort -u
 ```
 ![image](https://user-images.githubusercontent.com/44196051/123527243-b64fe700-d6d5-11eb-87db-3735d8c737b2.png)
+
+### SMB
+Be sure you're using DisplayFilters specific to [SMB1](https://www.wireshark.org/docs/dfref/s/smb.html) and [SMB2](https://www.wireshark.org/docs/dfref/s/smb2.html)
+
+#### SMB File Interaction
+
+One of the quickest ways I know to get contexual info on what SMB files were interacted with is `smb.fid`
+
+```bash
+tshark -r smb.pcapng -Y smb2.fid 
+```
+![image](https://user-images.githubusercontent.com/44196051/123540185-ad8efd80-d735-11eb-9ba8-eea6711a5b6f.png)
+
+#### SMB Users
+
+You can quickly grab usernames/accounts with this command
+```bash
+tshark -r smb.pcapng -Tfields -e smb2.acct | sed '/^$/d'
+```
+I would then grep out for that username, for more info
+```bash
+tshark -r smb.pcapng | grep -i 'jtomato'
+```
+
+Or fuck it, just grep for user and let the dice fall where the fates' deign.
+```bash
+tshark -r smb.pcapng | grep -i 'user'
+```
+
+![image](https://user-images.githubusercontent.com/44196051/123540481-1f1b7b80-d737-11eb-9b2b-a9e95551828c.png)
 
 
 #### Get Credentials
