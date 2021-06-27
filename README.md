@@ -2864,6 +2864,14 @@ tshark -r smb.pcapng | grep -i 'user'
 
 ![image](https://user-images.githubusercontent.com/44196051/123540481-1f1b7b80-d737-11eb-9b2b-a9e95551828c.png)
 
+For general windows users, you can utlise NTLM filters
+```bash
+tshark -r smb.pcapng -Y 'ntlmssp.auth.username'
+```
+
+![image](https://user-images.githubusercontent.com/44196051/123540673-1c6d5600-d738-11eb-8eb0-bd2882335ec9.png)
+
+
 
 #### Get Credentials
 In theory, `-z credentials` will collect the credentials in packets. I, however, have not had much success with this tbh. 
