@@ -3076,6 +3076,7 @@ Wireshark sometimes sucks when you want to quickly extract stuff and just look a
     - [View Creds](#view-creds)
   + [Tshark Export Objects](#tshark-export-objects)
     - [Export SMB files](#export-smb-files)
+    - [Export HTTP files with Decryption Key](#export-http-files-with-decryption-key)
   
   </details>
 
@@ -3133,6 +3134,22 @@ tshark -r smb.pcapng -q --export-object smb,smb_exported_files
 We get the original file, as if we ourselves downloaded it. However, unfortunately we do not get the original metadata so the date and time of the file reflects our current, local time and date. But nonetheless, we have the file!
 
 ![image](https://user-images.githubusercontent.com/44196051/123541225-47a57480-d73b-11eb-8b85-4ed5911bfc75.png)
+
+### Export HTTP Files with Decryption Key
+
+In some situations, you will have a TLS decryption key in your hands. There may have been a file in the traffic you want to get your hands on, so let's do it!
+
+Let's say we're looking around the decrypted traffic and we see an interesting file referenced, in this case an image:
+
+![image](https://user-images.githubusercontent.com/44196051/123552848-15fad080-d770-11eb-89bf-6f14870baad5.png)
+
+To retrieve this image, we need only supply the decryption key whilst we export the object
+```bash
+tshark -r https.pcapng -o tls.keylog_file:tls_decrypt_key.txt -q \
+--export-objects http,exported_http_files
+```
+And we have downloaded the image to our export directory. Awesome 
+![image](https://user-images.githubusercontent.com/44196051/123552986-c8329800-d770-11eb-9e7b-9b9682d76859.png)
 
 
 # Digital Forensics
