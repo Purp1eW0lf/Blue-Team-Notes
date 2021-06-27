@@ -2933,7 +2933,7 @@ tshark -r shell.pcapng -q -z conv,tcp
 ![image](https://user-images.githubusercontent.com/44196051/123541706-b84d9080-d73d-11eb-9bbb-f82c9ee32e00.png)
 
 #### What Commands did an Adversary Run
-Honestly, this is one of those things that is easier done in _Wireshark_. Going to Analyse, Follow, and TCP Stream will reveal much
+Honestly, this is one of those things that is easier done in _Wireshark_. Going to Analyse, Follow, and TCP Stream will reveal much.
 
 ![image](https://user-images.githubusercontent.com/44196051/123542287-c18c2c80-d740-11eb-94fd-14d1ece98746.png)
 
@@ -2950,6 +2950,9 @@ tshark -r shell.pcapng -q -z follow,tcp,ascii,0
 
 ![image](https://user-images.githubusercontent.com/44196051/123542412-69a1f580-d741-11eb-8e0e-5865116799af.png)
 
+
+For other packets, to identify their stream conversation it saves the value as "Stream Index: X"
+![image](https://user-images.githubusercontent.com/44196051/123550706-bcda6f00-d766-11eb-80cd-6e0e5f71be8f.png)
 
 #### Get Credentials
 In theory, `-z credentials` will collect the credentials in packets. I, however, have not had much success with this tbh. 
