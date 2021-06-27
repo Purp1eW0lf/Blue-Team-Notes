@@ -277,7 +277,7 @@ I've noticed that sometimes there is a couple days discrepency between dates.
 
 ![image](https://user-images.githubusercontent.com/44196051/120313127-7d3c7680-c2d1-11eb-8941-e96575a63138.png)
 
-For example in our screenshot, on the left Microsoft's support page supposes the `EvenntsInstaller.dll` was written on the 13th January 2021. And yet our host on the right side of the screenshot comes up as the 14th January 2021. This is fine though, you've got that file don't sweat it. 
+For example in our screenshot, on the left Microsoft's support page supposes the `EventsInstaller.dll` was written on the 13th January 2021. And yet our host on the right side of the screenshot comes up as the 14th January 2021. This is fine though, you've got that file don't sweat it. 
 
 ---
 
@@ -2355,7 +2355,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
     - [Get Conversations](#get-conversations)
       - [IP Conversations](#ip-conversations)
       - [DHCP Conversations](#dhcp-conversations)
-      - [DNS Conversations](#dns-conversations)
+        - [DNS Conversations](#dns-conversations)
         - [DHCP Details](#dhcp-details)
       - [SIP Conversations](#sip-conversations)
       - [Stats on Protocols Involved in Traffic](#stats-on-protocols-involved-in-traffic)
