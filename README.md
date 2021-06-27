@@ -2364,6 +2364,8 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
     - [SMB](#smb)
       - [SMB File Interaction](#smb-file-interaction)
       - [SMB Users](#smb-users)
+    - [TCP](#tcp)
+      - [Attribute Listening-ports](#attribute-listening-ports)
     - [Get Credentials](#get-credentials)
   
 </details>
@@ -2871,7 +2873,27 @@ tshark -r smb.pcapng -Y 'ntlmssp.auth.username'
 
 ![image](https://user-images.githubusercontent.com/44196051/123540673-1c6d5600-d738-11eb-8eb0-bd2882335ec9.png)
 
+### TCP
+#### Attribute Listening Ports
+Say you've captured traffic that may have had a reverse shell established.
 
+We can quickly find out the TCP ports and respective IPs that were involved in the communication. Though keep in mind reverse shells can also use UDP ports, and C2 can happen over some wacky stuff like DNS and ICMP (which is ping's protocol). 
+
+Here, we get awesome results that let us know 192.168.2.244 was using 4444, which is Metasploit's default port to use
+
+```bash
+tshark -r shell.pcapng -q -z endpoints,tcp
+```
+![image](https://user-images.githubusercontent.com/44196051/123541609-4d03be80-d73d-11eb-89f4-6aca9ba68cac.png)
+
+A limitation of the above command however is that it is doesn't give information on WHOMST the malicious port and IP were communicating with. Therefore, we can also deploy this command, which let's us know source and destination IP's relationship, as well as the number of packets communicated in this relationship, and the time duration of this relationship.
+
+```bash
+tshark -r shell.pcapng -q -z conv,tcp
+```
+![image](https://user-images.githubusercontent.com/44196051/123541706-b84d9080-d73d-11eb-9bbb-f82c9ee32e00.png)
+
+It let's us know that 
 
 #### Get Credentials
 In theory, `-z credentials` will collect the credentials in packets. I, however, have not had much success with this tbh. 
