@@ -2349,6 +2349,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
     - [By Protocol](#by-protocol)
     - [By IP](#by-ip)
     - [Using DisplayFilters](#using-displayfilters)
+      - [Removing info around DisplayFilters](#removing-info-around-displayfilters)
   + [Stats](#stats)
     - [Get Conversations](#get-conversations)
       - [IP Conversations](#ip-conversations)
@@ -2708,6 +2709,33 @@ tshark -r packet.pcapng 'dns and ip.addr==192.168.1.26'
 
 You can find another example here for a [different instance](#Filter-Between-Two-IPs)
 
+##### Removing info around DisplayFilters
+
+Sometimes, you'll be using DisplayFilters that are difficult. Take example, VLAN querying for STP. Specifically, we want to see how many topology changes there are.
+
+The DisplayFilter for this is `stp.flags.tc==1`. But putting that in doesn't seem to work for me.....so I know the value I want to see. I COULD grep, but that would end up being difficult
+
+Instead, I can utilise the `-T fields` flag, which allows me to use the `-e` flag that will only print particular filters. In our case, all I want to do is find the packet number that gives the first 'yes' for topology (which will =1). 
+
+```bash
+tshark -r network.pcapng -T fields -e frame.number -e stp.flags.tc | 
+sort -k2 -u
+# -k flag says sort on a particular column. 
+# We don't want to sort on the packet numbers, we want to sort on the boolen values of 1 and 0
+```
+Awesome, here we can see that packet 42 is the first time there is confirmation that the topology has changed. We have stripped back the information to only show us exactly what we want: packet number, and STP topography boolean
+![image](https://user-images.githubusercontent.com/44196051/123549469-1b045380-d761-11eb-90f6-917c170346d5.png)
+
+Now we know the packet number, let's go investgate more details on the VLAN number responsible
+```bash
+tshark -r network.pcapng -V -P -c 42  | 
+tail -n120 | 
+ack -i 'topology' --passthru
+```
+![image](https://user-images.githubusercontent.com/44196051/123549714-0ffdf300-d762-11eb-9845-f364b2b37b1c.png)
+
+Awesome, so we managed to achieve all of this by first sifting out all noise and focusing just on the two fields of the display filter
+
 
 ---
 
@@ -2937,6 +2965,8 @@ Here's an alternative, less refined, works though.
 tshark -r 0.pcap -V -x -P | grep -iE 'user|pass'
 ```
 ![image](https://user-images.githubusercontent.com/44196051/122676730-2bec1c80-d1d7-11eb-8403-bd307217638b.png)
+
+
 
 ---
 
