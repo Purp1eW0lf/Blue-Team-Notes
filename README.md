@@ -2332,7 +2332,96 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
 
 ## Capture Traffic
 
+<details>
+    <summary>section contents</summary>
 
+  + [Packet Versions](#packet-versions)
+  + [Capture on Windows](#capture-on-windows)
+    - [Preamble](#preamble)
+    - [netsh trace ](#netsh-trace)
+    - [Converting Windows Captures](#converting-windows-captures)
+
+  
+</details>
+
+When we're talking about capturing traffic here, we really mean capturing traffic in the form of packets. 
+
+But it's worth taking a smol digression to note what implementing continuous monitoring of traffic means in your environment
+
+To capture continuous traffic, as well as to capture it in different formats like Netflow & metadata, you will need to install physical sensors, TAPS, and the like upstream around your network. You will also need to leverage DNS server traffic, internal firewall traffic, and activity from routers/switches especialy to overcome VLAN segregation.
+
+Network traffic monitoring uses particular terms to mean particular things
+* North to South monitoring = monitoring ingress and egress traffic = stuff that's coming in external to your domain and stuff that's leaving your domain out to the big bad internet
+* East to West monitoring = monitoring communication between machines in the Local Area Network = stuff that your computers talking about with one another.
+
+I really encourage you to read and watch [the SANS](# Network Traffic) stuff on this topic. 
+
+
+### Packet Versions
+
+ETL
+
+PCAP
+
+PCAPNG
+
+### Capture on Windows
+#### Preamble
+
+Weird one to start with right? But it isn't self evident HOW one captures traffic on Windows
+
+You COULD download [Wireshark for Windows](https://www.wireshark.org/download.html), or [WinDump](https://www.winpcap.org/windump/), or [Npcap](https://github.com/nmap/npcap). If you want to download anything on a Windows machine, it's a tossup between Wireshark and [Microsoft's Network Monitor] (https://docs.microsoft.com/en-us/windows/client-management/troubleshoot-tcpip-netmon)
+
+#### Netsh Trace
+
+But to be honest, who wants to download external stuff??? And who needs to, when you can leverage cmdline's [`netsh`](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj129382(v=ws.11)#using-filters-to-limit-etl-trace-file-details)
+
+We can look at our options by running the following
+```cmd
+netsh trace start ?
+```
+![image](https://user-images.githubusercontent.com/44196051/123682218-a30e5a00-d842-11eb-80e2-5663d48d4ee7.png)
+
+We're only concerned with a handful of these flags
+* `capture=yes` - actually capture packets
+* `capturetype=x` - default is physical option, other option is virtual
+* `maxSize=0` - otherwise the max size is only 250mb
+* `filemode=single` - a requirement if we have unlimited capture size
+* `traceFile=C:\temp\captured_traffic.etl` - location and name to store captured info
+* `level=5` - the verbosity we would like our packets to be collected with
+
+So our most basic command looks like the following
+```cmd
+#run as admin
+netsh trace start capture=yes maxSize=0 filemode=single tracefile=C:\captured_traffic.etl level=5
+
+#to stop 
+netsh trace stop
+#will take a while now!
+```
+
+![image](https://user-images.githubusercontent.com/44196051/123683459-1ebcd680-d844-11eb-9573-2d6e61d1c9c0.png)
+
+#### Converting Windows Captures
+The astute will have noted that files that end in .ETL are not .PCAP. For reasons I don't know, Microsoft decided to just not save things as Pcap? I don't know man.
+
+At any rate, we can convert it to a format we all know and love.
+
+To convert it on windows, we have to download something I am afraid. Forgive me. [etl2pcapng](https://github.com/microsoft/etl2pcapng)
+
+```cmd
+
+#example usage
+etl2pcapng.exe original.etl converted.pcapng
+
+#etl2pcapng.exe captured_traffic.etl converted_captured_traffic.pcapng
+```
+![image](https://user-images.githubusercontent.com/44196051/123687593-03a09580-d849-11eb-8848-922276a02fc7.png)
+
+And if we look on a linux machine, we can confirm it's a PCAP alright
+![image](https://user-images.githubusercontent.com/44196051/123688260-b53fc680-d849-11eb-8159-cda05b8210bc.png)
+
+![image](https://user-images.githubusercontent.com/44196051/123688630-28493d00-d84a-11eb-9f37-bc004b9783be.png)
 
 ---
 
