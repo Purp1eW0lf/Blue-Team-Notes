@@ -2495,7 +2495,7 @@ You can now take that over to the [TShark](#tshark) section of the Blue Team Not
 
 ##### I want PCAPNG
 
-Earlier, we spoke about how [PCAPNG is superior to PCAP](#Pcapng or Pcap)
+Earlier, we spoke about how [PCAPNG is superior to PCAP](#Pcapng-or-Pcap)
 
 In TShark, pcapng is the default file format. TShark shared many of the same flags as tcpdump, so we don't need to go over that in too much detail. 
 
