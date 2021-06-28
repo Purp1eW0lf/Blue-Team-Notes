@@ -45,6 +45,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Sigma Converter](#sigma-converter)
   * [SOC Prime](#soc-prime)
 - [Network Traffic](#network-traffic)
+  * [Capture Traffic](#capture-traffic)
   * [TShark](#tshark)
   * [Extracting Stuff](#extracting-stuff)
 - [Digital Forensics](#Digital-Forensics) 
@@ -2320,10 +2321,17 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
 <details>
     <summary>section contents</summary>
 
+  + [Capture Traffic](#capture-traffic)
   + [TShark](#tshark)
   + [Extracting Stuff](#extracting-stuff)
   
 </details>
+
+
+---
+
+## Capture Traffic
+
 
 
 ---
