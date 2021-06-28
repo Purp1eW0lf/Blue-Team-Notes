@@ -2398,7 +2398,7 @@ It is possible to convert .ETL captured network traffic over to .Pcap, which we 
 
 Weird one to start with right? But it isn't self evident HOW one captures traffic on Windows
 
-You COULD download [Wireshark for Windows](https://www.wireshark.org/download.html), or [WinDump](https://www.winpcap.org/windump/), or [Npcap](https://github.com/nmap/npcap). If you want to download anything on a Windows machine, it's a tossup between Wireshark and [Microsoft's Network Monitor] (https://docs.microsoft.com/en-us/windows/client-management/troubleshoot-tcpip-netmon)
+You COULD download [Wireshark for Windows](https://www.wireshark.org/download.html), or [WinDump](https://www.winpcap.org/windump/), or [Npcap](https://github.com/nmap/npcap). If you want to download anything on a Windows machine, it's a tossup between Wireshark and [Microsoft's Network Monitor](https://docs.microsoft.com/en-us/windows/client-management/troubleshoot-tcpip-netmon)
 
 #### Netsh Trace
 
