@@ -2336,6 +2336,8 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
     <summary>section contents</summary>
 
   + [Packet Versions](#packet-versions)
+    - [Pcapng or Pcap](#pcapng-or-Pcap)
+    - [ETL](#etl)
   + [Capture on Windows](#capture-on-windows)
     - [Preamble](#preamble)
     - [netsh trace ](#netsh-trace)
@@ -2343,6 +2345,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
   + [Capture on 'Nix](#capture-on-'nix)
     - [Preperation](#preperation)
     - [Outputting](#outputting)
+      - [I want PCAPNG](#PCAPNG)
       - [Doing interesting things with live packets](#Doing-interesting-things-with-live-packets)
 
   
@@ -2363,11 +2366,32 @@ I really encourage you to read and watch [the SANS](# Network Traffic) stuff on 
 
 ### Packet Versions
 
-ETL
+Listen buddy, I'll have you know we base things on SCIENCE around here. And the SCIENCE says that not all packet capture file types are born equal.
 
-PCAP
+We'll only focus on the most commonly encountered ones
 
-PCAPNG
+#### Pcapng or Pcap
+According to a [SANS research paper](https://www.sans.org/reading-room/whitepapers/detection/paper/38335) on the matter, *pcapng* is the superior packet we should strive for compared to pcap
+ 
+PCAP Next Generation (PCAPng) has some advantadges over it's predecessor, PCAP. It's explicit goal is to IMPROVE on pcap
+* More granular timestamps
+* More metadata
+* Stats on dropped packets
+
+Unfortunately, Pcapng isn't popular. Not many tools can output a pcacpng file or use it as default. Most tools can read it just fine though, so that's a big plus. Fortunately for you and I, Wireshark and Tshark use Pcapng as their default output for captured packets and therefore we can still leverage this New Generation.
+
+If you want to write in pcapng, you can read about it (here)[#I-want-pcapng] in the Blue Team Notes
+
+#### ETL
+
+ETL isn't quite the Windows implementation of a Pcap. 
+
+According to the [docs](https://docs.microsoft.com/en-us/windows/win32/ndf/network-tracing-in-windows-7-architecture), ETLs (or Event Trace Logs) are based on the ETW framework (Event Tracing for Windows). ETW captures a number of things, and when we leverage network monitoring in windows we are simply leveraging one of the many things ETW recognises and records in ETL format.
+
+We don't need to over complicate it, but essentially .ETLs are records of network activity taken from the ETW kernel-level monitor. 
+
+It is possible to convert .ETL captured network traffic over to .Pcap, which we talk about [here](#Converting-Windows-Captures) in the Blue Team Notes
+
 
 ### Capture on Windows
 #### Preamble
@@ -2469,6 +2493,18 @@ You can now take that over to the [TShark](#tshark) section of the Blue Team Not
 ![image](https://user-images.githubusercontent.com/44196051/123691306-5d0ac380-d84d-11eb-8358-00c19e7e7c56.png)
 
 
+##### I want PCAPNG
+
+Earlier, we spoke about how [PCAPNG is superior to PCAP](#Pcapng or Pcap)
+
+In TShark, pcapng is the default file format. TShark shared many of the same flags as tcpdump, so we don't need to go over that in too much detail. 
+
+To be sure you're writing a pcapng format, use the `-F` flag
+
+```bash
+tshark -i wlan0 -F pcapng -W captured_traffic.pcapng
+```
+
 ##### Doing interesting things with live packets
 
 Say you turn around, look me dead in the eye and say "PCAP analysis here, now, fuck TShark". It is possible to do some interesting things with live packet inspection as the packets come in. 
@@ -2476,6 +2512,7 @@ Say you turn around, look me dead in the eye and say "PCAP analysis here, now, f
 First, we'll need to attach the `--immediate-mode` flag for these all. Usually, tcpdump buffers the writing of packets so as not to punish the OS' resource. But seeing as we're printing live and not saving the packets, this does not concern us. 
 
 We can print the ASCII translation of the info in the packets. In the screenshot below, you can see the first half is run without ASCII and the second is run with ASCII. Comes out messy, but may prove useful one day?
+
 ```bash
 tcpdump -i any -A --immediate-mode
 
