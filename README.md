@@ -2361,7 +2361,7 @@ Network traffic monitoring uses particular terms to mean particular things
 * North to South monitoring = monitoring ingress and egress traffic = stuff that's coming in external to your domain and stuff that's leaving your domain out to the big bad internet
 * East to West monitoring = monitoring communication between machines in the Local Area Network = stuff that your computers talking about with one another.
 
-I really encourage you to read and watch [the SANS](# Network Traffic) stuff on this topic. 
+I really encourage you to read and watch [the SANS](#Network-Traffic) stuff on this topic. 
 
 
 ### Packet Versions
