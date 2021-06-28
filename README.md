@@ -2340,6 +2340,10 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
     - [Preamble](#preamble)
     - [netsh trace ](#netsh-trace)
     - [Converting Windows Captures](#converting-windows-captures)
+  + [Capture on 'Nix](#capture-on-'nix)
+    - [Preperation](#preperation)
+    - [Outputting](#outputting)
+      - [Doing interesting things with live packets](#Doing-interesting-things-with-live-packets)
 
   
 </details>
@@ -2392,12 +2396,12 @@ We're only concerned with a handful of these flags
 
 So our most basic command looks like the following
 ```cmd
-#run as admin
+:: run as admin
 netsh trace start capture=yes maxSize=0 filemode=single tracefile=C:\captured_traffic.etl level=5
 
-#to stop 
+:: to stop 
 netsh trace stop
-#will take a while now!
+:: will take a while now!
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/123683459-1ebcd680-d844-11eb-9573-2d6e61d1c9c0.png)
@@ -2411,10 +2415,10 @@ To convert it on windows, we have to download something I am afraid. Forgive me.
 
 ```cmd
 
-#example usage
+:: example usage
 etl2pcapng.exe original.etl converted.pcapng
 
-#etl2pcapng.exe captured_traffic.etl converted_captured_traffic.pcapng
+:: etl2pcapng.exe captured_traffic.etl converted_captured_traffic.pcapng
 ```
 ![image](https://user-images.githubusercontent.com/44196051/123687593-03a09580-d849-11eb-8848-922276a02fc7.png)
 
@@ -2422,6 +2426,86 @@ And if we look on a linux machine, we can confirm it's a PCAP alright
 ![image](https://user-images.githubusercontent.com/44196051/123688260-b53fc680-d849-11eb-8159-cda05b8210bc.png)
 
 ![image](https://user-images.githubusercontent.com/44196051/123688630-28493d00-d84a-11eb-9f37-bc004b9783be.png)
+
+### Capture on 'Nix
+
+Big old assertion coming up: generally speaking, if a system is unix-based (so BSD, Linux, and MacOS) then they will likely have `tcpdump` installed and therefore are all good to capture PACKETS.
+
+You'll need to run `sudo` in front of tcpdump, or run it as root. 
+
+#### Preperation
+
+Tcpdump can listen to a LOT....too much actually. So we need to help it out by offering a particular network _interface_. To see all of the interface options we can give to tcpdump, you can use the following command which will uniquely look at your local system and throw up the options
+
+```bash
+#list interfaces
+tcpdump -D
+
+#interfaces are later fed in like so
+tcpdump -i interface_option
+```
+
+![image](https://user-images.githubusercontent.com/44196051/123689836-96daca80-d84b-11eb-9f72-d78d88cb9af7.png)
+
+Perchance you only want to capture particular traffic from particular Protocols Ports, and IPs. It's surprisingly easy to do this
+
+```bash
+tcpdump -i x tcp port 80
+
+#or
+tcpdump -i x host 10.10.10.99
+```
+![image](https://user-images.githubusercontent.com/44196051/123690653-8119d500-d84c-11eb-9762-177640706fe4.png)
+
+
+
+#### Outputting
+
+To just save your pcap, output with the `-w` flag
+```bash
+tcpdump -i x -w traffic.pcap
+```
+You can now take that over to the [TShark](#tshark) section of the Blue Team Notes for some SERIOUS analysis.
+![image](https://user-images.githubusercontent.com/44196051/123691306-5d0ac380-d84d-11eb-8358-00c19e7e7c56.png)
+
+
+##### Doing interesting things with live packets
+
+Say you turn around, look me dead in the eye and say "PCAP analysis here, now, fuck TShark". It is possible to do some interesting things with live packet inspection as the packets come in. 
+
+First, we'll need to attach the `--immediate-mode` flag for these all. Usually, tcpdump buffers the writing of packets so as not to punish the OS' resource. But seeing as we're printing live and not saving the packets, this does not concern us. 
+
+We can print the ASCII translation of the info in the packets. In the screenshot below, you can see the first half is run without ASCII and the second is run with ASCII. Comes out messy, but may prove useful one day?
+```bash
+tcpdump -i any -A --immediate-mode
+
+###if you want to drive yourself crazy, add -vvv
+```
+![image](https://user-images.githubusercontent.com/44196051/123691937-1ec1d400-d84e-11eb-964f-30b46cd0b2f9.png)
+
+
+You can also be verbose af!
+```bash
+tcpdump -i any -vvv --immediate-mode
+```
+![image](https://user-images.githubusercontent.com/44196051/123692129-5a5c9e00-d84e-11eb-893e-d18480451c27.png)
+
+You can also print helpful things live like different time formats as well as packet numbers
+```bash
+#packet numbers
+sudo tcpdump -i any --immediate-mode --number
+
+## different time format
+sudo tcpdump -i any --immediate-mode -tttt
+```
+![image](https://user-images.githubusercontent.com/44196051/123693205-b247d480-d84f-11eb-9528-35d93dc973b1.png)
+
+Only print a number of packets. You can use the `-c` flag for that
+```bash
+sudo tcpdump -i any -c 1 
+#only collect one packet and then stop. You can change to any number
+```
+![image](https://user-images.githubusercontent.com/44196051/123693404-e8855400-d84f-11eb-821f-f108496eaec4.png)
 
 ---
 
