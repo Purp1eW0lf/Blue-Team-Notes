@@ -2345,7 +2345,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
   + [Capture on 'Nix](#capture-on-'nix)
     - [Preperation](#preperation)
     - [Outputting](#outputting)
-      - [I want PCAPNG](#I want PCAPNG)
+      - [I want PCAPNG](#I-want-PCAPNG)
       - [Doing interesting things with live packets](#Doing-interesting-things-with-live-packets)
 
   
