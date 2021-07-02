@@ -1615,6 +1615,7 @@ If not Windex, you have the usual Google-Fu methods, and having the file hash wi
     - [Overview of what a specific log is up to](#overview-of-what-a-specific-log-is-up-to)
     - [Specifically get the last time a log was written to](#specifically-get-the-last-time-a-log-was-written-to)
     - [Compare the date and time a log was last written to](#compare-the-date-and-time-a-log-was-last-written-to)
+    - [Read a log file](#read-a-log-file)
   + [WinRM & WECSVC permissions](#winrm---wecsvc-permissions)
 
 </details>
@@ -1657,6 +1658,24 @@ $a = Get-WinEvent -ListLog Microsoft-Windows-Sysmon/Operational| where-object {(
 if ($a -eq $null){Write-host "sysmon_working"} else {Write-host "$env:computername $b"}
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119979908-72bd6c80-bfb3-11eb-9bff-856ebcc01375.png)
+
+
+### Read a Log File
+
+Again, trusting the logs of an endpoint is a dangerous game. An adversary can evade endpoint logging. It's better to utilise logs that have been taken to a central point, to trust EVENT IDs from Sysmon, or trust [network traffic](#network-traffic) if you have it.
+
+Nonetheless, you can read the EVTX file you are interesting in
+```powershell
+Get-WinEvent -path "C:\windows\System32\Winevt\Logs\Microsoft-Windows-PowerShell%4Operational.evtx | ft -wrap"
+
+#Advisable to filter by Id to filter out noise
+Get-WinEvent -path "C:\windows\System32\Winevt\Logs\Microsoft-Windows-PowerShell%4Operational.evtx" |
+? Id -eq '4104' | ft -wrap
+#this is an example ID number.
+```
+![image](https://user-images.githubusercontent.com/44196051/124334232-5dc59180-db8e-11eb-9b4b-d590a4a14452.png)
+![image](https://user-images.githubusercontent.com/44196051/124334332-b09f4900-db8e-11eb-9a7e-625a275deee8.png)
+
 
 ### WinRM & WECSVC permissions
 Test the permissions of winrm - used to see windows event forwarding working, which uses winrm usually on endpoints and wecsvc account on servers
