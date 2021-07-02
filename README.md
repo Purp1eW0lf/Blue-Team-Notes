@@ -1066,6 +1066,7 @@ foreach ($folder in $folders) {
 	get-itemproperty -path "$folder"  | 
 	select -property * -exclude PS* | fl
 }
+
 ```
 ![image](https://user-images.githubusercontent.com/44196051/124331784-df65f100-db87-11eb-8c52-3bb697496cdb.png)
 
@@ -1075,6 +1076,13 @@ Svchost startup persistence
 get-itemproperty -path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost"
 ```
 ![image](https://user-images.githubusercontent.com/44196051/124331810-edb40d00-db87-11eb-8712-c1028302847f.png)
+
+
+Winlogon startup persistence
+```powershell
+gp "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" | select -property * -exclude PS* | fl
+```
+![image](https://user-images.githubusercontent.com/44196051/124333024-fbb75d00-db8a-11eb-81aa-c5faf296864b.png)
 
 
 Find more examples of Run key evil from [Mitre ATT&CK](https://attack.mitre.org/techniques/T1547/001/)
