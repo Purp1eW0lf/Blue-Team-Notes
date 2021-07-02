@@ -5,7 +5,7 @@
 # Blue Team Notes
 A collection of one-liners, small scripts, and some useful tips for blue team work. 
 
-I've included screenshots where possible so you know what you're getting. Some screenshots will be from a Win machine, others may be from the Velociraptor GUI but they do the same thing as if you were on a host's powershell command line.
+I've included screenshots where possible so you know what you're getting. 
 
 ## Contact me
 If you see a mistake, or have an easier way to run a command then you're welcome to hit me up on [Twitter](https://twitter.com/Purp1eW0lf) or commit an issue here. 
