@@ -852,7 +852,8 @@ Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false -verbose
     - [What are Run Keys](#what-are-run-keys)
     - [Finding Run Evil](#Finding-Run-Evil)
     - [Removing Run Evil](#removing-run-evil)
-
+    - [Other Malicious Run Locations](#other-malicious-run-locations)
+	
 </details>
 
 ### Get scheduled tasks
@@ -1037,6 +1038,46 @@ WOAH! Looky here, we've got `EVILCOMMAND.exe` under one of the registries
 ![image](https://user-images.githubusercontent.com/44196051/124329920-3ec20200-db84-11eb-8ab5-dc29c27231b3.png)
 
 ### Removing Run evil
+
+Be surgical here. You don't want to remove Run entries that are legitimate. It's important you remove with -verbose too and double-check it has gone, to make sure you have removed what you think you have. 
+
+```powershell
+#List the malicious reg by path
+get-itemproperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce" | select -property * -exclude PS* | fl
+
+#Then pick the EXACT name of the Run entry you want to remove. Copy paste it, include any * or ! too please
+Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce" -Name "*EvilerRunOnce" -verbose
+
+#Then check again to be sure it's gone
+get-itemproperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce" | select -property * -exclude PS* | fl
+```
+
+![image](https://user-images.githubusercontent.com/44196051/124332253-f9ec9a00-db88-11eb-9007-017dfa956707.png)
+
+
+### Other Malicious Run Locations
+
+Some *folders* can be the locations of persistence. 
+
+```powershell
+$folders = @("HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders","HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")
+foreach ($folder in $folders) {
+	write-host "----Reg key is $folder---"; 
+	get-itemproperty -path "$folder"  | 
+	select -property * -exclude PS* | fl
+}
+```
+![image](https://user-images.githubusercontent.com/44196051/124331784-df65f100-db87-11eb-8c52-3bb697496cdb.png)
+
+Svchost startup persistence
+
+```powershell
+get-itemproperty -path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost"
+```
+![image](https://user-images.githubusercontent.com/44196051/124331810-edb40d00-db87-11eb-8712-c1028302847f.png)
+
+
+Find more examples of Run key evil from [Mitre ATT&CK](https://attack.mitre.org/techniques/T1547/001/)
 
 ---
 
