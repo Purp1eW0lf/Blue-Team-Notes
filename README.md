@@ -853,7 +853,8 @@ Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false -verbose
     - [Finding Run Evil](#Finding-Run-Evil)
     - [Removing Run Evil](#removing-run-evil)
     - [Other Malicious Run Locations](#other-malicious-run-locations)
-	
+  + [Screensaver Persistence](#Screensaver-Persistence)	
+
 </details>
 
 ### Get scheduled tasks
@@ -1086,6 +1087,19 @@ gp "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" | select -prope
 
 
 Find more examples of Run key evil from [Mitre ATT&CK](https://attack.mitre.org/techniques/T1547/001/)
+
+### Screensaver Persistence
+
+It can be done, I swear. [Mitre ATT&CK](https://attack.mitre.org/techniques/T1546/002/) has instances of .SCR's being used to maintain regular persistence
+
+```powershell
+gp "HKCU:\Control Panel\Desktop\" | select SCR* | fl
+# you can then go and collect the .scr listed in the full path, and reverse engineer the binary
+
+#you can also collect wallpaper info from here
+gp "HKCU:\Control Panel\Desktop\" | select wall* | fl
+```
+![image](https://user-images.githubusercontent.com/44196051/124333514-57ceb100-db8c-11eb-8695-280d12bcf0d5.png)
 
 ---
 
