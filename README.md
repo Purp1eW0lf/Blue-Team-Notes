@@ -57,6 +57,9 @@ As you scroll along, it's easy to lose orientation. Wherever you are in the Blue
 
 ![image](https://user-images.githubusercontent.com/44196051/122612244-b834fd00-d07a-11eb-9281-e4d93f4f6059.png)
 
+As you go through sections, you may notice the arrowhead that says 'section contents'. I have nestled the sub-headings in these, to make life a bit easier.
+
+![image](https://user-images.githubusercontent.com/44196051/124335025-d4fc2500-db90-11eb-86cc-80fc8db2c193.png)
 
 ---
 
@@ -2099,6 +2102,15 @@ history
 ---
 
 # Malware
+<details>
+    <summary>section contents</summary>
+
+  + [Rapid Malware Analysis](#rapid-malware-analysis)
+  + [Process Monitor](#process-monitor)
+  + [Hash Check Malware](#hash-check-malware)
+  + [Decoding Powershell](#decoding-powershell)
+	
+</details>
 
 I'd reccomend [REMnux](https://docs.remnux.org/), a Linux distro dedicated to malware analysis. If you don't fancy downloading the VM, then maybe just keep an eye on the [Docs](https://docs.remnux.org/discover-the-tools/examine+static+properties/general) as they have some great malware analysis tools in their roster. 
 
