@@ -848,6 +848,10 @@ Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false -verbose
   + [Hunt WMI Persistence](#hunt-wmi-persistence)
     - [Removing it](#removing-it)
     - [A note on CIM](#a-note-on-cim)
+  + [Run Keys](#Run-Keys)
+    - [What are Run Keys](#what-are-run-keys)
+    - [Finding Run Evil](#Finding-Run-Evil)
+    - [Removing Run Evil](#removing-run-evil)
 
 </details>
 
@@ -987,6 +991,52 @@ You may see WMI and CIM talked about together, whether on the internet or on in 
 CIM is a standard for language for vendor-side management of a lot of the physical and digital mechanics of what makes a computer tick. WMIC was and is Microsoft's interpretation of CIM. 
 
 However, Microsoft is going to decommision WMIC soon. So using `Get-Ciminstance` versions rather than `get-wmiobject` is probably better for us to learn in the long term. I dunno man, [It's complicated](https://devblogs.microsoft.com/scripting/should-i-use-cim-or-wmi-with-windows-powershell/). 
+
+
+### Run Keys
+#### What are Run Keys
+
+Run and RunOnce registry entries will run tasks on startup. Specifically: 
+
+* Run reg keys will run the task every time there's a login. 
+* RunOnce reg kgeys will run the taks once and then self-delete keys. 
+  * If a RunOnce key has a name with an exclemation mark (!likethis) then it will self-delete
+  * IF a RunOnce key has a name with an asterik (* LikeDIS) then it can run even in Safe Mode.  
+
+If you look in the reg, you'll find some normal executables. 
+
+![image](https://user-images.githubusercontent.com/44196051/124326535-76c64680-db7e-11eb-9b98-261b3704d30a.png)
+
+
+### Finding Run Evil
+
+A quick pwsh _for loop_ can collect the contents of the four registry locations. 
+
+```powershell
+#Get the Run and RunOnce reg entries in an array
+$items = @("HKLM:\Software\Microsoft\Windows\CurrentVersion\Run","HKCU:\Software\Microsoft\Windows\CurrentVersion\Run","HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce","HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce")
+
+foreach ($item in $items) {
+	write-host "----Reg location is $item---"; 
+	get-itemproperty -path "$item"  | select -property * -exclude PS* | fl
+}
+#this will then print the array
+
+#you can also achieve the same thing with these two alternative commands, but it isn't as cool as the above for loop
+
+get-itemproperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run*" | 
+  select -property * -exclude PSPR*,PSD*,PSC*,PSPAR*  | fl
+get-itemproperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run*" | 
+  select -property * -exclude PSPR*,PSD*,PSC*,PSPAR*  | fl
+
+```
+
+WOAH! Looky here, we've got `EVILCOMMAND.exe` under one of the registries
+
+![image](https://user-images.githubusercontent.com/44196051/124328026-c3128600-db80-11eb-84fa-b90a17523863.png)
+![image](https://user-images.githubusercontent.com/44196051/124329920-3ec20200-db84-11eb-8ab5-dc29c27231b3.png)
+
+### Removing Run evil
 
 ---
 
