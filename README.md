@@ -2468,6 +2468,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
   + [Capture Traffic](#capture-traffic)
   + [TShark](#tshark)
   + [Extracting Stuff](#extracting-stuff)
+  + [PCAP Analysis IRL](#pcap-analysis-ir;)
   
 </details>
 
@@ -3515,6 +3516,11 @@ tshark -r https.pcapng -o tls.keylog_file:tls_decrypt_key.txt -q \
 And we have downloaded the image to our export directory. Awesome 
 ![image](https://user-images.githubusercontent.com/44196051/123552986-c8329800-d770-11eb-9e7b-9b9682d76859.png)
 
+## PCAP Analysis IRL
+
+I've dissected real life situations via network analysis techniques
+
+You can find my ~~corporate shill~~ professional content [here](https://github.com/Purp1eW0lf/PrintNightmare/blob/main/PrintNightmare%20Network%20Analysis.md)
 
 # Digital Forensics
 
