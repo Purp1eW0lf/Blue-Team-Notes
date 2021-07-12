@@ -2469,7 +2469,7 @@ There's a great [SANS talk](https://www.sans.org/webcasts/packets-didnt-happen-n
   + [Capture Traffic](#capture-traffic)
   + [TShark](#tshark)
   + [Extracting Stuff](#extracting-stuff)
-  + [PCAP Analysis IRL](#pcap-analysis-ir;)
+  + [PCAP Analysis IRL](#pcap-analysis-irl)
   
 </details>
 
@@ -3521,7 +3521,7 @@ And we have downloaded the image to our export directory. Awesome
 
 I've dissected real life situations via network analysis techniques
 
-You can find my ~~corporate shill~~ professional content [here](https://github.com/Purp1eW0lf/PrintNightmare/blob/main/PrintNightmare%20Network%20Analysis.md)
+You can find my ~~corporate shill~~ professional content [here](https://github.com/Purp1eW0lf/PrintNightmare/blob/main/PrintNightmarePCAPAnalysis.md)
 
 # Digital Forensics
 
