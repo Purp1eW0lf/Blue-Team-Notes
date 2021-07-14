@@ -45,6 +45,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Sigma Converter](#sigma-converter)
   * [SOC Prime](#soc-prime)
 - [Honeypots](#honeypots)
+  * [Basic Honeypots](#basic-honeypots) 
 - [Network Traffic](#network-traffic)
   * [Capture Traffic](#capture-traffic)
   * [TShark](#tshark)
