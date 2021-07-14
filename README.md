@@ -2471,7 +2471,8 @@ Look, there isn't anything I could teach you about honeypots that Chris Sanders 
 
   + [Basic Honeypots](#basic-honeypots)
     - [Telnet Honeypot](#telnet-honeypot)
-    - [HTTP Honeypot](#http-honeypot)	
+    - [HTTP Honeypot](#http-honeypot)
+    - [Booby Trap Commands](#booby-trap-commands)
   
 </details>
 
@@ -2555,6 +2556,36 @@ Test this locally by examining 127.0.0.1 in your browser, your .LOG file should 
 
 ![image](https://user-images.githubusercontent.com/44196051/125679908-3a35b8c7-f9c3-4c1b-9c37-df9382a52d18.png)
 
+
+### Booby Trap Commands
+
+`alias` in Linux is awesome, it lets you speed up your workflow by setting shortcuts for the longer commands and one-liners you know and love.....Alias can also be weaponised in aid of the defender.
+
+Why don't we backdoor some naighty commands that adversaries like to use on 'Nix machines. Off the top of my head, we can boobytrap `nano`, `base64`, `wget` and `curl`, but you'll think of something more imaginative and clever, I am sure.
+
+
+```bash
+#IRL
+alias wget ='curl http://honey.comands.uk/$(hostname -f) > /dev/null 2>&1 ; wget'
+# Hostname -f will put the fully qualified domain name of the machine into the GET request to our listening web server
+	#ideally, the website you first hit be a cloud instance or something. Don't actually use 127.0.0.1
+		# the reason we ask it to curl the machine name directory is to alert OUR listener of the specific machine being attacked by the adversary
+
+
+#for testing
+	# I am hardcoding the machine name in the directory as an example. If I were you, I'd keep the FQDN above
+alias wget='curl http:/127.0.0.1/workstation1337 > /dev/null 2>&1 ; wget'
+
+# Notice the ;wget at the end
+	# this will still execute wget without any worries
+	# However it comes after the curl to our listening honeypot detector
+	# The honeypot detector's output is pushed to the abyss, so it will not alert the adversary
+```
+
+If we have a listening web server in real life, it will snitch on the adversary trying to use WGET. This is true for any of the other commands we do too
+
+![image](https://user-images.githubusercontent.com/44196051/125682635-8d0be115-8f04-4f07-8009-eee8ea6b1cc2.png)
+![image](https://user-images.githubusercontent.com/44196051/125682915-cd9f8bee-3ece-470f-a74f-3ca8c3c35425.png)
 
 ---
 
