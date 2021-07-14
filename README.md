@@ -2509,7 +2509,7 @@ Our fake web server here will ensnare an adversary for longer than our telnet. W
 In the mean time, we can be alerted, respond, gather information like their user agent, techniques, IP address, and feed this back into our SOC to be alerted for in the future. 
 
 
-First, you will need a `index.html` file. Any will do, I'll be borrowing this one: view-source:https://httperrorpages.github.io/HttpErrorPages/HTTP403.html
+First, you will need a `index.html` file. Any will do, I'll be [borrowing this one](view-source:https://httperrorpages.github.io/HttpErrorPages/HTTP403.html)
 
 ```html
 <!DOCTYPE html>
@@ -2525,6 +2525,35 @@ First, you will need a `index.html` file. Any will do, I'll be borrowing this on
 </body>
 </html>
 ```
+
+Second, we now need to set up our weaponised honeypot. Here's a bash script to help us out: 
+
+```bash
+#!/bin/bash
+
+#variables
+PORT=80
+LOG=hpot.log
+#data to display to an attcker
+BANNER=`cat index.html` # notice these are ` and not '. The command will run incorrectly if latter
+
+# create a temp lock file, to ensure only one instance of the HP is running
+touch /tmp/hpot.hld
+echo "" >> $LOG
+#while loop starts and keeps the HP running. 
+while [ -f /tmp/hpot.hld ]
+ do
+  echo "$BANNER" | ncat -lvnp $PORT 1>> $LOG 2>> $LOG
+  # this section logs for your benefit
+  echo "==ATTEMPTED CONNECTION TO PORT $PORT AT `date`==" >> $LOG # the humble `date` command is great one ain't it
+  echo "" >> $LOG
+  echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" >> $LOG # seperates the logged events. 
+ done
+```
+
+Test this locally by examining 127.0.0.1 in your browser, your .LOG file should have a FIT over this access and record much of your attempts to do something naughty, like brute forcing ;)
+
+![image](https://user-images.githubusercontent.com/44196051/125679908-3a35b8c7-f9c3-4c1b-9c37-df9382a52d18.png)
 
 
 ---
