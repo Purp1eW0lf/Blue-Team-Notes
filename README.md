@@ -3659,6 +3659,11 @@ You can find my ~~corporate shill~~ professional content [here](https://github.c
 
 # Digital Forensics
 
+If you're interested in digital forensics, there are some immediate authoritive sources I implore you to look at:
+* [13cubed's youtube content](https://www.13cubed.com) - Richard Davis is a DFIR legend and has some great learning resources
+* [Eric Zimmeraman's toolkit](https://ericzimmerman.github.io/#!index.md) - Eric is the author of some incredibly tools, and it's worth checking out his documentation on exactly how and when to use them. 
+
+
 ## volatility
 <details>
     <summary>section contents</summary>
