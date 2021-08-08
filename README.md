@@ -385,6 +385,11 @@ StartName is the name of the Service Account btw
  gwmi -Class Win32_Service|
  select-object -Property Name, StartName, state, startmode, Caption, ProcessId |
  sort-object -property state
+ 
+ # You can try this bad boy too
+ Get-WmiObject win32_service | 
+ select Name, DisplayName, @{Name='Path'; Expression={$_.PathName.split('"')[1]}} | 
+ fl
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120340649-23967500-c2ee-11eb-892b-0c6626072d8c.png)
 
