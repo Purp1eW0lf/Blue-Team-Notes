@@ -300,6 +300,7 @@ For example in our screenshot, on the left Microsoft's support page supposes the
   + [Computer / Machine Accounts](#computer---machine-accounts)
     - [Show machine accounts that are apart of interesting groups.](#show-machine-accounts-that-are-apart-of-interesting-groups)
     - [Reset password for a machine account.](#reset-password-for-a-machine-account)
+  + [Query Group Policy](#query-group-policy)
 
 </details>
 
@@ -354,6 +355,20 @@ Also good for re-establishing trust if machine is kicked out of domain trust for
 ```powershell
 Reset-ComputerMachinePassword
 ```
+
+### Query Group Policy
+The group policy in an Windows can be leveraged and weaponised to propogate malware and even ransomware across the entire domain
+
+You can query the changes made in the last X days with this line
+
+```powershell
+#collects the domain name as a variable to use later
+$domain = (Get-WmiObject -Class win32_computersystem).domain; 
+Get-GPO -All -Domain $domain | 
+?{ ([datetime]::today - ($_.ModificationTime)).Days -le 10 }
+# Change the digit after -le to the number of days you want to go back for
+```
+
 ---
 
 ## Service Queries
