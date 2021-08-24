@@ -1024,6 +1024,8 @@ However, Microsoft is going to decommision WMIC soon. So using `Get-Ciminstance`
 ### Run Keys
 #### What are Run Keys
 
+I've written in depth [about run keys, elsewhere](https://labs.jumpsec.com/running-once-running-twice-pwned-windows-registry-run-keys/)
+
 Run and RunOnce registry entries will run tasks on startup. Specifically: 
 
 * Run reg keys will run the task every time there's a login. 
