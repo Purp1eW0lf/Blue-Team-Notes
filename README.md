@@ -356,19 +356,6 @@ Also good for re-establishing trust if machine is kicked out of domain trust for
 Reset-ComputerMachinePassword
 ```
 
-### Query Group Policy
-The group policy in an Windows can be leveraged and weaponised to propogate malware and even ransomware across the entire domain
-
-You can query the changes made in the last X days with this line
-
-```powershell
-#collects the domain name as a variable to use later
-$domain = (Get-WmiObject -Class win32_computersystem).domain; 
-Get-GPO -All -Domain $domain | 
-?{ ([datetime]::today - ($_.ModificationTime)).Days -le 10 }
-# Change the digit after -le to the number of days you want to go back for
-```
-
 ---
 
 ## Service Queries
@@ -880,6 +867,8 @@ Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false -verbose
     - [Removing Run Evil](#removing-run-evil)
     - [Other Malicious Run Locations](#other-malicious-run-locations)
   + [Screensaver Persistence](#Screensaver-Persistence)	
+  + [Query Group Policy](#Query-Group-Policy)
+    - [Query GPO Scripts](#query-gpo-scripts)
 
 </details>
 
@@ -1128,6 +1117,39 @@ gp "HKCU:\Control Panel\Desktop\" | select SCR* | fl
 gp "HKCU:\Control Panel\Desktop\" | select wall* | fl
 ```
 ![image](https://user-images.githubusercontent.com/44196051/124333514-57ceb100-db8c-11eb-8695-280d12bcf0d5.png)
+
+### Query Group Policy
+The group policy in an Windows can be leveraged and weaponised to propogate malware and even ransomware across the entire domain
+
+You can query the changes made in the last X days with this line
+
+```powershell
+#collects the domain name as a variable to use later
+$domain = (Get-WmiObject -Class win32_computersystem).domain; 
+Get-GPO -All -Domain $domain | 
+?{ ([datetime]::today - ($_.ModificationTime)).Days -le 10 } | sort
+# Change the digit after -le to the number of days you want to go back for
+```
+
+![2021-09-17_15-01](https://user-images.githubusercontent.com/44196051/133795473-3d817c69-2b9c-4d4a-b849-b37d1984ffc1.png)
+
+#### Query GPO Scripts
+We can hunt down the strange thinngs we might see in our above query
+
+We can list all of the policies, and see where a policy contains a script or executable. You can change the `include` at the end to whatever you want
+```
+gci -recurse \\$domain\\sysvol\$domain\Policies\ -file -include *.exe, *.ps1
+```
+
+![2021-09-17_15-20](https://user-images.githubusercontent.com/44196051/133798475-0da6d9f6-2dc6-4da2-9066-c79060f8ea84.png)
+
+We can hunt down where GPO scripts live
+
+```powershell
+$domain = (Get-WmiObject -Class win32_computersystem).domain;
+gci -recurse \\$domain\\sysvol\*\scripts
+```
+![2021-09-17_15-04](https://user-images.githubusercontent.com/44196051/133796067-d02398d1-be75-4c15-a3bc-41a8fb04158a.png)
 
 ---
 
