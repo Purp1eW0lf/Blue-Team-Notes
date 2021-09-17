@@ -1137,7 +1137,8 @@ Get-GPO -All -Domain $domain |
 We can hunt down the strange thinngs we might see in our above query
 
 We can list all of the policies, and see where a policy contains a script or executable. You can change the `include` at the end to whatever you want
-```
+```powershell
+$domain = (Get-WmiObject -Class win32_computersystem).domain;
 gci -recurse \\$domain\\sysvol\$domain\Policies\ -file -include *.exe, *.ps1
 ```
 
