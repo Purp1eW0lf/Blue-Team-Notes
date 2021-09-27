@@ -3974,8 +3974,6 @@ Eric's tools are designed to be used on a Windows machine, but they can still be
     <summary>section contents</summary>
 
   + [Install EZ Tools](#install-ez-tools)
-    - [Reviewing Options](#reviewing-options)
-
   
   </details>
 
