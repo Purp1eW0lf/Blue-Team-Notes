@@ -54,6 +54,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 - [Digital Forensics](#Digital-Forensics) 
   * [Volatility](#volatility)
   * [EZ Tools](#ez-tools)
+  * [Chainsaw](#chainsaw)
 
 ---
 
@@ -3709,6 +3710,13 @@ If you're interested in digital forensics, there are some immediate authoritive 
 * [13cubed's youtube content](https://www.13cubed.com) - Richard Davis is a DFIR legend and has some great learning resources
 * [Eric Zimmeraman's toolkit](https://ericzimmerman.github.io/#!index.md) - Eric is the author of some incredibly tools, and it's worth checking out his documentation on exactly how and when to use them. 
 
+ <summary>section contents</summary>
+
+  + [volatility](#volatility)
+  + [EZ Tools](#ez-tools)
+  + [Chainsaw](#chainsaw)
+
+  </details>
 
 ## volatility
 <details>
@@ -3986,3 +3994,14 @@ Of course, if you just want some select tools then I suggest you pick those one 
 ![image](https://user-images.githubusercontent.com/44196051/134973500-b9af28fa-0e1c-4f34-96ed-54edaadf6a80.png)
 
 
+## Chainsaw
+
+[Chainsaw](https://labs.f-secure.com/tools/chainsaw/) is an awesome executable for Windows event logs, that leverages sigma rules to carve through the logs and highlight some of the suspicious activity that may have taken place.
+
+It's relatively easy to install and use. You can take logs from a victim machine, and bring them over to chainsaw on your DFIR VM to be examined, you just have to point chainsaw at the directory the collected logs are in
+
+```powershell
+.\chainsaw.exe hunt 'C:\CollectedLogs' --rules sigma_rules/ --mapping mapping_files/sigma-mapping.yml
+```
+
+![image](https://user-images.githubusercontent.com/44196051/134974297-020c7ab1-dbd4-494a-ad18-49bf7a3fa2fb.png)
