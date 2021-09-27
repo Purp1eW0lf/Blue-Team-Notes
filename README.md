@@ -53,6 +53,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [PCAP Analysis IRL](#pcap-analysis-irl)
 - [Digital Forensics](#Digital-Forensics) 
   * [Volatility](#volatility)
+  * [EZ Tools](#ez-tools)
 
 ---
 
@@ -3957,6 +3958,31 @@ sudo file pid.6988.0x1c0000.dmp
 
 ![image](https://user-images.githubusercontent.com/44196051/123010258-2b5dac80-d3b6-11eb-9352-a43bd1effd87.png)
 
+## EZ Tools
 
+Eric's tools are designed to be used on a Windows machine, but they can still be used on malicious artefacts that are brought onto your DFIR Windows VM. 
+
+<details>
+    <summary>section contents</summary>
+
+  + [Install EZ Tools](#install-ez-tools)
+    - [Reviewing Options](#reviewing-options)
+
+  
+  </details>
+
+### Install EZ Tools
+Installing [Eric Zimmerman's tool's](https://ericzimmerman.github.io/#!index.md) couldn't be easier. 
+
+On Eric's site, there is a powershell script that will pull all of his tooling onto a Windows machine. 
+
+```powershell
+# collect the script from here: https://f001.backblazeb2.com/file/EricZimmermanTools/Get-ZimmermanTools.zip
+Get-ZimmermanTools.ps1
+```
+![image](https://user-images.githubusercontent.com/44196051/134972763-8f055d39-c140-43c5-8029-9d3d741b5f5e.png)
+
+Of course, if you just want some select tools then I suggest you pick those one by one
+![image](https://user-images.githubusercontent.com/44196051/134973500-b9af28fa-0e1c-4f34-96ed-54edaadf6a80.png)
 
 
