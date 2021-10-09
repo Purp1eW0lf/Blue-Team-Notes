@@ -2203,7 +2203,7 @@ Strings is great as it can sometimes reveal what a binary is doing and give you 
 <details>
     <summary>section contents</summary>
 
-  + [Process Monitor: Keylogger Example](#process-monitor--keylogger-example)
+  + [Keylogger Example](#keylogger-example)
   
 </details>
 
@@ -2212,7 +2212,7 @@ Strings is great as it can sometimes reveal what a binary is doing and give you 
 
 There are plenty of alternatives to monitor the child processes that a parent spawns, like [any.run](https://any.run/). But I'd like to focus on the free tools to be honest.
 
-### Process Monitor: Keylogger Example
+### Keylogger Example
 Let's go through a small investigation together, focusing on a real life keylogger found in an incident
 
 #### Clearing and Filtering
