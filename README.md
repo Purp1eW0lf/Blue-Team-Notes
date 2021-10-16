@@ -1161,6 +1161,30 @@ gci -recurse \\$domain\\sysvol\*\scripts
 ### Autoruns
 [Autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) is a Sysinternals tool for Windows. It offers analysts a GUI method to examine the recurring tasks that an adversary might use for persistence and other scheduled malice.
 
+Before you go anywhere cowboy, make sure you've filtered out the known-goods under options. It makes analysis a bit easier, as you're filtering out noise. Don't treat this as gospel though, so yes hide the things that VirusTotal and Microsoft SAY are okay.....but go and verify that those auto-running tasks ARE as legitimate as they suppose they are
+
+![image](https://user-images.githubusercontent.com/44196051/137591938-cbe1fe12-0a3a-4304-aa9b-05bd97d903c3.png)
+
+I personally just stick to the 'Everything' folder, as I like to have full visibility rather than go into the options one by one
+
+![image](https://user-images.githubusercontent.com/44196051/137592010-68d39e4c-6bf5-4209-85e6-bfd9e92854e2.png)
+
+Some things in autorun may immediately stick out to you as strange. Take for example the malicious run key I inserted on the VM as an example:
+
+![image](https://user-images.githubusercontent.com/44196051/137592077-6842b87d-4a7f-4f20-92b6-7e6bc721c101.png)
+
+You can right-click and ask Virus Total to see if the hash is a known-bad 
+
+![image](https://user-images.githubusercontent.com/44196051/137592164-7880d919-9c76-4ad0-a65c-3a2bbec9dad6.png)
+
+And you can right-click and ask autoruns to delete this recurring task from existence
+
+![image](https://user-images.githubusercontent.com/44196051/137592197-d14f2913-d92e-4fad-b113-03aaf2c18019.png)
+
+
+I like autoruns for digital forensics, where you take it one machine at a time. But - in my uneducated opinion - it does not scale well. A tool like Velociraptor that allows orchestration across thousands of machines can be leveraged to query things with greater granularity than Autoruns allows. 
+
+This is why I like to use PowerShell for much of my blue team work on a Windows machine, where possible. I can pre-filter my queries so I don't get distraced by noise, but moreover I can run that fine-tuned PowerShell query network-wide across thosuands of machines and recieve the results back rapidly.
 
 ---
 
