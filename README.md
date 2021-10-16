@@ -871,6 +871,7 @@ Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false -verbose
   + [Screensaver Persistence](#Screensaver-Persistence)	
   + [Query Group Policy](#Query-Group-Policy)
     - [Query GPO Scripts](#query-gpo-scripts)
+  + [Autoruns](#autoruns)
 
 </details>
 
@@ -920,6 +921,8 @@ Get-CimInstance Win32_StartupCommand | Select-Object Name, command, Location, Us
 
 ### Scheduled Jobs
 Surprisingly, not many people know about [Scheduled Jobs](https://devblogs.microsoft.com/scripting/introduction-to-powershell-scheduled-jobs/). They're not anything too strange or different, they're just scheduled tasks that are specificially powershell. 
+
+[I've written about a real life encounter I had during an incident](https://labs.jumpsec.com/powershell-jobs/), where the adversary had leveraged a PowerShell scheduled job to execute their malice at an oppertune time
 
 #### Find out what scheduled jobs are on the machine
 ```powershell
@@ -1153,6 +1156,11 @@ $domain = (Get-WmiObject -Class win32_computersystem).domain;
 gci -recurse \\$domain\\sysvol\*\scripts
 ```
 ![2021-09-17_15-04](https://user-images.githubusercontent.com/44196051/133796067-d02398d1-be75-4c15-a3bc-41a8fb04158a.png)
+
+
+### Autoruns
+[Autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) is a Sysinternals tool for Windows. It offers analysts a GUI method to examine the recurring tasks that an adversary might use for persistence and other scheduled malice.
+
 
 ---
 
