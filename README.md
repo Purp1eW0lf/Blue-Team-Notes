@@ -303,6 +303,7 @@ For example in our screenshot, on the left Microsoft's support page supposes the
     - [Show machine accounts that are apart of interesting groups.](#show-machine-accounts-that-are-apart-of-interesting-groups)
     - [Reset password for a machine account.](#reset-password-for-a-machine-account)
   + [Query Group Policy](#query-group-policy)
+  + [All Users PowerShell History]()
 
 </details>
 
@@ -357,6 +358,9 @@ Also good for re-establishing trust if machine is kicked out of domain trust for
 ```powershell
 Reset-ComputerMachinePassword
 ```
+
+![image](https://user-images.githubusercontent.com/44196051/137767902-e969f32d-5b2d-47ae-a918-abb803117f34.png)
+
 
 ---
 
