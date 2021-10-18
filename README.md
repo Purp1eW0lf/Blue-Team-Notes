@@ -303,7 +303,7 @@ For example in our screenshot, on the left Microsoft's support page supposes the
     - [Show machine accounts that are apart of interesting groups.](#show-machine-accounts-that-are-apart-of-interesting-groups)
     - [Reset password for a machine account.](#reset-password-for-a-machine-account)
   + [Query Group Policy](#query-group-policy)
-  + [All Users PowerShell History]()
+  + [All Users PowerShell History](#All-Users-PowerShell-History)
 
 </details>
 
