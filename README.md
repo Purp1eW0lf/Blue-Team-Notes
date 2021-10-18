@@ -358,6 +358,22 @@ Also good for re-establishing trust if machine is kicked out of domain trust for
 ```powershell
 Reset-ComputerMachinePassword
 ```
+### All Users PowerShell History
+
+During an IR, you will want to access other users PowerShel history. However, the get-history command only will retrieve the current shell's history, which isn't very useful.
+
+Instead, [PowerShell in Windows 10 saves the last 4096 commands in a particular file](https://social.technet.microsoft.com/Forums/en-US/7c3cd614-f793-4b99-b826-3dff917ebe88/powershell-commands-history-windows-10-1809-psreadline?forum=win10itprogeneral#:~:text=By%20default%2C%20the%20PowerShell%20in,separately%20for%20PowerShell%20and%20ISE.). On an endpoint, we can run a quick loop that will print the full path of the history file - showing which users history it is showing - and then show the contents of that users' PwSh commands
+
+```powershell
+$Users = (Gci C:\Users\*\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt).FullName
+$Pasts = @($Users);
+
+foreach ($Past in $Pasts) {
+	write-host "`n----User Pwsh History Path $Past---`n" -ForegroundColor Magenta; 
+	get-content $Past
+}
+
+```
 
 ![image](https://user-images.githubusercontent.com/44196051/137767902-e969f32d-5b2d-47ae-a918-abb803117f34.png)
 
