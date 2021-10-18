@@ -360,7 +360,7 @@ Reset-ComputerMachinePassword
 ```
 ### All Users PowerShell History
 
-During an IR, you will want to access other users PowerShel history. However, the get-history command only will retrieve the current shell's history, which isn't very useful.
+During an IR, you will want to access other users PowerShell history. However, the get-history command only will retrieve the current shell's history, which isn't very useful.
 
 Instead, [PowerShell in Windows 10 saves the last 4096 commands in a particular file](https://social.technet.microsoft.com/Forums/en-US/7c3cd614-f793-4b99-b826-3dff917ebe88/powershell-commands-history-windows-10-1809-psreadline?forum=win10itprogeneral#:~:text=By%20default%2C%20the%20PowerShell%20in,separately%20for%20PowerShell%20and%20ISE.). On an endpoint, we can run a quick loop that will print the full path of the history file - showing which users history it is showing - and then show the contents of that users' PwSh commands
 
