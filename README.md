@@ -600,8 +600,7 @@ Get-PSSessionConfiguration |
 fl Name, PSVersion, Permission
 ```
 
-![image](https://user-images.githubusercontent.com/44196051/121309128-b8eec600-c8f9-11eb-955b-99c70cb30dea.png)
-
+![image](https://user-images.githubusercontent.com/44196051/137760340-8150b480-6500-4822-9ec2-24168ab9e819.png)
 
 ### Check Constrained Language
 
