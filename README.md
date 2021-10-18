@@ -561,6 +561,7 @@ Set-ItemProperty â€œHKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters\â€
 
   + [Powershell Remoting](#powershell-remoting)
     - [Remoting Permissions](#remoting-permissions)
+    - [Query WinRM Sessions Deeper](#Query-WinRM-sessions-Deeper)
     - [Check Constrained Language](#check-constrained-language)
   + [RDP Settings](#rdp-settings)
   + [Check Certificates](#check-certificates)
@@ -575,6 +576,23 @@ Get Powershell sessions created
 ```powershell
 Get-PSSession
 ```
+
+#### Query WinRM Sessions Deeper
+
+You can query the above even deeper.
+
+```powershell
+get-wsmaninstance -resourceuri shell -enumerate | 
+select Name, State, Owner, ClientIP, ProcessID, MemoryUsed, 
+@{Name = "ShellRunTime"; Expression = {[System.Xml.XmlConvert]::ToTimeSpan($_.ShellRunTime)}},
+@{Name = "ShellInactivity"; Expression = {[System.Xml.XmlConvert]::ToTimeSpan($_.ShellInactivity)}}
+```
+
+![image](https://user-images.githubusercontent.com/44196051/137759118-6ce2c557-bdea-4569-abe5-4942e82b5daf.png)
+
+The ClientIP field will show the original IP address that WinRM'd to the remote machine. 
+The times under the Shell fields at the bottom have been converted into HH:MM:SS, so in the above example, the remote PowerShell session has been running for 0 hours, 4 minutes, and 26 seconds.
+
 
 #### Remoting Permissions
 ```powershell
