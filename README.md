@@ -1240,6 +1240,7 @@ This is why I like to use PowerShell for much of my blue team work on a Windows 
   + [Compare two files' hashes](#compare-two-files--hashes)
   + [Find files written after X date](#find-files-written-after-x-date)
   + [copy multiple files to new location](#copy-multiple-files-to-new-location)
+  + [Grep in Powershell](#grep-in-powershell)
  
 </details>
 
@@ -1353,6 +1354,26 @@ Sort-Object -property LastWriteTime | format-table lastwritetime, fullname -auto
 ```powershell
 copy-item "C:\windows\System32\winevt\Logs\Security.evtx", "C:\windows\System32\winevt\Logs\Windows PowerShell.evtx" -destination C:\temp
 ```
+
+### Grep in Powershell
+
+Change the string in the second line. You should run these one after another, as it will grep for things in unicode and then ascii. 
+
+I like to use these as really lazy low-key yara rules. So grep for the string "educational purposes only" or something like that to catch malicious tooling - you'd be surprised how any vendors take open-source stuff, re-brand and compile it, and then sell it to you.....
+
+```powershell
+ls C:\Windows\System32\* -include '*.exe', '*.dll' | 
+select-string 'RunHTMLApplication' -Encoding unicode | 
+select-object -expandproperty path -unique
+
+#and with ascii
+ls C:\Windows\System32\* -include '*.exe', '*.dll' | 
+select-string 'RunHTMLApplication' -Encoding Ascii | 
+select-object -expandproperty path -unique
+```
+
+![image](https://user-images.githubusercontent.com/44196051/137937519-007d1d2a-b12d-4f76-acda-8eeb17f44f24.png)
+
 
 ---
 
