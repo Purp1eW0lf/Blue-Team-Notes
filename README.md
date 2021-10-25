@@ -649,7 +649,7 @@ Disable-NetFirewallRule -DisplayGroup "Remote Desktop"
 ### Query RDP Logs 
 Knowing who is RDPing in your enviroment, and from where, is important. Unfortunately, RDP logs are balllache. [Threat hunting blogs like this one](https://research.nccgroup.com/2021/10/21/detecting-and-protecting-when-remote-desktop-protocol-rdp-is-open-to-the-internet/) can help you narrow down what you are looking for when it comes to RDP 
 
-Let's call on one of the RDP logs, and filter for event ID 1149, which means a RDP connection has been made. Then let's filter out any IPv4 addresses that begin with 10.200, as this is the internal IP schema. Perhaps I want to hunt down public IP addresses, as this would suggest the RDP is exposed on the machine and an adversary has connected with correct credentials!!!
+Let's call on one of the RDP logs, and filter for event ID 1149, which means a RDP connection has been made. Then let's filter out any IPv4 addresses that begin with 10.200, as this is the internal IP schema. Perhaps I want to hunt down public IP addresses, as this would suggest the RDP is exposed to the internet on the machine and an adversary has connected with correct credentials!!!
 
 ```powershell
 get-winevent -logname "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational" | 
