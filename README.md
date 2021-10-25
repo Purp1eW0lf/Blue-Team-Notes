@@ -584,6 +584,7 @@ Set-ItemProperty â€œHKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters\â€
     - [Query WinRM Sessions Deeper](#Query-WinRM-sessions-Deeper)
     - [Check Constrained Language](#check-constrained-language)
   + [RDP Settings](#rdp-settings)
+  + [Query RDP Logs](#query-rdp-logs)
   + [Check Certificates](#check-certificates)
     - [Certificate Dates](#certificate-dates)
   
@@ -645,7 +646,25 @@ Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' 
 #Firewall it out too
 Disable-NetFirewallRule -DisplayGroup "Remote Desktop"
 ```
+### Query RDP Logs 
+Knowing who is RDPing in your enviroment, and from where, is important. Unfortunately, RDP logs are balllache. [Threat hunting blogs like this one](https://research.nccgroup.com/2021/10/21/detecting-and-protecting-when-remote-desktop-protocol-rdp-is-open-to-the-internet/) can help you narrow down what you are looking for when it comes to RDP 
 
+Let's call on one of the RDP logs, and filter for event ID 1149, which means a RDP connection has been made. Then let's filter out any IPv4 addresses that begin with 10.200, as this is the internal IP schema. Perhaps I want to hunt down public IP addresses, as this would suggest the RDP is exposed on the machine and an adversary has connected with correct credentials!!!
+
+```powershell
+get-winevent -logname "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational" | 
+? id -match 1149 | 
+? message -notmatch '10.200' |
+ft message -wrap 
+
+##you can apply regex-like filtering to remove all internal IPv4 starts, third line down. I don't necessary reccomend this however, as you may miss something important.
+get-winevent -logname "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational" | 
+? id -match 1149 | 
+? message -notmatch '10.10|192.168'|
+ft message -wrap 
+```
+
+![image](https://user-images.githubusercontent.com/44196051/138730646-0740a2f5-de35-4e2d-8c9a-79323d84f325.png)
 
 ### Check Certificates
 
