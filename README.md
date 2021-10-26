@@ -662,6 +662,12 @@ get-winevent -logname "Microsoft-Windows-TerminalServices-RemoteConnectionManage
 ? id -match 1149 | 
 ? message -notmatch '10.10|192.168'|
 ft message -wrap 
+
+## Only pull out the ipv4 address, and no context
+$ipv4 = get-winevent -logname "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational" | ? id -match 1149 | select message ;
+($ipv4  |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value | 
+sort -Unique -descending
+
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/138730646-0740a2f5-de35-4e2d-8c9a-79323d84f325.png)
