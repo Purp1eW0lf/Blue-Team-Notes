@@ -1016,7 +1016,7 @@ Remove-Job -id 3
 
 ### Hunt WMI Persistence
 
-WMIC can do some pretty evil things [1] & (https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/wp-windows-management-instrumentation.pdf) [2](https://in.security/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/). One sneaky, pro-gamer move it can pull is *persistence*
+WMIC can do some pretty evil things [1](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/wp-windows-management-instrumentation.pdf) & [2](https://in.security/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/). One sneaky, pro-gamer move it can pull is *persistence*
 
 In the image below I have included a part of setting up WMI persistence
 
