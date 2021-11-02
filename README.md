@@ -1825,6 +1825,14 @@ Get-MpComputerStatus | fl *enable*
 
 ![image](https://user-images.githubusercontent.com/44196051/139856086-995aebd2-5cb4-4cb4-b7cb-e3b064ceeddb.png)
 
+Adversaries also enjoy adding exclusions to AVs....however please note that some legitimate tooling and vendors ask that some directories and executables are placed on the exclusion list
+
+```powershell
+Get-MpPreference | fl *Exclu*
+```
+![image](https://user-images.githubusercontent.com/44196051/139859941-bc55d413-2ae9-4b42-9c0f-407a7ee5976e.png)
+
+
 #### Enable Defender monitoring
 
 If you see some values have been disabled, you can re-enable with the following:
@@ -1835,7 +1843,13 @@ Set-MpPreference -DisableRealtimeMonitoring $false -verbose
 
 ![image](https://user-images.githubusercontent.com/44196051/139857435-4c7eded7-983a-4c5c-8580-1bb46493bab0.png)
 
+And get rid of the exclusions the adversary may have gifted themselves
 
+```powershell
+Remove-MpPreference -ExclusionProcess 'velociraptor' -ExclusionPath 'C:\Users\IEUser\Pictures' -ExclusionExtension '.pif' -force -verbose
+```
+
+![image](https://user-images.githubusercontent.com/44196051/139862599-d7281703-bf6e-4984-83a2-d5ec9cd60e7c.png)
 
 ## Log Queries 
 
