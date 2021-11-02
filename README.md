@@ -1785,6 +1785,7 @@ If not Windex, you have the usual Google-Fu methods, and having the file hash wi
     - [Compare the date and time a log was last written to](#compare-the-date-and-time-a-log-was-last-written-to)
     - [Read a log file](#read-a-log-file)
   + [WinRM & WECSVC permissions](#winrm---wecsvc-permissions)
+  + [Query Defender](#query-defender)
 
 </details>
 
@@ -1851,6 +1852,31 @@ Test the permissions of winrm - used to see windows event forwarding working, wh
 netsh http show urlacl url=http://+:5985/wsman/ && netsh http show urlacl url=https://+:5986/wsman/
 ``` 
 ![image](https://user-images.githubusercontent.com/44196051/119980070-ae583680-bfb3-11eb-8da7-51d7e5393599.png)
+
+### Query Defender
+
+If you have Defender active on your windows machine, you can leverage PowerShell to query what threats the AV is facing
+
+This simple command will return all of the threats. In the screenshot below, it shows someone attempted to download mimikatz.
+
+```powershell
+Get-MpThreatDetection
+```
+
+![image](https://user-images.githubusercontent.com/44196051/139851360-8a487f04-ab3b-42d2-a4ee-b95a82b26c06.png)
+
+However, if you have numerous threat alerts, the above command may be messy to query. Let's demonstrate some augmentations we can add to make our hunt easier
+
+```powershell
+Get-MpThreatDetection | Format-List threatID, *time, ActionSuccess
+#Then, take the ThreatID and drill down further into that one
+Get-MpThreat -ThreatID
+```
+
+![image](https://user-images.githubusercontent.com/44196051/139851774-66739281-7846-427a-8787-61144c4250c8.png)
+
+
+
 
 ---
 
