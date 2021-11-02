@@ -1778,6 +1778,7 @@ If not Windex, you have the usual Google-Fu methods, and having the file hash wi
 
 <details>
     <summary>section contents</summary>
+
   + [Query Defender](#query-defender)
      - [Trigger Defender Scan](#trigger-defender-scan)
      - [Check if Defender has been manipulated](#Check-if-Defender-has-been-manipulated)
