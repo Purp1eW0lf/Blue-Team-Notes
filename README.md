@@ -1875,6 +1875,13 @@ Get-MpThreat -ThreatID
 
 ![image](https://user-images.githubusercontent.com/44196051/139851774-66739281-7846-427a-8787-61144c4250c8.png)
 
+#### Trigger Defender Scan
+
+```powershell
+ Update-MpSignature; Start-MpScan
+```
+
+![image](https://user-images.githubusercontent.com/44196051/139852328-a6514fa7-4719-4c8a-b363-363380ed6ad6.png)
 
 
 
