@@ -28,6 +28,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Registry Queries](#registry-queries)
   * [Driver Queries](#driver-queries)
   * [DLL Queries](#dll-queries)
+  * [AV Queries](#AV-Queries)
   * [Log Queries](#log-queries)
   * [Powershell Tips](#powershell-tips)
 - [Linux](#linux)
@@ -1773,6 +1774,67 @@ Here, you can put the name of a DLL (or many of other filetypes), and in return 
 
 If not Windex, you have the usual Google-Fu methods, and having the file hash will aid you [here](#specifically)
 
+## AV Queries
+
+<details>
+    <summary>section contents</summary>
+  + [Query Defender](#query-defender)
+     - [Trigger Defender Scan](#trigger-defender-scan)
+     - [Check if Defender has been manipulated](#Check-if-Defender-has-been-manipulated)
+     - [Enable Defender monitoring](#Enable-Defender-monitoring)
+	
+</details>
+
+### Query Defender
+
+If you have Defender active on your windows machine, you can leverage PowerShell to query what threats the AV is facing
+
+This simple command will return all of the threats. In the screenshot below, it shows someone attempted to download mimikatz.
+
+```powershell
+Get-MpThreatDetection
+```
+
+![image](https://user-images.githubusercontent.com/44196051/139851360-8a487f04-ab3b-42d2-a4ee-b95a82b26c06.png)
+
+However, if you have numerous threat alerts, the above command may be messy to query. Let's demonstrate some augmentations we can add to make our hunt easier
+
+```powershell
+Get-MpThreatDetection | Format-List threatID, *time, ActionSuccess
+#Then, take the ThreatID and drill down further into that one
+Get-MpThreat -ThreatID
+```
+
+![image](https://user-images.githubusercontent.com/44196051/139851774-66739281-7846-427a-8787-61144c4250c8.png)
+
+#### Trigger Defender Scan
+
+```powershell
+ Update-MpSignature; Start-MpScan
+```
+
+![image](https://user-images.githubusercontent.com/44196051/139852328-a6514fa7-4719-4c8a-b363-363380ed6ad6.png)
+
+#### Check if Defender has been manipulated
+Adversaries enjoy simply turning off / disabling the AV. You can query the status of Defender's various detections
+
+```powershell
+Get-MpComputerStatus | fl *enable*
+```
+
+![image](https://user-images.githubusercontent.com/44196051/139856086-995aebd2-5cb4-4cb4-b7cb-e3b064ceeddb.png)
+
+#### Enable Defender monitoring
+
+If you see some values have been disabled, you can re-enable with the following:
+
+```powershell
+Set-MpPreference -DisableRealtimeMonitoring $false -verbose
+```
+
+![image](https://user-images.githubusercontent.com/44196051/139857435-4c7eded7-983a-4c5c-8580-1bb46493bab0.png)
+
+
 
 ## Log Queries 
 
@@ -1852,37 +1914,6 @@ Test the permissions of winrm - used to see windows event forwarding working, wh
 netsh http show urlacl url=http://+:5985/wsman/ && netsh http show urlacl url=https://+:5986/wsman/
 ``` 
 ![image](https://user-images.githubusercontent.com/44196051/119980070-ae583680-bfb3-11eb-8da7-51d7e5393599.png)
-
-### Query Defender
-
-If you have Defender active on your windows machine, you can leverage PowerShell to query what threats the AV is facing
-
-This simple command will return all of the threats. In the screenshot below, it shows someone attempted to download mimikatz.
-
-```powershell
-Get-MpThreatDetection
-```
-
-![image](https://user-images.githubusercontent.com/44196051/139851360-8a487f04-ab3b-42d2-a4ee-b95a82b26c06.png)
-
-However, if you have numerous threat alerts, the above command may be messy to query. Let's demonstrate some augmentations we can add to make our hunt easier
-
-```powershell
-Get-MpThreatDetection | Format-List threatID, *time, ActionSuccess
-#Then, take the ThreatID and drill down further into that one
-Get-MpThreat -ThreatID
-```
-
-![image](https://user-images.githubusercontent.com/44196051/139851774-66739281-7846-427a-8787-61144c4250c8.png)
-
-#### Trigger Defender Scan
-
-```powershell
- Update-MpSignature; Start-MpScan
-```
-
-![image](https://user-images.githubusercontent.com/44196051/139852328-a6514fa7-4719-4c8a-b363-363380ed6ad6.png)
-
 
 
 ---
