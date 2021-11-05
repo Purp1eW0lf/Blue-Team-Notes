@@ -1811,7 +1811,13 @@ Get-MpThreat -ThreatID
 #### Trigger Defender Scan
 
 ```powershell
- Update-MpSignature; Start-MpScan
+Update-MpSignature; Start-MpScan
+ 
+#or full scan
+Start-MpScan -ScanType FullScan
+
+#Specify path
+Start-MpScan -ScanPath "C:\temp"
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/139852328-a6514fa7-4719-4c8a-b363-363380ed6ad6.png)
