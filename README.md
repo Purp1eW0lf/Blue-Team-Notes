@@ -586,7 +586,7 @@ Set-ItemProperty â€œHKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters\â€
     - [Check Constrained Language](#check-constrained-language)
   + [RDP Settings](#rdp-settings)
   + [Query RDP Logs](#query-rdp-logs)
-  + [Current RDP Sessions](#current-rdp-sessiosns)	
+  + [Current RDP Sessions](#current-rdp-sessions)	
   + [Check Certificates](#check-certificates)
     - [Certificate Dates](#certificate-dates)
   
@@ -681,7 +681,7 @@ You can query the RDP sessions that a [system is currently running](https://docs
 ```cmd
 qwinsta
 
-#get some stats
+:: get some stats
 qwinsta /counter
 ```
 
