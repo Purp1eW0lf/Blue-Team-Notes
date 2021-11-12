@@ -586,6 +586,7 @@ Set-ItemProperty â€œHKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters\â€
     - [Check Constrained Language](#check-constrained-language)
   + [RDP Settings](#rdp-settings)
   + [Query RDP Logs](#query-rdp-logs)
+  + [Current RDP Sessions](#current-rdp-sessiosns)	
   + [Check Certificates](#check-certificates)
     - [Certificate Dates](#certificate-dates)
   
@@ -672,6 +673,21 @@ sort -Unique -descending
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/138730646-0740a2f5-de35-4e2d-8c9a-79323d84f325.png)
+
+
+### Current RDP Sessions
+You can query the RDP sessions that a [system is currently running](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/qwinsta)
+
+```cmd
+qwinsta
+
+#get some stats
+qwinsta /counter
+```
+
+![image](https://user-images.githubusercontent.com/44196051/141457332-edf06c5d-9dfa-4ae8-b3c5-ed0a9db4db05.png)
+
+
 
 ### Check Certificates
 
