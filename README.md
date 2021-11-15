@@ -300,6 +300,9 @@ For example in our screenshot, on the left Microsoft's support page supposes the
   + [Hone in on suspicious user](#hone-in-on-suspicious-user)
   + [Retrieve local user accounts that are enabled](#retrieve-local-user-accounts-that-are-enabled)
   + [Find all users currently logged in](#find-all-users-currently-logged-in)
+  + [Evict User](#Evict-User)
+    - [Force user logout](#Force-user-logout)
+    - [force user new password](#force-user-new-password)
   + [Computer / Machine Accounts](#computer---machine-accounts)
     - [Show machine accounts that are apart of interesting groups.](#show-machine-accounts-that-are-apart-of-interesting-groups)
     - [Reset password for a machine account.](#reset-password-for-a-machine-account)
@@ -340,6 +343,37 @@ Get-CimInstance -classname win32_computersystem |
 select username, domain, DNSHostName | ft -autosize
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120562311-1072ca80-c3fe-11eb-995f-9d42d1c451d6.png)
+
+### Evict Users
+
+#### Force user logout
+You may need to evict a user from a session - perhaps you can see an adversary has been able to steal a user's creds and is leveraging their account to traverse your environment
+
+```powershell
+#show the users' session
+qwinsta
+
+#target their session id
+logoff 2 /v
+```
+![2021-11-15_15-03](https://user-images.githubusercontent.com/44196051/141804502-65d627b3-137b-483e-a220-701d2e5057df.png)
+
+#### Force user new password
+From the above instance, we may want to force a user to have a new password - one the adversary does not have 
+
+```
+#for local users
+net user #username #newpass
+net user frank "lFjcVR7fW2-HoDHSyxkzP"
+```
+![image](https://user-images.githubusercontent.com/44196051/141804977-166ac050-ba1d-433d-ab6b-76a1e60627bb.png)
+
+#for AD
+```powershell
+$user = "lizzie" ; $newPass = "HoDHSyxkzP-cuzjm6S6VF-7rvqKyR";
+Set-ADAccountPassword -Identity $user -Reset -NewPassword (ConvertTo-SecureString -AsPlainText "$newPass" -Force) -verbose
+```
+![image](https://user-images.githubusercontent.com/44196051/141806623-ee167dfa-5b36-4535-b829-545d21181e95.png)
 
 
 ### Computer / Machine Accounts
@@ -687,7 +721,7 @@ qwinsta /counter
 
 ![image](https://user-images.githubusercontent.com/44196051/141457332-edf06c5d-9dfa-4ae8-b3c5-ed0a9db4db05.png)
 
-
+You can read here about [how to evict](#Evict-Users) a malicious user from a session and change the creds rapidly to deny them future access
 
 ### Check Certificates
 
