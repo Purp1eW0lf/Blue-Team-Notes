@@ -507,6 +507,7 @@ Get-Service -DisplayName "meme_service" | Stop-Service -Force -Confirm:$false -v
     - [Investigate DNS](#investigate-dns)
   + [IPv6](#ipv6)
     - [Disable Priority Treatment of IPv6](#Disable-Priority-Treatment-of-IPv6)
+   + [BITS Queries](#bits-queries)	
 
 </details>
 
@@ -626,6 +627,21 @@ Set-ItemProperty â€œHKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters\â€
 ```
 ![image](https://user-images.githubusercontent.com/44196051/121317107-e2135480-c901-11eb-9832-5930a94f80ac.png
 )
+
+### BITS Queries
+
+```powershell
+Get-BitsTransfer| 
+fl DisplayName,JobState,TransferType,FileList, OwnerAccount,BytesTransferred,CreationTime,TransferCompletionTime
+ 
+## filter out common bits jobs in your enviro, ones below are just an example, you will need to add your own context
+Get-BitsTransfer|
+| ? displayname -notmatch "WU|Office|Dell_Asimov|configjson" 
+fl DisplayName,JobState,TransferType,FileList, OwnerAccount,BytesTransferred,CreationTime,TransferCompletionTime
+
+```
+
+![image](https://user-images.githubusercontent.com/44196051/141825517-a2f7a6a8-a8c4-4230-b545-fc0d93baad5f.png)
 
 
 ## Remoting Queries
