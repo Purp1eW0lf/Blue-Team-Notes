@@ -302,7 +302,8 @@ For example in our screenshot, on the left Microsoft's support page supposes the
   + [Find all users currently logged in](#find-all-users-currently-logged-in)
   + [Evict User](#Evict-User)
     - [Force user logout](#Force-user-logout)
-    - [force user new password](#force-user-new-password)
+    - [Force user new password](#force-user-new-password)
+    - [Disable AD Account](#Disable-ad-account)	
   + [Computer / Machine Accounts](#computer---machine-accounts)
     - [Show machine accounts that are apart of interesting groups.](#show-machine-accounts-that-are-apart-of-interesting-groups)
     - [Reset password for a machine account.](#reset-password-for-a-machine-account)
@@ -375,6 +376,23 @@ net user #username #newpass
 net user frank "lFjcVR7fW2-HoDHSyxkzP"
 ```
 ![image](https://user-images.githubusercontent.com/44196051/141804977-166ac050-ba1d-433d-ab6b-76a1e60627bb.png)
+
+#### Disable AD Account
+
+```powershell
+#needs the SAMAccountName
+$user = "lizzie"; 
+Disable-ADAccount -Identity "$user" #-whatif can be appended
+
+#check its disabled
+(Get-ADUser -Identity $user).enabled
+
+#renable when you're ready
+Enable-ADAccount -Identity "$user" -verbose
+```
+![image](https://user-images.githubusercontent.com/44196051/141814376-94716c11-6e8e-4d5b-ad31-51a656095f66.png)
+
+![image](https://user-images.githubusercontent.com/44196051/141814532-da45aa38-623e-4a9e-ab2a-27473350398d.png)
 
 
 ### Computer / Machine Accounts
