@@ -4190,6 +4190,7 @@ Eric's tools are designed to be used on a Windows machine, but they can still be
     <summary>section contents</summary>
 
   + [Install EZ Tools](#install-ez-tools)
+  + [Prefetch](#prefetch)
   
   </details>
 
@@ -4207,6 +4208,25 @@ Get-ZimmermanTools.ps1
 Of course, if you just want some select tools then I suggest you pick those one by one
 ![image](https://user-images.githubusercontent.com/44196051/134973500-b9af28fa-0e1c-4f34-96ed-54edaadf6a80.png)
 
+### Prefetch
+
+You can query the prefetch directory manually
+
+```powershell
+dir C:\Windows\Prefetch | sort LastWriteTime -desc
+```
+But Eric'z [PECmd](https://github.com/EricZimmerman/PECmd) makes it a lot easier
+
+```powershell
+# I’d advise picking the -f flag, and picking on one of the prefetch files you see in the directory
+.\PECmd.exe -f ‘C:\Windows\prefetch\MIMIKATZ.EXE-599C44B5.pf’ 
+
+#get granular timestamps by adding -mp flag
+.\PECmd.exe -f C:\Windows\prefetch\MIMIKATZ.EXE-599C44B5.pf -mp
+
+# If you don’t know what file you want to process, get the whole directory. Will be noisy though and I wouldn’t recommend
+.\PECmd.exe -d 'C:\Windows\Prefetch' --csv . #dot at the end means write in current directory
+```
 
 ## Chainsaw
 
