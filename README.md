@@ -344,7 +344,7 @@ select username, domain, DNSHostName | ft -autosize
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120562311-1072ca80-c3fe-11eb-995f-9d42d1c451d6.png)
 
-### Evict Users
+### Evict User
 
 #### Force user logout
 You may need to evict a user from a session - perhaps you can see an adversary has been able to steal a user's creds and is leveraging their account to traverse your environment
