@@ -361,7 +361,7 @@ logoff 2 /v
 #### Force user new password
 From the above instance, we may want to force a user to have a new password - one the adversary does not have 
 
-```
+```powershell
 #for local users
 net user #username #newpass
 net user frank "lFjcVR7fW2-HoDHSyxkzP"
