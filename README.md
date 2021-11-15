@@ -361,19 +361,20 @@ logoff 2 /v
 #### Force user new password
 From the above instance, we may want to force a user to have a new password - one the adversary does not have 
 
+##### for Active Directory
+```powershell
+$user = "lizzie" ; $newPass = "HoDHSyxkzP-cuzjm6S6VF-7rvqKyR";
+Set-ADAccountPassword -Identity $user -Reset -NewPassword (ConvertTo-SecureString -AsPlainText "$newPass" -Force) -verbose
+```
+![image](https://user-images.githubusercontent.com/44196051/141806623-ee167dfa-5b36-4535-b829-545d21181e95.png)
+
+##### For local non-domain joined machines
 ```powershell
 #for local users
 net user #username #newpass
 net user frank "lFjcVR7fW2-HoDHSyxkzP"
 ```
 ![image](https://user-images.githubusercontent.com/44196051/141804977-166ac050-ba1d-433d-ab6b-76a1e60627bb.png)
-
-#for AD
-```powershell
-$user = "lizzie" ; $newPass = "HoDHSyxkzP-cuzjm6S6VF-7rvqKyR";
-Set-ADAccountPassword -Identity $user -Reset -NewPassword (ConvertTo-SecureString -AsPlainText "$newPass" -Force) -verbose
-```
-![image](https://user-images.githubusercontent.com/44196051/141806623-ee167dfa-5b36-4535-b829-545d21181e95.png)
 
 
 ### Computer / Machine Accounts
