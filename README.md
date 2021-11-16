@@ -639,6 +639,9 @@ Get-BitsTransfer|
 | ? displayname -notmatch "WU|Office|Dell_Asimov|configjson" 
 fl DisplayName,JobState,TransferType,FileList, OwnerAccount,BytesTransferred,CreationTime,TransferCompletionTime
 
+## Hunt down BITS transfers that are UPLOADING, which may be sign of data exfil
+Get-BitsTransfer| ? TransferType -match "Upload" | 
+fl DisplayName,JobState,TransferType,FileList, OwnerAccount,BytesTransferred,CreationTime,TransferCompletionTime
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/141825517-a2f7a6a8-a8c4-4230-b545-fc0d93baad5f.png)
