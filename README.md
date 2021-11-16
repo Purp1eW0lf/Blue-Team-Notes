@@ -636,11 +636,12 @@ fl DisplayName,JobState,TransferType,FileList, OwnerAccount,BytesTransferred,Cre
  
 ## filter out common bits jobs in your enviro, ones below are just an example, you will need to add your own context
 Get-BitsTransfer|
-| ? displayname -notmatch "WU|Office|Dell_Asimov|configjson" 
+| ? displayname -notmatch "WU|Office|Dell_Asimov|configjson" |
 fl DisplayName,JobState,TransferType,FileList, OwnerAccount,BytesTransferred,CreationTime,TransferCompletionTime
 
 ## Hunt down BITS transfers that are UPLOADING, which may be sign of data exfil
-Get-BitsTransfer| ? TransferType -match "Upload" | 
+Get-BitsTransfer| 
+? TransferType -match "Upload" | 
 fl DisplayName,JobState,TransferType,FileList, OwnerAccount,BytesTransferred,CreationTime,TransferCompletionTime
 ```
 
