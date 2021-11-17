@@ -320,8 +320,11 @@ Change the AddDays field to more or less days if you want. Right now set to seve
 The 'when Created' field is great for noticing some inconsistencies. For example, how often are users created at 2am?
 ```powershell
 import-module ActiveDirectory;
-$When = ((Get-Date).AddDays(-7)).Date; Get-ADUser -Filter {whenCreated -ge $When} -Properties whenCreated
+$When = ((Get-Date).AddDays(-7)).Date; 
+Get-ADUser -Filter {whenCreated -ge $When} -Properties whenCreated |
+sort whenCreated -descending 
 ```
+
 ![image](https://user-images.githubusercontent.com/44196051/120461945-614cd980-c392-11eb-8352-2141ee42efdf.png)
 
 ### Hone in on suspicious user
