@@ -1196,18 +1196,20 @@ A quick pwsh _for loop_ can collect the contents of the four registry locations.
 $items = @("HKLM:\Software\Microsoft\Windows\CurrentVersion\Run","HKCU:\Software\Microsoft\Windows\CurrentVersion\Run","HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce","HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce")
 
 foreach ($item in $items) {
-	write-host "----Reg location is $item---"; 
+	write-host "----Reg location is $item---" -ForegroundColor Magenta; 
 	get-itemproperty -path "$item"  | select -property * -exclude PS* | fl
 }
 #this will then print the array
+```
 
-#you can also achieve the same thing with these two alternative commands, but it isn't as cool as the above for loop
+You can also achieve the same thing with these two alternative commands, but it isn't as cool as the above for loop
+
+```powershell
 
 get-itemproperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run*" | 
   select -property * -exclude PSPR*,PSD*,PSC*,PSPAR*  | fl
 get-itemproperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run*" | 
   select -property * -exclude PSPR*,PSD*,PSC*,PSPAR*  | fl
-
 ```
 
 WOAH! Looky here, we've got `EVILCOMMAND.exe` under one of the registries
