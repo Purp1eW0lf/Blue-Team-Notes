@@ -2516,6 +2516,7 @@ I'd also reccomend [FlareVM](https://github.com/mandiant/flare-vm), a Windows-ba
     - [floss](#floss)
     - [flarestrings](#flarestrings)
   + [regshot](#regshot)
+  + [fakenet](#fakenet)	
 	
 </details>
 
@@ -2588,6 +2589,16 @@ Slightly noisy but does catch the reg changes.
 ```
 ![image](https://user-images.githubusercontent.com/44196051/144318647-b922ab94-7ee2-4c8b-8879-d64867c63578.png)
 ![image](https://user-images.githubusercontent.com/44196051/144318442-6a5eef94-32a8-4f7e-bdb6-05747d49182d.png)
+
+
+### Fakenet
+Use [fakenet](https://github.com/mandiant/flare-fakenet-ng) in an Windows machine that doesn't have a network adapter. Fakenet will emulate a network and catch the network connections malware will try to make.
+
+Fireup fakenet, and then execute the malware.
+- Some malware will require specfic responses to unravel further. 
+- I'd reccomend [inetsim](https://www.inetsim.org/downloads.html) where you encounter this kind of malware, as inetsim can emulate files and specific responses that malware calls out for
+
+![image](https://user-images.githubusercontent.com/44196051/144321794-5771ee16-d3da-4ac2-b8e6-7644ec081f4e.png)
 
 
 ## Process Monitor
