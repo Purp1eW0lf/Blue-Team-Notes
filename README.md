@@ -2515,6 +2515,7 @@ I'd also reccomend [FlareVM](https://github.com/mandiant/flare-vm), a Windows-ba
   + [Strings](#strings)
     - [floss](#floss)
     - [flarestrings](#flarestrings)
+    - [Win32APIs](#win32apis)	
   + [regshot](#regshot)
   + [fakenet](#fakenet)	
 	
@@ -2567,6 +2568,13 @@ rank_strings -s # 2>$null redirect the erros if they get in your way
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/144317691-6f9f360f-249d-46cb-aa27-33e2d3c8ee58.png)
+
+##### Win32APIs
+Many of the strings that are recovered from malware will reference Win32 APIs - specific functions that can be called on when writing code to interact with the OS in specific ways.
+
+To best understand what exactly the Win32 API strings are that you extract, I'd suggest [Malapi](https://malapi.io/). This awesome project maps and catalogues Windows APIs, putting them in a taxonomy of what they generally do
+
+![image](https://user-images.githubusercontent.com/44196051/144322643-15d117e6-4ba7-4a90-9563-7f61a47698e5.png)
 
 ### Regshot
 [regshot.exe](https://github.com/Seabreg/Regshot ) is great for malware analysis by comparing changes to your registry.
