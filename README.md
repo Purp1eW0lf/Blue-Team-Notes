@@ -38,7 +38,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
   * [Files](#files)
   * [Bash Tips](#bash-tips)
 - [Malware](#Malware)
-  * [Rapid Malware Analaysis](#rapid-malware-analaysis)
+  * [Rapid Malware Analysis](#rapid-malware-Analysis)
   * [Process Monitor](#process-monitor)
   * [Hash Check Malware](#hash-check-malware)
   * [Decoding Powershell](#decoding-powershell)
