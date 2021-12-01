@@ -2473,7 +2473,10 @@ I'd reccomend [REMnux](https://docs.remnux.org/), a Linux distro dedicated to ma
 
   + [Capa](#capa)
   + [Strings](#strings)
-
+    -[floss](#floss)
+    - [flarestrings](#flarestrings)
+  + [regshot](#regshot)
+	
 </details>
 
 ### Capa
@@ -2523,6 +2526,28 @@ rank_strings -s # 2>$null redirect the erros if they get in your way
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/144317691-6f9f360f-249d-46cb-aa27-33e2d3c8ee58.png)
+
+### Regshot
+[regshot.exe](https://github.com/Seabreg/Regshot ) is great for malware analysis by comparing changes to your registry.
+- If your language settings have non-Latin characters (e.g. Russian, Korean, or Chinese), use unicode release
+
+```powershell
+#pull it
+wget -usebasicparsing https://github.com/Seabreg/Regshot/raw/master/Regshot-x64-ANSI.exe -outfile regshot.exe
+.\regshot.exe
+ 
+#run the GUI for the first 'clean' reg copy. Takes about a minute and a half
+
+#add something malicious as a test if you want
+REG ADD HKEY_CURRENT_USER\SOFTWARE\Microsoft\CurrentVersion\Run /v 1 /d "C:\evil.exe
+
+## now run the GUI for the second time
+
+# then run the comparison
+Slightly noisy but does catch the reg changes. 
+```
+![image](https://user-images.githubusercontent.com/44196051/144318647-b922ab94-7ee2-4c8b-8879-d64867c63578.png)
+![image](https://user-images.githubusercontent.com/44196051/144318442-6a5eef94-32a8-4f7e-bdb6-05747d49182d.png)
 
 
 ## Process Monitor
