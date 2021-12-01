@@ -2466,6 +2466,8 @@ history
 
 I'd reccomend [REMnux](https://docs.remnux.org/), a Linux distro dedicated to malware analysis. If you don't fancy downloading the VM, then maybe just keep an eye on the [Docs](https://docs.remnux.org/discover-the-tools/examine+static+properties/general) as they have some great malware analysis tools in their roster. 
 
+I'd also reccomend [FlareVM](https://github.com/mandiant/flare-vm), a Windows-based malware analysis installer - takes about an hour and a half to install everything on on a Windows VM, but well worth it!
+
 ## Rapid Malware Analysis
 
 <details>
@@ -2473,7 +2475,7 @@ I'd reccomend [REMnux](https://docs.remnux.org/), a Linux distro dedicated to ma
 
   + [Capa](#capa)
   + [Strings](#strings)
-    -[floss](#floss)
+    - [floss](#floss)
     - [flarestrings](#flarestrings)
   + [regshot](#regshot)
 	
