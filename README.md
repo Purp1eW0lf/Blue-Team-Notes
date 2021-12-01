@@ -2498,7 +2498,24 @@ Strings is great as it can sometimes reveal what a binary is doing and give you 
 
 ![image](https://user-images.githubusercontent.com/44196051/120565891-f2a96380-c405-11eb-925c-2471fa3673fe.png)
 
+#### Floss
+Ah you've tried `strings`. But have you tried [floss](https://github.com/mandiant/flare-floss)? It's like strings, but 
+deobfuscate strings in a binary as it goes
+
+```powershell
+#definitely read all the functionality of floss
+floss -h
+floss -l
+
+#execute
+floss -n3 '.\nddwmkgs - Copy.dll'
 ---
+
+![image](https://user-images.githubusercontent.com/44196051/144316548-d5a32ab2-a4de-42a8-8a5b-3ddad95c8325.png)
+
+#### Flare_Strings
+
+
 
 ## Process Monitor
 
