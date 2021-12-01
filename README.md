@@ -2509,12 +2509,20 @@ floss -l
 
 #execute
 floss -n3 '.\nddwmkgs - Copy.dll'
+```
 ---
 
 ![image](https://user-images.githubusercontent.com/44196051/144316548-d5a32ab2-a4de-42a8-8a5b-3ddad95c8325.png)
 
-#### Flare_Strings
+#### Flarestrings
+[Flarestrings](https://github.com/mandiant/stringsifter) takes floss and strings, but adds a machnine learning element. It sorts the strings and assigns them a 1 to 10 value according to how malicious the strings may be.
 
+```powershell
+flarestrings.exe '.\nddwmkgs - Copy.dll' | 
+rank_strings -s # 2>$null redirect the erros if they get in your way
+```
+
+![image](https://user-images.githubusercontent.com/44196051/144317691-6f9f360f-249d-46cb-aa27-33e2d3c8ee58.png)
 
 
 ## Process Monitor
