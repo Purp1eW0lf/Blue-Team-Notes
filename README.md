@@ -2047,6 +2047,8 @@ netsh http show urlacl url=http://+:5985/wsman/ && netsh http show urlacl url=ht
   + [Stop Truncation](#stop-trunction)
     - [Out-String](#out-string)
     - [-Wrap](#-wrap)
+  + [Directories](#directories)	
+  + [Transcripts](#transcripts) 	
 
 </details>
 
@@ -2123,8 +2125,6 @@ If you pipe to `| format-table` you can simply use the `-HideTableHeaders` flag
 
 ![image](https://user-images.githubusercontent.com/44196051/121710284-5d773080-cad1-11eb-8f2a-1bd27742a199.png)
 
-
-
 ### Re-run commands
 If you had a command that was great, you can re-run it again from your powershell history!
 ```powershell
@@ -2168,7 +2168,7 @@ Look no elipses!
 In some places, it doesn't make sense to use out-string as it prints strangely. In these instances, try the `-wrap` function of `format-table`
 
 This, for example is a mess because we used out-string. It's wrapping the final line in an annoying and strange way.
-
+ans
 ![image](https://user-images.githubusercontent.com/44196051/120917702-88641d80-c6a8-11eb-8f2e-676e2c358546.png)
 
 ```powershell
@@ -2180,6 +2180,44 @@ This, for example is a mess because we used out-string. It's wrapping the final 
 Isn't this much better now?
 
 ![image](https://user-images.githubusercontent.com/44196051/120917736-bc3f4300-c6a8-11eb-955e-f876d2e1dd8e.png)
+
+### Directories
+For some investigations, I need to organise my directories or everything will get messed up. I enjoy using Year-Month-Date in my directory names!
+
+```powershell
+mkdir -p "C:\Malware_Analysis\$(Get-Date -UFormat "%Y_%b_%d_%a_UTC%Z")" 
+
+# your working directory for today will be
+echo "C:\Malware_Analysis\$(Get-Date -UFormat "%Y_%b_%d_%a_UTC%Z")"
+
+##move to the working director
+cd "C:\Malware_Analysis\$(Get-Date -UFormat "%Y_%b_%d_%a_UTC%Z")"
+
+##save outputs to
+echo 'test' > C:\Malware_Analysis\$(Get-Date -UFormat "%Y_%b_%d_%a_UTC%Z")\test.txt
+```
+![image](https://user-images.githubusercontent.com/44196051/144320196-5a7391f4-be71-4f3b-8397-0a6ffe75abf1.png)
+![image](https://user-images.githubusercontent.com/44196051/144320226-ee0f43d5-0c0f-42f1-8d37-393c26b5209a.png)
+
+### Transcripts
+Trying to report back what you ran, when you ran, and the results of your commands can become a chore. If you forget a pivotal screenshot, you'll kick yourself - I know I have. 
+
+Instead, we can ask PowerShell to create a log of everything we run and see on the command line.
+
+```powershell
+# you can pick whatever path you want, this is just what I tend to use it for
+Start-Transcript -path "C:\Malware_Analysis\$(Get-Date -UFormat "%Y_%b_%d_%a_UTC%Z")\PwSh_transcript.log" -noclobber -IncludeInvocationHeader
+
+## At the end of the malware analysis, we will then need to stop all transcripts
+Stop-transcript
+
+#you can now open up your Powershell transcript with notepad if you want
+```
+
+![image](https://user-images.githubusercontent.com/44196051/144320748-3d567052-9e5d-4472-bf1c-550ad7f05022.png)
+![image](https://user-images.githubusercontent.com/44196051/144320852-d1b96c80-04a3-49d5-894f-d4f8c407fee5.png)
+![image](https://user-images.githubusercontent.com/44196051/144321157-061038c3-9965-44a9-ba99-6f3426d9765f.png)
+
 
 ---
 
