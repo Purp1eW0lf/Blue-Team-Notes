@@ -2284,6 +2284,14 @@ ss -plunt
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120000196-79a3a980-bfca-11eb-89ed-bbc87b4ca0bc.png)
 
+This alternative also helps re-visualise the originating command and user that a network connection belongs to
+
+```bash
+sudo lsof -i
+```
+
+![2021-12-01_09-18](https://user-images.githubusercontent.com/44196051/144206571-0c8d1f29-fddc-4349-b932-2ee2eb43e347.png)
+
 ---
 
 ## Files
@@ -4269,6 +4277,7 @@ Eric's tools are designed to be used on a Windows machine, but they can still be
 
   + [Install EZ Tools](#install-ez-tools)
   + [Prefetch](#prefetch)
+  + [Shimcache](#shimcache)
   
   </details>
 
@@ -4293,6 +4302,8 @@ You can query the prefetch directory manually
 ```powershell
 dir C:\Windows\Prefetch | sort LastWriteTime -desc
 ```
+![7-edited-1](https://user-images.githubusercontent.com/44196051/144207365-574d5d8b-41f3-41c7-97b3-0c257f31c4d3.png)
+
 But Eric'z [PECmd](https://github.com/EricZimmerman/PECmd) makes it a lot easier
 
 ```powershell
@@ -4305,6 +4316,37 @@ But Eric'z [PECmd](https://github.com/EricZimmerman/PECmd) makes it a lot easier
 # If you don’t know what file you want to process, get the whole directory. Will be noisy though and I wouldn’t recommend
 .\PECmd.exe -d 'C:\Windows\Prefetch' --csv . #dot at the end means write in current directory
 ```
+![8-edited](https://user-images.githubusercontent.com/44196051/144207409-d517823c-c796-45d5-871a-6c7d647c70be.png)
+
+Prefetch is usually enabled on endpoints and disabled on servers. To re-enable on servers, run this:
+```cmd
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" /v EnablePrefetcher /t REG_DWORD /d 3 /f;
+ 
+reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Prefetcher" /v MaxPrefetchFiles /t REG_DWORD /d 8192 /f;
+ 
+Enable-MMAgent –OperationAPI;
+ 
+net start sysmain
+```
+
+### Shimcache
+
+[Shimcache](https://www.fireeye.com/content/dam/fireeye-www/services/freeware/shimcache-whitepaper.pdf) – called AppCompatCache on a Windows machine – was originally made to determine interoperability issues between Windows versions and applications.  Like prefetch, we can leverage shimcache to identify evidence of execution on a machine when we do not have event logs. 
+
+[Another Eric Zimmerman tool](https://ericzimmerman.github.io/#!index.md) called AppCompatCacheParser can give us insight into what was run on the system. 
+
+```powershell
+.\AppCompatCacheParser.exe -t --csv . --csvf shimcache.csv
+```
+![12-edited](https://user-images.githubusercontent.com/44196051/144207005-07ed24cb-75df-4832-814a-4928d711a0c7.png)
+
+This will create a CSV, which you could import to your spreadsheet of choice… but some quick PowerShell can give you some visibility. There will be a lot of noise here, but if we filter through we can find something quite interesting.
+
+```powershell
+import-csv .\shimcache.csv | sort lastmodified -Descending | fl path,last*
+```
+![13-edited](https://user-images.githubusercontent.com/44196051/144207226-bc680044-d047-42c8-b783-1f22cd29c81c.png)
+
 
 ## Chainsaw
 
