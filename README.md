@@ -4410,6 +4410,11 @@ You can query the prefetch directory manually
 
 ```powershell
 dir C:\Windows\Prefetch | sort LastWriteTime -desc
+
+# Look for a specifc exe - good for Velociraptor hunts 
+# if you see one machine has executed something suspicious, you can then run thisnetwork wide
+ dir C:\Windows\prefetch |  ? name -match "rundll" 
+
 ```
 ![7-edited-1](https://user-images.githubusercontent.com/44196051/144207365-574d5d8b-41f3-41c7-97b3-0c257f31c4d3.png)
 
