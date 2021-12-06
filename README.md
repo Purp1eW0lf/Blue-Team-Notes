@@ -343,10 +343,10 @@ Get-ADUser -Identity HamBurglar -Properties *
 
 ### Find all users currently logged in
 ```powershell
-Get-CimInstance -classname win32_computersystem |
-select username, domain, DNSHostName | ft -autosize
+qwinsta
+#or
+quser
 ```
-![image](https://user-images.githubusercontent.com/44196051/120562311-1072ca80-c3fe-11eb-995f-9d42d1c451d6.png)
 
 ### Evict User
 
