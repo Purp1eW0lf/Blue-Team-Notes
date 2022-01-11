@@ -1138,7 +1138,7 @@ fl FileName,Name,Target, LastModified
 
 This will output a LOT, however. You may want to only show results for anything LastModified after a certain date. Lets ask to only see things modified in the year 2022 onwards
 
-```
+```powershell
 Get-CimInstance Win32_ShortcutFile |
 where-object {$_.lastmodified -gt [datetime]::parse("01/01/2022")} | 
 fl FileName,Name,Target, LastModified
