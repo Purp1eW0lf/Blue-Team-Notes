@@ -1012,6 +1012,7 @@ Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false -verbose
     - [To stop the task](#to-stop-the-task)
   + [Show what programs run at startup](#show-what-programs-run-at-startup)
     - [Programs at login](#programs-at-login)
+    - [Programs at PowerShell](#programs-at-powershell)	
   + [Scheduled Jobs](#scheduled-jobs)
     - [Find out what scheduled jobs are on the machine](#find-out-what-scheduled-jobs-are-on-the-machine)
     - [Get detail behind scheduled jobs](#get-detail-behind-scheduled-jobs)
@@ -1093,6 +1094,19 @@ remove-itemproperty "HKCU:\Environment\" -name "UserInitMprLogonScript" -verbose
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/148916469-df35de7a-4b89-409f-b304-a32976ec9be6.png)
+
+#### Programs at Powershell
+Adversaries can link their persistence mechanisms to a PowerShell profile, executing their malice every time you start PowerShell
+
+```
+#confirm the profile you are querying
+echo $Profile
+#show PowerShell profile contents
+type $Profile
+```
+![image](https://user-images.githubusercontent.com/44196051/148917480-5c3adfba-e9cd-4e16-9e5b-439de153cc1c.png)
+
+To fix this one, I'd just edit the profile and remove the persistence (so `notepad $Profile` will be just fine)
 
 
 ### Scheduled Jobs
