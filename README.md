@@ -1098,7 +1098,7 @@ remove-itemproperty "HKCU:\Environment\" -name "UserInitMprLogonScript" -verbose
 #### Programs at Powershell
 Adversaries can link their persistence mechanisms to a PowerShell profile, executing their malice every time you start PowerShell
 
-```
+```powershell
 #confirm the profile you are querying
 echo $Profile
 #show PowerShell profile contents
