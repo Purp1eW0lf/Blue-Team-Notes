@@ -1013,6 +1013,7 @@ Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false -verbose
   + [Show what programs run at startup](#show-what-programs-run-at-startup)
     - [Programs at login](#programs-at-login)
     - [Programs at PowerShell](#programs-at-powershell)	
+  + [Stolen Links](#stolen-links)	
   + [Scheduled Jobs](#scheduled-jobs)
     - [Find out what scheduled jobs are on the machine](#find-out-what-scheduled-jobs-are-on-the-machine)
     - [Get detail behind scheduled jobs](#get-detail-behind-scheduled-jobs)
@@ -1107,6 +1108,43 @@ type $Profile
 ![image](https://user-images.githubusercontent.com/44196051/148917480-5c3adfba-e9cd-4e16-9e5b-439de153cc1c.png)
 
 To fix this one, I'd just edit the profile and remove the persistence (so `notepad $Profile` will be just fine)
+
+
+### Stolen Links
+Adversaries can insert their malice into shortcuts. They can do it in clever ways, so that the application will still run but at the same time their malice will also execute when you click on the application
+
+For demo purposes, below we have Microsoft Edge that has been hijacked to execute calc on execution. 
+
+![image](https://user-images.githubusercontent.com/44196051/148918419-45845f19-84e7-44aa-a8e0-c6310ee4a905.png)
+
+We can specifically query all Microsoft Edge's shortcuts to find this
+```powershell
+Get-CimInstance Win32_ShortcutFile | 
+? FileName -match 'edge' | 
+fl FileName,Name,Target, LastModified
+```
+
+![image](https://user-images.githubusercontent.com/44196051/148921262-3a9019ce-3b95-4f95-962f-db41871162fd.png)
+
+This doesn't scale however, as you will not know the specific shortcut that the adversary has manipulated. So instead, sort by the `LastModified` date
+
+```powershell
+Get-CimInstance Win32_ShortcutFile | 
+sort LastModified -desc | 
+fl FileName,Name,Target, LastModified
+```
+
+![image](https://user-images.githubusercontent.com/44196051/148921953-725bc874-0d30-4eb1-92c4-86714d947c90.png)
+
+This will output a LOT, however. You may want to only show results for anything LastModified after a certain date. Lets ask to only see things modified in the year 2022 onwards
+
+```
+Get-CimInstance Win32_ShortcutFile |
+where-object {$_.lastmodified -gt [datetime]::parse("01/01/2022")} | 
+fl FileName,Name,Target, LastModified
+```
+
+![image](https://user-images.githubusercontent.com/44196051/148923043-81b092d5-cf05-4ab8-afcc-a662a0e34651.png)
 
 
 ### Scheduled Jobs
