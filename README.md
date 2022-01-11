@@ -1011,6 +1011,7 @@ Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false -verbose
     - [To find the commands a task is running](#to-find-the-commands-a-task-is-running)
     - [To stop the task](#to-stop-the-task)
   + [Show what programs run at startup](#show-what-programs-run-at-startup)
+    - [Programs at login](#programs-at-login)
   + [Scheduled Jobs](#scheduled-jobs)
     - [Find out what scheduled jobs are on the machine](#find-out-what-scheduled-jobs-are-on-the-machine)
     - [Get detail behind scheduled jobs](#get-detail-behind-scheduled-jobs)
@@ -1072,6 +1073,26 @@ Get-ScheduledTask "memetask" | Stop-ScheduledTask -Force -Confirm:$false -verbos
 Get-CimInstance Win32_StartupCommand | Select-Object Name, command, Location, User | Format-List 
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120332890-12963580-c2e7-11eb-9805-feee341140fa.png)
+
+#### Programs at login
+Adversaries can link persistence mechanisms to be activated to a users' login via the registry `HKEY_CURRENT_USER\Environment -UserInitMprLogonScript`
+
+```powershell
+gp "HKCU:\Environment" | FL UserInitMprLogonScript
+```
+
+![image](https://user-images.githubusercontent.com/44196051/148915798-78c4c0b9-0dd4-4bde-8439-8011e144d901.png)
+
+You can remove this regsistry entry
+
+```powershell
+#confirm via `whatif` flag that this is the right key
+remove-itemproperty "HKCU:\Environment\" -name "UserInitMprLogonScript" -whatif
+#delete it
+remove-itemproperty "HKCU:\Environment\" -name "UserInitMprLogonScript" -verbose
+```
+
+![image](https://user-images.githubusercontent.com/44196051/148916469-df35de7a-4b89-409f-b304-a32976ec9be6.png)
 
 
 ### Scheduled Jobs
