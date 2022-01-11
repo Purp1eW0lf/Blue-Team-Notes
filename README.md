@@ -2314,6 +2314,22 @@ ps -aux --forest
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120000069-54af3680-bfca-11eb-91a8-221562914878.png)
 
+
+Get an overview of every running process running from a non-standard path
+
+```bash
+sudo ls -l /proc/[0-9]*/exe 2>/dev/null | awk '/ -> / && !/\/usr\/(lib(exec)?|s?bin)\// {print $9, $10, $11}' | sed 's,/proc/\([0-9]*\)/exe,\1,'
+```
+![image](https://user-images.githubusercontent.com/44196051/148913737-97c623e9-23af-431c-8504-56124af8817b.png)
+
+Or list every process full stop
+
+```bash
+sudo ls -l /proc/[0-9]*/exe 2>/dev/null | awk '/ -> / {print $NF}' | sort | tac
+```
+![image](https://user-images.githubusercontent.com/44196051/148913919-69afd3a6-3a1f-49d0-a559-50b93a67875e.png)
+
+
 ### Get a quick overview of network activity
 ```bash
 netstat -plunt
