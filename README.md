@@ -409,8 +409,6 @@ remove-adgroupmember -identity Administrators -members $User -verbose -confirm:$
 ![image](https://user-images.githubusercontent.com/44196051/150777790-38409fa8-82f0-4060-aeeb-f95b45de836f.png)
 
 
-```powershell
-
 ### Computer / Machine Accounts
 Adversaries like to use Machine accounts (accounts that have a $) as these often are overpowered AND fly under the defenders' radar
 
