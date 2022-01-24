@@ -304,6 +304,7 @@ For example in our screenshot, on the left Microsoft's support page supposes the
     - [Force user logout](#Force-user-logout)
     - [Force user new password](#force-user-new-password)
     - [Disable AD Account](#Disable-ad-account)	
+    - [Evict from Group](#evict-from-group)	
   + [Computer / Machine Accounts](#computer---machine-accounts)
     - [Show machine accounts that are apart of interesting groups.](#show-machine-accounts-that-are-apart-of-interesting-groups)
     - [Reset password for a machine account.](#reset-password-for-a-machine-account)
@@ -397,6 +398,18 @@ Enable-ADAccount -Identity "$user" -verbose
 
 ![image](https://user-images.githubusercontent.com/44196051/141814532-da45aa38-623e-4a9e-ab2a-27473350398d.png)
 
+#### Evict from Group
+Good if you need to quickly eject an account from a specific group, like administrators or remote management.
+
+```powershell
+$user = "erochester"
+remove-adgroupmember -identity Administrators -members $User -verbose -confirm:$false
+```
+
+![image](https://user-images.githubusercontent.com/44196051/150777790-38409fa8-82f0-4060-aeeb-f95b45de836f.png)
+
+
+```powershell
 
 ### Computer / Machine Accounts
 Adversaries like to use Machine accounts (accounts that have a $) as these often are overpowered AND fly under the defenders' radar
@@ -918,12 +931,19 @@ Get-Process -Id (Get-NetTCPConnection).OwningProcess
 ### Show all processes and their associated user
 ```powershell
 get-process * -Includeusername
+
+#try this one if you're hunting down suspicious processes from users
+gwmi win32_process | 
+Select Name,@{n='Owner';e={$_.GetOwner().User}},CommandLine | 
+sort Name -unique -descending | Sort Owner | ft -wrap -autosize
+
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120329122-70288300-c2e3-11eb-95ef-276ffd556acd.png)
 
 ### Get specific info about the full path binary that a process is running
 ```powershell
-gwmi win32_process | Select Name,ProcessID,@{n='Owner';e={$_.GetOwner().User}},CommandLine | 
+gwmi win32_process | 
+Select Name,ProcessID,@{n='Owner';e={$_.GetOwner().User}},CommandLine | 
 sort name | ft -wrap -autosize | out-string
 ```
 
