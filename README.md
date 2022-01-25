@@ -958,19 +958,25 @@ sort Remoteaddress -Descending | ft -wrap -autosize
 
 ![image](https://user-images.githubusercontent.com/44196051/150955379-872e2b5f-6d88-4b3f-929f-debaa8fd1036.png)
 
-
-```powershell
 ### Show all processes and their associated user
+
 ```powershell
 get-process * -Includeusername
+```
 
-#try this one if you're hunting down suspicious processes from users
+![image](https://user-images.githubusercontent.com/44196051/120329122-70288300-c2e3-11eb-95ef-276ffd556acd.png)
+
+
+Try this one if you're hunting down suspicious processes from users
+
+```powershell
 gwmi win32_process | 
 Select Name,@{n='Owner';e={$_.GetOwner().User}},CommandLine | 
 sort Name -unique -descending | Sort Owner | ft -wrap -autosize
-
 ```
-![image](https://user-images.githubusercontent.com/44196051/120329122-70288300-c2e3-11eb-95ef-276ffd556acd.png)
+
+![image](https://user-images.githubusercontent.com/44196051/150958834-782846e5-bd2b-4bbc-9305-df3e24021052.png)
+
 
 ### Get specific info about the full path binary that a process is running
 ```powershell
