@@ -2659,7 +2659,8 @@ I'd also reccomend [FlareVM](https://github.com/mandiant/flare-vm), a Windows-ba
     - [flarestrings](#flarestrings)
     - [Win32APIs](#win32apis)	
   + [regshot](#regshot)
-  + [fakenet](#fakenet)	
+  + [fakenet](#fakenet)
+  + [Entropy](#entropy)	
 	
 </details>
 
@@ -2750,6 +2751,14 @@ Fireup fakenet, and then execute the malware.
 
 ![image](https://user-images.githubusercontent.com/44196051/144321794-5771ee16-d3da-4ac2-b8e6-7644ec081f4e.png)
 
+### Entropy
+Determining the entropy of a file may be important, to determine if a file has been encrypted.
+
+The linux command `ent` is useful here. `binwalk -E` is a posssible alternative, however I have found it less than reliable
+
+The screenshot belows shows a partially encrytped file in the first line, and then a plain text txt file in the second line. The higher the entropy number the more likely it is encrypted.
+
+![image](https://user-images.githubusercontent.com/44196051/151002519-bb540de0-509f-4746-b512-bc5a8a8f811c.png)
 
 ## Process Monitor
 
