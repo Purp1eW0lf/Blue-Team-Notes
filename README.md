@@ -510,6 +510,7 @@ Get-Service -DisplayName "meme_service" | Stop-Service -Force -Confirm:$false -v
 <details>
     <summary>section contents</summary>
 
+  + [Show TCP connections and underlying process](#Show-TCP-connections-and-underlying-process)
   + [Find internet established connections, and sort by time established](#find-internet-established-connections--and-sort-by-time-established)
   + [Sort remote IP connections, and then unique them](#sort-remote-ip-connections--and-then-unique-them)
     - [Hone in on a suspicious IP](#hone-in-on-a-suspicious-ip)
@@ -524,6 +525,27 @@ Get-Service -DisplayName "meme_service" | Stop-Service -Force -Confirm:$false -v
    + [BITS Queries](#bits-queries)	
 
 </details>
+
+### Show TCP connections and underlying process
+
+This one is so important, I have it [listed twice](#Processes-and-TCP-Connections) in the blue team notes
+
+I have a neat one-liner for you. This will show you the local IP and port, the remote IP andport, the process name, and the underlying executable of the process!
+
+You could just use `netstat -b`, which gives you SOME of this data
+
+But instead, try this bad boy on for size:
+
+```powershell
+Get-NetTCPConnection |
+select LocalAddress,localport,remoteaddress,remoteport,state,@{name="process";Expression={(get-process -id $_.OwningProcess).ProcessName}}, @{Name="cmdline";Expression={(Get-WmiObject Win32_Process -filter "ProcessId = $($_.OwningProcess)").commandline}} | 
+sort Remoteaddress -Descending | ft -wrap -autosize
+```
+
+![image](https://user-images.githubusercontent.com/44196051/150955379-872e2b5f-6d88-4b3f-929f-debaa8fd1036.png)
+
+######## **Bound to catch bad guys or your moneyback guaranteed!!!!**
+
 
 ### Find internet established connections, and sort by time established
 You can always sort by whatever value you want really. CreationTime is just an example
@@ -919,13 +941,25 @@ Remove-SmbShare -Name MaliciousShare -Confirm:$false -verbose
 </details>
 
 ### Processes and TCP Connections
-Collect the owningprocess of the TCP connections, and then ask get-process to filter and show processes that make network communications
+I have a neat one-liner for you. This will show you the local IP and port, the remote IP andport, the process name, and the underlying executable of the process!
+
+You could just use `netstat -b`, which gives you SOME of this data
+
+![image](https://user-images.githubusercontent.com/44196051/150956623-7328b24b-4edd-4be7-bf94-f79472650b58.png)
+
+
+But instead, try this bad boy on for size:
 
 ```powershell
-Get-Process -Id (Get-NetTCPConnection).OwningProcess
+Get-NetTCPConnection |
+select LocalAddress,localport,remoteaddress,remoteport,state,@{name="process";Expression={(get-process -id $_.OwningProcess).ProcessName}}, @{Name="cmdline";Expression={(Get-WmiObject Win32_Process -filter "ProcessId = $($_.OwningProcess)").commandline}} | 
+sort Remoteaddress -Descending | ft -wrap -autosize
 ```
-![image](https://user-images.githubusercontent.com/44196051/120337318-1cba3300-c2eb-11eb-8444-0b54e67f6285.png)
 
+![image](https://user-images.githubusercontent.com/44196051/150955379-872e2b5f-6d88-4b3f-929f-debaa8fd1036.png)
+
+
+```powershell
 ### Show all processes and their associated user
 ```powershell
 get-process * -Includeusername
