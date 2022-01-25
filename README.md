@@ -453,13 +453,13 @@ foreach ($Past in $Pasts) {
 <details>
     <summary>section contents</summary>
 
-  + [Show Services & Service Accounts](#show-services---service-accounts)
+  + [Show Services](#Show Services)
   + [Hone in on specific Service](#hone-in-on-specific-service)
   + [Kill a service](#kill-a-service)
   
 </details>
 
-### Show Services & Service Accounts
+### Show Services 
 
 Let's get all the services and sort by what's running
 ```powershell
@@ -469,21 +469,16 @@ Out-String -Width 4096
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120901027-354e8400-c630-11eb-8ac8-869864349cf5.png)
 
-Utilise Get-WmiObject(gwmi) to show all service accounts on a machine, and then sort to show the running accounts first and the stopped accounts second.
-
-StartName is the name of the Service Account btw
+Now show the underlying executable supporting that service
 
 ```powershell
- gwmi -Class Win32_Service|
- select-object -Property Name, StartName, state, startmode, Caption, ProcessId |
- sort-object -property state
- 
- # You can try this bad boy too
- Get-WmiObject win32_service | 
- select Name, DisplayName, @{Name='Path'; Expression={$_.PathName.split('"')[1]}} | 
- fl
+Get-WmiObject win32_service |? State -match "running" |
+select Name, DisplayName, PathName, User | sort Name |
+ft -wrap -autosize
 ```
-![image](https://user-images.githubusercontent.com/44196051/120340649-23967500-c2ee-11eb-892b-0c6626072d8c.png)
+
+![image](https://user-images.githubusercontent.com/44196051/150961296-3778e68c-c85d-4310-aa37-865fd3688889.png)
+
 
 ### Hone in on specific Service
 If a specific service catches your eye, you can get all the info for it.  Because the single and double qoutes are important to getting this right, I find it easier to just put the DisplayName of the service I want as a variable, as I tend to fuck up the displayname filter bit
