@@ -1495,7 +1495,7 @@ This is why I like to use PowerShell for much of my blue team work on a Windows 
   + [Recursively look for particular file types, and once you find the files get their hashes](#recursively-look-for-particular-file-types--and-once-you-find-the-files-get-their-hashes)
   + [Compare two files' hashes](#compare-two-files--hashes)
   + [Find files written after X date](#find-files-written-after-x-date)
-    - [Remove items written after x date](Remove-items-written-after-x-date)
+    - [Remove items written after x date](#Remove-items-written-after-x-date)
   + [copy multiple files to new location](#copy-multiple-files-to-new-location)
   + [Grep in Powershell](#grep-in-powershell)
  
