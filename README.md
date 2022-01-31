@@ -1495,6 +1495,7 @@ This is why I like to use PowerShell for much of my blue team work on a Windows 
   + [Recursively look for particular file types, and once you find the files get their hashes](#recursively-look-for-particular-file-types--and-once-you-find-the-files-get-their-hashes)
   + [Compare two files' hashes](#compare-two-files--hashes)
   + [Find files written after X date](#find-files-written-after-x-date)
+    - [Remove items written after x date](Remove-items-written-after-x-date)
   + [copy multiple files to new location](#copy-multiple-files-to-new-location)
   + [Grep in Powershell](#grep-in-powershell)
  
@@ -1602,7 +1603,7 @@ get-filehash "C:\windows\sysmondrv.sys" , "C:\Windows\HelpPane.exe"
 ### Find files written after X date
 I personally wouldn't use this for DFIR. It's easy to manipulate timestamps....plus, Windows imports the original compiled date for some files and binaries if I'm not mistaken
 
-Change the variables in the first time to get what you're looking
+Change the variables in the first time to get what you're looking. Remove the third line if you want to include directories 
 ```powershell
 $date = "12/01/2021"; $directory = "C:\temp"
 get-childitem "$directory" -recurse|
@@ -1612,6 +1613,22 @@ Sort-Object -property LastWriteTime | format-table lastwritetime, fullname -auto
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/120306808-2b442280-c2ca-11eb-82f8-bca23b5ee0d1.png)
+
+#### Remove items written after x date
+And then you can recursively remove the files and directories, in case malicious
+
+```powershell
+$date = "31/01/2022"; $directory = "C:\Users\Frank\AppData\"
+get-childitem "$directory" -recurse|
+where-object {$_.lastwritetime -gt [datetime]::parse("$date")}|
+Sort-Object -property LastWriteTime | remove-item -confirm -whatif
+```
+![image](https://user-images.githubusercontent.com/44196051/151830903-2f1ff6c6-6994-4141-aa65-143f59ff96e9.png)
+
+Remove the last -whatif flag to actaully detonate. Will ask you one at a time if you want to delete items. Please A to delete all
+
+![image](https://user-images.githubusercontent.com/44196051/151830481-2de1dbcd-a4bf-43b6-a470-d13f7b366331.png)
+
 
 ### copy multiple files to new location
 ```powershell
