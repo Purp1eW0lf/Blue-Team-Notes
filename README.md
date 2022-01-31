@@ -932,6 +932,7 @@ Remove-SmbShare -Name MaliciousShare -Confirm:$false -verbose
   + [Identify process CPU usage](#identify-process-cpu-usage)
     - [Sort by least CPU-intensive processes](#sort-by-least-cpu-intensive-processes)
   + [Stop a Process](#stop-a-process)
+  + [Process Tree](#process-tree)	
   
 </details>
 
@@ -1051,6 +1052,14 @@ ft -autosize -wrap | out-string -width 800
 ```powershell
 Get-Process -Name "memeprocess" | Stop-Process -Force -Confirm:$false -verbose
 ```
+
+### Process Tree
+You can download the [PsList exe from Sysinternals](https://docs.microsoft.com/en-us/sysinternals/downloads/pslist)
+
+Fire it off with the `-t` flag to create a parent-child tree of the processes
+
+![example_of_ps_tree](https://user-images.githubusercontent.com/44196051/151773540-e89e9d9a-92fc-472e-94b9-e1f552dedf4f.png)
+
 
 ---
 
@@ -1476,6 +1485,7 @@ This is why I like to use PowerShell for much of my blue team work on a Windows 
 <details>
     <summary>section contents</summary>
   
+  + [File Tree](#file-tree)	
   + [Wildcard paths and files](#wildcard-paths-and-files)
   + [Check if a specific file or path is alive.](#check-if-a-specific-file-or-path-is-alive)
   + [test if  files and directories are present or absent](#test-if--files-and-directories-are-present-or-absent)
@@ -1489,6 +1499,13 @@ This is why I like to use PowerShell for much of my blue team work on a Windows 
   + [Grep in Powershell](#grep-in-powershell)
  
 </details>
+
+### File tree
+
+Fire off `tree` to list the directories and files underneath your current working directory, nestled under each other
+
+![image](https://user-images.githubusercontent.com/44196051/151773962-3b1dac5a-ff4c-4b09-bead-daa97703b650.png)
+
 
 ### Wildcard paths and files
 You can chuck wildcards in directories for gci, as well as wildcard to include file types.
