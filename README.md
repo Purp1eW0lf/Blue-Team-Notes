@@ -1198,7 +1198,9 @@ fl FileName,Name,Target, LastModified
 
 ![image](https://user-images.githubusercontent.com/44196051/148921953-725bc874-0d30-4eb1-92c4-86714d947c90.png)
 
-This will output a LOT, however. You may want to only show results for anything LastModified after a certain date. Lets ask to only see things modified in the year 2022 onwards
+#### Hunt LNKs at scale
+
+This above will output a LOT, however. You may want to only show results for anything LastModified after a certain date. Lets ask to only see things modified in the year 2022 onwards
 
 ```powershell
 Get-CimInstance Win32_ShortcutFile |
