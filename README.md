@@ -1203,7 +1203,7 @@ This will output a LOT, however. You may want to only show results for anything 
 ```powershell
 Get-CimInstance Win32_ShortcutFile |
 where-object {$_.lastmodified -gt [datetime]::parse("01/01/2022")} | 
-fl FileName,Name,Target, LastModified
+sort LastModified -desc | fl FileName,Name,Target, LastModified
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/148923043-81b092d5-cf05-4ab8-afcc-a662a0e34651.png)
