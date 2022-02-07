@@ -17,7 +17,7 @@ If you want to contribute I'd be grateful for the command and a screenshot. I'll
 I hope the Blue Team Notes help you catch an adversary, thwart an attack, or even just helps you learn.
 If you've benefited from the Blue Team Notes, would you kindly consider making a donation to one or two charities. 
 
-You can pick your ownn of course, but I have some UK charities you could donate to: [Great Ormond Street - Children's hospital](https://www.gosh.org/_donate/?amount=3&frequency=single&campaign=1284), [Cancer Research](https://donate.cancerresearchuk.org/support-us/your-donation?type=single&amount=3), and [Feeding Britain - food charity](https://feedingbritain.org/donate/)
+Donate as much or little money as you like, of course. I have some UK charities you could donate to: [Great Ormond Street - Children's hospital](https://www.gosh.org/_donate/?amount=3&frequency=single&campaign=1284), [Cancer Research](https://donate.cancerresearchuk.org/support-us/your-donation?type=single&amount=3), and [Feeding Britain - food charity](https://feedingbritain.org/donate/)
 
 ## Table of Contents
 - [Shell Style](#shell-style)
