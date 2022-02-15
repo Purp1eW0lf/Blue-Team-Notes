@@ -63,6 +63,7 @@ Donate as much or little money as you like, of course. I have some UK charities 
   * [Volatility](#volatility)
   * [EZ Tools](#ez-tools)
   * [Chainsaw](#chainsaw)
+  * [Browser History](#browser-histrory)
 
 ---
 
@@ -4359,6 +4360,7 @@ If you're interested in digital forensics, there are some immediate authoritive 
   + [volatility](#volatility)
   + [EZ Tools](#ez-tools)
   + [Chainsaw](#chainsaw)
+  + [Browser History](#browser-histrory)
 
   </details>
 
@@ -4706,3 +4708,51 @@ It's relatively easy to install and use. You can take logs from a victim machine
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/134974297-020c7ab1-dbd4-494a-ad18-49bf7a3fa2fb.png)
+
+## Browser History
+We can go and get a users' browers history if you have the machine.
+
+You'll find the SQL DB file that stores the history in the following:
+
+* Chrome `:\Users\*\AppData\Local\Google\Chrome\User Data\Default\History`
+* Edge `C:\Users\*\AppData\Local\Microsoft\Edge\User Data\Default\History`
+
+Once retrieved, you can open it via sqlite3 or a [web-browser GUI](https://extendsclass.com/sqlite-browser.html#).
+* The GUI doesn't need much guidance, so lets chat command line.
+
+Fire it up: `sqlite3 history.db`
+
+![image](https://user-images.githubusercontent.com/44196051/154080052-320f64aa-76d6-40e6-9298-67a6405965ef.png)
+
+List the tables, which are like ‘folders’ that contain categorised data
+
+```
+.tables
+```
+
+![image](https://user-images.githubusercontent.com/44196051/154080084-4f297bdd-5356-4ba7-8654-0ff8032d4882.png)
+
+If you just run `select * from downloads;`, you’ll be annoyed by the messy output
+![image](https://user-images.githubusercontent.com/44196051/154080177-14b122ab-9c29-40fe-82b8-d26dea0c0735.png)
+
+To transform the data to something more useful to look at, try this, which will open it up in excel:
+
+```
+.excel
+.headers on 
+ select * from downloads;
+ ```
+ 
+ ![image](https://user-images.githubusercontent.com/44196051/154080344-ab7946d9-279f-47a7-ac7a-5fd41742ae64.png)
+
+
+And then if you tidy this up it's easy to see what the user downloaded and from where
+
+<img width="1296" alt="image" src="https://user-images.githubusercontent.com/44196051/154080684-142e6ede-1d8a-48e2-a879-bf0596fbbbba.png">
+
+
+
+
+
+
+
