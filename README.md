@@ -63,7 +63,7 @@ Donate as much or little money as you like, of course. I have some UK charities 
   * [Volatility](#volatility)
   * [EZ Tools](#ez-tools)
   * [Chainsaw](#chainsaw)
-  * [Browser History](#browser-histrory)
+  * [Browser History](#browser-history)
 
 ---
 
@@ -4360,7 +4360,7 @@ If you're interested in digital forensics, there are some immediate authoritive 
   + [volatility](#volatility)
   + [EZ Tools](#ez-tools)
   + [Chainsaw](#chainsaw)
-  + [Browser History](#browser-histrory)
+  + [Browser History](#browser-history)
 
   </details>
 
