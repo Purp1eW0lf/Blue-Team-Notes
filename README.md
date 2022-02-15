@@ -64,6 +64,7 @@ Donate as much or little money as you like, of course. I have some UK charities 
   * [EZ Tools](#ez-tools)
   * [Chainsaw](#chainsaw)
   * [Browser History](#browser-history)
+  * [Which logs to pull in an incident](#Which-logs-to-pull-in-an-incident)
 
 ---
 
@@ -4361,6 +4362,8 @@ If you're interested in digital forensics, there are some immediate authoritive 
   + [EZ Tools](#ez-tools)
   + [Chainsaw](#chainsaw)
   + [Browser History](#browser-history)
+  + [Which logs to pull in an incident](#Which-logs-to-pull-in-an-incident)
+
 
   </details>
 
@@ -4751,8 +4754,87 @@ And then if you tidy this up it's easy to see what the user downloaded and from 
 <img width="1296" alt="image" src="https://user-images.githubusercontent.com/44196051/154080684-142e6ede-1d8a-48e2-a879-bf0596fbbbba.png">
 
 
+## Which logs to pull in an incident
 
+Windows Event Logs can be found in `C:\windows\System32\winevt\Logs\`. To understand the general Event IDs and logs, you can [read more here](https://forwarddefense.com/media/attachments/2021/05/15/windows-event-log-analyst-reference.pdf)
 
+But knowing which logs to pull of the hundreds can be disorientating. Fortunately, there really aren’t that many to work with. This is for a myriad of reasons:
+* Most clients will not flick on additional logging features. This means that there are actually few logs that provide security value
+* A lot of logs are diagnostic in nature, so we don’t have to pull these.
+* Even when certain logs do have security value - like PowerShell logs - if an incident happened 2 months ago, and a partner did not store their logs elsewhere it is likely that these logs have been overwritten. 
 
+Let’s signpost the logs you absolutely want to grab every time:
 
+#### Sysmon
+`C:\windows\System32\winevt\Logs\Sysmon.evtx`
 
+You’re never going to see Sysmon deployed. In 99% of the incidents I’ve been in, they never have it.
+
+But if you DO ever see sysmon, please do pull this log. It is designed to enrich logs with security value, and is a standard tool for many SOCs / SIEMs
+
+#### Holy Trinity
+```
+C:\windows\System32\winevt\Logs\Application.evtx
+C:\windows\System32\winevt\Logs\Security.evtx
+C:\windows\System32\winevt\Logs\System.evtx
+```
+
+These are the staple logs you will likely pull every single time. 
+
+These are the logs that will give you a baseline insight into an incident: the processes, the users, the sign ins (etc)
+
+#### Defender & security products
+
+`C:\windows\System32\winevt\Logs\Microsoft-Windows-Windows Defender%4Operational.evtx`
+
+We already get Defender alerts, but pulling the defender log is beneficial for log ingestion later. We can correlate Defender alerts to particular processes.
+
+If a machine does not have Defender, don’t despair! You can still find most security solutions logs through the Huntress Console. 
+
+[SANS have a poster](https://www.sans.org/posters/windows-third-party-apps-forensics-poster/) that list some locations:
+
+But some surgical googling can also get you there:
+
+![image](https://user-images.githubusercontent.com/44196051/154081605-9f06fef9-5e8b-4401-9ac3-bf7194b1e91e.png)
+
+#### PowerShell
+
+`C:\windows\System32\winevt\Logs\Microsoft-Windows-PowerShell%4Operational.evtx`
+
+By default, PowerShell logs are pretty trash. But I’ll pull them regardless if there is ever an AMSI / PwSh related alert or artefact in the other logs. This will give insight into the commands an adversary has run.
+
+If you know the user who is involved in the suspicious process, there is a [PowerShell history artefact](#All-Users-PowerShell-History) you can pull on. 
+
+`C:\Users\<username>\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt`
+
+Replace the username field with the username you have, and you will get a TXT file with the history of the users PowerShell commands - sometimes!
+
+#### RDP and WinRM logs
+
+```
+C:\windows\System32\winevt\Logs\Microsoft-Windows-TerminalServices-RemoteConnectionManager%4Operational.evtx
+C:\windows\System32\winevt\Logs\Microsoft-Windows-WinRM%4Operational.evtx
+```
+
+Pull these two to gain insight into the username, source IP address, and session time for RDP and WinRM’s PowerShell remoting
+
+#### Miscellaneous logs
+
+There are some other logs that you’ll pull on if the context is appropiate
+
+`C:\windows\System32\winevt\Logs\Microsoft-Windows-Shell-Core%4Operational.evtx` 
+
+* This can offer insight into execution from registry run keys
+
+`C:\windows\System32\winevt\Logs\Microsoft-Windows-Bits-Client%4Operational.evtx`
+
+* Adversaries can use BITS to do all kinds of malicious things
+
+`C:Windows\System32\winevt\Logs\Microsoft-WindowsTaskScheduler%4Operational`
+
+* Detail in scheduled tasks - though we would likely be able to get this telemtry elsewhere
+
+#### Web Logs
+You’ll likely find IIS logs under `C:\Inetpub\logs\LogFiles`
+
+A server doesn’t have to be a web server to store logs here btw, so it’s always worth looking here. 
