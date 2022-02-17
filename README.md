@@ -4840,9 +4840,4 @@ You’ll likely find IIS logs under `C:\Inetpub\logs\LogFiles`
 A server doesn’t have to be a web server to store logs here btw, so it’s always worth looking here. 
 
 
- <summary>Here's a script that can automate collection for staple logs from above</summary>
-
-	<script src="https://gist.github.com/Purp1eW0lf/e0b757e66d5da629c1d03e2941fa5b4b.js"></script>
-
-
-  </details>
+##### [Here's a script that can automate collection for staple logs from above](https://gist.github.com/Purp1eW0lf/e0b757e66d5da629c1d03e2941fa5b4b)
