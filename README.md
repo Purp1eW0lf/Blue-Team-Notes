@@ -1097,6 +1097,7 @@ Fire it off with the `-t` flag to create a parent-child tree of the processes
     - [Finding Run Evil](#Finding-Run-Evil)
     - [Removing Run Evil](#removing-run-evil)
     - [Other Malicious Run Locations](#other-malicious-run-locations)
+    - [Evidence of Run Key Execution](#Evidence-of-Run-Key-Execution)
   + [Screensaver Persistence](#Screensaver-Persistence)	
   + [Query Group Policy](#Query-Group-Policy)
     - [Query GPO Scripts](#query-gpo-scripts)
@@ -1412,6 +1413,20 @@ gp "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" | select -prope
 
 
 Find more examples of Run key evil from [Mitre ATT&CK](https://attack.mitre.org/techniques/T1547/001/)
+
+
+##### Evidence of Run Key Execution
+You can query a particualar log to find evidence if a registry run key was successful in executing. 
+
+```powershell
+get-winevent -filterhashtable @{ logname = "Microsoft-Windows-Shell-Core/Operational" ; ID = 9707} |
+select TimeCreated, Message, 
+@{Name="UserName";Expression = {$_.UserId.translate([System.Security.Principal.NTAccount]).value}}  | 
+sort TimeCreated -desc| fl
+```
+
+<img width="1146" alt="image" src="https://user-images.githubusercontent.com/44196051/154504598-8c4dd53d-14ac-4c22-9e40-f37ae7ebebe4.png">
+
 
 ### Screensaver Persistence
 
