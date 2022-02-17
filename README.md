@@ -4763,7 +4763,10 @@ But knowing which logs to pull of the hundreds can be disorientating. Fortunatel
 * A lot of logs are diagnostic in nature, so we don’t have to pull these.
 * Even when certain logs do have security value - like PowerShell logs - if an incident happened 2 months ago, and a partner did not store their logs elsewhere it is likely that these logs have been overwritten. 
 
-Let’s signpost the logs you absolutely want to grab every time:
+Let’s signpost the logs you absolutely want to grab every time.
+
+##### [Here's a script that can automate collection for staple logs from below](https://gist.github.com/Purp1eW0lf/e0b757e66d5da629c1d03e2941fa5b4b)
+
 
 #### Sysmon
 `C:\windows\System32\winevt\Logs\Sysmon.evtx`
@@ -4839,5 +4842,3 @@ You’ll likely find IIS logs under `C:\Inetpub\logs\LogFiles`
 
 A server doesn’t have to be a web server to store logs here btw, so it’s always worth looking here. 
 
-
-##### [Here's a script that can automate collection for staple logs from above](https://gist.github.com/Purp1eW0lf/e0b757e66d5da629c1d03e2941fa5b4b)
