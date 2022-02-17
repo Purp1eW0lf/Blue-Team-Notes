@@ -1416,7 +1416,7 @@ Find more examples of Run key evil from [Mitre ATT&CK](https://attack.mitre.org/
 
 
 ##### Evidence of Run Key Execution
-You can query a particualar log to find evidence if a registry run key was successful in executing. 
+You can query the 'Microsoft-Windows-Shell-Core/Operational' log to find evidence if a registry run key was successful in executing. 
 
 ```powershell
 get-winevent -filterhashtable @{ logname = "Microsoft-Windows-Shell-Core/Operational" ; ID = 9707} |
