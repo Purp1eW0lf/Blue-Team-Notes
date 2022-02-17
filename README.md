@@ -1691,8 +1691,9 @@ select-object -expandproperty path -unique
   + [Show reg keys](#show-reg-keys)
   + [Read a reg entry](#read-a-reg-entry)
   + [Remove a reg entry](#remove-a-reg-entry)
+    - [Removing HKCurrentUser Keys](#Removing-HKCurrentUser-Keys)
   + [Example Malicious Reg](#example-malicious-reg)
-  + [Understanding Reg Permissions](#understanding-reg-permissions)
+    - [Understanding Reg Permissions](#understanding-reg-permissions)
     - [Get-ACl](#get-acl)
     - [Convert SDDL](#convert-sddl)
     - [What could they do with poor permissions?](#what-could-they-do-with-poor-permissions)
@@ -1735,6 +1736,24 @@ get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\' | Remove-Item -Force -Co
 get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\'
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119999624-d8b4ee80-bfc9-11eb-9770-5ec6e78f9714.png)
+
+#### Removing HKCurrentUser Keys
+If a Registry is under `HKCU`, it's not clear exactly WHO it can belong to.
+
+![image](https://user-images.githubusercontent.com/44196051/154506473-a0a0fa55-7296-4b65-81af-7f0b0f3dcf7b.png)
+
+If a Registry is under `HKCU`, you can figure out WHICH username it belongs to but you can't just go into HKCU in your PwSh to delete it....because YOU are the current user.
+
+Instead, get the [SID of the user](https://www.windows-commandline.com/get-sid-of-user/) 
+
+And then you can traverse to that as the path as HKU. So for example, under User_Alfonso's reg keys
+```powershell
+#this
+HKCU:\Software\AppDataLow\Software\Microsoft\FDBC3F8C-385A-37D8-2A81-EC5BFE45E0BF
+
+#must become this. Notice the reg changes in the field field, and the SID gets sandwiched in
+HKU:\S-1-5-21-912369493-653634481-1866108234-1004\Software\AppDataLow\Software\Microsoft\FDBC3F8C-385A-37D8-2A81-EC5BFE45E0BF
+```
 
 ### Understanding Reg Permissions
 
