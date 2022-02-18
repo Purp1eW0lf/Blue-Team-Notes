@@ -358,6 +358,16 @@ qwinsta
 quser
 ```
 
+If you want to find every single user logged in on your Active Directory, with the machine they are also signed in to. 
+
+I can reccomend YossiSassi's [Get-UserSession.ps1](https://github.com/YossiSassi/Get-UserSession/blob/master/Get-UserSession.ps1) and [Get-RemotePSSession.ps1](https://github.com/YossiSassi/Get-RemotePSSession/blob/master/Get-RemotePSSession.ps1].
+
+This will generate a LOT of data in a real-world AD though.
+
+<img width="595" alt="image" src="https://user-images.githubusercontent.com/44196051/154706183-ea6be4ad-a811-42ae-bb53-c1ddbc30524b.png">
+
+
+
 ### Evict User
 
 #### Force user logout
@@ -4875,4 +4885,17 @@ There are some other logs that you’ll pull on if the context is appropiate
 You’ll likely find IIS logs under `C:\Inetpub\logs\LogFiles`
 
 A server doesn’t have to be a web server to store logs here btw, so it’s always worth looking here. 
+
+
+#### I need more than logs, or something else third party
+I’d recommend that you read KAPE’s documentation. And better yet, find a list like Velociraptor’s which lists out where particular software stores interesting DFIR artefacts
+
+Literally, just ctrl+f, search for what you’re looking for, and it will be in the list
+
+![image](https://user-images.githubusercontent.com/44196051/154692525-a8bd1ff5-fc90-463d-9fff-924bd0ce1ac5.png)
+
+![image](https://user-images.githubusercontent.com/44196051/154692473-c9ad2516-0c63-4171-a4c6-593fdfe36f9b.png)
+
+
+
 
