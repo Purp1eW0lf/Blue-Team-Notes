@@ -4800,15 +4800,14 @@ And then if you tidy this up it's easy to see what the user downloaded and from 
 
 ## Which logs to pull in an incident
 
-
- <summary>section contents</summary>
+<summary>section contents</summary>
 
     - [Basics](#basics)
     - [Security Products Logs](#Security-Products-Logs)
     - [Other Microsoft logs](#Other-Microsoft-logs)
     - [Remote Management Logs](#Remote-Management-Logs)
 
-  </details>
+   </details>
 
 Windows Event Logs can be found in `C:\windows\System32\winevt\Logs\`. To understand the general Event IDs and logs, you can [read more here](https://forwarddefense.com/media/attachments/2021/05/15/windows-event-log-analyst-reference.pdf)
 
@@ -5014,6 +5013,7 @@ C:\Resources\Directory\*\LogFiles\Web\W3SVC*\*.log
 ```
 
 MSQL
+
 `C:\Program Files\Microsoft SQL Server\*\MSSQL\LOG\ERRORLOG`
 
 OneNote
@@ -5156,7 +5156,7 @@ C:\Users\*\AppData\Roaming\TeamViewer\MRU\RemoteSupport\*
 
 RealVNC
 
-`C:\Users\*\AppData\Local\RealVNC\vncserver.log
+`C:\Users\*\AppData\Local\RealVNC\vncserver.log`
 
 mRemoteNG
 ```
