@@ -4891,6 +4891,8 @@ There are some other logs that you’ll pull on if the context is appropiate
 ### Security Products Logs
 Sometimes, it’s helpful to go and pull other Security Solutions' logs and files.
 
+Much of the below is taken from [Velociraptor's implementation of KAPE](https://github.com/Velocidex/velociraptor/blob/master/artifacts/definitions/Windows/KapeFiles/Targets.yaml)
+
 Bitdefender:
 
 ```
