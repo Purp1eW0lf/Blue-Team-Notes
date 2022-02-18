@@ -4400,6 +4400,7 @@ If you're interested in digital forensics, there are some immediate authoritive 
 * [13cubed's youtube content](https://www.13cubed.com) - Richard Davis is a DFIR legend and has some great learning resources
 * [Eric Zimmeraman's toolkit](https://ericzimmerman.github.io/#!index.md) - Eric is the author of some incredibly tools, and it's worth checking out his documentation on exactly how and when to use them. 
 
+
  <summary>section contents</summary>
 
   + [volatility](#volatility)
@@ -4407,9 +4408,6 @@ If you're interested in digital forensics, there are some immediate authoritive 
   + [Chainsaw](#chainsaw)
   + [Browser History](#browser-history)
   + [Which logs to pull in an incident](#Which-logs-to-pull-in-an-incident)
-    - [Security Products Logs](#Security-Products-Logs)
-    - [Other Microsoft logs](#Other-Microsoft-logs)
-
 
   </details>
 
@@ -4802,6 +4800,16 @@ And then if you tidy this up it's easy to see what the user downloaded and from 
 
 ## Which logs to pull in an incident
 
+
+ <summary>section contents</summary>
+
+    - [Basics](#basics)
+    - [Security Products Logs](#Security-Products-Logs)
+    - [Other Microsoft logs](#Other-Microsoft-logs)
+    - [Remote Management Logs](#Remote-Management-Logs)
+
+  </details>
+
 Windows Event Logs can be found in `C:\windows\System32\winevt\Logs\`. To understand the general Event IDs and logs, you can [read more here](https://forwarddefense.com/media/attachments/2021/05/15/windows-event-log-analyst-reference.pdf)
 
 But knowing which logs to pull of the hundreds can be disorientating. Fortunately, there really aren’t that many to work with. This is for a myriad of reasons:
@@ -4813,6 +4821,7 @@ Let’s signpost the logs you absolutely want to grab every time.
 
 ##### [Here's a script that can automate collection for staple logs from below](https://gist.github.com/Purp1eW0lf/e0b757e66d5da629c1d03e2941fa5b4b)
 
+## Basics
 
 #### Sysmon
 `C:\windows\System32\winevt\Logs\Sysmon.evtx`
