@@ -4407,6 +4407,8 @@ If you're interested in digital forensics, there are some immediate authoritive 
   + [Chainsaw](#chainsaw)
   + [Browser History](#browser-history)
   + [Which logs to pull in an incident](#Which-logs-to-pull-in-an-incident)
+    - [Security Products Logs](#Security-Products-Logs)
+    - [Other Microsoft logs](#Other-Microsoft-logs)
 
 
   </details>
@@ -4886,16 +4888,272 @@ You’ll likely find IIS logs under `C:\Inetpub\logs\LogFiles`
 
 A server doesn’t have to be a web server to store logs here btw, so it’s always worth looking here. 
 
+### Security Products Logs
+Sometimes, it’s helpful to go and pull other Security Solutions' logs and files.
 
-#### I need more than logs, or something else third party
-I’d recommend that you read KAPE’s documentation. And better yet, find a list like Velociraptor’s which lists out where particular software stores interesting DFIR artefacts
+Bitdefender:
 
-Literally, just ctrl+f, search for what you’re looking for, and it will be in the list
+```
+C:ProgramData\Bitdefender\Endpoint Security\Logs\
 
-![image](https://user-images.githubusercontent.com/44196051/154692525-a8bd1ff5-fc90-463d-9fff-924bd0ce1ac5.png)
+C:\ProgramData\Bitdefender\Desktop\Profiles\Logs\
 
-![image](https://user-images.githubusercontent.com/44196051/154692473-c9ad2516-0c63-4171-a4c6-593fdfe36f9b.png)
+C:\Program Files*\Bitdefender*\**10\.db, or ,db-wal, db-shm
+```
+
+ESET: Parser available at https://github.com/laciKE/EsetLogParser
+
+`C:\ProgramData\ESET\ESET NOD32 Antivirus\Logs\`
 
 
+F-Secure
+
+```C:\ProgramData\F-Secure\Log\**1
+
+C:\Users\<username>\AppData\Local\F-Secure\Log\
+
+C:\ProgramData\F-Secure\Antivirus\ScheduledScanReports\
+```
+
+Malware Bytes
+
+```
+C:\ProgramData\Malwarebytes\Malwarebytes Anti-Malware\Logs\mbam-log-*.xml
+
+C:\PogramData\Malwarebytes\MBAMService\logs\mbamservice.log
+
+C:\Users\*\AppData\Roaming\Malwarebytes\Malwarebytes Anti-Malware\Logs\
+
+C:\ProgramData\Malwarebytes\MBAMService\ScanResults\
+```
+
+McAfee
+
+```C:\ProgramData\McAfee\DesktopProtection\
+
+C:\ProgramData\McAfee\Endpoint Security\Logs
+
+C:\ProgramData\McAfee\Endpoint Security\Logs_Old\*
+
+C:\ProgramData\Mcafee\VirusScan\*
+```
+
+Nessus
+
+```
+C:\ProgramData\Tenable\Nessus\conf\
+
+C:\ProgramData\Tenable\Nessus\nessus\logs\
+```
+
+Sentinel One:
+
+`c:\programdata\sentinel\logs\`
+
+Sophos: 
+
+`C:\ProgramData\Sophos\Sophos *\Logs\`
+
+Symanetic
+
+```
+C:\ProgramData\Symantec\Symantec Endpoint Protection\*\Data\Logs\
+
+C:\Users\*\AppData\Local\Symantec\Symantec Endpoint Protection\Logs\
+
+C:\Windows\System32\winevt\logs\Symantec Endpoint Protection Client.evtx
+
+C:\ ProgramData\Symantec\Symantec Endpoint Protection\*\Data\Quarantine\
+```
+
+Trend Micro
+
+```
+C:\ProgramData\Trend Micro\
+
+C:\Program Files*\Trend Micro\Security Agent\Report\*.log,
+
+C:\Program Files*\Trend Micro\Security Agent\ConnLog\*.log
+```
+
+Webroot:
+
+`C:\ProgramData\WRData\WRLog.log`
+
+### Other Microsoft logs
 
 
+Defender:
+
+```
+C:\ProgramData\Microsoft\Microsoft AntiMalware\Support\
+
+C:\ProgramData\Microsoft\Windows Defender\Support\
+
+C:\Windows\Temp\MpCmdRun.log
+```
+
+IIS (web) logs - can be application specific log directories and names at times
+```
+C:\Windows\System32\LogFiles\W3SVC*\*.log
+
+C:\Inetpub\logs\LogFiles\*.log
+
+C:\inetpub\logs\LogFiles\W3SVC*\*.log,
+
+C:\Resources\Directory\*\LogFiles\Web\W3SVC*\*.log
+```
+
+MSQL
+`C:\Program Files\Microsoft SQL Server\*\MSSQL\LOG\ERRORLOG`
+
+OneNote
+
+```
+C:\Users\*\AppData\Local\Packages\Microsoft.Office.OneNote_8wekyb3d8bbwe\LocalState\AppData\Local\OneNote\*\FullTextSearchIndex
+
+C:\Users\*\AppData\Local\Packages\Microsoft.Office.OneNote_8wekyb3d8bbwe\LocalState\AppData\Local\OneNote\Notifications\RecentNotebooks_SeenURLs
+
+C:\Users\*\AppData\Local\Packages\Microsoft.Office.OneNote_8wekyb3d8bbwe\LocalState\AppData\Local\OneNote\16.0\AccessibilityCheckerIndex
+
+C:\Users\*\AppData\Local\Packages\Microsoft.Office.OneNote_8wekyb3d8bbwe\LocalState\AppData\Local\OneNote\16.0\NoteTags\*LiveId.db,
+
+C:\Users\*\AppData\Local\Packages\Microsoft.Office.OneNote_8wekyb3d8bbwe\LocalState\AppData\Local\OneNote\16.0\RecentSearches\RecentSearches.db
+```
+
+Teams
+```
+C:\Users\*\AppData\Roaming\Microsoft\Teams\IndexedDB\https_teams.microsoft.com_0.indexeddb.leveldb\
+
+C:\Users\*\AppData\Roaming\Microsoft\Teams\Local Storage\leveldb\
+
+C:\Users\*\AppData\Roaming\Microsoft\Teams\Cache\
+
+C:\Users\*\AppData\Roaming\Microsoft\Teams\desktop-config.json,lazy_ntfs,JSON config file for Teams      
+
+C:\Users\*\AppData\Local\Packages\MicrosoftTeams_8wekyb3d8bbwe\LocalCache\Microsoft\MSTeams\Logs
+```
+
+OneDrive
+
+```
+C:\Users\*\AppData\Local\Microsoft\OneDrive\logs\
+
+C:\Users\*\AppData\Local\Microsoft\OneDrive\settings\
+
+C:\Users\*\OneDrive*\
+```
+
+PST & OSTs
+
+```
+C:\Users\*\Documents\Outlook Files\*.pst
+
+C:\Users\*\Documents\Outlook Files\*.ost
+
+C:\Users\*\AppData\Local\Microsoft\Outlook\*.pst
+
+C:\Users\*\AppData\Local\Microsoft\Outlook\*.ost
+
+C:\Users\*\AppData\Local\Microsoft\Outlook\*.nst
+
+C:\Users\*\AppData\Local\Microsoft\Windows\INetCache\Content.Outlook\. #Attachments temporarily go here
+````
+
+Exchange:
+
+```
+C:\Program Files\Microsoft\Exchange Server\*\Logging\
+
+C:\Windows\Microsoft.NET\Framework*\v*\Temporary ASP.NET Files\*\
+
+C:\inetpub\wwwroot\aspnet_client\*\*\
+
+C:\Inetpub\wwwroot\aspnet_client\system_web\*\*
+
+C:\Program Files\Microsoft\Exchange Server\V15\FrontEnd\HttpProxy\owa\auth\*\*\
+
+C:\Program Files\Microsoft\Exchange Server\*\TransportRoles\Logs\*\*.log
+```
+ 
+### Remote Management Logs
+
+Things that MSPs, SysAdmins, and bad guys love to use
+
+ScreenConnect:
+
+```
+C:\Program Files*\ScreenConnect\App_Data\Session.db
+
+C:\Program Files*\ScreenConnect\App_Data\User.xml
+
+C:\ProgramData\ScreenConnect Client*\user.config
+```
+
+AnyDesk
+
+```
+C:\Users\*\AppData\Roaming\AnyDesk\*.trace
+
+C:\ProgramData\AnyDesk\*.trace
+
+C:\Users\*\Videos\AnyDesk\*.anydesk
+
+C:\Users\*\AppData\Roaming\AnyDesk\connection_trace.txt
+
+C:\ProgramData\AnyDesk\connection_trace.txt
+
+C:\Windows\SysWOW64\config\systemprofile\AppData\Roaming\AnyDesk\*
+```
+
+Kaseya
+
+```
+C:\Users\*\AppData\Local\Kaseya\Log\KaseyaLiveConnect\
+
+C:\ProgramData\Kaseya\Log\Endpoint\*
+
+C:\Program Files*\Kaseya\*\agentmon.log
+
+C:\Users\*\AppData\Local\Temp\KASetup.log
+
+C:\Windows\Temp\KASetup.log
+
+C:\ProgramData\Kaseya\Log\KaseyaEdgeServices\
+```
+
+RAdmin
+
+```
+C:\Windows\SysWOW64\rserver30\Radm_log.htm
+
+C:\Windows\System32\rserver30\Radm_log.htm
+
+C:\Windows\System32\rserver30\CHATLOGS\*\*.htm
+
+C:\Users\*\Documents\ChatLogs\*\*.htm
+```
+ 
+
+TeamViewer
+
+```
+C:\Program Files*\TeamViewer\connections*.txt
+
+C:\Program Files*\TeamViewer\TeamViewer*_Logfile*
+
+C:\Users\*\AppData\Roaming\TeamViewer\MRU\RemoteSupport\*
+```
+
+RealVNC
+
+`C:\Users\*\AppData\Local\RealVNC\vncserver.log
+
+mRemoteNG
+```
+C:\Users\*\AppData\Roaming\mRemoteNG\mRemoteNG.log
+
+C:\Users\*\AppData\Roaming\mRemoteNG\confCons.xml
+
+C:\Users\*\AppData\*\mRemoteNG\**10\user.config
+```
