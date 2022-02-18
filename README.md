@@ -4800,14 +4800,13 @@ And then if you tidy this up it's easy to see what the user downloaded and from 
 
 ## Which logs to pull in an incident
 
-<summary>section contents</summary>
+- [Basics](#basics)
+- [Security Products Logs](#Security-Products-Logs)
+- [Other Microsoft logs](#Other-Microsoft-logs)
+- [Remote Management Logs](#Remote-Management-Logs)
 
-    - [Basics](#basics)
-    - [Security Products Logs](#Security-Products-Logs)
-    - [Other Microsoft logs](#Other-Microsoft-logs)
-    - [Remote Management Logs](#Remote-Management-Logs)
 
-   </details>
+## Basics
 
 Windows Event Logs can be found in `C:\windows\System32\winevt\Logs\`. To understand the general Event IDs and logs, you can [read more here](https://forwarddefense.com/media/attachments/2021/05/15/windows-event-log-analyst-reference.pdf)
 
@@ -4819,8 +4818,6 @@ But knowing which logs to pull of the hundreds can be disorientating. Fortunatel
 Let’s signpost the logs you absolutely want to grab every time.
 
 ##### [Here's a script that can automate collection for staple logs from below](https://gist.github.com/Purp1eW0lf/e0b757e66d5da629c1d03e2941fa5b4b)
-
-## Basics
 
 #### Sysmon
 `C:\windows\System32\winevt\Logs\Sysmon.evtx`
