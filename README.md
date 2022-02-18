@@ -361,15 +361,11 @@ quser
 #### Find all users logged in across entire AD
 If you want to find every single user logged in on your Active Directory, with the machine they are also signed in to. 
 
-I can reccomend YossiSassi's [Get-UserSession.ps1](https://github.com/YossiSassi/Get-UserSession/blob/master/Get-UserSession.ps1) and [Get-RemotePSSession.ps1](https://github.com/YossiSassi/Get-RemotePSSession/blob/master/Get-RemotePSSession.ps1].
+I can reccomend YossiSassi's [Get-UserSession.ps1](https://github.com/YossiSassi/Get-UserSession/blob/master/Get-UserSession.ps1) and [Get-RemotePSSession.ps1](https://github.com/YossiSassi/Get-RemotePSSession/blob/master/Get-RemotePSSession.ps1).
 
 This will generate a LOT of data in a real-world AD though.
 
-
-
 <img width="595" alt="image" src="https://user-images.githubusercontent.com/44196051/154706183-ea6be4ad-a811-42ae-bb53-c1ddbc30524b.png">
-
-
 
 ### Evict User
 
