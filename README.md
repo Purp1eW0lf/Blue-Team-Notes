@@ -4888,11 +4888,6 @@ There are some other logs that you’ll pull on if the context is appropiate
 
 * Detail in scheduled tasks - though we would likely be able to get this telemtry elsewhere
 
-#### Web Logs
-You’ll likely find IIS logs under `C:\Inetpub\logs\LogFiles`
-
-A server doesn’t have to be a web server to store logs here btw, so it’s always worth looking here. 
-
 ### Security Products Logs
 Sometimes, it’s helpful to go and pull other Security Solutions' logs and files.
 
