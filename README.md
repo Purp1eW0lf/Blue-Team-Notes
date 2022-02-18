@@ -309,7 +309,7 @@ For example in our screenshot, on the left Microsoft's support page supposes the
   + [Hone in on suspicious user](#hone-in-on-suspicious-user)
   + [Retrieve local user accounts that are enabled](#retrieve-local-user-accounts-that-are-enabled)
   + [Find all users currently logged in](#find-all-users-currently-logged-in)
-    - [Find all users logged in across entire AD](#Find-all-users-logged-in-across-entire AD)
+    - [Find all users logged in across entire AD](#Find-all-users-logged-in-across-entire-AD)
   + [Evict User](#Evict-User)
     - [Force user logout](#Force-user-logout)
     - [Force user new password](#force-user-new-password)
