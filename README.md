@@ -1708,6 +1708,7 @@ select-object -expandproperty path -unique
     - [What could they do with poor permissions?](#what-could-they-do-with-poor-permissions)
   + [Hunting for Reg evil](#hunting-for-reg-evil)
     - [Filtering Reg ImagePath](#filtering-reg-imagepath)
+  + [Query Background Activity Monitor](#query-background-activity-monitor)
 
 
 </details>
@@ -1865,6 +1866,22 @@ ft PSChildName, ImagePath -autosize | out-string -width 800
 
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120833359-9bb4a300-c559-11eb-8647-69d990227dbb.png)
+
+### Query Background Activity Monitor
+
+BAM only in certain Windows 10 machines. Provides full path of the executabled last execution time
+
+```powershell
+reg query "HKLM\SYSTEM\CurrentControlSet\Services\bam\state\UserSettings" /s
+```
+
+OR [BAMParser.ps1](https://github.com/mgreen27/Invoke-LiveResponse/blob/master/Content/Other/Get-BAMParser.ps1)
+
+
+<img width="1185" alt="image" src="https://user-images.githubusercontent.com/44196051/154823070-a7a06243-0744-413f-9d34-00fd3f5eb0c2.png">
+
+<img width="1415" alt="image" src="https://user-images.githubusercontent.com/44196051/154823082-094ebdbc-5b20-47f2-87b7-479e371de566.png">
+
 
 ---
 
