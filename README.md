@@ -1867,7 +1867,7 @@ ft PSChildName, ImagePath -autosize | out-string -width 800
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120833359-9bb4a300-c559-11eb-8647-69d990227dbb.png)
 
-### Query Background Activity Monitor
+### Query Background Activity Moderator
 
 BAM only in certain Windows 10 machines. Provides full path of the executabled last execution time
 
@@ -4685,6 +4685,8 @@ Eric's tools are designed to be used on a Windows machine, but they can still be
   + [Install EZ Tools](#install-ez-tools)
   + [Prefetch](#prefetch)
   + [Shimcache](#shimcache)
+  + [Jump Lists](#jumplists)
+  + [Query Background Activity Moderator](#query-background-activity-moderator)
   
   </details>
 
@@ -4758,6 +4760,18 @@ This will create a CSV, which you could import to your spreadsheet of choice… 
 import-csv .\shimcache.csv | sort lastmodified -Descending | fl path,last*
 ```
 ![13-edited](https://user-images.githubusercontent.com/44196051/144207226-bc680044-d047-42c8-b783-1f22cd29c81c.png)
+
+###   Jump Lists
+
+You can parse Jump Lists so they are very pretty....but if you're in a hurry, just run something ugly like this
+
+```powershell
+type C:\Users\*\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\* |
+flarestrings | 
+sort
+```
+<img width="1054" alt="image" src="https://user-images.githubusercontent.com/44196051/154823481-2dc80d77-9976-4a8b-9a88-4a7ff836956f.png">
+
 
 
 ## Chainsaw
