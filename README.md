@@ -1696,6 +1696,7 @@ select-object -expandproperty path -unique
 
 <details>
     <summary>section contents</summary>
+
   + [A note on HKCU](#A-note-on-HKCU)
   + [Show reg keys](#show-reg-keys)
   + [Read a reg entry](#read-a-reg-entry)
