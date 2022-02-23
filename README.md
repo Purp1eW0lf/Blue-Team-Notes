@@ -1696,7 +1696,7 @@ select-object -expandproperty path -unique
 
 <details>
     <summary>section contents</summary>
-
+  + [A note on HKCU](#A-note-on-HKCU)
   + [Show reg keys](#show-reg-keys)
   + [Read a reg entry](#read-a-reg-entry)
   + [Remove a reg entry](#remove-a-reg-entry)
@@ -1712,6 +1712,25 @@ select-object -expandproperty path -unique
 
 
 </details>
+
+## A note on HKCU
+
+Just a note:
+Anywhere you see a reg key does HKCU - this is Current User. Your results will be limited to the user you are.
+
+To see more results, you should change the above from HKCU, to HKU. 
+
+You often need the [SID of the users](https://www.windows-commandline.com/get-sid-of-user/) you want to go and look at their information.
+
+So for example, a query like this:
+
+`HKCU:\Control Panel\Desktop\`
+
+Becomes:
+
+`HKU\s-1-12-1-707864876-1224890504-1467553947-2593736053\Control Panel\Desktop`
+
+
 
 ### Show reg keys
 
