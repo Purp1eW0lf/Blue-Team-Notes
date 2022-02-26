@@ -4813,6 +4813,8 @@ You'll find the SQL DB file that stores the history in the following:
 
 * Chrome `:\Users\*\AppData\Local\Google\Chrome\User Data\Default\History`
 * Edge `C:\Users\*\AppData\Local\Microsoft\Edge\User Data\Default\History`
+* Safari `/System/Volumes/Data/Users/*/Library/Safari/History.db , Downloads.plist `
+* Firefox `C:\Users\*\AppData\Roaming\Mozilla\Firefox\Profiles\*\Downloads.json, Places.sqlite`
 
 Once retrieved, you can open it via sqlite3 or a [web-browser GUI](https://extendsclass.com/sqlite-browser.html#).
 * The GUI doesn't need much guidance, so lets chat command line.
@@ -4846,6 +4848,15 @@ To transform the data to something more useful to look at, try this, which will 
 And then if you tidy this up it's easy to see what the user downloaded and from where
 
 <img width="1296" alt="image" src="https://user-images.githubusercontent.com/44196051/154080684-142e6ede-1d8a-48e2-a879-bf0596fbbbba.png">
+
+
+You can also tidy it up with the following
+```
+.mode line #makes it look niceer
+select * from moz_places;
+```
+
+![image](https://user-images.githubusercontent.com/44196051/155850582-e78c365b-26f6-4315-9f8b-abc9bee13e95.png)
 
 
 ## Which logs to pull in an incident
