@@ -4923,13 +4923,6 @@ These are the logs that will give you a baseline insight into an incident: the p
 
 We already get Defender alerts, but pulling the defender log is beneficial for log ingestion later. We can correlate Defender alerts to particular processes.
 
-If a machine does not have Defender, don’t despair! You can still find most security solutions logs through the Huntress Console. 
-
-[SANS have a poster](https://www.sans.org/posters/windows-third-party-apps-forensics-poster/) that list some locations:
-
-But some surgical googling can also get you there:
-
-![image](https://user-images.githubusercontent.com/44196051/154081605-9f06fef9-5e8b-4401-9ac3-bf7194b1e91e.png)
 
 #### PowerShell
 
