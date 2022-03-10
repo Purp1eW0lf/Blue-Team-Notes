@@ -1766,8 +1766,8 @@ Query the services on this machine, and if you want to see more about one of the
 * `HKLM\SYSTEM\CurrentControlSet\Services\ACPI`
 
 Query software on this machine
-* HKLM\Software 
-* HKLM\Software\PickOne
+* `HKLM\Software` 	
+* `HKLM\Software\PickOne`
 
 Query SIDs 
 * `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList`
