@@ -1700,6 +1700,7 @@ select-object -expandproperty path -unique
   + [A note on HKCU](#A-note-on-HKCU)
   + [Show reg keys](#show-reg-keys)
   + [Read a reg entry](#read-a-reg-entry)
+  + [Quick useful reg keys](#quick-useful-reg-keys)
   + [Remove a reg entry](#remove-a-reg-entry)
     - [Removing HKCurrentUser Keys](#Removing-HKCurrentUser-Keys)
   + [Example Malicious Reg](#example-malicious-reg)
@@ -1754,6 +1755,24 @@ Becomes:
  Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\SysmonDrv"
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119994436-832a1300-bfc4-11eb-98cb-b4148413ac97.png)
+
+
+### Quick useful reg keys
+
+Query the drives on the endpoint `HKLM\SYSTEM\MountedDevices`
+
+Query the services on this machine, and if you want to see more about one of the results just add it to the path
+* `HKLM\SYSTEM\CurrentControlSet\Services`
+* `HKLM\SYSTEM\CurrentControlSet\Services\ACPI`
+
+Query software on this machine
+* HKLM\Software 
+* HKLM\Software\PickOne
+
+Query SIDs 
+* `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList`
+* `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\[Long-SID-Number-HERE]`
+
 
 ### Remove a reg entry
 If there's a malicious reg entry, you can remove it this way
@@ -4957,26 +4976,75 @@ Much of the below is taken from [Velociraptor's implementation of KAPE](https://
 Bitdefender:
 
 ```
-C:ProgramData\Bitdefender\Endpoint Security\Logs\
+C:\ProgramData\Bitdefender\Endpoint Security\Logs\
 
 C:\ProgramData\Bitdefender\Desktop\Profiles\Logs\
 
-C:\Program Files*\Bitdefender*\**10\.db, or ,db-wal, db-shm
+C:\Program Files*\Bitdefender*\*\.db
+
+C:\Program Files\Bitdefender\Endpoint Security\Logs\system\*\*.xml
+
+C:\ProgramData\Bitdefender\Endpoint Security\Logs\Firewall\*.txt
+```
+
+Carbon Black
+
+```
+C:\ProgramData\CarbonBlack\Logs\*.log
+
+C:\ProgramData\CarbonBlack\Logs\AmsiEvents.log 
+```
+
+Cisco AMP
+
+```
+C:\Program Files\Cisco\AMP\*.db
+```
+
+Cylance / Blackberry
+```
+C:\ProgramData\Cylance\Desktop
+
+C:\Program Files\Cylance\Desktop\log\* log
+
+C:\ProgramData\Cylance\Desktop\chp.db 
+
+C:\ProgramData\Cylance\Optics\Log
+```
+
+Elastic Endpoint Security
+```
+C:\program files \elastic\endpoint\state\log
 ```
 
 ESET: Parser available at https://github.com/laciKE/EsetLogParser
 
-`C:\ProgramData\ESET\ESET NOD32 Antivirus\Logs\`
+```
+C:\ProgramData\ESET\ESET NOD32 Antivirus\Logs\
+```
+FireEye Endpoint Security
 
+Databases were encrypted, so can’t be accessed easily. From Fireeye documentation, you can get logs via command ‘xagt -g example_log.txt’. 
+```
+C:\ProgramData\FireEye\xagt\*.db
+```
 
 F-Secure
 
-```C:\ProgramData\F-Secure\Log\**1
-
-C:\Users\<username>\AppData\Local\F-Secure\Log\
+```
+C:\Users\*\AppData\Local\F-Secure\Log\*\*.log
 
 C:\ProgramData\F-Secure\Antivirus\ScheduledScanReports\
+
+C:\ProgramData\F-Secure\EventHistory\event
 ```
+
+Kaspersky
+ 
+```
+C:\Windows\system32\winevt\logs
+```
+
 
 Malware Bytes
 
@@ -4992,30 +5060,41 @@ C:\ProgramData\Malwarebytes\MBAMService\ScanResults\
 
 McAfee
 
-```C:\ProgramData\McAfee\DesktopProtection\
-
-C:\ProgramData\McAfee\Endpoint Security\Logs
+```
+C:\ProgramData\McAfee\Endpoint Security\Logs\*.log
 
 C:\ProgramData\McAfee\Endpoint Security\Logs_Old\*
 
 C:\ProgramData\Mcafee\VirusScan\*
+
+C:\ProgramData\McAfee\VirusScan\Quarantine\quarantine\*.db
+
+C:\ProgramData\McAfee\DesktopProtection\*.txt
 ```
 
-Nessus
+Palo Alto Networks XDR
 
 ```
-C:\ProgramData\Tenable\Nessus\conf\
-
-C:\ProgramData\Tenable\Nessus\nessus\logs\
+C:\ProgramData\Cyvera\Logs\*.log
 ```
 
 Sentinel One:
 
-`c:\programdata\sentinel\logs\`
+```
+C:\programdata\sentinel\logs\*.log, *.txt
+
+C:\windows\System32\winevt\Logs\SentinelOne*.evtx
+
+C:\ProgramData\Sentinel\Quarantine
+```
 
 Sophos: 
 
-`C:\ProgramData\Sophos\Sophos *\Logs\`
+```
+C:\ProgramData\Sophos\Sophos Anti-Virus\logs\*.txt.
+
+C:\ProgramData\Sophos\Endpoint Defense\Logs\*.txt
+```
 
 Symanetic
 
@@ -5027,6 +5106,7 @@ C:\Users\*\AppData\Local\Symantec\Symantec Endpoint Protection\Logs\
 C:\Windows\System32\winevt\logs\Symantec Endpoint Protection Client.evtx
 
 C:\ ProgramData\Symantec\Symantec Endpoint Protection\*\Data\Quarantine\
+
 ```
 
 Trend Micro
