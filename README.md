@@ -4726,7 +4726,9 @@ Eric's tools are designed to be used on a Windows machine, but they can still be
   + [Shimcache](#shimcache)
   + [Jump Lists](#jumplists)
   + [Query Background Activity Moderator](#query-background-activity-moderator)
-  
+  + [SRUM](#SRUM)
+
+
   </details>
 
 ### Install EZ Tools
@@ -4811,6 +4813,23 @@ sort
 ```
 <img width="1054" alt="image" src="https://user-images.githubusercontent.com/44196051/154823481-2dc80d77-9976-4a8b-9a88-4a7ff836956f.png">
 
+### SRUM
+Collect SRUM file from `C:\Windows\System32\sru\SRUDB.dat`
+
+You can use another of [Eric's tools](https://f001.backblazeb2.com/file/EricZimmermanTools/SrumECmd.zip) to parse it
+
+```powershell
+.\SrumECmd.exe -f .\SRUDB.dat --csv .
+```
+
+![image](https://user-images.githubusercontent.com/44196051/158826331-fec3e11d-aa2a-432a-abe5-d6bdbe42e41e.png)
+
+You will get a tonne of results. Prioritise the following:
+* SrumECmd_NetworkUsages_Output.csv
+
+
+* SrumECmd_AppResourceUseInfo_Output.csv
+* SrumECmd_Unknown312_Output.csv (occasionally)
 
 
 ## Chainsaw
