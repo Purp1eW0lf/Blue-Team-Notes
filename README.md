@@ -4727,6 +4727,7 @@ Eric's tools are designed to be used on a Windows machine, but they can still be
   + [Jump Lists](#jumplists)
   + [Query Background Activity Moderator](#query-background-activity-moderator)
   + [SRUM](#SRUM)
+  + [Amcache](#amcache)	
 
 
   </details>
@@ -4814,6 +4815,8 @@ sort
 <img width="1054" alt="image" src="https://user-images.githubusercontent.com/44196051/154823481-2dc80d77-9976-4a8b-9a88-4a7ff836956f.png">
 
 ### SRUM
+I wrote a [short thread on SRUM](https://twitter.com/Purp1eW0lf/status/1504491533487296517?s=20&t=q0_MBDCW35SCxH4a65087Q)
+
 Collect SRUM file from `C:\Windows\System32\sru\SRUDB.dat`
 
 You can use another of [Eric's tools](https://f001.backblazeb2.com/file/EricZimmermanTools/SrumECmd.zip) to parse it
@@ -4821,15 +4824,38 @@ You can use another of [Eric's tools](https://f001.backblazeb2.com/file/EricZimm
 ```powershell
 .\SrumECmd.exe -f .\SRUDB.dat --csv .
 ```
+![image](https://user-images.githubusercontent.com/44196051/158850898-7f3e463f-2316-418d-8d92-56bc5ab2427a.png)
 
 ![image](https://user-images.githubusercontent.com/44196051/158826331-fec3e11d-aa2a-432a-abe5-d6bdbe42e41e.png)
 
 You will get a tonne of results. Prioritise the following:
 * SrumECmd_NetworkUsages_Output.csv
-
-
 * SrumECmd_AppResourceUseInfo_Output.csv
 * SrumECmd_Unknown312_Output.csv (occasionally)
+
+![image](https://user-images.githubusercontent.com/44196051/158851747-d9fdabc8-15da-4d70-8d93-883c577b68a1.png)
+
+
+### Amcache
+You can get amcache hive from `C:\Windows\AppCompat\Programs\Amcache.hve`. You may need to copy the file by volume shadow or other means if it won't let you copy it directly.
+
+Another one of [Eric's tools](https://f001.backblazeb2.com/file/EricZimmermanTools/AmcacheParser.zip) will help us
+```powershell
+.\AmcacheParser.exe -f '.\Amcache.hve' --mp --csv .
+```
+
+![image](https://user-images.githubusercontent.com/44196051/158851682-5c518dcd-7500-42c9-a052-486df7f8b2ed.png)
+
+You can read the subsequent CSVs in a GUI spreadsheet reader, or via PwSh
+
+```import-csv .\20220316115945_Amcache_UnassociatedFileEntries.csv | 
+select ProgramName,Fullpath,Filesize,FileDescription,FileVersionNumber,Created,Last*,ProductName,CompanyName | 
+sort -desc LastModified |
+more
+#You can exit this by pressing q
+```
+
+![image](https://user-images.githubusercontent.com/44196051/158851558-bceea935-c3bc-44ed-bbac-db439435eba8.png)
 
 
 ## Chainsaw
