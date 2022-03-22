@@ -4814,6 +4814,32 @@ sort
 ```
 <img width="1054" alt="image" src="https://user-images.githubusercontent.com/44196051/154823481-2dc80d77-9976-4a8b-9a88-4a7ff836956f.png">
 
+Or use another of [Eric's tools](https://f001.backblazeb2.com/file/EricZimmermanTools/JLECmd.zip%20-outfile%20JLECmd.zip)
+```powershell
+.\JLECmd.exe -d .\jump\ --all --mp --withDir -q --html .
+# \jump\ is the directory my files are in
+
+#Then, run this to open the report
+iex ./*/*.xhtml
+
+```
+![image](https://user-images.githubusercontent.com/44196051/159500526-0c898b06-d7d5-4570-8024-dc8959ea24f7.png)
+![image](https://user-images.githubusercontent.com/44196051/159500631-3cb6c04f-3665-415d-a99c-f94dbaee07f3.png)
+
+
+If you’re me, you’ll export it to --csv instead, and then use PowerShell to read the headers that you care about
+
+```
+ #export to CSV
+.\JLECmd.exe -d .\jump\ --all --mp --withDir --csv ./
+ #read the csv
+Import-Csv .\20220322131011_AutomaticDestinations.csv | 
+select TargetIDAbsolutePath,InteractionCount,CreationTime,LastModified,TargetCreated,Targetmodified,TargetAccessed | 
+sort InteractionCount -desc
+```
+![image](https://user-images.githubusercontent.com/44196051/159501223-dc3f62b6-547e-494c-9585-81570b0e8cbd.png)
+
+
 ### SRUM
 I wrote a [short thread on SRUM](https://twitter.com/Purp1eW0lf/status/1504491533487296517?s=20&t=q0_MBDCW35SCxH4a65087Q)
 
