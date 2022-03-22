@@ -4824,7 +4824,7 @@ iex ./*/*.xhtml
 
 ```
 ![image](https://user-images.githubusercontent.com/44196051/159500526-0c898b06-d7d5-4570-8024-dc8959ea24f7.png)
-![image](https://user-images.githubusercontent.com/44196051/159500631-3cb6c04f-3665-415d-a99c-f94dbaee07f3.png)
+![image](https://user-images.githubusercontent.com/44196051/159501997-7a5d1596-4fa3-433e-a434-f24cc7a4b4e9.png)
 
 
 If you’re me, you’ll export it to --csv instead, and then use PowerShell to read the headers that you care about
