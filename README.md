@@ -1090,6 +1090,7 @@ Fire it off with the `-t` flag to create a parent-child tree of the processes
     - [Get a specific schtask](#get-a-specific-schtask)
     - [To find the commands a task is running](#to-find-the-commands-a-task-is-running)
     - [To stop the task](#to-stop-the-task)
+    - [All schtask locations](#all-schtask-locations)	
   + [Show what programs run at startup](#show-what-programs-run-at-startup)
     - [Programs at login](#programs-at-login)
     - [Programs at PowerShell](#programs-at-powershell)	
@@ -1151,6 +1152,17 @@ get-scheduledtask -taskpath (Get-ScheduledTask -Taskname "$task").taskpath | Exp
 ```powershell
 Get-ScheduledTask "memetask" | Stop-ScheduledTask -Force -Confirm:$false -verbose
 ```
+#### All schtask locations
+There's some major overlap here, but it pays to be thorough. 
+
+```
+HKLM\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tree
+HKLM\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tasks
+C:\Windows\System32\Tasks
+C:\Windows\Tasks
+C:\windows\SysWOW64\Tasks\
+```
+
 ### Show what programs run at startup
 ```powershell
 Get-CimInstance Win32_StartupCommand | Select-Object Name, command, Location, User | Format-List 
@@ -1759,7 +1771,8 @@ Becomes:
 
 ### Quick useful reg keys
 
-Query the drives on the endpoint `HKLM\SYSTEM\MountedDevices`
+Query the drives on the endpoint 
+* `HKLM\SYSTEM\MountedDevices`
 
 Query the services on this machine, and if you want to see more about one of the results just add it to the path
 * `HKLM\SYSTEM\CurrentControlSet\Services`
@@ -1773,6 +1786,8 @@ Query SIDs
 * `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList`
 * `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\[Long-SID-Number-HERE]`
 
+Query user's wallpaper. Once we know a user’s SID, we can go and look at these things: 
+* `HKU\S-1-5-18\Control Panel\Desktop\`
 
 ### Remove a reg entry
 If there's a malicious reg entry, you can remove it this way
