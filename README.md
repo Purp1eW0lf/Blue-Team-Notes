@@ -46,6 +46,7 @@ Donate as much or little money as you like, of course. I have some UK charities 
   * [Bash Tips](#bash-tips)
 - [Malware](#Malware)
   * [Rapid Malware Analysis](#rapid-malware-Analysis)
+  * [Unquarantine Malware](#Unquarantine-Malware)
   * [Process Monitor](#process-monitor)
   * [Hash Check Malware](#hash-check-malware)
   * [Decoding Powershell](#decoding-powershell)
@@ -2797,6 +2798,7 @@ history
     <summary>section contents</summary>
 
   + [Rapid Malware Analysis](#rapid-malware-analysis)
+  + [Unquarantine Malware](#Unquarantine-Malware)
   + [Process Monitor](#process-monitor)
   + [Hash Check Malware](#hash-check-malware)
   + [Decoding Powershell](#decoding-powershell)
@@ -2918,6 +2920,32 @@ The linux command `ent` is useful here. `binwalk -E` is a posssible alternative,
 The screenshot belows shows a partially encrytped file in the first line, and then a plain text txt file in the second line. 
 
 ![image](https://user-images.githubusercontent.com/44196051/151002519-bb540de0-509f-4746-b512-bc5a8a8f811c.png)
+
+## Unquarantine Malware
+Many security solutions have isolation techniques that encrypt malware to stop it executing.
+
+For analysis, we want to decrypt it using [scripts like this](http://hexacorn.com/d/DeXRAY.pl)
+
+![image](https://user-images.githubusercontent.com/44196051/160846967-28e7746d-097a-4de9-a458-885222fcb2dc.png)
+
+```perl
+# install the dependencies
+sudo apt update
+sudo apt install libcrypt-rc4-perl
+
+# pull the script
+wget http://hexacorn.com/d/DeXRAY.pl
+
+#execute the script
+perl ./DeXRAY.pl x.MAL
+
+```
+![image](https://user-images.githubusercontent.com/44196051/160847093-23bc5813-eef9-4396-89cb-51a26e433e14.png)
+
+And we get a working un-quarantined malware sample at the other side
+
+![image](https://user-images.githubusercontent.com/44196051/160847179-6a5cdc33-d9d9-449e-993f-06fff0947d96.png)
+
 
 ## Process Monitor
 
