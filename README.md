@@ -21,7 +21,7 @@ Donate as much or little money as you like, of course. I have some UK charities 
 
 ## Table of Contents
 - [Shell Style](#shell-style)
-- [Powershell](#Powershell)
+- [Windows](#Windows)
   * [OS Queries](#os-queries)
   * [Account Queries](#account-queries)
   * [Service Queries](#service-queries)
@@ -130,7 +130,7 @@ source ~/.bashrc
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119981537-a7cabe80-bfb5-11eb-8b7e-1e5ba7f5ba99.png)
 ---
-# Powershell
+# Windows
 <details>
     <summary>section contents</summary>
   
@@ -154,8 +154,6 @@ source ~/.bashrc
 </details>
  
 I've generally used these Powershell queries with [Velociraptor](https://www.velocidex.com), which can query thousands of endpoints at once.
-
-I use _sysmon_ and _memetask_ as file or directory names in lieu of real file names, just replace the stupid names I've given with the files you actually need. 
 
 ## OS Queries
 
