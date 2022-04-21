@@ -775,6 +775,7 @@ Knowing who is RDPing in your enviroment, and from where, is important. Unfortun
 Let's call on one of the RDP logs, and filter for event ID 1149, which means a RDP connection has been made. Then let's filter out any IPv4 addresses that begin with 10.200, as this is the internal IP schema. Perhaps I want to hunt down public IP addresses, as this would suggest the RDP is exposed to the internet on the machine and an adversary has connected with correct credentials!!!
 
 ```powershell
+# if you acquire a log, change this to get-winevent -path ./RDP_log_you_acquired.evtx
 get-winevent -logname "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational" | 
 ? id -match 1149 | 
 ? message -notmatch '10.200' |
@@ -3090,6 +3091,45 @@ If we click on _Extras_ we get insightful information about the legitimate filep
   + [Bytes](#bytes)	
 
 </details>
+
+I have some lazy PowerShell malware tips: 
+
+###### Hex
+if you see [char][byte]('0x'+ - it's probably doing hex stuff
+
+And so use in CyberChef 'From Hex'
+
+###### decoded but still giberish
+if when you decode it's still giberish but you see it involves bytes, save the gibberish output as *.dat
+
+And then leverage `scdbg` for 32 bit and speakeasy for 64 bit
+- scdgb /find malice.dat /findsc # looks for shelcode and if that fails go down to....
+- speakeasy -t malice.dat -r -a x64  
+
+###### reflection assembly
+load PwSh dot net code, and execute it
+
+instead of letting it reflect:
+[System.IO.File]::WriteAllBytes(".\evil.exe", $malware)
+
+
+###### xor xcrypt
+you can xor brute force in cyberchef, change the sample lentgh to 200. 
+- You're probably looking for 'MZ....this program'
+- and then from here you get the key you can give to XOR in cyberchef. 
+
+A lof of PowerShell malware that uses XOR will include the decimal somewhere in the script. Use cyberchef's `XOR` and feed in that decimal. 
+
+###### unzippping
+Sometimes it's not gzip but raw inflate!
+
+When something detects from base64 as Gzip, undo the Gzip filter and use the raw inflate instead. 
+
+
+# tidying up
+To tidy up you can change stupid CAmeLcaSE to lower case
+
+And then in find and replace, replace semi-colon with ;\n\n to create space
 
 ### Straight Forward Ocassions
 
