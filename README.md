@@ -66,6 +66,7 @@ Donate as much or little money as you like, of course. I have some UK charities 
   * [Chainsaw](#chainsaw)
   * [Browser History](#browser-history)
   * [Which logs to pull in an incident](#Which-logs-to-pull-in-an-incident)
+  * [USBs](#USBs)
 
 ---
 
@@ -4544,6 +4545,7 @@ If you're interested in digital forensics, there are some immediate authoritive 
   + [Chainsaw](#chainsaw)
   + [Browser History](#browser-history)
   + [Which logs to pull in an incident](#Which-logs-to-pull-in-an-incident)
+  + [USBs](#USBs)
 
   </details>
 
@@ -5446,3 +5448,50 @@ C:\Users\*\AppData\Roaming\mRemoteNG\confCons.xml
 
 C:\Users\*\AppData\*\mRemoteNG\**10\user.config
 ```
+## USBs
+
+
+The subkeys in this part of the registry will list the names of all the USBs connected to this machine in the past.  
+
+Gather and corroborate USB names here for the next log. 
+
+```
+HKLM\SYSTEM\CurrentControlSet\Enum\USBSTOR
+```
+
+![image](https://user-images.githubusercontent.com/44196051/165262357-1c7aa518-f33c-4746-9aad-5e9e0c2042fa.png)
+
+
+You can leverage the next log along with your confirmed USB name from the registry, to identify a window of time that this USB was plugged in to the computer. 
+
+```
+C:\windows\inf\setupapi.dev.log
+```
+
+![image](https://user-images.githubusercontent.com/44196051/165262306-d464db54-0fcf-45ee-9d3f-790cfefa615c.png)
+
+I never bother with this part, but you can also grab this EVTX
+
+```
+C:\windows\System32\winevt\Logs\Microsoft-Windows-Partition%4Diagnostic.evtx
+``` 
+
+and use chainsaw in search mode
+
+```powershell
+chainsaw search ./ -s "medicat"
+chainsaw search ./ -e "1006" 
+
+# EventID 1006, for USB investigations, offers verbose results but is a good un' https://df-stream.com/2018/07/partition-diagnostic-event-log-and-usb-device-tracking-p2/
+```
+
+![image](https://user-images.githubusercontent.com/44196051/165262524-499a1411-9d43-4b78-93fd-35f96432b69a.png)
+
+You can probably also find some stuff from the [Jumplist](#jump-lists) and LNK artefacts that have some relevance to your USB investigation. 
+
+![image](https://user-images.githubusercontent.com/44196051/165262678-15449dc3-568c-48b8-9e53-da3dc9bd526a.png)
+
+![image](https://user-images.githubusercontent.com/44196051/165262935-a3959f04-bd0f-421f-ab88-a50e494e7a75.png)
+
+
+
