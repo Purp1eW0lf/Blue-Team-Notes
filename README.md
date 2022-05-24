@@ -44,6 +44,7 @@ Donate as much or little money as you like, of course. I have some UK charities 
   * [Processes and Networks](#processes-and-networks)
   * [Files](#files)
   * [Bash Tips](#bash-tips)
+- [MacOS](#linux)
 - [Malware](#Malware)
   * [Rapid Malware Analysis](#rapid-malware-Analysis)
   * [Unquarantine Malware](#Unquarantine-Malware)
@@ -2790,6 +2791,205 @@ history
 !12
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120556698-c3d6c180-c3f4-11eb-967d-c5ff873ebb56.png)
+
+---
+
+# MacOS
+
+
+<details>
+    <summary>section contents</summary>
+  
+  + [Reading .plist files](#Reading-.plist-files)
+  + [Quarantine Events](#Quarantine-Events)
+  + [Install History](Install-History)
+  + [Most Recently Used (MRU)](#Most-Recently-Used-(MRU))
+  + [Audit Logs](#Audit-Logs)
+  + [Command line history](#Command-line-history)
+  + [WHOMST is in the Admin group](#WHOMST-is-in-the-Admin-group)	
+  + [Persistence locations](#Persistence-locations)	
+  + [Transparency, Consent, and Control (TCC)](#Transparency,-Consent,-and-Control-(TCC))
+
+
+</details>
+
+## Reading .plist files
+
+Correct way to just read a plist is `plutil -p` but there are multiple different methods so do whatever, I’m not the plist police
+![image](https://user-images.githubusercontent.com/44196051/170064469-6cfd5350-3049-463e-9272-3062847731fb.png)
+
+## Quarantine Events
+
+Files downloaded from the internet 
+
+The db you want to retrieve will be located here with a corresponding username: `/Users/*/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`
+
+Here’s a dope one-liner that organises the application that did the downloading, the link to download, and then the date it was downloaded, via sqlite
+
+```bash
+sqlite3 /Users/dray/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2 \
+'select LSQuarantineAgentName, LSQuarantineDataURLString, date(LSQuarantineTimeStamp + 978307200, "unixepoch") as downloadedDate from LSQuarantineEvent order by LSQuarantineTimeStamp' \
+| sort -u | grep '|' --color
+```
+
+![image](https://user-images.githubusercontent.com/44196051/170064768-80670c63-8d02-4b19-9315-d79cf017e0ea.png)
+
+
+## Install History
+
+Find installed applications and the time they were installed from : `/Library/Receipts/InstallHistory.plist`
+
+Annoyingly doesn’t show corresponding user ? However, it does auto sort the list by datetime which is helpful  
+
+```bash
+plutil -p /Library/Receipts/InstallHistory.plist
+````
+
+![image](https://user-images.githubusercontent.com/44196051/170064859-89c0f488-d314-41d4-8633-a264e5282695.png)
+
+
+## Location Tracking
+
+Some malware can do creeper stuff and leverage location tracking
+Things you see here offer an insight into the programs and services allowed to leverage location stuff on mac
+
+
+```bash
+#plain read
+sudo plutil -p /var/db/locationd/clients.plist 
+
+#highlight the path of these applications
+sudo plutil -p /var/db/locationd/clients.plist | ack --passthru 'BundlePath'
+# or sudo plutil -p /var/db/locationd/clients.plist | grep 'BundlePath'
+```
+
+![image](https://user-images.githubusercontent.com/44196051/170064981-582934c5-80b7-4eab-ac2c-69567c47ee72.png)
+![image](https://user-images.githubusercontent.com/44196051/170065005-768bce2f-b20e-4915-a687-d07dc44cce39.png)
+
+## Most Recently Used (MRU)
+
+Does what it says…..identifies stuff most recently used 
+
+The directory with all the good stuff is here
+```
+/users/*/Library/Application Support/com.apple.sharedfilelist/
+
+#full path to this stuff
+/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments	
+/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.FavoriteItems.sfl2		
+/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.FavoriteVolumes.sfl2		
+/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ProjectsItems.sfl2		
+/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentApplications.sfl2
+/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.iCloudItems.sfl2
+/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentServers.sfl2
+/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentHosts.sfl2
+/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentDocuments.sfl2
+```
+![image](https://user-images.githubusercontent.com/44196051/170065273-978478c6-106b-4005-9326-d2f647c11524.png)
+```
+Another useful subdirectory here containing stuff relevant to recent applicatioons
+
+```
+/users/users/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/
+``
+
+![image](https://user-images.githubusercontent.com/44196051/170065301-69717aa6-e325-4266-8f63-aa94eb0a5d58.png)
+
+There are legitimate ways to parse whats going on here……but that just ain’t me chief - I strings these bad boys
+
+![image](https://user-images.githubusercontent.com/44196051/170065397-a7100299-5125-4d87-ab18-9993129997a0.png)
+![image](https://user-images.githubusercontent.com/44196051/170065426-5aacaf50-46b3-494f-ba84-9d7cc708fd75.png)
+
+
+## Audit Logs
+
+`praudit` command line tool will let you read the audit logs in `/private/var/audit/`
+![image](https://user-images.githubusercontent.com/44196051/170065504-e562f241-e9ae-4aa4-b1ae-b5aa8ec9138f.png)
+
+Play around with the different printable formats of `praudit`
+
+![image](https://user-images.githubusercontent.com/44196051/170065543-290890fe-77a2-4c5b-b935-7db0f6ab83d0.png)
+
+
+And then leverage `auditreduce` to look for specific activity (man page).
+
+### Examples
+
+What was the user dray up to on 13th May 2022: `auditreduce -d 20220513 -u dray /var/audit/* | praudit`
+![image](https://user-images.githubusercontent.com/44196051/170065729-9040df83-d245-4024-9b60-6fe656c03da0.png)
+
+Show user logins and outs auditreduce -c lo /var/audit/* | praudit 
+
+![image](https://user-images.githubusercontent.com/44196051/170065772-cea5403b-f402-4d5a-bd04-99d4b6feb80a.png)
+
+What happened between two dates: auditreduce /var/audit/* -a 20220401 -b 20220501 | praudit 
+
+## Command line history
+
+A couple places to retrieve command line activity
+```
+#will be zsh or bash
+/Users/*/.zsh_sessions/*
+/private/var/root/.bash_history
+/Users/*/.zsh_history
+```
+
+![image](https://user-images.githubusercontent.com/44196051/170065955-d39bf1b9-3024-4ccb-8742-16e47f3cd145.png)
+
+![image](https://user-images.githubusercontent.com/44196051/170065994-a12684f3-f847-49f1-b034-4f8f18105030.png)
+
+
+
+## WHOMST is in the Admin group
+
+Identify if someone has added themselves to the admin group
+
+`plutil -p /private/var/db/dslocal/nodes/Default/groups/admin.plist`
+
+![image](https://user-images.githubusercontent.com/44196051/170066042-9c382fa2-52df-43c8-aea9-457f05196a29.png)
+
+
+## Persistence locations
+
+Not complete, just some easy low hanging fruit to check. 
+
+Can get a more complete list [here](https://gist.github.com/jipegit/04d1c577f20922adcd2cfd90698c151b)
+
+```
+#start up / login items
+/var/db/com.apple.xpc.launchd/disabled.*.plist
+/System/Library/StartupItems
+
+#cronjobs / like scheduled tasks 
+/private/var/at/tabs/
+/usr/lib/cron/jobs/	
+
+# loads of places for annoying persistence amongst daemons
+/System/Library/LaunchDaemons/*.plist
+/System/Library/LaunchAgents/*.plist 
+```
+
+![image](https://user-images.githubusercontent.com/44196051/170066210-ff6d6348-5b74-40fd-b7ef-f8a301653a33.png)
+![image](https://user-images.githubusercontent.com/44196051/170066234-1e284ad6-7db7-4a10-a939-cb212571eb98.png)
+
+
+## Transparency, Consent, and Control (TCC)
+
+The TCC db (Transparency, Consent, and Control) offers insight when some applications have made system changes
+
+```
+/Users/*/Library/Application Support/com.apple.TCC/TCC.db
+```
+
+You can use sqlite3 to parse, but there are values that are not translated and so don’t make too much sense
+
+
+![image](https://user-images.githubusercontent.com/44196051/170066410-c620672d-36c0-4081-857f-2843be09aa07.png)
+
+You can use some command line tools, or just leverage a tool like Velociraptor, use the dedicated TCC hunt, and point it at the tcc.db you retrieved.
+
+![image](https://user-images.githubusercontent.com/44196051/170066448-d75a766f-25ca-489e-9596-1a1c4e006e16.png)
+
 
 ---
 
