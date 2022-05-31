@@ -5238,7 +5238,7 @@ select * from moz_places;
 - [Security Products Logs](#Security-Products-Logs)
 - [Other Microsoft logs](#Other-Microsoft-logs)
 - [Remote Management Logs](#Remote-Management-Logs)
-
+- [Cerutil History](#cerutil-history)
 
 ## Basics
 
@@ -5648,6 +5648,19 @@ C:\Users\*\AppData\Roaming\mRemoteNG\confCons.xml
 
 C:\Users\*\AppData\*\mRemoteNG\**10\user.config
 ```
+
+## Cerutil History
+
+Cerutil creates some archives
+
+![image](https://user-images.githubusercontent.com/44196051/171154435-b1be160f-1c13-40e0-9f6c-b223a5a84da4.png)
+
+`C:\Users\*\AppData\LocalLow\Microsoft\CryptnetUrlCache\MetaData\`
+
+Strings it homie!
+
+![image](https://user-images.githubusercontent.com/44196051/171154499-0f12bf0b-7217-4e0e-9ca5-9be69785c4ab.png)
+
 ## USBs
 
 
