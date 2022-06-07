@@ -1773,6 +1773,9 @@ Becomes:
 
 ### Quick useful reg keys
 
+Query timezone on an endpoint. Look for the TimeZoneKeyName value
+* `HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation`
+
 Query the drives on the endpoint 
 * `HKLM\SYSTEM\MountedDevices`
 
