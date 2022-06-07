@@ -5581,6 +5581,13 @@ C:\Program Files*\ScreenConnect\App_Data\User.xml
 C:\ProgramData\ScreenConnect Client*\user.config
 ```
 
+Splashtop
+```
+C:\windows\System32\winevt\Logs\Splashtop-Splashtop Streamer-Remote Session%4Operational.evtx
+
+C:\windows\System32\winevt\Logs\Splashtop-Splashtop Streamer-Status%4Operational.evtx
+```
+
 AnyDesk
 
 ```
