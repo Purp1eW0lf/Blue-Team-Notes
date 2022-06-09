@@ -1446,6 +1446,7 @@ foreach ($folder in $folders) {
 Svchost startup persistence
 
 ```powershell
+
 get-itemproperty -path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost"
 ```
 ![image](https://user-images.githubusercontent.com/44196051/124331810-edb40d00-db87-11eb-8712-c1028302847f.png)
@@ -1454,7 +1455,10 @@ get-itemproperty -path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svcho
 Winlogon startup persistence
 
 ```powershell
-gp "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" | select -property * -exclude PS* | fl
+#Create HKU drive
+mount -PSProvider Registry -Name HKU -Root HKEY_USERS
+
+gp "HKU:\*\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" | select -property * -exclude PS* | fl
 ```
 ![image](https://user-images.githubusercontent.com/44196051/124333024-fbb75d00-db8a-11eb-81aa-c5faf296864b.png)
 
@@ -1791,7 +1795,7 @@ New-PSDrive -PSProvider Registry -Name HKU -Root HKEY_USERS;
 (Gci -Path Registry::).name
 
 # show HK users
-mount -PSProvider Registry -Name HKU -Root HKEY_USERS;(Gci -Path HKCU:\).name
+mount -PSProvider Registry -Name HKU -Root HKEY_USERS;(Gci -Path HKU:\).name
 
 ##lets take HKEY_CURRENT_USER as a subkey example. Let's see the entries in this subkey
 (Gci -Path HKCU:\).name
