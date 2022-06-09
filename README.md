@@ -1746,6 +1746,13 @@ Becomes:
 
 `HKU\s-1-12-1-707864876-1224890504-1467553947-2593736053\Control Panel\Desktop`
 
+HKU needs to be set up to work
+
+```powershell
+New-PSDrive -PSProvider Registry -Name HKU -Root HKEY_USERS;
+(Gci -Path HKU:\).name
+```
+<img width="783" alt="image" src="https://user-images.githubusercontent.com/44196051/172839018-2575c3d3-3503-46c2-9ab5-a665f5723c07.png">
 
 
 ### Show reg keys
