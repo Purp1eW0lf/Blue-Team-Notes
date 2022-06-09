@@ -1175,21 +1175,33 @@ Get-CimInstance Win32_StartupCommand | Select-Object Name, command, Location, Us
 Adversaries can link persistence mechanisms to be activated to a users' login via the registry `HKEY_CURRENT_USER\Environment -UserInitMprLogonScript`
 
 ```powershell
-gp "HKCU:\Environment" | FL UserInitMprLogonScript
+#Create HKU drive
+mount -PSProvider Registry -Name HKU -Root HKEY_USERS
+
+#list all user's enviros
+(gp "HKU:\*\Environment").UserInitMprLogonScript
+
+#Collect SID of target user with related logon task
+gp "HKU:\*\Environment" | FL PSParentPath,UserInitMprLogonScript
+
+# insert SID and convert it into username
+gwmi win32_useraccount | 
+select Name, SID | 
+? SID -match "" #insert SID between quotes 
 ```
 
-![image](https://user-images.githubusercontent.com/44196051/148915798-78c4c0b9-0dd4-4bde-8439-8011e144d901.png)
+<img width="949" alt="image" src="https://user-images.githubusercontent.com/44196051/172841004-ba253267-4619-4983-bd61-90c4e1623de0.png">
 
 You can remove this regsistry entry
 
 ```powershell
 #confirm via `whatif` flag that this is the right key
-remove-itemproperty "HKCU:\Environment\" -name "UserInitMprLogonScript" -whatif
+remove-itemproperty "HKU:\SID-\Environment\" -name "UserInitMprLogonScript" -whatif
 #delete it
-remove-itemproperty "HKCU:\Environment\" -name "UserInitMprLogonScript" -verbose
+remove-itemproperty "HKU:\SID-\Environment\" -name "UserInitMprLogonScript" -verbose
 ```
 
-![image](https://user-images.githubusercontent.com/44196051/148916469-df35de7a-4b89-409f-b304-a32976ec9be6.png)
+<img width="1415" alt="image" src="https://user-images.githubusercontent.com/44196051/172841461-c39ab569-288c-4484-b8e5-59a0ff5b1e8a.png">
 
 #### Programs at Powershell
 Adversaries can link their persistence mechanisms to a PowerShell profile, executing their malice every time you start PowerShell
@@ -1362,12 +1374,15 @@ If you look in the reg, you'll find some normal executables.
 A quick pwsh _for loop_ can collect the contents of the four registry locations. 
 
 ```powershell
+#Create HKU drive
+mount -PSProvider Registry -Name HKU -Root HKEY_USERS
+
 #Get the Run and RunOnce reg entries in an array
-$items = @("HKLM:\Software\Microsoft\Windows\CurrentVersion\Run","HKCU:\Software\Microsoft\Windows\CurrentVersion\Run","HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce","HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce")
+$items = @("HKLM:\Software\Microsoft\Windows\CurrentVersion\Run","HKU:\*\Software\Microsoft\Windows\CurrentVersion\Run","HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce","HKU:\*\Software\Microsoft\Windows\CurrentVersion\RunOnce")
 
 foreach ($item in $items) {
 	write-host "----Reg location is $item---" -ForegroundColor Magenta; 
-	get-itemproperty -path "$item"  | select -property * -exclude PS* | fl
+	get-itemproperty -path "$item"  | select -property * -exclude PS* | fl # or don't `-exclude ps*
 }
 #this will then print the array
 ```
@@ -1376,7 +1391,7 @@ You can also achieve the same thing with these two alternative commands, but it 
 
 ```powershell
 
-get-itemproperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run*" | 
+get-itemproperty "HKU:\*\Software\Microsoft\Windows\CurrentVersion\Run*" | 
   select -property * -exclude PSPR*,PSD*,PSC*,PSPAR*  | fl
 get-itemproperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run*" | 
   select -property * -exclude PSPR*,PSD*,PSC*,PSPAR*  | fl
