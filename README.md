@@ -1406,15 +1406,20 @@ WOAH! Looky here, we've got `EVILCOMMAND.exe` under one of the registries
 
 Be surgical here. You don't want to remove Run entries that are legitimate. It's important you remove with -verbose too and double-check it has gone, to make sure you have removed what you think you have. 
 
+Specify the SID
+
 ```powershell
+#Create HKU drive
+mount -PSProvider Registry -Name HKU -Root HKEY_USERS
+
 #List the malicious reg by path
-get-itemproperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce" | select -property * -exclude PS* | fl
+get-itemproperty "HKU:\SID\Software\Microsoft\Windows\CurrentVersion\RunOnce" | select -property * -exclude PS* | fl
 
 #Then pick the EXACT name of the Run entry you want to remove. Copy paste it, include any * or ! too please
-Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce" -Name "*EvilerRunOnce" -verbose
+Remove-ItemProperty -Path "HKU:\SID-\Software\Microsoft\Windows\CurrentVersion\RunOnce" -Name "*EvilerRunOnce" -verbose
 
 #Then check again to be sure it's gone
-get-itemproperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce" | select -property * -exclude PS* | fl
+get-itemproperty "HKU:\*\Software\Microsoft\Windows\CurrentVersion\RunOnce" | select -property * -exclude PS* | fl
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/124332253-f9ec9a00-db88-11eb-9007-017dfa956707.png)
@@ -1425,7 +1430,10 @@ get-itemproperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce" | sel
 Some *folders* can be the locations of persistence. 
 
 ```powershell
-$folders = @("HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders","HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")
+#Create HKU drive
+mount -PSProvider Registry -Name HKU -Root HKEY_USERS
+
+$folders = @("HKU:\*\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders","HKU:\*\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")
 foreach ($folder in $folders) {
 	write-host "----Reg key is $folder---"; 
 	get-itemproperty -path "$folder"  | 
@@ -1444,6 +1452,7 @@ get-itemproperty -path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svcho
 
 
 Winlogon startup persistence
+
 ```powershell
 gp "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" | select -property * -exclude PS* | fl
 ```
@@ -1471,11 +1480,14 @@ sort TimeCreated -desc| fl
 It can be done, I swear. [Mitre ATT&CK](https://attack.mitre.org/techniques/T1546/002/) has instances of .SCR's being used to maintain regular persistence
 
 ```powershell
-gp "HKCU:\Control Panel\Desktop\" | select SCR* | fl
+#Create HKU drive
+mount -PSProvider Registry -Name HKU -Root HKEY_USERS
+
+gp "HKU:\*\Control Panel\Desktop\" | select SCR* | fl
 # you can then go and collect the .scr listed in the full path, and reverse engineer the binary
 
 #you can also collect wallpaper info from here
-gp "HKCU:\Control Panel\Desktop\" | select wall* | fl
+gp "HKU:\*\Control Panel\Desktop\" | select wall* | fl
 ```
 ![image](https://user-images.githubusercontent.com/44196051/124333514-57ceb100-db8c-11eb-8695-280d12bcf0d5.png)
 
@@ -1778,6 +1790,9 @@ New-PSDrive -PSProvider Registry -Name HKU -Root HKEY_USERS;
 ##show all reg keys
 (Gci -Path Registry::).name
 
+# show HK users
+mount -PSProvider Registry -Name HKU -Root HKEY_USERS;(Gci -Path HKCU:\).name
+
 ##lets take HKEY_CURRENT_USER as a subkey example. Let's see the entries in this subkey
 (Gci -Path HKCU:\).name
 
@@ -1819,12 +1834,16 @@ Query user's wallpaper. Once we know a user’s SID, we can go and look at these
 ### Remove a reg entry
 If there's a malicious reg entry, you can remove it this way
 ```powershell
+
+#Create HKU drive
+mount -PSProvider Registry -Name HKU -Root HKEY_USERS
+
 # Read the reg to make sure this is the bad boy you want
-get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\'
+get-itemproperty -Path 'HKU:\*\Keyboard Layout\Preload\'
 #remove it by piping it to remove-item
-get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\' | Remove-Item -Force -Confirm:$false -verbose
+get-itemproperty -Path 'HKU:\*\Keyboard Layout\Preload\' | Remove-Item -Force -Confirm:$false -verbose
 # double check it's gone by trying to re-read it
-get-itemproperty -Path 'HKCU:\Keyboard Layout\Preload\'
+get-itemproperty -Path 'HKU:\*\Keyboard Layout\Preload\'
 ```
 ![image](https://user-images.githubusercontent.com/44196051/119999624-d8b4ee80-bfc9-11eb-9770-5ec6e78f9714.png)
 
@@ -1845,6 +1864,14 @@ HKCU:\Software\AppDataLow\Software\Microsoft\FDBC3F8C-385A-37D8-2A81-EC5BFE45E0B
 #must become this. Notice the reg changes in the field field, and the SID gets sandwiched in
 HKU:\S-1-5-21-912369493-653634481-1866108234-1004\Software\AppDataLow\Software\Microsoft\FDBC3F8C-385A-37D8-2A81-EC5BFE45E0BF
 ```
+
+To just generally convert them
+
+```powershell
+mount -PSProvider Registry -Name HKU -Root HKEY_USERS
+
+<img width="679" alt="image" src="https://user-images.githubusercontent.com/44196051/172854420-0b2ae233-74f9-4fed-bd8b-84ef60827377.png">
+
 
 ### Understanding Reg Permissions
 
