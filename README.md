@@ -388,8 +388,13 @@ From the above instance, we may want to force a user to have a new password - on
 ##### for Active Directory
 ```powershell
 $user = "lizzie" ; $newPass = "HoDHSyxkzP-cuzjm6S6VF-7rvqKyR";
+
+#Change password twice. 
+#First can be junk password, second time can be real new password
+Set-ADAccountPassword -Identity $user -Reset -NewPassword (ConvertTo-SecureString -AsPlainText "6;wB3yj9cI8X" -Force) -verbose
 Set-ADAccountPassword -Identity $user -Reset -NewPassword (ConvertTo-SecureString -AsPlainText "$newPass" -Force) -verbose
 ```
+
 ![image](https://user-images.githubusercontent.com/44196051/141806623-ee167dfa-5b36-4535-b829-545d21181e95.png)
 
 ##### For local non-domain joined machines
