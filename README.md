@@ -785,8 +785,8 @@ Let's call on one of the RDP logs, and filter for event ID 1149, which means a R
 # if you acquire a log, change this to get-winevent -path ./RDP_log_you_acquired.evtx
 get-winevent -logname "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational" | 
 ? id -match 1149 | 
-? message -notmatch '10.200' |
-ft message -wrap 
+sort Time* -descending | 
+fl time*, message
 
 ##you can apply regex-like filtering to remove all internal IPv4 starts, third line down. I don't necessary reccomend this however, as you may miss something important.
 get-winevent -logname "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational" | 
