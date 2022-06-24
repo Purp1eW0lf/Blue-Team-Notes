@@ -781,24 +781,21 @@ Knowing who is RDPing in your enviroment, and from where, is important. Unfortun
 
 Let's call on one of the RDP logs, and filter for event ID 1149, which means a RDP connection has been made. Then let's filter out any IPv4 addresses that begin with 10.200, as this is the internal IP schema. Perhaps I want to hunt down public IP addresses, as this would suggest the RDP is exposed to the internet on the machine and an adversary has connected with correct credentials!!!
 
+[Two logs of interest](https://www.security-hive.com/post/rdp-forensics-logging-detection-and-forensics)
+* Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational
+* Microsoft-Windows-TerminalServices-LocalSessionManager%4Operational.evtx
+
 ```powershell
 # if you acquire a log, change this to get-winevent -path ./RDP_log_you_acquired.evtx
-get-winevent -logname "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational" | 
+get-winevent -path "./Microsoft-Windows-TerminalServices-RemoteConnectionManager%4Operational.evtx" | 
 ? id -match 1149 | 
 sort Time* -descending | 
 fl time*, message
 
-##you can apply regex-like filtering to remove all internal IPv4 starts, third line down. I don't necessary reccomend this however, as you may miss something important.
-get-winevent -logname "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational" | 
-? id -match 1149 | 
-? message -notmatch '10.10|192.168'|
-ft message -wrap 
-
-## Only pull out the ipv4 address, and no context
-$ipv4 = get-winevent -logname "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational" | ? id -match 1149 | select message ;
-($ipv4  |  Select-String -Pattern "\d{1,3}(\.\d{1,3}){3}" -AllMatches).Matches.Value | 
-sort -Unique -descending
-
+get-winevent -path ./ "Microsoft-Windows-TerminalServices-LocalSessionManager%4Operational.evtx" | 
+? id -match 21 | 
+sort Time* -descending | 
+fl time*, message
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/138730646-0740a2f5-de35-4e2d-8c9a-79323d84f325.png)
