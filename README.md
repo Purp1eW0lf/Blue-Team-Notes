@@ -1176,6 +1176,12 @@ Get-CimInstance Win32_StartupCommand | Select-Object Name, command, Location, Us
 ```
 ![image](https://user-images.githubusercontent.com/44196051/120332890-12963580-c2e7-11eb-9805-feee341140fa.png)
 
+Some direct path locations too can be checked
+```powershell
+HKLM\software\classes\exefile\shell\open\command
+c:\*\julie cazort\appdata\roaming\microsoft\windows\start menu\programs\startup
+```
+
 #### Programs at login
 Adversaries can link persistence mechanisms to be activated to a users' login via the registry `HKEY_CURRENT_USER\Environment -UserInitMprLogonScript`
 
