@@ -5066,6 +5066,7 @@ sudo file pid.6988.0x1c0000.dmp
 ## Quick Forensics
 
 <details>
+	
     <summary>section contents</summary>
   + [Prefetch](#prefetch)
   + [Query Background Activity Moderator](#Query-Background-Activity-Moderator)
