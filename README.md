@@ -5067,7 +5067,7 @@ sudo file pid.6988.0x1c0000.dmp
 
 <details>
    <summary>section contents</summary>
-	
+
   + [Prefetch](#prefetch)
   + [Query Background Activity Moderator](#Query-Background-Activity-Moderator)
   + [Shimcache](#shimcache)
@@ -5078,7 +5078,6 @@ sudo file pid.6988.0x1c0000.dmp
 
 	
 </details>
-
 
 I've spoken about some forensic techniques [here, as a coprorate simp](https://www.huntress.com/resources/tradecraft-tuesday?wchannelid=zy8dl5egyy&wmediaid=s5rb646tl8)
 
