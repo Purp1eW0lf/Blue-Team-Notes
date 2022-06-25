@@ -63,7 +63,7 @@ Donate as much or little money as you like, of course. I have some UK charities 
   * [PCAP Analysis IRL](#pcap-analysis-irl)
 - [Digital Forensics](#Digital-Forensics) 
   * [Volatility](#volatility)
-  * [EZ Tools](#ez-tools)
+  * [Quick Forensics](#quick-forensics)
   * [Chainsaw](#chainsaw)
   * [Browser History](#browser-history)
   * [Which logs to pull in an incident](#Which-logs-to-pull-in-an-incident)
@@ -1993,6 +1993,8 @@ BAM only in certain Windows 10 machines. Provides full path of the executabled l
 
 ```powershell
 reg query "HKLM\SYSTEM\CurrentControlSet\Services\bam\state\UserSettings" /s
+# or HKLM\SYSTEM\CurrentControlSet\Services\bam\UserSettings\
+```
 ```
 
 OR [BAMParser.ps1](https://github.com/mgreen27/Invoke-LiveResponse/blob/master/Content/Other/Get-BAMParser.ps1)
@@ -4805,7 +4807,7 @@ If you're interested in digital forensics, there are some immediate authoritive 
  <summary>section contents</summary>
 
   + [volatility](#volatility)
-  + [EZ Tools](#ez-tools)
+  + [Quick Forensics](#quick-forensics)
   + [Chainsaw](#chainsaw)
   + [Browser History](#browser-history)
   + [Which logs to pull in an incident](#Which-logs-to-pull-in-an-incident)
@@ -5061,38 +5063,24 @@ sudo file pid.6988.0x1c0000.dmp
 
 ![image](https://user-images.githubusercontent.com/44196051/123010258-2b5dac80-d3b6-11eb-9352-a43bd1effd87.png)
 
-## EZ Tools
-
-Eric's tools are designed to be used on a Windows machine, but they can still be used on malicious artefacts that are brought onto your DFIR Windows VM. 
+## Quick Forensics
 
 <details>
     <summary>section contents</summary>
-
-  + [Install EZ Tools](#install-ez-tools)
   + [Prefetch](#prefetch)
+  + [Query Background Activity Moderator](#Query-Background-Activity-Moderator)
   + [Shimcache](#shimcache)
   + [Jump Lists](#jump-lists)
-  + [Query Background Activity Moderator](#query-background-activity-moderator)
   + [SRUM](#SRUM)
   + [Amcache](#amcache)	
+  + [Certutil History](#cerutil-history)	
 
 
   </details>
 
-### Install EZ Tools
-Installing [Eric Zimmerman's tool's](https://ericzimmerman.github.io/#!index.md) couldn't be easier. 
+I've spoken about some forensic techniques [here, as a coprorate simp](https://www.huntress.com/resources/tradecraft-tuesday?wchannelid=zy8dl5egyy&wmediaid=s5rb646tl8)
 
-On Eric's site, there is a powershell script that will pull all of his tooling onto a Windows machine. 
-
-```powershell
-# collect the script from here: https://f001.backblazeb2.com/file/EricZimmermanTools/Get-ZimmermanTools.zip
-Get-ZimmermanTools.ps1
-```
-![image](https://user-images.githubusercontent.com/44196051/134972763-8f055d39-c140-43c5-8029-9d3d741b5f5e.png)
-
-Of course, if you just want some select tools then I suggest you pick those one by one
-![image](https://user-images.githubusercontent.com/44196051/134973500-b9af28fa-0e1c-4f34-96ed-54edaadf6a80.png)
-
+I've also got a [repo](https://github.com/Purp1eW0lf/quickforensics) with some emulated attack data to be extracted from some forensic artefacts
 ### Prefetch
 
 You can query the prefetch directory manually
@@ -5131,6 +5119,10 @@ Enable-MMAgent –OperationAPI;
  
 net start sysmain
 ```
+
+### Query Background Activity Moderator
+
+[Elsewere in the repo]((#Query-Background-Activity-Moderator))
 
 ### Shimcache
 
@@ -5229,6 +5221,25 @@ more
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/158851558-bceea935-c3bc-44ed-bbac-db439435eba8.png)
+
+### Certutil History
+If you have an interactive session on the machine
+
+```powershell
+certutil.exe -urlcache | 
+select-string  -Pattern 'ocsp|wininet|winhttp|complete|update|r3'  -NotMatch | 
+sort
+```
+
+<img width="821" alt="image" src="https://user-images.githubusercontent.com/44196051/171147357-ece409d0-a658-4340-985f-aac58d5f3c14.png">
+
+Otherwise, you can look in this directory:
+
+```powershell
+C:\Users\*\AppData\LocalLow\Microsoft\CryptnetUrlCache\MetaData\*
+```
+
+<img width="1410" alt="image" src="https://user-images.githubusercontent.com/44196051/171153422-e32c74b5-b088-4e52-bdb0-478023dd843e.png">
 
 
 ## Chainsaw
