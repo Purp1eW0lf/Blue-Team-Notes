@@ -5073,8 +5073,11 @@ sudo file pid.6988.0x1c0000.dmp
   + [Jump Lists](#jump-lists)
   + [SRUM](#SRUM)
   + [Amcache](#amcache)	
-  + [Certutil History](#certutil-history)	
+  + [Certutil History](#certutil-history)
+  + [WER](#WER)
+  + [BITS](#BITS)
 
+	
 	
 </details>
 
@@ -5241,6 +5244,32 @@ C:\Users\*\AppData\LocalLow\Microsoft\CryptnetUrlCache\MetaData\*
 
 <img width="1410" alt="image" src="https://user-images.githubusercontent.com/44196051/171153422-e32c74b5-b088-4e52-bdb0-478023dd843e.png">
 
+### WER
+Windows Error Reporting (WER) is a diagnostic functionality that we don’t need to get too deep in the weeds about for this post. 
+
+When an application crashes, WET gets some contextual info around the crash. This presents an opportunity for us to [retrieve DFIR data that may tell us something about the adversary or malware](http://journeyintoir.blogspot.com/2014/02/exploring-windows-error-reporting.html)
+
+Take a look at the various directories, and eventually retrieve a .WER file
+
+```
+C:\ProgramData\Microsoft\Windows\WER\ReportArchive
+C:\ProgramData\Microsoft\Windows\WER\ReportQueue
+C:\Users\*\AppData\Local\Microsoft\Windows\WER\ReportArchive
+C:\Users\*\AppData\Local\Microsoft\Windows\WER\ReportQueue
+```
+
+### BITS
+
+BITS is a lolbin and can be abused by threat actors to do a myriad of things
+* https://isc.sans.edu/forums/diary/Investigating+Microsoft+BITS+Activity/23281/
+* https://lolbas-project.github.io/lolbas/Binaries/Bitsadmin/
+* https://www.mandiant.com/resources/attacker-use-of-windows-background-intelligent-transfer-service
+
+
+<img width="1078" alt="image" src="https://user-images.githubusercontent.com/44196051/175783848-361ba56b-e2e2-499b-a1db-f9c89ae1ffd8.png">
+
+
+Then use [bitsparser tool](https://github.com/fireeye/BitsParser)
 
 ## Chainsaw
 
