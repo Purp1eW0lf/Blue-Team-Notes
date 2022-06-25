@@ -1995,7 +1995,6 @@ BAM only in certain Windows 10 machines. Provides full path of the executabled l
 reg query "HKLM\SYSTEM\CurrentControlSet\Services\bam\state\UserSettings" /s
 # or HKLM\SYSTEM\CurrentControlSet\Services\bam\UserSettings\
 ```
-```
 
 OR [BAMParser.ps1](https://github.com/mgreen27/Invoke-LiveResponse/blob/master/Content/Other/Get-BAMParser.ps1)
 
