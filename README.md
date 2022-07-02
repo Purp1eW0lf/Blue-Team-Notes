@@ -3167,6 +3167,23 @@ Slightly noisy but does catch the reg changes.
 ![image](https://user-images.githubusercontent.com/44196051/144318647-b922ab94-7ee2-4c8b-8879-d64867c63578.png)
 ![image](https://user-images.githubusercontent.com/44196051/144318442-6a5eef94-32a8-4f7e-bdb6-05747d49182d.png)
 
+#### Registry snapshot via PwSh
+
+Lee Holmes dropped some serious PowerShell knowledge in this Twitter exchange [1](https://twitter.com/Lee_Holmes/status/1521746929415122944/photo/1), [2](https://www.bleepingcomputer.com/news/microsoft/microsoft-powershell-lets-you-track-windows-registry-changes/). This takes longer than Regshot, but if you wanted to stick to PwSh and not use tooling you can. 
+
+```powershell
+#Base snapshot
+gci -recurse -ea ignore -path HKCU:\,HKLM:\ | % {[PSCustomObject] @{Name = $_.Name; Values= $_ |out-string}} > base_reg.txt
+
+## Execute malware
+
+#New shapshot
+gci -recurse -ea ignore -path HKCU:\,HKLM:\ | % {[PSCustomObject] @{Name = $_.Name; Values= $_ |out-string}} > new_reg.txt
+
+#Compare
+diff (gc .\test.txt) (gc .\test2.txt) -Property Name,Value
+```
+
 
 ### Fakenet
 Use [fakenet](https://github.com/mandiant/flare-fakenet-ng) in an Windows machine that doesn't have a network adapter. Fakenet will emulate a network and catch the network connections malware will try to make.
