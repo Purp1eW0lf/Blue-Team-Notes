@@ -2637,6 +2637,28 @@ IPv6
 egrep '(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]).){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]).){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])) file.txt'
 ```
 
+##### Stack up IPv4s
+Great for parsing 4625s and 4624s in Windows world, and seeing the prelevence of the IPs trying to brute force you. [Did a thread on this](https://twitter.com/Purp1eW0lf/status/1549718394777309187?s=20&t=lxQ1zk-lj7XpxxnonX4P0g)
+
+So for example, this is a txt of all 4654s for an external pereimter server
+
+```bash
+grep -E -o "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" 4625s.txt | sort | uniq -c | sort -nr
+```
+
+<img width="1439" alt="image" src="https://user-images.githubusercontent.com/44196051/180187943-33c9a571-bc20-4a18-83dc-ce2485d7b6a1.png">
+
+To then prepare this to compare to the 4624s, I find it easiest to use this [cyberchef recipe](https://gchq.github.io/CyberChef/#recipe=Extract_IP_addresses(true,false,false,false,false,false)Sort('Line%20feed',false,'Alphabetical%20(case%20sensitive)')Unique('Line%20feed',false)Find_/_Replace(%7B'option':'Regex','string':'%5C%5Cn'%7D,'%7C',true,false,true,false))
+
+![image](https://user-images.githubusercontent.com/44196051/180188486-7c8fe607-f4e1-4a14-bf00-366378eed38d.png)
+
+And now, compare the brute forcing IPs with your 4624 successful logins, to see if any have successfully compromised you
+
+```bash
+grep -iEo '192.168.1.114|192.168.1.128|192.168.1.130|192.168.1.146|192.168.1.147|192.168.1.164|192.168.1.3|192.168.1.51|51.89.115.202' 4624s.txt | sort | uniq -c | sort -nr
+```
+
+
 ### Use Ack to highlight
 One thing I really like about Ack is that it can highlight words easily, which is great for screenshots and reporting. So take the above example, let's say we're looking for two specific IP, we can have ack filter and highlight those
 
