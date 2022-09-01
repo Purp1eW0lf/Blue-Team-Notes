@@ -422,6 +422,16 @@ Enable-ADAccount -Identity "$user" -verbose
 
 ![image](https://user-images.githubusercontent.com/44196051/141814532-da45aa38-623e-4a9e-ab2a-27473350398d.png)
 
+#### Disable local Account
+
+```powershell
+# list accounts with  Get-LocalUser
+Disable-LocalUser -name "bad_account$"
+```
+
+<img width="756" alt="image" src="https://user-images.githubusercontent.com/44196051/187993103-1ad5d55a-ab9f-4479-9a46-171f5ed8f30e.png">
+
+
 #### Evict from Group
 Good if you need to quickly eject an account from a specific group, like administrators or remote management.
 
