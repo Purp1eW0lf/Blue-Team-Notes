@@ -479,6 +479,11 @@ foreach ($Past in $Pasts) {
 
 ![image](https://user-images.githubusercontent.com/44196051/137767902-e969f32d-5b2d-47ae-a918-abb803117f34.png)
 
+And check this one too
+
+```powershell
+c:\windows\system32\config\systemprofile\appdata\roaming\microsoft\windows\powershell\psreadline\consolehost_history.txt
+```
 
 ---
 
