@@ -1884,6 +1884,7 @@ If a Registry is under `HKCU`, you can figure out WHICH username it belongs to b
 Instead, get the [SID of the user](https://www.windows-commandline.com/get-sid-of-user/) 
 
 And then you can traverse to that as the path as HKU. So for example, under User_Alfonso's reg keys
+
 ```powershell
 #this
 HKCU:\Software\AppDataLow\Software\Microsoft\FDBC3F8C-385A-37D8-2A81-EC5BFE45E0BF
@@ -1895,10 +1896,11 @@ HKU:\S-1-5-21-912369493-653634481-1866108234-1004\Software\AppDataLow\Software\M
 To just generally convert them
 
 ```powershell
+
 mount -PSProvider Registry -Name HKU -Root HKEY_USERS
 
+```
 <img width="679" alt="image" src="https://user-images.githubusercontent.com/44196051/172854420-0b2ae233-74f9-4fed-bd8b-84ef60827377.png">
-
 
 ### Understanding Reg Permissions
 
