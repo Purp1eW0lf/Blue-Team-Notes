@@ -5132,8 +5132,9 @@ sudo file pid.6988.0x1c0000.dmp
   + [Certutil History](#certutil-history)
   + [WER](#WER)
   + [BITS](#BITS)
+  + [Forensic via Power Usage](#Forensic-via-Power-Usage)
+  + [Activities Cache](#Activities-Cache)
 
-	
 	
 </details>
 
@@ -5326,6 +5327,53 @@ BITS is a lolbin and can be abused by threat actors to do a myriad of things
 
 
 Then use [bitsparser tool](https://github.com/fireeye/BitsParser)
+
+#### Forensic via Power Usage
+
+[From Ryan](https://twitter.com/rj_chap/status/1502354627903123458)
+
+Good for catching coin miners that are too resource hungry
+
+Can do this via SRUM, but this is ‘quicker’ as no need to parse the XMLs
+
+Location
+```
+C:\ProgramData\Microsoft\Windows\Power Efficiency Diagnostics\*.xml
+```
+Collect a bunch of these, and then use some command line text editing:
+
+```bash
+cat *.xml | egrep -i -A 1 '<name>(module|process name)</name>' | grep -i '<value>' | sort | uniq -c
+```
+
+![image](https://user-images.githubusercontent.com/44196051/196246382-6a0855ca-b3d1-4976-8d5a-eb01d6bba756.png)
+
+  
+### Activities Cache
+
+Win10/11 telemetry source only. Very accurate timeline of user activities
+
+Location
+```
+C:\Users\<username>\AppData\Local\ConnectedDevicesPlatform\L.<username>\ActivitiesCache.db
+
+#example for user `foster`
+C:\Users\foster\AppData\Local\ConnectedDevicesPlatform\L.foster\ActivitiesCache.db
+```
+
+Parse with Eric Zimmerman’s [WxTCmd](https://f001.backblazeb2.com/file/EricZimmermanTools/WxTCmd.zip)
+
+```cmd
+.\WxTCmd.exe -f ./ActivitiesCache.db --csv .
+```
+![image](https://user-images.githubusercontent.com/44196051/196245832-fe0666e7-5fa7-4f16-9742-28ff79ac4a8d.png)
+
+We get two results, but the most interesting is %Date%__Activity.csv
+
+Opening this up in Excel, we can start to play around with the data.
+
+<img width="1213" alt="image" src="https://user-images.githubusercontent.com/44196051/196246018-a4582a2d-ee50-461d-8db0-c5375fd959ee.png">
+
 
 ## Chainsaw
 
