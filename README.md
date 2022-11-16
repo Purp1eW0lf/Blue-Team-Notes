@@ -1858,6 +1858,19 @@ Query SIDs
 Query user's wallpaper. Once we know a user’s SID, we can go and look at these things: 
 * `HKU\S-1-5-18\Control Panel\Desktop\`
 
+Query if credentials on a machine are being [cached maliciously](https://blog.netwrix.com/2022/10/11/wdigest-clear-text-passwords-stealing-more-than-a-hash/)
+
+```powershell
+# can run this network-wide
+if ((Get-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest").UseLogonCredential -eq 1){write-host "Plain text credentials forced, likely malicious, on host: " -nonewline ;hostname } else { echo "/" }
+
+#remediate the malice with this
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest" /v UseLogonCredential /t REG_DWORD /d 0
+```
+
+<img width="1406" alt="image" src="https://user-images.githubusercontent.com/44196051/202219578-b52631b8-b9a5-455f-989f-02ac959afc24.png">
+
+
 ### Remove a reg entry
 If there's a malicious reg entry, you can remove it this way
 ```powershell
