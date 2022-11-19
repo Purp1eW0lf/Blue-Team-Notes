@@ -492,9 +492,10 @@ c:\windows\system32\config\systemprofile\appdata\roaming\microsoft\windows\power
 <details>
     <summary>section contents</summary>
 
-  + [Show Services](#Show Services)
+  + [Show Services](#Show-Services)
   + [Hone in on specific Service](#hone-in-on-specific-service)
   + [Kill a service](#kill-a-service)
+  + [Hunting potential sneaky services](#Hunting-potential-sneaky-services)
   
 </details>
 
@@ -533,9 +534,24 @@ get-service -name "eventlog" | fl *
 
 
 ### Kill a service
-``` powershell
+```powershell
 Get-Service -DisplayName "meme_service" | Stop-Service -Force -Confirm:$false -verbose
 ```
+### Hunting potential sneaky services
+I saw a red team tweet regarding [sneaky service install](https://twitter.com/Alh4zr3d/status/1580925761996828672?s=20&t=3IV0LmMvw-ThCCj_kgpjwg). To identify this, you can deploy the following:
+
+```powershell
+Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
+ft PSChildName, ImagePath -autosize | out-string -width 800
+
+# Grep out results from System32 to reduce noise, though keep in mind adversaries can just put stuff in there too
+Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\services\*" | 
+where ImagePath -notlike "*System32*" | 
+ft PSChildName, ImagePath -autosize | out-string -width 800
+
+```
+<img width="1372" alt="image" src="https://user-images.githubusercontent.com/44196051/202874716-ed5d7859-72a0-48c6-8e29-4d8a8168b2ae.png">
+
 
 ---
 
@@ -1400,15 +1416,20 @@ A quick pwsh _for loop_ can collect the contents of the four registry locations.
 #Create HKU drive
 mount -PSProvider Registry -Name HKU -Root HKEY_USERS
 
-#Get the Run and RunOnce reg entries in an array
-$items = @("HKLM:\Software\Microsoft\Windows\CurrentVersion\Run","HKU:\*\Software\Microsoft\Windows\CurrentVersion\Run","HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce","HKU:\*\Software\Microsoft\Windows\CurrentVersion\RunOnce")
-
-foreach ($item in $items) {
-	write-host "----Reg location is $item---" -ForegroundColor Magenta; 
-	get-itemproperty -path "$item"  | select -property * -exclude PS* | fl # or don't `-exclude ps*
+(gci HKLM:\Software\Microsoft\Windows\CurrentVersion\Run, HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce, HKU:\*\Software\Microsoft\Windows\CurrentVersion\Run, HKU:\*\Software\Microsoft\Windows\CurrentVersion\RunOnce ).Pspath |
+Foreach-Object {
+	write-host "----Reg location is $_---" -ForegroundColor Magenta ; 
+	gp $_ | 
+	select -property * -exclude PS*, One*, vm* | #exclude results here
+	FL
 }
-#this will then print the array
+
+#you can squish that all in one line if you need to
+(gci HKLM:\Software\Microsoft\Windows\CurrentVersion\Run, HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce, HKU:\*\Software\Microsoft\Windows\CurrentVersion\Run, HKU:\*\Software\Microsoft\Windows\CurrentVersion\RunOnce ).Pspath | Foreach-Object {write-host "----Reg location is $_---" -ForegroundColor Magenta ; gp $_ | select -property * -exclude PS*, One*, vm* |sort| fl}
 ```
+
+<img width="1353" alt="image" src="https://user-images.githubusercontent.com/44196051/202874165-d0aa355d-dfba-4e64-af5b-ff1b016e910f.png">
+
 
 You can also achieve the same thing with these two alternative commands, but it isn't as cool as the above for loop
 
@@ -1420,10 +1441,8 @@ get-itemproperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run*" |
   select -property * -exclude PSPR*,PSD*,PSC*,PSPAR*  | fl
 ```
 
-WOAH! Looky here, we've got `EVILCOMMAND.exe` under one of the registries
+<img width="1401" alt="image" src="https://user-images.githubusercontent.com/44196051/202874181-7679be09-a11f-42b9-8257-9f4bae8b4714.png">
 
-![image](https://user-images.githubusercontent.com/44196051/124328026-c3128600-db80-11eb-84fa-b90a17523863.png)
-![image](https://user-images.githubusercontent.com/44196051/124329920-3ec20200-db84-11eb-8ab5-dc29c27231b3.png)
 
 ### Removing Run evil
 
