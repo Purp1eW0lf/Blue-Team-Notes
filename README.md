@@ -68,6 +68,7 @@ Donate as much or little money as you like, of course. I have some UK charities 
   * [Browser History](#browser-history)
   * [Which logs to pull in an incident](#Which-logs-to-pull-in-an-incident)
   * [USBs](#USBs)
+  * [Reg Ripper](#reg-ripper)
 
 ---
 
@@ -5952,6 +5953,35 @@ You can probably also find some stuff from the [Jumplist](#jump-lists) and LNK a
 ![image](https://user-images.githubusercontent.com/44196051/165262678-15449dc3-568c-48b8-9e53-da3dc9bd526a.png)
 
 ![image](https://user-images.githubusercontent.com/44196051/165262935-a3959f04-bd0f-421f-ab88-a50e494e7a75.png)
+
+
+## Reg Ripper
+
+[Harlan Carvey](https://twitter.com/keydet89) knows how to write a pretty mean tool or two. Reg Ripper is a forensic one designed to aid you in parsing, timelining, and surgically interrograting registry hives to uncover evidence of malice.
+
+```powershell
+# may trigger your security solution
+mkdir C:\registry_hives -verbose;
+reg save hklm\system C:\registry_hives\SOFTWARE
+reg save hklm\system C:\registry_hives\SYSTEM
+reg save hklm\sam C:\registry_hives\SAM
+reg save hklm\SECURITY C:\registry_hives\SECURITY
+
+# download regripper if you need it
+wget -useb https://github.com/keydet89/RegRipper3.0/archive/refs/heads/master.zip -outfile C:\rip_master.zip;
+expand-archive C:\rip_master.zip C:\
+
+#Recursively run reg ripper now
+
+GCI "C:\registry_hives\" | Foreach-Object {C:\RegRipper3.0-master\rip.exe -r $_.fullname -a >> timelined_reg_ripper_output.txt ; write-host "---Parsing Hive:" $_ -ForegroundColor magenta >> reg_ripper_output.txt}
+
+GCI "C:\registry_hives\" | Foreach-Object {C:\RegRipper3.0-master\rip.exe -r $_.fullname -aT >> timelined_reg_ripper_output.txt ; write-host "---Parsing Hive:" $_ -ForegroundColor magenta >> timeline_reg_ripper_output.txt}
+```
+<img width="1340" alt="image" src="https://user-images.githubusercontent.com/44196051/203107801-3d7e0e40-9fc7-49cf-96e1-6d7229025123.png">
+<img width="1082" alt="image" src="https://user-images.githubusercontent.com/44196051/203108975-a581adf6-512e-4bb8-8adb-a76af0039986.png">
+<img width="1401" alt="image" src="https://user-images.githubusercontent.com/44196051/203112219-87c156d7-81bd-4ebb-a543-43326be55254.png">
+<img width="813" alt="image" src="https://user-images.githubusercontent.com/44196051/203112744-eed87f76-8128-4ccd-be38-78220f7d6de2.png">
+
 
 
 
