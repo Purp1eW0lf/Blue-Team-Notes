@@ -5973,7 +5973,7 @@ expand-archive C:\rip_master.zip C:\
 
 #Recursively run reg ripper now
 
-GCI "C:\registry_hives\" | Foreach-Object {C:\RegRipper3.0-master\rip.exe -r $_.fullname -a >> timelined_reg_ripper_output.txt ; write-host "---Parsing Hive:" $_ -ForegroundColor magenta >> reg_ripper_output.txt}
+GCI "C:\registry_hives\" | Foreach-Object {C:\RegRipper3.0-master\rip.exe -r $_.fullname -a >> reg_ripper_output.txt ; write-host "---Parsing Hive:" $_ -ForegroundColor magenta >> reg_ripper_output.txt}
 
 GCI "C:\registry_hives\" | Foreach-Object {C:\RegRipper3.0-master\rip.exe -r $_.fullname -aT >> timelined_reg_ripper_output.txt ; write-host "---Parsing Hive:" $_ -ForegroundColor magenta >> timeline_reg_ripper_output.txt}
 
