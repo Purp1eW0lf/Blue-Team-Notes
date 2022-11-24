@@ -2471,6 +2471,10 @@ ForEach-Object{ write-host "$_, SYSTEM, $(hostname)"}
 <img width="1206" alt="image" src="https://user-images.githubusercontent.com/44196051/203807185-bc970a02-9844-4dd5-a9ba-c60660954eda.png">
 
 
+But keep in mind, an adversary changing the file name is easy and therefore this is a meh telemetry source
+
+<img width="993" alt="image" src="https://user-images.githubusercontent.com/44196051/203811368-18d0f16f-5876-4cf3-bb3d-2a23b2eda4eb.png">
+
 ---
 
 ## Powershell Tips
