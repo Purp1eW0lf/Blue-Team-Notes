@@ -2458,7 +2458,7 @@ If you wanted to query this network wide, you've got some options:
 #Show usage log's created after a certain day
 	#use american date, probably a way to convert it but meh
 gci "C:\Users\*\AppData\Local\Microsoft\*\UsageLogs\*",
-"C:\Windows\System32\config\systemprofile\AppData\Local\Microsoft*\UsageLogs\*" | 
+"C:\Windows\System32\config\systemprofile\AppData\Local\Microsoft\*\UsageLogs\*" | 
 where-object {$_.LastWriteTime -gt [datetime]::parse("11/22/2022")} | 
 ? Name -notmatch Powershell #can ignore and filter some names
 
