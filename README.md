@@ -2447,7 +2447,7 @@ The log's contents itself is useless. But, the file name of the log may be telli
 
 A very basic way to query this is
 ```powershell
-gci "C:\Users\*\AppData\Local\Microsoft\CLR_v4.0\UsageLogs\*", "C:\Windows\System32\config\systemprofile\AppData\Local\Microsoft\CLR_v4.0\UsageLogs\"
+gci "C:\Users\*\AppData\Local\Microsoft\*\UsageLogs\*", "C:\Windows\System32\config\systemprofile\AppData\Local\Microsoft\*\UsageLogs\*"
 ```
 <img width="1104" alt="image" src="https://user-images.githubusercontent.com/44196051/203795516-2c44e5cb-50b3-42d0-8de1-cecf73ff6bb7.png">
 
@@ -2457,18 +2457,18 @@ If you wanted to query this network wide, you've got some options:
 
 #Show usage log's created after a certain day
 	#use american date, probably a way to convert it but meh
-gci "C:\Users\*\AppData\Local\Microsoft\CLR_v4.0\UsageLogs\*",
-"C:\Windows\System32\config\systemprofile\AppData\Local\Microsoft\CLR_v4.0\UsageLogs\" | 
+gci "C:\Users\*\AppData\Local\Microsoft\*\UsageLogs\*",
+"C:\Windows\System32\config\systemprofile\AppData\Local\Microsoft*\UsageLogs\*" | 
 where-object {$_.LastWriteTime -gt [datetime]::parse("11/22/2022")} | 
 ? Name -notmatch Powershell #can ignore and filter some names
 
 # Show usage log but split to focus on the username, executable, and machine name
-(gci "C:\Users\*\AppData\Local\Microsoft\CLR_v4.0\UsageLogs\*").fullname | 
+(gci "C:\Users\*\AppData\Local\Microsoft\*\UsageLogs\*").fullname | 
 ForEach-Object{$data = $_.split("\\");write-output "$($data[8]), $($data[2]), $(hostname)"} | 
 Select-String -notmatch "powershell", "NGenTask","sdiagnhost"
 
 #For SYSTEM, you don't need to overcomplicate this whatever
-(gci "C:\Windows\System32\config\systemprofile\AppData\Local\Microsoft\CLR_v4.0\UsageLogs\").name |
+(gci "C:\Windows\System32\config\systemprofile\AppData\Local\Microsoft\*\UsageLogs\*").name |
 ForEach-Object{ write-host "$_, SYSTEM, $(hostname)"}
 ```
 <img width="1143" alt="image" src="https://user-images.githubusercontent.com/44196051/203806975-42340d71-c936-4aa1-bfc6-0d8b3f98e9d1.png">
