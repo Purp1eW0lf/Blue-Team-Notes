@@ -2462,12 +2462,12 @@ gci "C:\Users\*\AppData\Local\Microsoft\*\UsageLogs\*",
 where-object {$_.LastWriteTime -gt [datetime]::parse("11/22/2022")} | 
 ? Name -notmatch Powershell #can ignore and filter some names
 
-# Show usage log but split to focus on the username, executable, and machine name
+# Show usage log but split to focus on the username, executable, and machine name in case you run this network-wide via something like Velociraptor 
 (gci "C:\Users\*\AppData\Local\Microsoft\*\UsageLogs\*").fullname | 
 ForEach-Object{$data = $_.split("\\");write-output "$($data[8]), $($data[2]), $(hostname)"} | 
 Select-String -notmatch "powershell", "NGenTask","sdiagnhost"
 
-#For SYSTEM, you don't need to overcomplicate this whatever
+#For SYSTEM, you don't need to overcomplicate this
 (gci "C:\Windows\System32\config\systemprofile\AppData\Local\Microsoft\*\UsageLogs\*").name |
 ForEach-Object{ write-host "$_, SYSTEM, $(hostname)"}
 ```
