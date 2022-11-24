@@ -1478,7 +1478,7 @@ mount -PSProvider Registry -Name HKU -Root HKEY_USERS
 
 $folders = @("HKU:\*\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders","HKU:\*\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")
 foreach ($folder in $folders) {
-	write-host "----Reg key is $folder---"; 
+	write-host "----Reg key is $folder--- -ForegroundColor Magenta "; 
 	get-itemproperty -path "$folder"  | 
 	select -property * -exclude PS* | fl
 }
@@ -1501,10 +1501,15 @@ Winlogon startup persistence
 #Create HKU drive
 mount -PSProvider Registry -Name HKU -Root HKEY_USERS
 
-gp "HKU:\*\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" | select -property * -exclude PS* | fl
+(gci "HKU:\*\Software\Microsoft\Windows NT\CurrentVersion\Winlogon").PSPath | 
+Foreach-Object {
+	write-host "----Reg location is $_---" -ForegroundColor Magenta ; 
+	gp $_ | 
+	select -property * -exclude PS* |
+	FL
+}
 ```
-![image](https://user-images.githubusercontent.com/44196051/124333024-fbb75d00-db8a-11eb-81aa-c5faf296864b.png)
-
+<img width="1429" alt="image" src="https://user-images.githubusercontent.com/44196051/203814780-c0915f3e-a594-460b-bf4d-c4776addcb86.png">
 
 Find more examples of Run key evil from [Mitre ATT&CK](https://attack.mitre.org/techniques/T1547/001/)
 
