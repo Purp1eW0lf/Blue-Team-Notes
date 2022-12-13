@@ -45,6 +45,16 @@ Donate as much or little money as you like, of course. I have some UK charities 
   * [Files](#files)
   * [Bash Tips](#bash-tips)
 - [MacOS](#MacOS)
+  * [Reading .plist files](#Reading-.plist-files)
+  * [Quarantine Events](#Quarantine-Events)
+  * [Install History](Install-History)
+  * [Most Recently Used (MRU)](#Most-Recently-Used-(MRU))
+  * [Audit Logs](#Audit-Logs)
+  * [Command line history](#Command-line-history)
+  * [WHOMST is in the Admin group](#WHOMST-is-in-the-Admin-group) 
+  * [Persistence locations](#Persistence-locations) 
+  * [Transparency, Consent, and Control (TCC)](#Transparency,-Consent,-and-Control-(TCC))
+  * [Built-In Security Mechanisms](#Built-In-Security-Mechanisms)
 - [Malware](#Malware)
   * [Rapid Malware Analysis](#rapid-malware-Analysis)
   * [Unquarantine Malware](#Unquarantine-Malware)
@@ -2993,6 +3003,7 @@ history
   + [WHOMST is in the Admin group](#WHOMST-is-in-the-Admin-group) 
   + [Persistence locations](#Persistence-locations) 
   + [Transparency, Consent, and Control (TCC)](#Transparency,-Consent,-and-Control-(TCC))
+  + [Built-In Security Mechanisms](#Built-In-Security-Mechanisms)
 
 
 </details>
@@ -3001,6 +3012,8 @@ history
 
 Correct way to just read a plist is `plutil -p` but there are multiple different methods so do whatever, I’m not the plist police
 ![image](https://user-images.githubusercontent.com/44196051/170064469-6cfd5350-3049-463e-9272-3062847731fb.png)
+
+If the plist is in binary format, you can convert it to a more readable xml: `plutil -convert xml1 <path_to_binary_plist>`
 
 ## Quarantine Events
 
@@ -3190,6 +3203,20 @@ One of the most beneficial pieces of information is knowing which applicaitons h
 
 ![fulldiskaccess](https://user-images.githubusercontent.com/72467868/207419494-de3500ae-2da5-4af5-83c1-a1b80e5dd8f7.png)
 
+
+## Built-In Security Mechanisms
+
+There are some built-in security tools on macOS that can be queried with easy command line commands. This will get the status of the following.
+
+Statu
+Aidrop: `sudo ifconfig awdl0 | awk '/status/{print $2}'`
+Filevault: `sudo fdesetup status`
+Firewall: `defaults read /Library/Preferences/com.apple.alf globalstate  //(Enabled = 1, Disabled = 0)` 
+Gatekeeper: `spctl --status`
+Network Fileshare: `nfsd status`
+Remote Login: `sudo systemsetup -getremotelogin`
+Screen Sharing: `sudo launchctl list com.apple.screensharing`
+SIP: `csrutil status`
 
 ---
 
