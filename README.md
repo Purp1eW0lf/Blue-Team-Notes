@@ -3208,16 +3208,32 @@ One of the most beneficial pieces of information is knowing which applicaitons h
 
 There are some built-in security tools on macOS that can be queried with easy command line commands. This will get the status of the following.
 
-Statu
-Aidrop: `sudo ifconfig awdl0 | awk '/status/{print $2}'` 
-Filevault: `sudo fdesetup status` 
-Firewall: `defaults read /Library/Preferences/com.apple.alf globalstate  //(Enabled = 1, Disabled = 0)`  
-Gatekeeper: `spctl --status` 
-Network Fileshare: `nfsd status` 
-Remote Login: `sudo systemsetup -getremotelogin` 
-Screen Sharing: `sudo launchctl list com.apple.screensharing` 
-SIP: `csrutil status` 
- 
+```
+# Airdrop
+sudo ifconfig awdl0 | awk '/status/{print $2}'
+
+# Filevault
+sudo fdesetup status
+
+#Firewall
+defaults read /Library/Preferences/com.apple.alf globalstate  //(Enabled = 1, Disabled = 0)
+
+# Gatekeeper
+spctl --status
+
+# Network Fileshare
+nfsd status
+
+# Remote Login
+sudo systemsetup -getremotelogin
+
+# Screen sharing
+sudo launchctl list com.apple.screensharing
+
+# SIP
+csrutil status
+ ```
+
 ---
 
 # Malware
