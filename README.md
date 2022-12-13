@@ -3215,8 +3215,8 @@ sudo ifconfig awdl0 | awk '/status/{print $2}'
 # Filevault
 sudo fdesetup status
 
-#Firewall
-defaults read /Library/Preferences/com.apple.alf globalstate  //(Enabled = 1, Disabled = 0)
+# Firewall
+defaults read /Library/Preferences/com.apple.alf globalstate  // (Enabled = 1, Disabled = 0)
 
 # Gatekeeper
 spctl --status
