@@ -2994,16 +2994,16 @@ history
 <details>
     <summary>section contents</summary>
   
-  + [Reading .plist files](#Reading-.plist-files)
-  + [Quarantine Events](#Quarantine-Events)
-  + [Install History](Install-History)
-  + [Most Recently Used (MRU)](#Most-Recently-Used-(MRU))
-  + [Audit Logs](#Audit-Logs)
-  + [Command line history](#Command-line-history)
+  + [Reading .plist files](#Reading-.plist-files) 
+  + [Quarantine Events](#Quarantine-Events) 
+  + [Install History](Install-History) 
+  + [Most Recently Used (MRU)](#Most-Recently-Used-(MRU)) 
+  + [Audit Logs](#Audit-Logs) 
+  + [Command line history](#Command-line-history) 
   + [WHOMST is in the Admin group](#WHOMST-is-in-the-Admin-group) 
   + [Persistence locations](#Persistence-locations) 
-  + [Transparency, Consent, and Control (TCC)](#Transparency,-Consent,-and-Control-(TCC))
-  + [Built-In Security Mechanisms](#Built-In-Security-Mechanisms)
+  + [Transparency, Consent, and Control (TCC)](#Transparency,-Consent,-and-Control-(TCC)) 
+  + [Built-In Security Mechanisms](#Built-In-Security-Mechanisms) 
 
 
 </details>
@@ -3209,15 +3209,15 @@ One of the most beneficial pieces of information is knowing which applicaitons h
 There are some built-in security tools on macOS that can be queried with easy command line commands. This will get the status of the following.
 
 Statu
-Aidrop: `sudo ifconfig awdl0 | awk '/status/{print $2}'`
-Filevault: `sudo fdesetup status`
-Firewall: `defaults read /Library/Preferences/com.apple.alf globalstate  //(Enabled = 1, Disabled = 0)` 
-Gatekeeper: `spctl --status`
-Network Fileshare: `nfsd status`
-Remote Login: `sudo systemsetup -getremotelogin`
-Screen Sharing: `sudo launchctl list com.apple.screensharing`
-SIP: `csrutil status`
-
+Aidrop: `sudo ifconfig awdl0 | awk '/status/{print $2}'` 
+Filevault: `sudo fdesetup status` 
+Firewall: `defaults read /Library/Preferences/com.apple.alf globalstate  //(Enabled = 1, Disabled = 0)`  
+Gatekeeper: `spctl --status` 
+Network Fileshare: `nfsd status` 
+Remote Login: `sudo systemsetup -getremotelogin` 
+Screen Sharing: `sudo launchctl list com.apple.screensharing` 
+SIP: `csrutil status` 
+ 
 ---
 
 # Malware
