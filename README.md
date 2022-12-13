@@ -3184,9 +3184,10 @@ Can get a more complete list [here](https://gist.github.com/jipegit/04d1c577f209
 
 ## Transparency, Consent, and Control (TCC)
 
-The TCC db (Transparency, Consent, and Control) offers insight when some applications have made system changes
+The TCC db (Transparency, Consent, and Control) offers insight when some applications have made system changes. There are at least two TCC databases on the system - one per user, and one root.
 
 ```
+/Library/Application Support/com.apple.TCC/TCC.db
 /Users/*/Library/Application Support/com.apple.TCC/TCC.db
 ```
 
@@ -3199,7 +3200,7 @@ You can use some command line tools, or just leverage a tool like Velociraptor, 
 
 ![image](https://user-images.githubusercontent.com/44196051/170066448-d75a766f-25ca-489e-9596-1a1c4e006e16.png)
 
-One of the most beneficial pieces of information is knowing which applicaitons have FDA (Full Disk Access), via the `kTCCServiceSystemPolicyAllFiles` service.
+One of the most beneficial pieces of information is knowing which applicaitons have FDA (Full Disk Access), via the `kTCCServiceSystemPolicyAllFiles` service. This is _only_ located in the root TCC database.
 
 ![fulldiskaccess](https://user-images.githubusercontent.com/72467868/207419494-de3500ae-2da5-4af5-83c1-a1b80e5dd8f7.png)
 
