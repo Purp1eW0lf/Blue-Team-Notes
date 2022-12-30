@@ -6064,7 +6064,7 @@ You can probably also find some stuff from the [Jumplist](#jump-lists) and LNK a
 
 ## Reg Ripper
 
-[Harlan Carvey](https://twitter.com/keydet89) knows how to write a pretty mean tool or two. Reg Ripper is a forensic one designed to aid you in parsing, timelining, and surgically interrograting registry hives to uncover evidence of malice. [Registry Collection made easy with this](https://gist.github.com/Purp1eW0lf/6bbb2c1e22fe64a151d7ab97be8e83bb)
+[Harlan Carvey](https://twitter.com/keydet89) knows how to write a pretty mean tool or two. Reg Ripper is a forensic one designed to aid you in parsing, timelining, and surgically interrograting registry hives to uncover evidence of malice. [Registry Collection made easy with this](https://gist.github.com/Purp1eW0lf/6bbb2c1e22fe64a151d7ab97be8e83bb) script right here. 
 
 ```powershell
 
