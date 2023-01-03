@@ -12,6 +12,8 @@ If you see a mistake, or have an easier way to run a command then you're welcome
 
 If you want to contribute I'd be grateful for the command and a screenshot. I'll of course add you as a contributor
 
+If you want to find me elsehwere, for reasons(?), searching 'Dray Agha' on the internets should find whatever it is you're looking for. 
+
 ## Did the Notes help?
 
 I hope the Blue Team Notes help you catch an adversary, thwart an attack, or even just helps you learn.
