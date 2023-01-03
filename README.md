@@ -3258,7 +3258,9 @@ I'd also reccomend [FlareVM](https://github.com/mandiant/flare-vm), a Windows-ba
 <details>
     <summary>section contents</summary>
 
+  + [Thor](#thor)
   + [Capa](#capa)
+  + [File](#file)
   + [Strings](#strings)
     - [floss](#floss)
     - [flarestrings](#flarestrings)
@@ -3268,6 +3270,25 @@ I'd also reccomend [FlareVM](https://github.com/mandiant/flare-vm), a Windows-ba
   + [Entropy](#entropy) 
   
 </details>
+
+### Thor
+[Florian Roth's](https://twitter.com/cyb3rops) Thor requires you to agree to a licence before it can be used. 
+
+There are versions of Thor, but we'll be using [the free, `lite` version](https://www.nextron-systems.com/thor-lite/)
+
+What I'd reccomend you do here is create a dedicated directory (`/malware/folder`), and put one file in at a time into this directory that you want to study.
+
+```bash
+#execute Thor
+./thor-lite-macosx -a FileScan \ 
+-p /Malware/folder:NOWALK -e /malware/folder \
+--nothordb --allreasons --utc --intense --nocsv --silent --brd
+
+#open the HTML report THOR creates
+open /malware/folder/*.html
+```
+
+![image](https://user-images.githubusercontent.com/44196051/210364484-95aef50a-a57f-4b09-94de-d9d3461faad8.png)
 
 ### Capa
 [Capa](https://github.com/fireeye/capa) is a great tool to quickly examine wtf a binary does. This tool is great, it previously helped me identify a keylogger that was pretending to be an update.exe for a program
@@ -3283,6 +3304,20 @@ cat malware.txt
 
 Example of Capa output for the keylogger
 ![image](https://user-images.githubusercontent.com/44196051/119991358-44df2480-bfc1-11eb-9e6f-23ff445a4900.png)
+
+#### File
+
+The command `file` is likely to be installed in most unix, MacOS, and linux OS'. Deploy it next to the file you want to interrograte
+
+![image](https://user-images.githubusercontent.com/44196051/203073884-6cb75b6b-2e56-4022-b84e-e881d1556214.png)
+
+`exiftool` may have to be installed on your respective OS, but is deplopyed similarly be firing it off next to the file you want to know more about
+
+![image](https://user-images.githubusercontent.com/44196051/203073768-113b96fe-8f55-4f59-a94e-38b0f07e20d8.png)
+![image](https://user-images.githubusercontent.com/44196051/203073793-48a81542-28af-4070-a44d-1db994a32bb6.png)
+
+![image](https://user-images.githubusercontent.com/44196051/203073820-527290e8-a216-434e-9e2c-a1b7f19421e9.png)
+
 
 ### Strings
 Honestly, when you're pressed for time don't knock `strings`. It's helped me out when I'm under pressure and don't have time to go and disassemble a compiled binary.
