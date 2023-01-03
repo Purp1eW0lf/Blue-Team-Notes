@@ -3267,7 +3267,8 @@ I'd also reccomend [FlareVM](https://github.com/mandiant/flare-vm), a Windows-ba
     - [Win32APIs](#win32apis) 
   + [regshot](#regshot)
   + [fakenet](#fakenet)
-  + [Entropy](#entropy) 
+  + [Entropy](#entropy)
+  + [Sysmon as a malware lab](#sysmon-as-a-malware-lab)
   
 </details>
 
@@ -3417,6 +3418,30 @@ The screenshot belows shows a partially encrytped file in the first line, and th
 
 ![image](https://user-images.githubusercontent.com/44196051/151002519-bb540de0-509f-4746-b512-bc5a8a8f811c.png)
 
+### Sysmon as a malware lab
+
+Run this [script](https://gist.github.com/Purp1eW0lf/d669db5cfca9b020a7f7c982a8256deb), which will install Sysmon and Ippsec's Sysmon-steamliner script (powersiem.ps1)
+
+Run powersiem.ps1, then detonate your malware. In PowerSiem's output, you will see the affects of the malware on the host
+
+```powershell
+#download script
+
+wget -useb https://gist.githubusercontent.com/Purp1eW0lf/d669db5cfca9b020a7f7c982a8256deb/raw/4848ba4d32ccbf1ebeb62c8d3409fca2bcdf2799/Sysmon_Lab.ps1 -outfile ./Sysmon_Lab.ps1
+
+#start sysmon lab
+./Sysmon_Lab.ps1
+
+#start powersiem.ps1
+C:\users\*\Desktop\SysmonLab\PowerSiem.ps1
+
+#detonate malware
+```
+
+![image](https://user-images.githubusercontent.com/44196051/203074507-c1dc874e-254a-4f2e-aa87-881ee0975cae.png)
+![image](https://user-images.githubusercontent.com/44196051/203074562-ff4ee6d4-5beb-4cc8-9174-a9e0f9e76442.png)
+
+
 ## Unquarantine Malware
 Many security solutions have isolation techniques that encrypt malware to stop it executing.
 
@@ -3441,6 +3466,8 @@ perl ./DeXRAY.pl x.MAL
 And we get a working un-quarantined malware sample at the other side
 
 ![image](https://user-images.githubusercontent.com/44196051/160847179-6a5cdc33-d9d9-449e-993f-06fff0947d96.png)
+
+
 
 
 ## Process Monitor
