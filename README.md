@@ -5338,7 +5338,7 @@ sudo file pid.6988.0x1c0000.dmp
   + [BITS](#BITS)
   + [Forensic via Power Usage](#Forensic-via-Power-Usage)
   + [Activities Cache](#Activities-Cache)
-  + [Program Compatibility Assistant](#Program -Compatibility-Assistant)
+  + [Program Compatibility Assistant](#Program-Compatibility-Assistant)
 
   
 </details>
