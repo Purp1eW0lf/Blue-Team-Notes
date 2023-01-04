@@ -5338,6 +5338,7 @@ sudo file pid.6988.0x1c0000.dmp
   + [BITS](#BITS)
   + [Forensic via Power Usage](#Forensic-via-Power-Usage)
   + [Activities Cache](#Activities-Cache)
+  + [Program Compatibility Assistant](#Program -Compatibility-Assistant)
 
   
 </details>
@@ -5577,6 +5578,31 @@ We get two results, but the most interesting is %Date%__Activity.csv
 Opening this up in Excel, we can start to play around with the data.
 
 <img width="1213" alt="image" src="https://user-images.githubusercontent.com/44196051/196246018-a4582a2d-ee50-461d-8db0-c5375fd959ee.png">
+
+### Program Compatibility Assistant
+
+Like prefetch…but not, [PCA artifacts](https://aboutdfir.com/new-windows-11-pro-22h2-evidence-of-execution-artifact/) offer additional forensic insight into the fullpath execution times of exes on Win11 machines
+
+Collect the following
+```
+C:\Windows\appcompat\pca\PcaAppLaunchDic.txt #most crucial file to collect
+                  # contains reliable timiestamps for last executed, like prefetch
+C:\Windows\appcompat\pca\PcaGeneralDb0.txt # has more metadata about the exe
+
+C:\Windows\appcompat\pca\PcaGeneralDb1.txt # seems to be empty a lot of the time
+```
+
+As these files are txts, you can just read them.
+
+However, PcaGeneralDb0.txt contains some verbose meta data, so you can deploy something like this to have both TXTs normalised and readable:
+
+```bash
+paste <(cut -d'|' -f3 PcaGeneralDb0.txt) <(cut -d'|' -f1 PcaGeneralDb0.txt) \
+&& paste <(cut -d'|' -f1 PcaAppLaunchDic.txt) <(cut -d'|' -f2 PcaAppLaunchDic.txt)\
+| tee | sort -u
+```
+![image](https://user-images.githubusercontent.com/44196051/210581602-84b60525-4849-42a0-971f-d5e9253c2a2a.png)
+
 
 
 ## Chainsaw
