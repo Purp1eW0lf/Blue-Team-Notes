@@ -5062,8 +5062,8 @@ If you're interested in digital forensics, there are some immediate authoritive 
 * [13cubed's youtube content](https://www.13cubed.com) - Richard Davis is a DFIR legend and has some great learning resources
 * [Eric Zimmeraman's toolkit](https://ericzimmerman.github.io/#!index.md) - Eric is the author of some incredibly tools, and it's worth checking out his documentation on exactly how and when to use them. 
 
-
- <summary>section contents</summary>
+<details>
+   <summary>section contents</summary>
 
   + [volatility](#volatility)
   + [Quick Forensics](#quick-forensics)
@@ -5340,7 +5340,7 @@ sudo file pid.6988.0x1c0000.dmp
   + [Activities Cache](#Activities-Cache)
   + [Program Compatibility Assistant](#Program-Compatibility-Assistant)
 
-  
+ 
 </details>
 
 I've spoken about some forensic techniques [here, as a coprorate simp](https://www.huntress.com/resources/tradecraft-tuesday?wchannelid=zy8dl5egyy&wmediaid=s5rb646tl8)
