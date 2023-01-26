@@ -1255,8 +1255,8 @@ get-itemproperty -path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Sched
 
 
 And then eradicating these Registry schtask entries is straight forward via Regedit's GUI, that way you have no permission problems. Delete both:
-* HKLM\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tasks\{$ID}
-* HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tree\$Name
+* HKLM\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tasks\\{$ID}
+* HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tree\\$Name
 
 <img width="1017" alt="image" src="https://user-images.githubusercontent.com/44196051/214887239-8bdcce93-c218-47c4-a346-1498346625a9.png">
 <img width="1015" alt="image" src="https://user-images.githubusercontent.com/44196051/214888207-5bb0767b-56f8-4689-8925-9caeae9b5f62.png">
