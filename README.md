@@ -1139,6 +1139,7 @@ Fire it off with the `-t` flag to create a parent-child tree of the processes
     - [To find the commands a task is running](#to-find-the-commands-a-task-is-running)
     - [To stop the task](#to-stop-the-task)
     - [All schtask locations](#all-schtask-locations) 
+    - [Sneaky Schtasks via the Registry](#Sneaky-Schtasks-via-the-Registry)
   + [Show what programs run at startup](#show-what-programs-run-at-startup)
     - [Programs at login](#programs-at-login)
     - [Programs at PowerShell](#programs-at-powershell) 
@@ -1210,6 +1211,44 @@ C:\Windows\System32\Tasks
 C:\Windows\Tasks
 C:\windows\SysWOW64\Tasks\
 ```
+
+#### Sneaky Schtasks via the Registry
+Threat actors have been known to manipulate scheduled tasks in such a way that Task Scheduler no longer has visibility of the recuring task. 
+
+However, querying the Registry locations `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tree` and `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tasks`, can reveal a slice of these sneaky tasks.
+
+```Powershell
+# the schtask for our example
+# schtasks /create /tn "Find_Me" /tr calc.exe /sc minute /mo 100 /k
+
+# Loop and parse \Taskcache\Tasks Registry location for scheduled tasks
+  ## Parses Actions to show the underlying binary / commands for the schtask
+  ## Could replace Actions with Trigggers on line 10, after ExpandedProperty
+(Get-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tasks\*").PSChildName | 
+Foreach-Object {
+  write-host "----Schtask ID is $_---" -ForegroundColor Magenta ;
+  $hexstring = (Get-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tasks\$_" | Select -ExpandProperty Actions) -join ',' ;
+ ($hexstring.Split(",",[System.StringSplitOptions]::RemoveEmptyEntries) | ?{$_ -gt '0'} | ForEach{[char][int]"$($_)"}) -join ''
+}
+```
+
+Once you've deployed the above loop, and zoned in on a binary / one-liner that seems sus, you can query it in the other Registry location
+
+```PowerShell
+# Then for the ID of interest under \Taskcache\Tree subkey
+  # Example: $ID = "{8E350038-3475-413A-A1AE-20711DD11C95}" ;  
+$ID = "{XYZ}" ; 
+get-itemproperty -path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tree\*" | ? Id -Match "$ID" | fl *Name,Id,PsPath
+```
+![image](https://user-images.githubusercontent.com/44196051/214882317-99e49772-2681-42cb-a253-a3090cc6ace8.png)
+
+And then eradicating these Registry schtask entries is straight forward via Regedit's GUI, that way you have no permission problems. Delete both:
+* HKLM\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tasks\{$ID}
+* HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tree\$Name
+
+<img width="1017" alt="image" src="https://user-images.githubusercontent.com/44196051/214887239-8bdcce93-c218-47c4-a346-1498346625a9.png">
+<img width="1015" alt="image" src="https://user-images.githubusercontent.com/44196051/214888207-5bb0767b-56f8-4689-8925-9caeae9b5f62.png">
+
 
 ### Show what programs run at startup
 ```powershell
