@@ -1212,6 +1212,19 @@ C:\Windows\Tasks
 C:\windows\SysWOW64\Tasks\
 ```
 
+You can compare the above for tasks missing from the C:\Windows directories, but present in the Registry.
+
+```powershell
+# From my man Anthony Smith - https://www.linkedin.com/in/anthony-c-smith/
+
+$Reg=(Get-ItemProperty -path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\tree\*").PsChildName
+$XMLs = (ls C:\windows\System32\Tasks\).Name
+Compare-Object $Reg $XMLs
+```
+
+<img width="1180" alt="image" src="https://user-images.githubusercontent.com/44196051/214910299-a82ec894-7f16-44b8-92a3-b6344a09925d.png">
+
+
 #### Sneaky Schtasks via the Registry
 Threat actors have been known to manipulate scheduled tasks in such a way that Task Scheduler no longer has visibility of the recuring task. 
 
