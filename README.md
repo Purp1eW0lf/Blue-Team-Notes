@@ -1235,7 +1235,8 @@ Foreach-Object {
 
 If you don't need to loop to search, because you know what you're gunning for then you can just deploy this
 ```powershell
-$hexstring = (Get-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tasks\{ID}" | Select -ExpandProperty Actions) -join ',' ; $hexstring.Split(" ")
+$hexstring = (Get-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tasks\{ID}" | 
+Select -ExpandProperty Actions) -join ',' ; $hexstring.Split(" ")
 ## can then go to cyberchef, and convert From Decimal with the comma (,) delimineter 
 ```
 <img width="1433" alt="image" src="https://user-images.githubusercontent.com/44196051/214889168-91ebdbe5-ac86-41f5-ba44-e5860ed0615a.png">
@@ -1246,7 +1247,8 @@ Once you've deployed the above loop, and zoned in on a binary / one-liner that s
 # Then for the ID of interest under \Taskcache\Tree subkey
   # Example: $ID = "{8E350038-3475-413A-A1AE-20711DD11C95}" ;  
 $ID = "{XYZ}" ; 
-get-itemproperty -path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tree\*" | ? Id -Match "$ID" | fl *Name,Id,PsPath
+get-itemproperty -path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tree\*" | 
+? Id -Match "$ID" | fl *Name,Id,PsPath
 ```
 
 <img width="1325" alt="image" src="https://user-images.githubusercontent.com/44196051/214890947-55f67e6c-7b4b-492d-98c1-8d9ad49e1497.png">
