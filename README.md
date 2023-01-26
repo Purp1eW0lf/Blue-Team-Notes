@@ -1240,7 +1240,6 @@ $hexstring = (Get-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersi
 ```
 <img width="1433" alt="image" src="https://user-images.githubusercontent.com/44196051/214889168-91ebdbe5-ac86-41f5-ba44-e5860ed0615a.png">
 
-
 Once you've deployed the above loop, and zoned in on a binary / one-liner that seems sus, you can query it in the other Registry location
 
 ```PowerShell
@@ -1249,7 +1248,9 @@ Once you've deployed the above loop, and zoned in on a binary / one-liner that s
 $ID = "{XYZ}" ; 
 get-itemproperty -path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tree\*" | ? Id -Match "$ID" | fl *Name,Id,PsPath
 ```
-![image](https://user-images.githubusercontent.com/44196051/214882317-99e49772-2681-42cb-a253-a3090cc6ace8.png)
+
+<img width="1325" alt="image" src="https://user-images.githubusercontent.com/44196051/214890947-55f67e6c-7b4b-492d-98c1-8d9ad49e1497.png">
+
 
 And then eradicating these Registry schtask entries is straight forward via Regedit's GUI, that way you have no permission problems. Delete both:
 * HKLM\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tasks\{$ID}
