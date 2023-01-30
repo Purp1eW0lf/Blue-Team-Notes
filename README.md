@@ -1284,7 +1284,7 @@ Get-CimInstance Win32_StartupCommand | Select-Object Name, command, Location, Us
 Some direct path locations too can be checked
 ```powershell
 HKLM\software\classes\exefile\shell\open\command
-c:\*\julie cazort\appdata\roaming\microsoft\windows\start menu\programs\startup
+c:\Users\*\appdata\roaming\microsoft\windows\start menu\programs\startup
 ```
 
 #### Programs at login
