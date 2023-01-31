@@ -1230,6 +1230,8 @@ Threat actors have been known to manipulate scheduled tasks in such a way that T
 
 However, querying the Registry locations `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tree` and `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tasks`, can reveal a slice of these sneaky tasks.
 
+Shout out to my man [@themalwareguy](https://twitter.com/themalwareguy) for the $fixedstring line that regexes in/out good/bad characters. 
+
 ```Powershell
 # the schtask for our example
 # schtasks /create /tn "Find_Me" /tr calc.exe /sc minute /mo 100 /k
@@ -1240,8 +1242,9 @@ However, querying the Registry locations `HKLM\Software\Microsoft\Windows NT\Cur
 (Get-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tasks\*").PSChildName | 
 Foreach-Object {
   write-host "----Schtask ID is $_---" -ForegroundColor Magenta ;
-  $hexstring = (Get-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tasks\$_" | Select -ExpandProperty Actions) -join ',' ;
- ($hexstring.Split(",",[System.StringSplitOptions]::RemoveEmptyEntries) | ?{$_ -gt '0'} | ForEach{[char][int]"$($_)"}) -join ''
+  $hexstring = Get-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tasks\$_" | Select -ExpandProperty Actions;
+  $fixedstring = [System.Text.Encoding]::Unicode.GetString($hexstring) -replace '[^a-zA-Z0-9\\._\-\:\%\/\$ ]', ' '; # Obtaining the Unicode string reduces the chances of getting invalid characters, and the regex will assist in stripping each string of junk
+  write-host $fixedstring
 }
 ```
 <img width="1423" alt="image" src="https://user-images.githubusercontent.com/44196051/214888721-8a89b9db-3486-4a76-bd97-446eedc38303.png">
