@@ -1290,6 +1290,21 @@ HKLM\software\classes\exefile\shell\open\command
 c:\Users\*\appdata\roaming\microsoft\windows\start menu\programs\startup
 ```
 
+Querying that last one in more detail, you have some interesting options
+```powershell
+#Just list out the files in each user's startup folder
+(gci "c:\Users\*\appdata\roaming\microsoft\windows\start menu\programs\startup\*").fullname
+
+#Extract from the path User, Exe, and print machine name
+(gci "c:\Users\*\appdata\roaming\microsoft\windows\start menu\programs\startup\*").fullname | 
+foreach-object {$data = $_.split("\\");write-output "$($data[2]), $($data[10]), $(hostname)"}
+
+#Check the first couple lines of files' contents
+(gci "c:\Users\*\appdata\roaming\microsoft\windows\start menu\programs\startup\*").fullname | 
+foreach-object {write-host `n$_`n; gc $_ -encoding byte| fhx |select -first 5}
+```
+<img width="1000" alt="image" src="https://user-images.githubusercontent.com/44196051/216298167-e3a112bf-6d48-43b5-9b2c-fc9d47d50cc8.png">
+
 #### Programs at login
 Adversaries can link persistence mechanisms to be activated to a users' login via the registry `HKEY_CURRENT_USER\Environment -UserInitMprLogonScript`
 
