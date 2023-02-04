@@ -1350,6 +1350,17 @@ type $Profile
 
 To fix this one, I'd just edit the profile and remove the persistence (so `notepad $Profile` will be just fine)
 
+You can get a bit more clever with this if you want
+
+```powershell
+(gci C:\Users\*\Documents\WindowsPowerShell\*profile.ps1, C:\Windows\System32\WindowsPowerShell\v1.0\*profile.ps1).FullName|
+Foreach-Object {
+  write-host "----$_---" -ForegroundColor Magenta ; 
+  gc $_ 
+}
+```
+<img width="1223" alt="image" src="https://user-images.githubusercontent.com/44196051/216776621-ab30be1e-583f-45f7-b650-7918bbb73b82.png">
+
 
 ### Stolen Links
 Adversaries can insert their malice into shortcuts. They can do it in clever ways, so that the application will still run but at the same time their malice will also execute when you click on the application
