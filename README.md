@@ -1356,7 +1356,7 @@ You can get a bit more clever with this if you want
 (gci C:\Users\*\Documents\WindowsPowerShell\*profile.ps1, C:\Windows\System32\WindowsPowerShell\v1.0\*profile.ps1).FullName|
 Foreach-Object {
   write-host "----$_---" -ForegroundColor Magenta ; 
-  gc $_ 
+  gc $_ # | select-string -notmatch function ## if you want to grep out stuff you don't wanna see, uncomment
 }
 ```
 <img width="1223" alt="image" src="https://user-images.githubusercontent.com/44196051/216776621-ab30be1e-583f-45f7-b650-7918bbb73b82.png">
