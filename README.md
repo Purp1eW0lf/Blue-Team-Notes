@@ -5697,7 +5697,8 @@ paste <(cut -d'|' -f3 PcaGeneralDb0.txt) <(cut -d'|' -f1 PcaGeneralDb0.txt) \
 ![image](https://user-images.githubusercontent.com/44196051/210581602-84b60525-4849-42a0-971f-d5e9253c2a2a.png)
 
 #### PCA Registry Data
-Program Compatibility Assistant also stores data in some Registry keys. We have some options to carve that out 
+
+Chatting with Program Compatibility Assistant also stores data in some Registry keys. Chatting with my man [@biffbiffbiff](https://twitter.com/biffbiffbiff), we have some options to carve that out 
 
 ```powershell
 mount -PSProvider Registry -Name HKU -Root HKEY_USERS;
