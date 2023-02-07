@@ -5696,6 +5696,30 @@ paste <(cut -d'|' -f3 PcaGeneralDb0.txt) <(cut -d'|' -f1 PcaGeneralDb0.txt) \
 ```
 ![image](https://user-images.githubusercontent.com/44196051/210581602-84b60525-4849-42a0-971f-d5e9253c2a2a.png)
 
+#### PCA Registry Data
+Program Compatibility Assistant also stores data in some Registry keys. We have some options to carve that out 
+
+```powershell
+mount -PSProvider Registry -Name HKU -Root HKEY_USERS;
+
+(gci "HKU:\*\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Compatibility Assistant\Store\", "HKU:\*\Software\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers").PsPath |
+Foreach-Object {
+  write-host "----Reg location is $_---" -ForegroundColor Magenta ; 
+  gp $_ | 
+  select -property * -exclude PS*, *one*, *edge* 
+  FL
+} 
+# the screenshot below didn't filter out *one* or *edge*, to have something to show
+```
+<img width="1411" alt="image" src="https://user-images.githubusercontent.com/44196051/217371720-7c0f5554-7e72-4313-a38a-7101b88688e7.png">
+
+Or for something less fancy, but won't print the User SID so it may not be evident which account did what
+
+```powershell
+mount -PSProvider Registry -Name HKU -Root HKEY_USERS;
+(gci "HKU:\*\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Compatibility Assistant\Store\", "HKU:\*\Software\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers").Property
+```
+<img width="1161" alt="image" src="https://user-images.githubusercontent.com/44196051/217371811-9a2789ed-6696-4ead-b4ae-a49709b65c74.png">
 
 
 ## Chainsaw
