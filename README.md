@@ -5709,7 +5709,7 @@ Foreach-Object {
   select -property * -exclude PS*, *one*, *edge* 
   FL
 } 
-# the screenshot below didn't filter out *one* or *edge*, to have something to show
+
 ```
 <img width="1411" alt="image" src="https://user-images.githubusercontent.com/44196051/217371720-7c0f5554-7e72-4313-a38a-7101b88688e7.png">
 
