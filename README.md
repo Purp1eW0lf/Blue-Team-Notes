@@ -5679,7 +5679,6 @@ Can also use [WindowsTimeline.exe](https://github.com/kacos2000/WindowsTimeline/
 I prefer to dump the data from the GUI
 
 ![image](https://user-images.githubusercontent.com/44196051/217583653-faf7c90f-48f2-4919-8171-001a53aae5d0.png)
-![image](https://user-images.githubusercontent.com/44196051/217583765-a48de2d3-d16f-4990-ab49-75dd15037a95.png)
 
 You will get a folder with some goodies. The two CSVs to focus on are: ApplicationExecutionList, WindowsTimeline. The former is easier to interpet than the latter
 
@@ -5717,7 +5716,7 @@ paste <(cut -d'|' -f3 PcaGeneralDb0.txt) <(cut -d'|' -f1 PcaGeneralDb0.txt) \
 
 #### PCA Registry Data
 
-Chatting with Program Compatibility Assistant also stores data in some Registry keys. Chatting with my man [@biffbiffbiff](https://twitter.com/biffbiffbiff), we have some options to carve that out 
+Program Compatibility Assistant also stores data in some Registry keys. Chatting with my man [@biffbiffbiff](https://twitter.com/biffbiffbiff), we have some options to carve that out 
 
 ```powershell
 mount -PSProvider Registry -Name HKU -Root HKEY_USERS;
