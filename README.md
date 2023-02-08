@@ -5672,6 +5672,25 @@ Opening this up in Excel, we can start to play around with the data.
 
 <img width="1213" alt="image" src="https://user-images.githubusercontent.com/44196051/196246018-a4582a2d-ee50-461d-8db0-c5375fd959ee.png">
 
+Can also use [WindowsTimeline.exe](https://github.com/kacos2000/WindowsTimeline/releases/download/v.2.0.81.0/WindowsTimeline.exe) tooling
+
+![image](https://user-images.githubusercontent.com/44196051/217583585-b676c1d9-9379-432e-bb50-b7cc02078223.png)
+
+I prefer to dump the data from the GUI
+
+![image](https://user-images.githubusercontent.com/44196051/217583653-faf7c90f-48f2-4919-8171-001a53aae5d0.png)
+![image](https://user-images.githubusercontent.com/44196051/217583765-a48de2d3-d16f-4990-ab49-75dd15037a95.png)
+
+You will get a folder with some goodies. The two CSVs to focus on are: ApplicationExecutionList, WindowsTimeline. The former is easier to interpet than the latter
+
+Grepping via timestamp makes most sense IMO for WindowsTimeline.csv.
+```bash
+grep '2023-02-02T18' WindowsTimeline.csv \
+| awk -F'|' '{print "StartTime:" $36 " | Executed: "$2}' | sort 
+```
+![image](https://user-images.githubusercontent.com/44196051/217584103-be65ae21-40f9-4427-843a-583593a296ee.png)
+
+
 ### Program Compatibility Assistant
 
 Like prefetch…but not, [PCA artifacts](https://aboutdfir.com/new-windows-11-pro-22h2-evidence-of-execution-artifact/) offer additional forensic insight into the fullpath execution times of exes on Win11 machines
