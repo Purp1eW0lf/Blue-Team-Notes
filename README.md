@@ -5868,10 +5868,19 @@ Replace the username field with the username you have, and you will get a TXT fi
 
 ```
 C:\windows\System32\winevt\Logs\Microsoft-Windows-TerminalServices-RemoteConnectionManager%4Operational.evtx
+C:\windows\System32\winevt\Logs\Microsoft-Windows-TerminalServices-LocalSessionManager%4Operational.evtx
 C:\windows\System32\winevt\Logs\Microsoft-Windows-WinRM%4Operational.evtx
 ```
 
-Pull these two to gain insight into the username, source IP address, and session time for RDP and WinRM’s PowerShell remoting
+Pull these to gain insight into the username, source IP address, and session time for RDP and WinRM’s PowerShell remoting. This resource can advise further: https://ponderthebits.com/2018/02/windows-rdp-related-event-logs-identification-tracking-and-investigation/
+
+
+If you've got ["RDS.. through the Remote Desktop Gateway"](https://woshub.com/rdp-connection-logs-forensics-windows/) collect `C:\Windows\System32\winevt\Logs\Microsoft-Windows-TerminalServices-Gateway%4Operational.evtx`. Filter for the following Event IDs:
+- 300 & 200 will show the username and IP address that was part of the authentication
+- 303 will show the above, but also session duration show BYTES IN and OUT, which may give some context for data exfil (but vague context)
+
+![image](https://user-images.githubusercontent.com/44196051/217901018-f23990ee-95e9-4c45-bdc2-247605673c25.png)
+
 
 #### Miscellaneous logs
 
