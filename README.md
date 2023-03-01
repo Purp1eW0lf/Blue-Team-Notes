@@ -603,6 +603,12 @@ But instead, try this bad boy on for size:
 Get-NetTCPConnection |
 select LocalAddress,localport,remoteaddress,remoteport,state,@{name="process";Expression={(get-process -id $_.OwningProcess).ProcessName}}, @{Name="cmdline";Expression={(Get-WmiObject Win32_Process -filter "ProcessId = $($_.OwningProcess)").commandline}} | 
 sort Remoteaddress -Descending | ft -wrap -autosize
+
+#### you can search/filter by the commandline process, but it will come out janky. 
+##### in the final field we're searching by `anydesk`
+Get-NetTCPConnection |
+select LocalAddress,localport,remoteaddress,remoteport,state,@{name="process";Expression={(get-process -id $_.OwningProcess).ProcessName}}, @{Name="cmdline";Expression={(Get-WmiObject Win32_Process -filter "ProcessId = $($_.OwningProcess)").commandline}} 
+|  Select-String -Pattern 'anydesk'
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/150955379-872e2b5f-6d88-4b3f-929f-debaa8fd1036.png)
