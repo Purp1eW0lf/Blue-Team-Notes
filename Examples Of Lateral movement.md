@@ -1,4 +1,4 @@
-# Examples of Lateral movemement
+# Examples of Lateral Movement
 
 ## Preamble
 
