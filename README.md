@@ -1,25 +1,8 @@
-<p align="center">
-  <img width="450" height="450" src="https://user-images.githubusercontent.com/44196051/120006585-f0dc3c00-bfd0-11eb-98d9-da3eb59edbda.png">
-</p>
 
-# Blue Team Notes
-A collection of one-liners, small scripts, and some useful tips for blue team work. 
+# BlueTeam Playbook
+> A collection of one-liners, small scripts, and some useful tips for blue team work. 
+> I've included screenshots where possible so you know what you're getting. 
 
-I've included screenshots where possible so you know what you're getting. 
-
-## Contact me
-If you see a mistake, or have an easier way to run a command then you're welcome to hit me up on [Twitter](https://twitter.com/Purp1eW0lf) or commit an issue here. 
-
-If you want to contribute I'd be grateful for the command and a screenshot. I'll of course add you as a contributor
-
-If you want to find me elsehwere, for reasons(?), searching 'Dray Agha' on the internets should find whatever it is you're looking for. 
-
-## Did the Notes help?
-
-I hope the Blue Team Notes help you catch an adversary, thwart an attack, or even just helps you learn.
-If you've benefited from the Blue Team Notes, would you kindly consider making a donation to one or two charities. 
-
-Donate as much or little money as you like, of course. I have some UK charities you could donate to: [Great Ormond Street - Children's hospital](https://www.gosh.org/_donate/?amount=3&frequency=single&campaign=1284), [Cancer Research](https://donate.cancerresearchuk.org/support-us/your-donation?type=single&amount=3), and [Feeding Britain - food charity](https://feedingbritain.org/donate/)
 
 ## Table of Contents
 - [Shell Style](#shell-style)
