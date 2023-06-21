@@ -6160,23 +6160,6 @@ C:\Program Files\Microsoft\Exchange Server\*\TransportRoles\Logs\*\*.log
 
 Things that MSPs, SysAdmins, and bad guys love to use
 
-ScreenConnect:
-
-```
-C:\Program Files*\ScreenConnect\App_Data\Session.db
-
-C:\Program Files*\ScreenConnect\App_Data\User.xml
-
-C:\ProgramData\ScreenConnect Client*\user.config
-```
-
-Splashtop
-```
-C:\windows\System32\winevt\Logs\Splashtop-Splashtop Streamer-Remote Session%4Operational.evtx
-
-C:\windows\System32\winevt\Logs\Splashtop-Splashtop Streamer-Status%4Operational.evtx
-```
-
 AnyDesk
 
 ```
@@ -6191,6 +6174,16 @@ C:\Users\*\AppData\Roaming\AnyDesk\connection_trace.txt
 C:\ProgramData\AnyDesk\connection_trace.txt
 
 C:\Windows\SysWOW64\config\systemprofile\AppData\Roaming\AnyDesk\*
+```
+
+Atera (linked to Splashtop)
+
+```
+C:\windows\temp\AteraSetupLog.txt
+
+C:\\Program Files\\ATERA Networks\\AteraAgent\log.txt
+
+HKLM\SOFTWARE\ATERA Networks\AlphaAgent value IntegratorLogin
 ```
 
 Kaseya
@@ -6209,6 +6202,15 @@ C:\Windows\Temp\KASetup.log
 C:\ProgramData\Kaseya\Log\KaseyaEdgeServices\
 ```
 
+mRemoteNG
+```
+C:\Users\*\AppData\Roaming\mRemoteNG\mRemoteNG.log
+
+C:\Users\*\AppData\Roaming\mRemoteNG\confCons.xml
+
+C:\Users\*\AppData\*\mRemoteNG\**10\user.config
+```
+
 RAdmin
 
 ```
@@ -6221,6 +6223,30 @@ C:\Windows\System32\rserver30\CHATLOGS\*\*.htm
 C:\Users\*\Documents\ChatLogs\*\*.htm
 ```
  
+RealVNC
+
+`C:\Users\*\AppData\Local\RealVNC\vncserver.log`
+
+ScreenConnect:
+
+```
+C:\Program Files*\ScreenConnect\App_Data\Session.db
+
+C:\Program Files*\ScreenConnect\App_Data\User.xml
+
+C:\ProgramData\ScreenConnect Client*\user.config
+```
+
+Splashtop (Linked to Atera)
+```
+C:\windows\System32\winevt\Logs\Splashtop-Splashtop Streamer-Remote Session%4Operational.evtx
+
+C:\windows\System32\winevt\Logs\Splashtop-Splashtop Streamer-Status%4Operational.evtx
+
+C:\ProgramData\Splashtop\Temp\log
+
+C:\Program Files (x86)\Splashtop\Splashtop Remote\Server\log
+```
 
 TeamViewer
 
@@ -6229,20 +6255,9 @@ C:\Program Files*\TeamViewer\connections*.txt
 
 C:\Program Files*\TeamViewer\TeamViewer*_Logfile*
 
-C:\Users\*\AppData\Roaming\TeamViewer\MRU\RemoteSupport\*
-```
+C:\Users\*\AppData\Roaming\TeamViewer\connections.txt
 
-RealVNC
-
-`C:\Users\*\AppData\Local\RealVNC\vncserver.log`
-
-mRemoteNG
-```
-C:\Users\*\AppData\Roaming\mRemoteNG\mRemoteNG.log
-
-C:\Users\*\AppData\Roaming\mRemoteNG\confCons.xml
-
-C:\Users\*\AppData\*\mRemoteNG\**10\user.config
+C:\Users\*\AppData\Roaming\TeamViewer\MRU\RemoteSupport\*tvc
 ```
 
 ## Cerutil History
