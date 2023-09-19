@@ -1,4 +1,4 @@
-<p align="center">
+![image](https://github.com/Purp1eW0lf/Blue-Team-Notes/assets/44196051/027a8388-be7d-4080-9bcf-58b770fc9dab)<p align="center">
   <img width="450" height="450" src="https://user-images.githubusercontent.com/44196051/120006585-f0dc3c00-bfd0-11eb-98d9-da3eb59edbda.png">
 </p>
 
@@ -81,6 +81,7 @@ Donate as much or little money as you like, of course. I have some UK charities 
   * [Which logs to pull in an incident](#Which-logs-to-pull-in-an-incident)
   * [USBs](#USBs)
   * [Reg Ripper](#reg-ripper)
+  * [Winget](#winget)
 
 ---
 
@@ -6371,3 +6372,32 @@ GCI "C:\registry_hives\" -recurse -force -include SYSTEM, SAM, SECURITY, SOFTWAR
 
 <img width="1395" alt="image" src="https://user-images.githubusercontent.com/44196051/210093620-1d616cfe-8e2a-413f-98c5-998cd091769c.png">
 
+## Winget
+
+[Nas Bench's research](https://github.com/nasbench/Misc-Research/tree/main/LOLBINs/Winget) highlighted some forensic artefacts associated with Winget
+
+```
+C:\Users\{$USERNAME}\AppData\Local\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\DiagOutputDir\
+```
+* Directory will contain utility names installed from `winget search` repo
+* `WinGet-*.log` - will have timestamps, the offending URL used, as well as the command lines used
+* `installed.db` - not very useful but good at getting a record of the names and product codes of the utilites installed
+
+![image](https://github.com/Purp1eW0lf/Blue-Team-Notes/assets/44196051/1d435a7b-ed3e-442f-8968-735ee000fca3)
+![image](https://github.com/Purp1eW0lf/Blue-Team-Notes/assets/44196051/ab214e87-4520-483b-a8bc-52e2cd312144)
+![image](https://github.com/Purp1eW0lf/Blue-Team-Notes/assets/44196051/14395d6a-3228-4a6b-9492-008828266381)
+
+```
+# For the DB
+# Shows utilities installed via winget
+select * from ids;
+select * from monikers;
+select * from names;
+select * from norm_names;
+
+# Creator name / publisher of the utilities installed via winget
+select * from norm_publishers;
+
+# Show package family name (pfns)
+select * from pfns;
+```
