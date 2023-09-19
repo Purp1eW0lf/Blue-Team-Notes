@@ -6376,18 +6376,20 @@ GCI "C:\registry_hives\" -recurse -force -include SYSTEM, SAM, SECURITY, SOFTWAR
 
 [Nas Bench's research](https://github.com/nasbench/Misc-Research/tree/main/LOLBINs/Winget) highlighted some forensic artefacts associated with Winget
 
-```
+```powershell
 C:\Users\{$USERNAME}\AppData\Local\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\DiagOutputDir\
 ```
 * Directory will contain utility names installed from `winget search` repo
 * `WinGet-*.log` - will have timestamps, the offending URL used, as well as the command lines used
 * `installed.db` - not very useful but good at getting a record of the names and product codes of the utilites installed
+* Tools downloaded from Winget are installed in `C:\Users\*\AppData\Local\Temp\WinGet\`
 
 ![image](https://github.com/Purp1eW0lf/Blue-Team-Notes/assets/44196051/1d435a7b-ed3e-442f-8968-735ee000fca3)
 ![image](https://github.com/Purp1eW0lf/Blue-Team-Notes/assets/44196051/ab214e87-4520-483b-a8bc-52e2cd312144)
 ![image](https://github.com/Purp1eW0lf/Blue-Team-Notes/assets/44196051/14395d6a-3228-4a6b-9492-008828266381)
+![image](https://github.com/Purp1eW0lf/Blue-Team-Notes/assets/44196051/db09a7c2-3812-435b-9501-8916c64ad451)
 
-```
+```bash
 # For the DB
 # Shows utilities installed via winget
 select * from ids;
