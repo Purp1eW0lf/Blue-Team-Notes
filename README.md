@@ -1,4 +1,4 @@
-![image](https://github.com/Purp1eW0lf/Blue-Team-Notes/assets/44196051/027a8388-be7d-4080-9bcf-58b770fc9dab)<p align="center">
+<p align="center">
   <img width="450" height="450" src="https://user-images.githubusercontent.com/44196051/120006585-f0dc3c00-bfd0-11eb-98d9-da3eb59edbda.png">
 </p>
 
