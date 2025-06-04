@@ -1,4 +1,4 @@
-<p align="center">
+f<p align="center">
   <img width="450" height="450" src="https://user-images.githubusercontent.com/44196051/120006585-f0dc3c00-bfd0-11eb-98d9-da3eb59edbda.png">
 </p>
 
@@ -5930,6 +5930,11 @@ There are some other logs that you’ll pull on if the context is appropiate
 `C:Windows\System32\winevt\Logs\Microsoft-WindowsTaskScheduler%4Operational`
 
 * Detail in scheduled tasks - though we would likely be able to get this telemtry elsewhere
+
+`C:\windows\System32\winevt\Logs\Microsoft-Windows-Windows Firewall With Advanced Security%4Firewall.evtx` 
+
+* Where a threat actor runs something like `netsh advfirewall firewall add rule name="allow RemoteDesktop" dir=in protocol=TCP localport=3389 action=allow`, this log records this.
+
 
 ### Security Products Logs
 Sometimes, it’s helpful to go and pull other Security Solutions' logs and files.
