@@ -5878,6 +5878,10 @@ These are the staple logs you will likely pull every single time.
 
 These are the logs that will give you a baseline insight into an incident: the processes, the users, the sign ins (etc)
 
+* You have the obvious 4624 and 4625s, for successful and failing login
+* but don't forget 4778 and 4779s from the Security EVTX, which show (re)connecting and disconnecting RDP sessions with username, hostname, and IP
+* As well as the 4776s (result code 0x0) on the DC's security log, which will show username and hostname
+
 #### Defender & security products
 
 `C:\windows\System32\winevt\Logs\Microsoft-Windows-Windows Defender%4Operational.evtx`
