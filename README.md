@@ -5918,6 +5918,10 @@ If you've got ["RDS.. through the Remote Desktop Gateway"](https://woshub.com/rd
 
 ![image](https://user-images.githubusercontent.com/44196051/217901018-f23990ee-95e9-4c45-bdc2-247605673c25.png)
 
+Sometimes, user and machine names in RDG instances are also recorded in Security.evtx's EID 6272
+
+<img width="900" height="863" alt="image" src="https://github.com/user-attachments/assets/057b9087-c349-4330-96a1-caef6abd927c" />
+
 
 #### Miscellaneous logs
 
