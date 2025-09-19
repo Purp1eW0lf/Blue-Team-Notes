@@ -6197,108 +6197,343 @@ C:\Program Files\Microsoft\Exchange Server\*\TransportRoles\Logs\*\*.log
 ```
  
 ### Remote Management Logs
+Amelia Casley and Christopher 'Dope' Rodipe were the masterminds behind curating this list
 
-Things that MSPs, SysAdmins, and bad guys love to use
+#### Action1
+**Files and Registry Keys**
+* `C:\Windows\Action1\Logs\Action1_log_[date-time].log` — History, Errors, System Notifications, Incoming and Outgoing Connections.
+  * **Timestamp Format:** YYMMDD HH:MM:SS
+  * **Timezone:** UTC
+  * `[REMOTE_SESSION_CONNECT]` — Remote session established.
+  * `[Session::Disconnect]` — Remote session closed (may include "closing relay socket").
 
-AnyDesk
+* **Loaded instance Deploy App:** Action1 used to deploy or install additional software.
+* **Session details:** `LogonTime` — `YYYY/MM/DD HH:MM:SS` in UTC showing logon time and username of threat actor.
+* `C:\Windows\Action1\action1_remote.exe` — File path for execution of remote control session.
+* `C:\Windows\Action1\action1_agent.exe` — Basic service binary.
+* `C:\Windows\Action1\package_downloads` — Staging location for file transfer.
 
-```
-C:\Users\*\AppData\Roaming\AnyDesk\*.trace
+#### AmmyAdmin
+**Files and Registry Keys**
+* `C:\ProgramData\AMMYY\access.log`
+  * **Timestamp Format:** YYYYMMDD-HH:MM:SS.SSSSSS
+  * **Timezone:** Local Time
+  * `PASSED authorization remoteId=-` — Start of a remote session.
+  * `ENDED authorized session, bytes recv/send` — End of a remote session.
 
-C:\ProgramData\AnyDesk\*.trace
+#### AnyDesk
+**Files and Registry Keys**
+* `C:\ProgramData\AnyDesk\*.trace`
+* `C:\ProgramData\AnyDesk\ad_svc.trace` — AnyDesk service logs
+  * **Timestamp Format:** YYYY-MM-DD HH:MM:SS.SSS
+  * **Timezone:** UTC
 
-C:\Users\*\Videos\AnyDesk\*.anydesk
+* `C:\Users\*\AppData\Roaming\AnyDesk\*.trace`
+* `C:\Users\*\AppData\Roaming\AnyDesk\ad.trace` — Shows incoming and outgoing connections.
+  * **Timestamp Format:** YYYY-MM-DD HH:MM:SS.SSS
+  * **Timezone:** UTC
+  * `anynet.any_socket - accepting from` (AnyDesk ID of remote machine)
+  * `anynet.any_socket - logged in from` (Global IP address of remote machine)
+  * `anynet.punch_connector - Spawning:` (Private IP address of remote machine)
 
-C:\Users\*\AppData\Roaming\AnyDesk\connection_trace.txt
+* `C:\Users\*\Videos\AnyDesk\*.anydesk`
+* `C:\Users\*\AppData\Roaming\AnyDesk\connection_trace.txt`
+* `C:\ProgramData\AnyDesk\connection_trace.txt`
+  * **Timestamp Format:** YYYY-MM-DD, HH:MM
+  * **Timezone:** UTC
+  * Stores:
+    * Date/Time of Remote Access
+    * Authentication Type
+    * `User:` Accepted from client side (victim)
+    * `Passwd:` Password entered on the remote machine (threat actor)
+    * `Token:` Connected with a stored password
 
-C:\ProgramData\AnyDesk\connection_trace.txt
+* `C:\Windows\SysWOW64\config\systemprofile\AppData\Roaming\AnyDesk\*`
 
-C:\Windows\SysWOW64\config\systemprofile\AppData\Roaming\AnyDesk\*
-```
+**Event Logs**
+* Installation on victim machine — `System.evtx` (Event ID: 7045)
+* Password set via command line — `Security.evtx` (Event ID: 4688)
 
-Atera (linked to Splashtop)
+#### Atera
+**Files and Registry Keys**
+* `C:\Windows\Temp\AteraSetupLog.txt`
+* `C:\Program Files\ATERA Networks\AteraAgent\log.txt`
+* `C:\Program Files\ATERA Networks\AteraAgent\Packages\AgentPackageRunCommandInteractive\log.txt`
+  * **Timestamp Format:** DD/MM/YYYY HH:MM:SS
+  * `Command:` Executed PowerShell command and date/time
+  * `ReadStreamOutputAndWrite Message:` Response of the command
 
-```
-C:\windows\temp\AteraSetupLog.txt
+* Registry
+  * `HKLM\SOFTWARE\ATERA Networks\AlphaAgent` → `IntegratorLogin` (threat actor’s email) and `AccountID` (tenant account ID)
 
-C:\\Program Files\\ATERA Networks\\AteraAgent\log.txt
+**Event Logs**
+* MSI installation — `Application.evtx` (Event ID: 1033, 11707)
+* Service installation — `System.evtx` (Event ID: 7045)
+* File transfers may appear as base64 data — `Security.evtx` (Event ID: 4688)
 
-HKLM\SOFTWARE\ATERA Networks\AlphaAgent value IntegratorLogin
-```
+#### Bomgar / BeyondTrust
+**Files and Registry Keys**
+* `C:\ProgramData\Bomgar-scc-(instance string)`
+* `C:\ProgramData\bomgar-scc-(instance string)\proxy-settings-cc.ini` — Proxy connection events
+* `C:\ProgramData\bomgar-scc-(instance string)\settings.ini`
 
-Kaseya
+#### Citrix GoToMyPC
+**Files and Registry Keys**
+* `HKU\<SID>\SOFTWARE\Citrix\GoToMyPc\FileTransfer\History` — Hostname of agents and transferred file locations
+* `HKLM\WOW6432Node\Citrix\GoToMyPc` — Configuration and registration email
+* `HKLM\WOW6432Node\Citrix\GoToMyPc\GuestInvite` — Guest invites sent
+* `C:\Users\AppData\Roaming\GoTo\Logs\goto.log` or `goto.old.log` — Search for `remoteControlPermission` to confirm remote control evidence
 
-```
-C:\Users\*\AppData\Local\Kaseya\Log\KaseyaLiveConnect\
+#### ConnectWise / ScreenConnect
+**Files and Registry Keys**
+* `C:\ProgramData\ScreenConnect Client*`
+* `C:\Program Files*\ScreenConnect Client*`
+* `HKLM\System\CurrentControlSet\Services\ScreenConnect Client(*)`
+* `C:\Windows\SysWOW64\config\systemprofile\AppData\Local\ScreenConnect Client(*)\user.config`
+* `C:\Users\*\Documents\ConnectWiseControl\Temp\` — File execution
+* `C:\Users\*\Documents\ConnectWiseControl\Files` — File transfers
 
-C:\ProgramData\Kaseya\Log\Endpoint\*
+**Event Logs**
+* Installation — `System.evtx` (Event ID: 7045), `Application.evtx` (Event ID: 1033, 11707)
+* Commands run on victim — `Security.evtx` (Event ID: 4688)
+* Transferred files with action 'Transfer' — `Application.evtx` (Event ID: 201)
+* Cloud account administrator connected — `Application.evtx` (Event ID: 100)
 
-C:\Program Files*\Kaseya\*\agentmon.log
+#### dwservice (DWagent)
+**Files and Registry Keys**
+* Windows — `C:\Program Files\DWAgent\dwagent.log`
+* Mac — `/Library/DWAgent/dwagent.log`
+  * **Timestamp Format:** YYYY-MM-DD HH:MM:SS,sss
+  * `Open session` — Shows id, ip, node
+  * `Close session` — Shows id, ip, node
 
-C:\Users\*\AppData\Local\Temp\KASetup.log
+**Useful grep**
+* `, ip`
+* `Open session`
+* `Close session`
 
-C:\Windows\Temp\KASetup.log
+#### GotoHTTP
+**Files**
+* Wherever `GotoHTTP.exe` is installed it creates `gotohttp.ini` in the same directory with the config details within
 
-C:\ProgramData\Kaseya\Log\KaseyaEdgeServices\
-```
+#### Kaseya
+**Files and Registry Keys**
+* `C:\ProgramData\Kaseya\Log\Endpoint\Instance_KSAAS###############\KaseyaEndpoint\KaseyaEndpoint-YYYY-MM-DDTHH-MM-SSZ.zip` → `KaseyaEndpoint-YYYY-MM-DDTHH-MM-SSZ.log`
+  * **Timestamp Format:** YYYY-MM-DDTHH:MM:SS.SSSSSSZ [timezone]
+  * Useful grep for successful auth IP address — `Successfully connected to`
 
-mRemoteNG
-```
-C:\Users\*\AppData\Roaming\mRemoteNG\mRemoteNG.log
+* `C:\ProgramData\Kaseya\Log\Endpoint\Instance_KSAAS###############\Session_92fb5231-0009-44af-bd31-425bf26b8060\KaseyaRemoteControlHost*\KaseyaRemoteControlHost*--YYYY-MM-DDTHH-MM-SSZ.log`
 
-C:\Users\*\AppData\Roaming\mRemoteNG\confCons.xml
+#### Level
+**Files and Registry Keys**
+* `C:\Program Files\Level\level.log` — History, errors, system notifications, incoming and outgoing connections
+  * **Timestamp Format:** YYYY-MM-DD HH:MM:SS.SSS
+  * **Timezone:** UTC
 
-C:\Users\*\AppData\*\mRemoteNG\**10\user.config
-```
+* `C:\Program Files (x86)\Level\Level.log` — 32 bit variant, same format and timezone
 
-RAdmin
+#### LogMeIn
+**Files and Registry Keys**
+* `C:\ProgramData\LogMeIn\LogMeIn.log` — Installation, logins and file transfers
+  * **Timestamp Format:** YYYY-MM-DD HH:MM:SS.SSS
 
-```
-C:\Windows\SysWOW64\rserver30\Radm_log.htm
+* If `received file sharing ticket` is present then file path may also be in:
+  * `HKLM\Software\LogMeIn\V5\WebSvc\Shared\<random>`
 
-C:\Windows\System32\rserver30\Radm_log.htm
+* Registry keys of interest:
+  * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run` — Autorun entries
+  * `HKLM\SOFTWARE\LogMeIn\V5\FeatureHistory\remotecontrol` — Remote control attempt counts
 
-C:\Windows\System32\rserver30\CHATLOGS\*\*.htm
+**Event Logs**
+* IP logged in from — `Application.evtx` (Event ID: 102)
+* Session started and IP — `Application.evtx` (Event ID: 202)
+* Session ended — `Application.evtx` (Event ID: 205)
 
-C:\Users\*\Documents\ChatLogs\*\*.htm
-```
- 
-RealVNC
+#### MeshCentral
+**Files and Registry Keys**
+* `C:\Program Files\Mesh Agent\meshagent.log`
+  * **Timestamp Format:** YYYY-MM-DD HH:MM:SS
 
-`C:\Users\*\AppData\Local\RealVNC\vncserver.log`
+#### mRemoteNG
+**Files and Registry Keys**
+* `C:\Users\*\AppData\Roaming\mRemoteNG\mRemoteNG.log`
+* `C:\Users\*\AppData\Roaming\mRemoteNG\confCons.xml`
+* `C:\Users\*\AppData\Roaming\mRemoteNG\**10\user.config`
 
-ScreenConnect:
+#### PDQ Connect Agent
+**Files and Registry Keys**
+* `C:\ProgramData\PDQ\PDQConnectAgent\PDQConnectAgent.db` — Database containing info on temporary files and scripts run during deployment
+* `C:\ProgramData\PDQ\PDQConnectAgent\Downloads` — Downloaded packages and temp files
 
-```
-C:\Program Files*\ScreenConnect\App_Data\Session.db
+**Event Logs**
+* `C:\Windows\System32\Winevt\Logs\PDQ.com.evtx` — Updates, temporary files and scripts run during deployment
 
-C:\Program Files*\ScreenConnect\App_Data\User.xml
+#### RAdmin
+**Files and Registry Keys**
+* `C:\Windows\SysWOW64\rserver30\Radm_log.htm`
+* `C:\Windows\System32\rserver30\Radm_log.htm`
+* `C:\Windows\System32\rserver30\CHATLOGS\*\*.htm`
+* `C:\Users\*\Documents\ChatLogs\*\*.htm`
 
-C:\ProgramData\ScreenConnect Client*\user.config
-```
+#### RealVNC
+**Files and Registry Keys**
+* `C:\ProgramData\RealVNC-Service\vncserver.log`
+* `C:\ProgramData\RealVNC-Service\vncserver.log.bak`
+  * **Timestamp Format:** YYYY-MM-DDTHH:MM:SS.SSS
+  * **Timezone:** UTC
+  * Useful grep — `Connections: authenticated:|Connections: disconnected:`
 
-Splashtop (Linked to Atera)
-```
-C:\windows\System32\winevt\Logs\Splashtop-Splashtop Streamer-Remote Session%4Operational.evtx
+* Registry
+  * `HKU\<SID>\SOFTWARE\RealVNC\vncviewer\MRU` — History of external IP addresses
 
-C:\windows\System32\winevt\Logs\Splashtop-Splashtop Streamer-Status%4Operational.evtx
+**Event Logs**
+* `Application.evtx` (Event ID: 256) — Connections and disconnections including IP addresses
 
-C:\ProgramData\Splashtop\Temp\log
+#### Remote Utilities Agent
+**Files and Registry Keys**
+* `C:\Program Files (x86)\Remote Utilities - Host\Logs\rut_log_YYYY-MM.html`
+  * **Timestamp Format:** DD-MM-YYYY HH:MM:SS.SSS
+  * **Timezone:** UTC
+  * Useful grep for connection events — `Access granted | Remote screen connection. Started`
 
-C:\Program Files (x86)\Splashtop\Splashtop Remote\Server\log
-```
+#### RustDesk
+**Files and Registry Keys**
+* `C:\Windows\ServiceProfiles\LocalService\AppData\Roaming\RustDesk\log\server\RustDesk_rCURRENT.log` — Public IPv4 of adversary
+* `C:\Users\*\AppData\Roaming\RustDesk\log\RustDesk_rCURRENT.log` — Public IPv4 of adversary
+* `C:\Windows\ServiceProfiles\LocalService\AppData\Roaming\RustDesk\log\server\RustDesk_r*.log` — Connection times
+* `C:\Users\*\AppData\Roaming\RustDesk\log\server\RustDesk_r*.log` — Connection times
 
-TeamViewer
+#### SimpleHelp
+**Files and Registry Keys**
+* `C:\ProgramData\SimpleHelp\simpleinstaller.log` — Installation activity
+* `C:\ProgramData\JWrapper-Remote Access\logs\` — App activity and domains contacted
+* `Remote Access-Remote Access Session-YYYY-MM-DD-HH-MM-SS-SSS-pidXXXXX.log` — Remote session specific logs
+* `C:\ProgramData\JWrapper-Remote Access\JWAppsSharedConfig\serviceconfig.xml` — RMM configuration including callback IP
 
-```
-C:\Program Files*\TeamViewer\connections*.txt
+**Useful grep**
+* `jwdyna_AutomaticCustomerHost=`
+* `jwdyna_update_url=`
+* `<ConnectTo`
 
-C:\Program Files*\TeamViewer\TeamViewer*_Logfile*
+#### Splashtop
+**Files and Registry Keys**
+* `C:\ProgramData\Splashtop\Temp\log\FTCLog.txt` — File transfers, user account, IP of client
+  * **Timestamp Format:** YYYY-MM-DD HH:MM:SS
 
-C:\Users\*\AppData\Roaming\TeamViewer\connections.txt
+* `C:\Program Files (x86)\Splashtop\Splashtop Remote\Server\log\agent_log.txt` — Agent debug log
+* `C:\Program Files (x86)\Splashtop\Splashtop Remote\Server\log\SPLog.txt` — Connection start, hostname, user display name, client IP, file transfers and chat
+* `C:\Program Files (x86)\Splashtop\Splashtop Remote\Server\log\svcinfo.txt` — Internal application events
+* `C:\Program Files (x86)\Splashtop\Splashtop Remote\Server\log\sysinfo.txt` — Internal application events
 
-C:\Users\*\AppData\Roaming\TeamViewer\MRU\RemoteSupport\*tvc
-```
+* Gateway logs
+  * `C:\Program Files\Splashtop\Splashtop Remote\Splashtop Gateway\log`
+  * `C:\Program Files (x86)\Splashtop\Splashtop Remote\Splashtop Gateway\log`
+
+* Streamer logs — `C:\Program Files (x86)\Splashtop\Splashtop Remote\Server\SPLog.*`
+
+**Event Logs**
+* `Splashtop-Splashtop Streamer-Remote Session%4Operational.evtx`
+  * Event ID 1000 — Session connection (stores SPID and source name)
+  * Event ID 1001 — Session disconnection (stores session duration as Duration_Time in HH:MM:SS)
+* `System.evtx` (Event ID: 7045) — SplashtopRemoteService install
+
+#### SupRemo
+**Files and Registry Keys**
+* `C:\ProgramData\SupremoRemoteDesktop\Log\SupremoService.00.Service.log` — Installation information
+* `Supremo.00.Client.log` — "Connected with ID" entries
+* `Supremo.00.Incoming.log` — Hostname of attacker
+* `Supremo.00.ReportsQueue.log` — Session start and end
+* `Supremo.00.FileTransfer.log` — Received or sent file entries
+  * **Timestamp Format:** YYYY-MM-DD HH:MM:SS:SSS
+  * Useful grep — `Connected with ID|[Incoming]|Supremo Closed|[File Transfer]`
+
+#### Syncro RMM
+**Files and Registry Keys**
+* `C:\ProgramData\Syncro\logs`
+  * **Timestamp Format:** YYYY-MM-DD HH:MM:SS.SSS [timezone]
+
+#### TeamViewer
+**Files and Registry Keys**
+* `C:\Program Files\TeamViewer\connections_incoming.txt` — TeamViewer ID, remote display name, time duration (START_timestamp END_timestamp), connection type and connection UUID
+  * **Timestamp Format:** DD-MM-YYYY HH:MM:SS
+  * **Timezone:** UTC
+
+* `C:\Program Files\TeamViewer\TeamViewer##_Logfile.log` — Complete history of incoming and outgoing connections
+  * **Timestamp Format:** YYYY/HH/DD HH:MM:SS.SSS [timezone]
+
+* `C:\Users\*\AppData\Local\TeamViewer\connections.txt` — Successful outgoing connection details
+* `C:\Users\*\AppData\Local\TeamViewer\TeamViewer##_Logfile.log` — General software logs
+  * **Timestamp Format:** YYYY/MM/DD HH:MM:SS.SSS
+
+**Useful grep**
+* `UTC` — timezone indicator (timestamp on same line)
+* line above `MID:` — client IP
+* `punch received a=` — public IP
+* other useful tokens — `Send file|Write file|Download from|AddParticipant|ParticipantRemoved|SessionTerminate|RunAutheticationMethod`
+
+#### Tactical RMM
+**Files and Registry Keys**
+* `C:\Program Files\TacticalAgent\agent.log` — Includes details on when various services started
+  * **Timestamp Format:** YYYY-MM-DDTHH:MM:SS[time-zone]
+
+#### TightVNC
+**Files and Registry Keys**
+* `C:\ProgramData\TightVNC\Server\Logs`
+* `C:\ProgramData\TightVNC\tvnserver.log`
+  * **Timestamp Format:** YYYY-MM-DD HH:MM:SS
+  * Useful grep — `Incoming.*connection|Client.*connected`
+
+* Registry
+  * `HKU\User SID\SOFTWARE\TightVNC\vncviewer\MRU` — Stores history of external IPs
+  * `HKLM\SOFTWARE\TightVNC\vncserver` — Stores encrypted password and config
+
+**Event Logs**
+* `Application.evtx` (Event ID: 256) — Provider "VNC Server" entries for connection and disconnection with IPs
+
+#### UltraViewer
+**Files and Registry Keys**
+* `C:\Users\*\AppData\Local\UltraViewer\Connection_IN_Log.txt` — Pipe delimited entries, connection time, ID number, computer name
+  * **Timestamp Format:** MM/DD/YYYY HH:MM:SS [AM/PM]
+
+* `C:\Users\*\AppData\Local\UltraViewer\ChatLog` — Chat logs
+* `C:\Users\*\AppData\Local\UltraViewer\ConnectionLog.log` — Connection direction, ID and unknown param
+* Possible alternative locations
+  * `C:\Users\*\AppData\Roaming\UltraViewer\`
+  * `C:\Program Files (x86)\UltraViewer\`
+
+#### UltraVNC
+**Files and Registry Keys**
+* `C:\Program Files\UltraVNC\mslogon.log` — Connections with IP addresses
+  * **Timestamp Format:** DD/M/YYYY HH:MM
+  * **Timezone:** Local time
+  * Useful grep — `Connection received|disconnected`
+
+**Event Logs**
+* `Application.evtx` (Event ID: 1) — "connected:" entries showing source and IP
+  * Useful grep — `connected: | disconnected:`
+
+#### Xeox
+**Files and Registry Keys**
+* `C:\Program Files\XEOX\log\*.log`
+  * **Timestamp Format:** YYYY-MM-DD HH:MM:SS,SSSS
+  * **Timezone:** Local Time
+  * Useful grep — `upload|CommandLine|'command': 'execute'`
+
+**Event Logs**
+* `System.evtx` (Event ID: 7045) — Xeox service installed
+* `Security.evtx` (Event ID: 4698) — Xeox scheduled task created
+
+#### ZohoAssist
+**Files and Registry Keys**
+* `C:\ProgramData\ZohoMeeting\log\LogFileTemp.log`
+  * **Timestamp Format:** YYYY/MM/DD hh:mm:ss
+  * **Timezone:** Local time of agent device
+  * Useful grep — search for `Email:` to find registered email account
+  * Useful grep — search for `IPAddress=` to find related IP address (confirm source/destination during investigation)
+
+* `C:\ProgramData\ZohoMeeting\log\LogFileTray.log`
+* `C:\Users\*\AppData\Local\ZohoMeeting\log\unattended.log`
+  * Useful grep — search for `Email:` to find registered email account
 
 ## Cerutil History
 
