@@ -6284,6 +6284,11 @@ Amelia Casley and Christopher 'Dope' Rodipe were the masterminds behind curating
 * `HKLM\WOW6432Node\Citrix\GoToMyPc\GuestInvite` — Guest invites sent
 * `C:\Users\AppData\Roaming\GoTo\Logs\goto.log` or `goto.old.log` — Search for `remoteControlPermission` to confirm remote control evidence
 
+### Chrome Remote 
+* `C:\\ProgramData\\Google\\Chrome Remote Desktop\host.json` config for remote desktop connection
+  * `host_owner` will give the offending email behind the connecton
+* Persistent Service called usually called `Chromoting` or at least has the Chrome Remote Desktop path
+
 #### ConnectWise / ScreenConnect
 **Files and Registry Keys**
 * `C:\ProgramData\ScreenConnect Client*`
