@@ -6401,6 +6401,13 @@ Amelia Casley and Christopher 'Dope' Rodipe were the masterminds behind curating
   * **Timezone:** UTC
   * Useful grep for connection events — `Access granted | Remote screen connection. Started`
 
+#### Remotely
+**Files**
+* `C:\Program Files\Remotely\ConnectionInfo.json` - Contains configuration information, including domain/IP. 
+* `C:\ProgramData\Remotely\Logs\Remotely_Agent\LogFile_YYYY-MM-DD.log`
+  * Timestamp Format: YYYY-MM-DD HH:MM:SS.SSS
+  * Timezone: Hosts Timezone
+
 #### RustDesk
 **Files and Registry Keys**
 * `C:\Windows\ServiceProfiles\LocalService\AppData\Roaming\RustDesk\log\server\RustDesk_rCURRENT.log` — Public IPv4 of adversary
