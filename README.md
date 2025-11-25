@@ -5840,7 +5840,7 @@ select * from moz_places;
 
 As well as:
 
-```
+```sql
 # Chrome and Edge
 SELECT 
   datetime(last_visit_time/1000000-11644473600, "unixepoch") as last_visited, 
