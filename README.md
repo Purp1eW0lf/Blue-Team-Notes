@@ -1,4 +1,4 @@
-f<p align="center">
+<p align="center">
   <img width="450" height="450" src="https://user-images.githubusercontent.com/44196051/120006585-f0dc3c00-bfd0-11eb-98d9-da3eb59edbda.png">
 </p>
 
@@ -5837,6 +5837,40 @@ select * from moz_places;
 ```
 
 ![image](https://user-images.githubusercontent.com/44196051/155850582-e78c365b-26f6-4315-9f8b-abc9bee13e95.png)
+
+As well as:
+
+```
+# Chrome and Edge
+SELECT 
+  datetime(last_visit_time/1000000-11644473600, "unixepoch") as last_visited, 
+  url, 
+  title, 
+  visit_count 
+FROM urls;
+
+# Safari
+SELECT 
+  datetime(hv.visit_time + 978307200, 'unixepoch', 'localtime') as last_visited, 
+  hi.url,
+  hv.title
+FROM 
+  history_visits hv, 
+  history_items hi 
+WHERE 
+  hv.history_item = hi.id;
+
+# Firefox
+SELECT 
+  datetime(moz_historyvisits.visit_date/1000000,'unixepoch'), 
+  moz_places.url, 
+  moz_places.title
+FROM 
+  moz_places, 
+  moz_historyvisits 
+WHERE 
+  moz_places.id = moz_historyvisits.place_id;
+```
 
 
 ## Which logs to pull in an incident
