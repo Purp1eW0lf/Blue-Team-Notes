@@ -5840,8 +5840,26 @@ select * from moz_places;
 
 As well as:
 
+Downloads
 ```sql
-# Chrome and Edge
+-- Chrome and edge
+SELECT 
+  id, 
+  datetime(start_time/1000000-11644473600, "unixepoch") as start_time,
+  datetime(end_time/1000000-11644473600, "unixepoch") as end_time,
+  datetime(last_access_time/1000000-11644473600, "unixepoch") as last_access_time,
+  current_path,
+  target_path,
+  referrer, 
+  tab_url,
+  original_mime_type
+FROM downloads;
+```
+
+URLs Visited
+
+```sql
+-- Chrome and Edge
 SELECT 
   datetime(last_visit_time/1000000-11644473600, "unixepoch") as last_visited, 
   url, 
@@ -5849,7 +5867,7 @@ SELECT
   visit_count 
 FROM urls;
 
-# Safari
+-- Safari
 SELECT 
   datetime(hv.visit_time + 978307200, 'unixepoch', 'localtime') as last_visited, 
   hi.url,
@@ -5860,7 +5878,7 @@ FROM
 WHERE 
   hv.history_item = hi.id;
 
-# Firefox
+-- Firefox
 SELECT 
   datetime(moz_historyvisits.visit_date/1000000,'unixepoch'), 
   moz_places.url, 
