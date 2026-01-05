@@ -5454,18 +5454,18 @@ sudo file pid.6988.0x1c0000.dmp
    <summary>section contents</summary>
 
   + [Prefetch](#prefetch)
-  + [Query Background Activity Moderator](#Query-Background-Activity-Moderator)
+  + [Query Background Activity Moderator](#query-background-activity-moderator)
   + [Shimcache](#shimcache)
   + [Jump Lists](#jump-lists)
-  + [SRUM](#SRUM)
+  + [SRUM](#srum)
   + [Amcache](#amcache) 
   + [Certutil History](#certutil-history)
-  + [WER](#WER)
-  + [BITS](#BITS)
-  + [Forensic via Power Usage](#Forensic-via-Power-Usage)
-  + [Activities Cache](#Activities-Cache)
-  + [Program Compatibility Assistant](#Program-Compatibility-Assistant)
-
+  + [WER](#wer)
+  + [BITS](#bits)
+  + [Forensic via Power Usage](#forensic-via-power-usage)
+  + [Activities Cache](aActivities-cache)
+  + [Program Compatibility Assistant](#program-compatibility-assistant)
+  + [Defender MpWppTracing](#defender-mpWppTracing)
  
 </details>
 
@@ -5772,6 +5772,14 @@ mount -PSProvider Registry -Name HKU -Root HKEY_USERS;
 (gci "HKU:\*\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Compatibility Assistant\Store\", "HKU:\*\Software\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers").Property
 ```
 <img width="1161" alt="image" src="https://user-images.githubusercontent.com/44196051/217371811-9a2789ed-6696-4ead-b4ae-a49709b65c74.png">
+
+### Defender MpWppTracing
+As shared [here](https://www.linkedin.com/posts/0xhasanm_sundfirday-windows-dfir-activity-7412132549705158656-24P4/?utm_medium=ios_app&rcm=ACoAABX0DV4BLBKuYlhQyPirDlW3RnLmQ70FOgk&utm_source=social_share_send&utm_campaign=mail), Defender's diagnoistic files can be leveraged to highlight files scanned - which may highlight some IoCs
+
+```
+C:\ProgramData\Microsoft\Windows Defender\Support\*ffffffeffffffff.bin
+# strings the above files for any insight
+```
 
 
 ## Chainsaw
