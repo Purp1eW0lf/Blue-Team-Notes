@@ -3319,10 +3319,17 @@ The TCC db (Transparency, Consent, and Control) offers insight when some applica
 /Users/*/Library/Application Support/com.apple.TCC/TCC.db
 ```
 
-You can use sqlite3 to parse, but there are values that are not translated and so don’t make too much sense
+You can use sqlite3 to parse, but there are values that are not translated and so don’t make too much sense. If you have to parse manually, these kind of commands help: 
 
+```bash
+# System
+sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "SELECT client || char(10) || GROUP_CONCAT('    ↳ ' || service || ' | Auth: ' || auth_value || ' | Mod: ' || datetime(last_modified, 'unixepoch', 'localtime'), char(10)) FROM access WHERE auth_value=2 GROUP BY client ORDER BY client;"
 
-![image](https://user-images.githubusercontent.com/44196051/170066410-c620672d-36c0-4081-857f-2843be09aa07.png)
+# User permissions
+sqlite3 ~"/Library/Application Support/com.apple.TCC/TCC.db" "SELECT client || char(10) || GROUP_CONCAT('    ↳ ' || service || ' | Auth: ' || auth_value || ' | Mod: ' || datetime(last_modified, 'unixepoch', 'localtime'), char(10)) FROM access WHERE auth_value=2 GROUP BY client ORDER BY client;"
+```
+<img width="1511" height="380" alt="image" src="https://github.com/user-attachments/assets/446ca6c6-cae9-40e0-b1cd-626af61ae55f" />
+
 
 You can use some command line tools, or just leverage a tool like Velociraptor, use the dedicated TCC hunt, and point it at the tcc.db you retrieved.
 
