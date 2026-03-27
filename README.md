@@ -3223,6 +3223,85 @@ Show user logins and outs auditreduce -c lo /var/audit/* | praudit
 
 What happened between two dates: auditreduce /var/audit/* -a 20220401 -b 20220501 | praudit 
 
+## Unified Logs
+General log search and stream: `log show` and `log stream`
+
+Search an offline log archive: `log show --archive /path/to/logs.logarchive --predicate '[PREDICATE]'`
+
+Kernel and Launchd events:
+```bash
+log show --predicate 'process == "kernel"' --last 1h
+log stream --predicate 'process == "kernel"' --info
+log show --predicate 'process == "kernel" AND eventMessage CONTAINS "kext"' --last 1h
+log show --predicate 'subsystem == "com.apple.launchd"' --last 30m --info --style syslog
+```
+
+Authentication, Sudo, and Login Events:
+```bash
+log show --predicate 'subsystem == "com.apple.loginwindow.logging"' --last 1h
+log show --predicate 'subsystem == "com.apple.loginwindow" AND eventMessage CONTAINS "success"' --last 1h
+log show --predicate 'subsystem == "com.apple.loginwindow" AND eventMessage CONTAINS "fail"' --last 1h
+log show --predicate '(process == "sudo") OR (eventMessage CONTAINS "PAM")' --last 1h
+log show --predicate 'process == "authd"' --last 1h
+log show --predicate 'process == "sshd"' --last 1h
+```
+
+Gatekeeper, TCC, and XProtect:
+```bash
+log show --predicate 'process == "syspolicyd"' --last 24h
+log show --predicate 'subsystem == "com.apple.security.assessment"' --last 24h
+log show --predicate 'eventMessage CONTAINS "TCC" AND eventMessage CONTAINS "deny"' --last 1h
+log show --predicate 'eventMessage CONTAINS "TCC" AND eventMessage CONTAINS "grant"' --last 24h
+log show --predicate 'eventMessage CONTAINS "XProtect"' --last 24h
+```
+
+Network, Firewall, and Peripherals:
+```
+Bash
+log show --predicate '(process == "socketfilterfw") OR (subsystem == "com.apple.alf")' --last 24h
+log show --predicate 'eventMessage CONTAINS "proxy"' --last 24h
+log show --predicate 'process == "airportd"' --last 24h
+log show --predicate 'subsystem == "com.apple.sharing"' --last 24h
+log show --predicate 'process == "configd"' --last 24h
+log show --predicate 'process == "bluetoothd" OR process == "blued"' --last 24h
+```
+
+Crash Reporting:
+```
+Bash
+log show --predicate 'subsystem == "com.apple.crashreporter"' --last 24h
+log show --predicate 'process == "spindump"' --last 24h
+log show --predicate 'eventMessage CONTAINS "panic" OR subsystem == "com.apple.kext"' --last 24h
+```
+
+Read legacy Apple System Logs (ASL): `syslog -f /var/log/asl/*.asl`
+
+## XProtect
+View quarantine extended attribute: `xattr -p com.apple.quarantine /path/to/file`
+
+Remove quarantine extended attribute: `xattr -d com.apple.quarantine /path/to/file`
+
+## File Queries
+Extended Attributes
+
+List the extendeded attributes for a file
+```
+ls -l@ {file}
+xattr -l {file}
+```
+
+View detailed file metadata (including xattrs)
+```
+mdls [file]
+```
+
+View a file's MACB timestamps
+```
+stat -x [file]
+```
+<img width="829" height="836" alt="image" src="https://github.com/user-attachments/assets/607a6389-82eb-4bb8-8390-ae62da3c0d59" />
+
+
 ## Safari Notification
 Notification from website can persist directly through the Safari web browser. These are saved to a plist and can be read/alerted from the plist itself.
 ```
@@ -3330,7 +3409,6 @@ sqlite3 ~"/Library/Application Support/com.apple.TCC/TCC.db" "SELECT client || c
 ```
 <img width="1511" height="380" alt="image" src="https://github.com/user-attachments/assets/446ca6c6-cae9-40e0-b1cd-626af61ae55f" />
 
-
 You can use some command line tools, or just leverage a tool like Velociraptor, use the dedicated TCC hunt, and point it at the tcc.db you retrieved.
 
 ![image](https://user-images.githubusercontent.com/44196051/170066448-d75a766f-25ca-489e-9596-1a1c4e006e16.png)
@@ -3369,6 +3447,14 @@ sudo launchctl list com.apple.screensharing
 # SIP
 csrutil status
  ```
+
+## More
+Identify local timezone
+
+```
+ls -l /etc/localtime
+```
+<img width="1164" height="55" alt="image" src="https://github.com/user-attachments/assets/1796d871-2b98-445f-9ae8-39beacc92633" />
 
 ---
 
@@ -5787,6 +5873,13 @@ As shared [here](https://www.linkedin.com/posts/0xhasanm_sundfirday-windows-dfir
 C:\ProgramData\Microsoft\Windows Defender\Support\*ffffffeffffffff.bin
 # strings the above files for any insight
 ```
+
+### Notepad
+Sometimes, Notepad will store saved and unsaved script names and file contents
+```
+Get-Content  C:\Users\*\AppData\Local\Packages\Microsoft.WindowsNotepad_8wekyb3d8bbwe\Localstate/tabstate/*.bin | format-hex
+```
+<img width="2782" height="958" alt="image" src="https://github.com/user-attachments/assets/50672ead-bde1-40a2-a3ed-8a5c44c4f479" />
 
 
 ## Chainsaw
