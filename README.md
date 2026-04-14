@@ -3456,6 +3456,17 @@ ls -l /etc/localtime
 ```
 <img width="1164" height="55" alt="image" src="https://github.com/user-attachments/assets/1796d871-2b98-445f-9ae8-39beacc92633" />
 
+
+## mac_apt
+Incredibly cool tool for parsing macos forensic artefacts, and lays it out in a spreadsheet with multiple tabs
+
+https://github.com/ydkhatri/mac_apt
+
+```bash
+python3 mac_apt.py -o /path/to/output -x SPARSE /path/to/PWF6RWLW2G_Acquisition.sparseimage ALL
+
+```
+
 ---
 
 # Malware
@@ -5541,6 +5552,22 @@ sudo file pid.6988.0x1c0000.dmp
 
 ![image](https://user-images.githubusercontent.com/44196051/123010258-2b5dac80-d3b6-11eb-9352-a43bd1effd87.png)
 
+### Memprocfs
+Memprocfs is like Volatility but requires less interactive issuing of commands, and instead 'mounts' the memory dump, creating directories that mimic both the output of volatility (processes, DLLs, network etc) as well ressuercting NTFS/MFT file structure to allow files to be found
+
+https://github.com/ufrisk/memprocfs
+
+I personally found it easier to leverage the linux version
+```bash
+sudo ./memprocfs -device ./image.vmem -mount /home/ubuntu/mnt_drive -forensic 1 -license-accept-elastic-license-2.0
+```
+## Plaso
+I mainly always use psteal, which will parse the disk images' contents - inclduing forensic artefacts - to create a timeline
+
+```bash
+sudo psteal.py --source ./image.E01 -o dynamic -w timeline.csv
+```
+
 ## Quick Forensics
 
 <details>
@@ -5881,6 +5908,15 @@ Get-Content  C:\Users\*\AppData\Local\Packages\Microsoft.WindowsNotepad_8wekyb3d
 ```
 <img width="2782" height="958" alt="image" src="https://github.com/user-attachments/assets/50672ead-bde1-40a2-a3ed-8a5c44c4f479" />
 
+
+## Pagefile.sys
+EZ's bstrings can be leveraged to strings a pagefile, which is where some RAM memory lives until is committed to memory or discarded. Incredible for pulling out adversary commands, but very verbose ngl
+
+```
+bstrings.exe -f E:\pagefile.sys -m 10 --off --sl -s -o strings.txt
+```
+
+<img width="802" height="305" alt="image" src="https://github.com/user-attachments/assets/7a07edc0-e55b-4c89-80fe-853a6afe25e3" />
 
 ## Chainsaw
 
