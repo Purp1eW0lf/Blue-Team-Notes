@@ -113,7 +113,7 @@ For screenshots during IR, I like to have the date, time, and sometimes the time
 ```bat
 setx prompt $D$S$T$H$H$H$S$B$S$P$_--$g
 :: all the H's are to backspace the stupid microsecond timestamp
-:: $_ and --$g seperate the date/time and path from the actual shell
+:: $_ and --$g separate the date/time and path from the actual shell
 :: We make the use of the prompt command: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/prompt
 :: setx is in fact the command line command to write variables to the registery
 :: We are writing the prompt's new timestamp value in the cmd line into the reg so it stays, otherwise it would not stay in the cmdline when we closed it.
@@ -376,7 +376,7 @@ quser
 #### Find all users logged in across entire AD
 If you want to find every single user logged in on your Active Directory, with the machine they are also signed in to. 
 
-I can reccomend YossiSassi's [Get-UserSession.ps1](https://github.com/YossiSassi/Get-UserSession/blob/master/Get-UserSession.ps1) and [Get-RemotePSSession.ps1](https://github.com/YossiSassi/Get-RemotePSSession/blob/master/Get-RemotePSSession.ps1).
+I can recommend YossiSassi's [Get-UserSession.ps1](https://github.com/YossiSassi/Get-UserSession/blob/master/Get-UserSession.ps1) and [Get-RemotePSSession.ps1](https://github.com/YossiSassi/Get-RemotePSSession/blob/master/Get-RemotePSSession.ps1).
 
 This will generate a LOT of data in a real-world AD though.
 
@@ -828,7 +828,7 @@ Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' 
 Disable-NetFirewallRule -DisplayGroup "Remote Desktop"
 ```
 ### Query RDP Logs 
-Knowing who is RDPing in your enviroment, and from where, is important. Unfortunately, RDP logs are balllache. [Threat hunting blogs like this one](https://research.nccgroup.com/2021/10/21/detecting-and-protecting-when-remote-desktop-protocol-rdp-is-open-to-the-internet/) can help you narrow down what you are looking for when it comes to RDP 
+Knowing who is RDPing in your environment, and from where, is important. Unfortunately, RDP logs are balllache. [Threat hunting blogs like this one](https://research.nccgroup.com/2021/10/21/detecting-and-protecting-when-remote-desktop-protocol-rdp-is-open-to-the-internet/) can help you narrow down what you are looking for when it comes to RDP 
 
 Let's call on one of the RDP logs, and filter for event ID 1149, which means a RDP connection has been made. Then let's filter out any IPv4 addresses that begin with 10.200, as this is the internal IP schema. Perhaps I want to hunt down public IP addresses, as this would suggest the RDP is exposed to the internet on the machine and an adversary has connected with correct credentials!!!
 
@@ -1716,7 +1716,7 @@ And you can right-click and ask autoruns to delete this recurring task from exis
 
 I like autoruns for digital forensics, where you take it one machine at a time. But - in my uneducated opinion - it does not scale well. A tool like Velociraptor that allows orchestration across thousands of machines can be leveraged to query things with greater granularity than Autoruns allows. 
 
-This is why I like to use PowerShell for much of my blue team work on a Windows machine, where possible. I can pre-filter my queries so I don't get distraced by noise, but moreover I can run that fine-tuned PowerShell query network-wide across thosuands of machines and recieve the results back rapidly.
+This is why I like to use PowerShell for much of my blue team work on a Windows machine, where possible. I can pre-filter my queries so I don't get distraced by noise, but moreover I can run that fine-tuned PowerShell query network-wide across thosuands of machines and receive the results back rapidly.
 
 ---
 
@@ -3481,9 +3481,9 @@ python3 mac_apt.py -o /path/to/output -x SPARSE /path/to/PWF6RWLW2G_Acquisition.
   
 </details>
 
-I'd reccomend [REMnux](https://docs.remnux.org/), a Linux distro dedicated to malware analysis. If you don't fancy downloading the VM, then maybe just keep an eye on the [Docs](https://docs.remnux.org/discover-the-tools/examine+static+properties/general) as they have some great malware analysis tools in their roster. 
+I'd recommend [REMnux](https://docs.remnux.org/), a Linux distro dedicated to malware analysis. If you don't fancy downloading the VM, then maybe just keep an eye on the [Docs](https://docs.remnux.org/discover-the-tools/examine+static+properties/general) as they have some great malware analysis tools in their roster. 
 
-I'd also reccomend [FlareVM](https://github.com/mandiant/flare-vm), a Windows-based malware analysis installer - takes about an hour and a half to install everything on on a Windows VM, but well worth it!
+I'd also recommend [FlareVM](https://github.com/mandiant/flare-vm), a Windows-based malware analysis installer - takes about an hour and a half to install everything on on a Windows VM, but well worth it!
 
 ## Rapid Malware Analysis
 
@@ -3509,7 +3509,7 @@ I'd also reccomend [FlareVM](https://github.com/mandiant/flare-vm), a Windows-ba
 
 There are versions of Thor, but we'll be using [the free, `lite` version](https://www.nextron-systems.com/thor-lite/)
 
-What I'd reccomend you do here is create a dedicated directory (`/malware/folder`), and put one file in at a time into this directory that you want to study.
+What I'd recommend you do here is create a dedicated directory (`/malware/folder`), and put one file in at a time into this directory that you want to study.
 
 ```bash
 #execute Thor
@@ -3637,7 +3637,7 @@ Use [fakenet](https://github.com/mandiant/flare-fakenet-ng) in an Windows machin
 
 Fireup fakenet, and then execute the malware.
 - Some malware will require specfic responses to unravel further. 
-- I'd reccomend [inetsim](https://www.inetsim.org/downloads.html) where you encounter this kind of malware, as inetsim can emulate files and specific responses that malware calls out for
+- I'd recommend [inetsim](https://www.inetsim.org/downloads.html) where you encounter this kind of malware, as inetsim can emulate files and specific responses that malware calls out for
 
 ![image](https://user-images.githubusercontent.com/44196051/144321794-5771ee16-d3da-4ac2-b8e6-7644ec081f4e.png)
 
@@ -4024,7 +4024,7 @@ Let's remove the IEX at the bottom, and neutralise the job by commenting it out
 
 ### Bytes
 
-Here's a seperate bit of Powershell malware. I decoded it up to a point, and I want to focus on some easy ways to decode BYTES. 
+Here's a separate bit of Powershell malware. I decoded it up to a point, and I want to focus on some easy ways to decode BYTES. 
 
 ```powershell
 If ([IntPtr]::size -eq 8) {
@@ -4082,7 +4082,7 @@ Here, we can see that a sigma rule for CS process injection is automtically conv
 
 ![image](https://user-images.githubusercontent.com/44196051/120675327-def51000-c48c-11eb-8dcf-a07b98288661.png)
 
-You can pick a rule here, and convert it there and then for the search langauge you use in your SOC
+You can pick a rule here, and convert it there and then for the search language you use in your SOC
 
 ![image](https://user-images.githubusercontent.com/44196051/120675130-b66d1600-c48c-11eb-9377-27098fce2283.png)
 
@@ -4178,7 +4178,7 @@ while [ -f /tmp/hpot.hld ]
   # this section logs for your benefit
   echo "==ATTEMPTED CONNECTION TO PORT $PORT AT `date`==" >> $LOG # the humble `date` command is great one ain't it
   echo "" >> $LOG
-  echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" >> $LOG # seperates the logged events. 
+  echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" >> $LOG # separates the logged events. 
  done
 ```
 
