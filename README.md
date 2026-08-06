@@ -63,9 +63,6 @@ Donate as much or little money as you like, of course. I have some UK charities 
   * [Process Monitor](#process-monitor)
   * [Hash Check Malware](#hash-check-malware)
   * [Decoding Powershell](#decoding-powershell)
-- [SOC](#SOC)
-  * [Sigma Converter](#sigma-converter)
-  * [SOC Prime](#soc-prime)
 - [Honeypots](#honeypots)
   * [Basic Honeypots](#basic-honeypots) 
 - [Network Traffic](#network-traffic)
@@ -4057,36 +4054,7 @@ Then we can string the evil.exe, and we can see that it includes a bad IP, confi
 
 <img width="653" alt="Screenshot 2022-01-18 at 13 45 52" src="https://user-images.githubusercontent.com/44196051/149949086-888afd9b-8de6-415c-949c-c8ffbb78d0b4.png">
 
-
-
-# SOC
-
-## Sigma Converter
-
-The TL;DR of [Sigma](https://github.com/SigmaHQ/sigma) is that it's awesome. I won't go into detail on what Sigma is, but I will tell you about an awesome tool that lets you convert sigma rules into whatever syntax your SOC uses: [Uncoder](https://uncoder.io/) 
-
-You can convert ONE standard Sigma rule into a range of other search syntax languages automatically
-![image](https://user-images.githubusercontent.com/44196051/120665902-16ab8a00-c484-11eb-992d-621decf78a0c.png)
-
-### Uncoder Example: Colbalt Strike
-
-Here, we can see that a sigma rule for CS process injection is automtically converted from a standard sigma rule into a *Kibana Saved Search*
-
-![image](https://user-images.githubusercontent.com/44196051/120666031-2a56f080-c484-11eb-907c-dad340bade0f.png)
-
----
-
-## SOC Prime
-
-[SOC Prime](https://tdm.socprime.com/) is a market place of Sigma rules for the latest and greatest exploits and vulnerabilities
-
-![image](https://user-images.githubusercontent.com/44196051/120675327-def51000-c48c-11eb-8dcf-a07b98288661.png)
-
-You can pick a rule here, and convert it there and then for the search langauge you use in your SOC
-
-![image](https://user-images.githubusercontent.com/44196051/120675130-b66d1600-c48c-11eb-9377-27098fce2283.png)
-
----
+----
 
 # Honeypots
 
@@ -6145,156 +6113,236 @@ There are some other logs that you’ll pull on if the context is appropiate
 Sometimes, it’s helpful to go and pull other Security Solutions' logs and files.
 
 Much of the below is taken from [Velociraptor's implementation of KAPE](https://github.com/Velocidex/velociraptor/blob/master/artifacts/definitions/Windows/KapeFiles/Targets.yaml)
+### Bitdefender
 
-Bitdefender:
+**Paths**
 
-```
-C:\ProgramData\Bitdefender\Endpoint Security\Logs\
+* `C:\ProgramData\Bitdefender\Endpoint Security\Logs\`
+* `C:\ProgramData\Bitdefender\Desktop\Profiles\Logs\`
+* `C:\Program Files*\Bitdefender*\*\*.db`
+* `C:\Program Files\Bitdefender\Endpoint Security\Logs\system\*\*.xml`
+* `C:\ProgramData\Bitdefender\Endpoint Security\Logs\Firewall\*.txt`
+* `C:\ProgramData\ManagedAntivirus`
 
-C:\ProgramData\Bitdefender\Desktop\Profiles\Logs\
+**Assessment:** Provides good general context. A solid all-rounder.
 
-C:\Program Files*\Bitdefender*\*\.db
+### Carbon Black
 
-C:\Program Files\Bitdefender\Endpoint Security\Logs\system\*\*.xml
+**Paths**
 
-C:\ProgramData\Bitdefender\Endpoint Security\Logs\Firewall\*.txt
-```
+* `C:\ProgramData\CarbonBlack\Logs\*.log`
+* `C:\ProgramData\CarbonBlack\Logs\AmsiEvents.log`
 
-Carbon Black
+**Assessment:** `AmsiEvents.log` gives the PowerShell detail behind an AMSI alert, which is genuinely useful in an investigation.
 
-```
-C:\ProgramData\CarbonBlack\Logs\*.log
+### Cisco AMP
 
-C:\ProgramData\CarbonBlack\Logs\AmsiEvents.log 
-```
+**Paths**
 
-Cisco AMP
+* `C:\Program Files\Cisco\AMP\*.db`
 
-```
-C:\Program Files\Cisco\AMP\*.db
-```
+**Assessment:** Wonderful database to read, with a tonne of security value. Some `.etl` data is also present but is diagnostic only.
 
-Cylance / Blackberry
-```
-C:\ProgramData\Cylance\Desktop
+### CrowdStrike Falcon
 
-C:\Program Files\Cylance\Desktop\log\* log
+**Paths**
 
-C:\ProgramData\Cylance\Desktop\chp.db 
+* `C:\Windows\System32\winevt\Logs\`
 
-C:\ProgramData\Cylance\Optics\Log
-```
+**Assessment:** Tried hard, but only diagnostic information could be found on disk.
 
-Elastic Endpoint Security
-```
-C:\program files \elastic\endpoint\state\log
-```
+### Cybereason
 
-ESET: Parser available at https://github.com/laciKE/EsetLogParser
+**Paths**
 
-```
-C:\ProgramData\ESET\ESET NOD32 Antivirus\Logs\
-```
-FireEye Endpoint Security
+* `C:\ProgramData\crs1\*.txt`
+* `C:\ProgramData\crs1\Logs`
 
-Databases were encrypted, so can’t be accessed easily. From Fireeye documentation, you can get logs via command ‘xagt -g example_log.txt’. 
-```
-C:\ProgramData\FireEye\xagt\*.db
-```
+**Assessment:** Tried hard to find value, but only material pertaining to diagnostics could be found.
 
-F-Secure
+### Cylance / BlackBerry
 
-```
-C:\Users\*\AppData\Local\F-Secure\Log\*\*.log
+**Paths**
 
-C:\ProgramData\F-Secure\Antivirus\ScheduledScanReports\
+* `C:\ProgramData\Cylance\Desktop`
+* `C:\Program Files\Cylance\Desktop\log\*.log`
+* `C:\ProgramData\Cylance\Desktop\chp.db`
+* `C:\ProgramData\Cylance\Optics\Log`
 
-C:\ProgramData\F-Secure\EventHistory\event
+**Assessment:** Nice and easy to read. `chp.db` can be read with `sqlite3`, selecting the `Quarantine` table.
+
+```bash
+sqlite3 "chp.db" "SELECT * FROM Quarantine;"
 ```
 
-Kaspersky
- 
-```
-C:\Windows\system32\winevt\logs
-```
+### Datto AV / Infocyte
 
+**Paths**
 
-Malware Bytes
+* `C:\ProgramData\DattoAV\Endpoint Protection SDK`
+* `C:\ProgramData\DattoAV\Endpoint Protection SDK\logs\*.log`
+* `C:\ProgramData\DattoAV\Endpoint Protection SDK\quarantine`
 
-```
-C:\ProgramData\Malwarebytes\Malwarebytes Anti-Malware\Logs\mbam-log-*.xml
+### Deep Instinct
 
-C:\PogramData\Malwarebytes\MBAMService\logs\mbamservice.log
+**Paths**
 
-C:\Users\*\AppData\Roaming\Malwarebytes\Malwarebytes Anti-Malware\Logs\
+* `C:\ProgramData\DeepInstinct\Logs\*.etl`
 
-C:\ProgramData\Malwarebytes\MBAMService\ScanResults\
-```
+**Assessment:** Other than esoteric diagnostics, nothing of security value was found.
 
-McAfee
+### Elastic Endpoint Security
 
-```
-C:\ProgramData\McAfee\Endpoint Security\Logs\*.log
+**Paths**
 
-C:\ProgramData\McAfee\Endpoint Security\Logs_Old\*
+* `C:\Program Files\Elastic\Endpoint\state\log`
 
-C:\ProgramData\Mcafee\VirusScan\*
+**Assessment:** One big log, and it includes great security insight.
 
-C:\ProgramData\McAfee\VirusScan\Quarantine\quarantine\*.db
+### ESET
 
-C:\ProgramData\McAfee\DesktopProtection\*.txt
-```
+**Paths**
 
-Palo Alto Networks XDR
+* `C:\ProgramData\ESET\ESET Security\Logs\virlog.dat`
+* `C:\ProgramData\ESET\ESET NOD32 Antivirus\Logs\` (older or consumer installs)
 
-```
-C:\ProgramData\Cyvera\Logs\*.log
-```
+**Assessment:** The virus log requires a parser, but once the data is out it is good, detailed stuff. Parser: [EsetLogParser](hxxps://github.com/laciKE/EsetLogParser), a Python script for parsing the ESET (NOD32) `virlog.dat` file.
 
-Sentinel One:
+### FireEye Endpoint Security
 
-```
-C:\programdata\sentinel\logs\*.log, *.txt
+**Paths**
 
-C:\windows\System32\winevt\Logs\SentinelOne*.evtx
+* `C:\ProgramData\FireEye\xagt\*.db`
 
-C:\ProgramData\Sentinel\Quarantine
+**Assessment:** The databases are encrypted, so they cannot be accessed easily. FireEye documentation states logs can be produced with the command below, but that requires an interactive machine.
+
+```bash
+xagt -g example_log.txt
 ```
 
-Sophos: 
+### F-Secure
 
-```
-C:\ProgramData\Sophos\Sophos Anti-Virus\logs\*.txt.
+**Paths**
 
-C:\ProgramData\Sophos\Endpoint Defense\Logs\*.txt
-```
+* `C:\Users\*\AppData\Local\F-Secure\Log\*\*.log`
+* `C:\ProgramData\F-Secure\Antivirus\ScheduledScanReports\`
+* `C:\ProgramData\F-Secure\EventHistory\event`
 
-Symanetic
+**Assessment:** Straightforward to read with good security value, but there are a lot of diagnostic logs to wade through.
 
-```
-C:\ProgramData\Symantec\Symantec Endpoint Protection\*\Data\Logs\
+### Kaspersky
 
-C:\Users\*\AppData\Local\Symantec\Symantec Endpoint Protection\Logs\
+**Paths**
 
-C:\Windows\System32\winevt\logs\Symantec Endpoint Protection Client.evtx
+* `C:\Windows\System32\winevt\Logs\`
 
-C:\ ProgramData\Symantec\Symantec Endpoint Protection\*\Data\Quarantine\
+**Assessment:** The EVTX data has great security value, in a similar format to Defender's.
 
-```
+### Malwarebytes
 
-Trend Micro
+**Paths**
 
-```
-C:\ProgramData\Trend Micro\
+* `C:\ProgramData\Malwarebytes\Malwarebytes Anti-Malware\Logs\mbam-log-*.xml`
+* `C:\ProgramData\Malwarebytes\MBAMService\logs\mbamservice.log`
+* `C:\Users\*\AppData\Roaming\Malwarebytes\Malwarebytes Anti-Malware\Logs\`
+* `C:\ProgramData\Malwarebytes\MBAMService\ScanResults\`
 
-C:\Program Files*\Trend Micro\Security Agent\Report\*.log,
+**Assessment:** More than enough data to work with, but you have to bounce between multiple log sources to piece information together.
 
-C:\Program Files*\Trend Micro\Security Agent\ConnLog\*.log
-```
+### McAfee
 
-Webroot:
+**Paths**
 
-`C:\ProgramData\WRData\WRLog.log`
+* `C:\ProgramData\McAfee\Endpoint Security\Logs\*.log`
+* `C:\ProgramData\McAfee\Endpoint Security\Logs_Old\*`
+* `C:\ProgramData\McAfee\VirusScan\*`
+* `C:\ProgramData\McAfee\VirusScan\Quarantine\quarantine\*.db`
+* `C:\ProgramData\McAfee\DesktopProtection\*.txt`
+
+**Assessment:** Great data. A bit inconsistent across products, but forgivable given the transparency and security value in the logs.
+
+### Palo Alto Networks XDR
+
+**Paths**
+
+* `C:\ProgramData\Cyvera\Logs\*.log`
+
+**Assessment:** Great security value across the various logs, and easy to read.
+
+### SentinelOne
+
+**Paths**
+
+* `C:\ProgramData\Sentinel\Logs\*.log`
+* `C:\ProgramData\Sentinel\Logs\*.txt`
+* `C:\Windows\System32\winevt\Logs\SentinelOne%4Operational.evtx`
+* `C:\ProgramData\Sentinel\Quarantine`
+
+**Assessment:** Sometimes there is security data in the EVTX. The `.binlog` files resisted every parsing attempt, so pointers welcome.
+
+### Sophos
+
+**Paths**
+
+* `C:\ProgramData\Sophos\Sophos Anti-Virus\logs\*.txt`
+* `C:\ProgramData\Sophos\Endpoint Defense\Logs\*.txt`
+
+**Assessment:** Great logs. Verbose, granular and full of security value. Application logs can be parsed by Chainsaw.
+
+### Symantec
+
+**Paths**
+
+* `C:\ProgramData\Symantec\Symantec Endpoint Protection\*\Data\Logs\`
+* `C:\Users\*\AppData\Local\Symantec\Symantec Endpoint Protection\Logs\`
+* `C:\Windows\System32\winevt\Logs\Symantec Endpoint Protection Client.evtx`
+* `C:\ProgramData\Symantec\Symantec Endpoint Protection\*\Data\Quarantine\`
+
+**Assessment:** All the logs are good, with a mixture of diagnostic and security value.
+
+### ThreatLocker
+
+**Paths**
+
+* `C:\Program Files\ThreatLocker\log.txt`
+
+### Trend Micro
+
+**Paths**
+
+* `C:\ProgramData\Trend Micro\`
+* `C:\Program Files (x86)\Trend Micro\Client Server Security Agent\`
+* `C:\Program Files*\Trend Micro\Security Agent\Report\*.log`
+* `C:\Program Files*\Trend Micro\Security Agent\ConnLog\*.log`
+
+**Assessment:** Transparent, well laid out, with good security value.
+
+### VIPRE
+
+**Paths**
+
+* `C:\ProgramData\VIPRE Business Agent\Quarantine`
+* `C:\ProgramData\VIPRE Business Agent\History`
+* `C:\ProgramData\VIPRE Business Agent\Logs`
+
+**Assessment:** Laid out well in XML and CSV format, with good security data to be gathered.
+
+### Webroot
+
+**Paths**
+
+* `C:\ProgramData\WRData\WRLog.log`
+
+**Assessment:** Good security value and straightforward to read. There were some databases, but they appear to be encrypted.
+
+### Windows Defender
+
+**Paths**
+
+* `C:\Windows\System32\winevt\Logs\Microsoft-Windows-Windows Defender%4Operational.evtx`
+
+**Assessment:** Defender is a good standard. It gives the trigger time, the offending file, the parent process, and it snitches on the user account responsible. The categorisation near the top is hit and miss, and AMSI alerts are close to useless: they will not tell you which PowerShell was malicious, so you end up pulling the PowerShell Operational log anyway.
+
 
 ### Other Microsoft logs
 
