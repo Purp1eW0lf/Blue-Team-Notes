@@ -7074,3 +7074,10 @@ Example below is for an old SSH persistence that the SOFTWARE registry hive had 
 🔍 -> xxd -d -c 32 -g 0 -s 26744664 -l 2000 ./SOFTWARE | tr -d '.' |ack -i 'ssh|2025' --passthru
 ```
 <img width="1284" height="849" alt="image" src="https://github.com/user-attachments/assets/8c5741f8-5740-472e-a33d-c1fee3cf9f9f" />
+
+And if you don't want to see the offset and decimals for readability, you can filter them out with awk, plus a wider `-c` for columns 
+```bash
+xxd -d -c 100 -g 0 -s 26744664 -l 2000 ./SOFTWARE | tr -d '.' | awk -F '  ' {'print$2'} |ack -i 'ssh|2025' --passthru
+```
+<img width="1099" height="498" alt="image" src="https://github.com/user-attachments/assets/55ec7730-9f69-447d-9419-cf7cb54bd7b2" />
+
