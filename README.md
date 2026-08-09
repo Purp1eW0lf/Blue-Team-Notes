@@ -6108,6 +6108,18 @@ There are some other logs that you’ll pull on if the context is appropiate
 
 * Where a threat actor runs something like `netsh advfirewall firewall add rule name="allow RemoteDesktop" dir=in protocol=TCP localport=3389 action=allow`, this log records this.
 
+##### DHCP
+Grabbing the Windows DHCP logs is a pro-gamer move. Typically on the DC `C:\\Windows\\System32\\dhcp\\`
+
+You wanna grab `DhcpSrvLog-*.log` files. These rotate weekly by weekday name and overwrite in place.
+
+Also collect `dhcp.mdb` in this directory
+
+Will contain MAC addresses, as well as internal IPv4s. Example extract:
+
+```
+10,08/07/26,00:51:45,Assign,192.168.42.134,WIN-QNPLU7IC45K.<domain>.Local,00155D2A1F06,...,MSFT 5.0
+```
 
 ### Security Products Logs
 Sometimes, it’s helpful to go and pull other Security Solutions' logs and files.
