@@ -6120,6 +6120,19 @@ Will contain MAC addresses, as well as internal IPv4s. Example extract:
 ```
 10,08/07/26,00:51:45,Assign,192.168.42.134,WIN-QNPLU7IC45K.<domain>.Local,00155D2A1F06,...,MSFT 5.0
 ```
+##### Hyper V logs
+Threat actors can abuse Hyper V to create new VMs. The following logs and EIDs will track this:
+
+`C:\windows\System32\winevt\Logs\Microsoft-Windows-Hyper-V-VMMS-Admin.evtx`
+* Event ID `13002` logs new machine creations
+
+`C:\windows\System32\winevt\Logs\microsoft-windows-hyper-v-vmms-operational-evtx
+* We have EID `27310` for the .VHDX path for the above creation.
+* What I like about this one is that it includes the SID`
+
+<img width="753" height="198" alt="image" src="https://github.com/user-attachments/assets/0b379a94-ad2e-4451-9ce9-a0ae3f91018f" />
+<img width="1045" height="380" alt="image" src="https://github.com/user-attachments/assets/b648cc33-c0b1-4a07-9c5b-881224c939fa" />
+
 
 ### Security Products Logs
 Sometimes, it’s helpful to go and pull other Security Solutions' logs and files.
