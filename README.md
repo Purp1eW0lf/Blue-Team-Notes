@@ -6466,10 +6466,12 @@ C:\Program Files\Microsoft\Exchange Server\*\TransportRoles\Logs\*\*.log
 Collect the following
 
 `C:\Windows\System32\winevt\Logs\Application.evtx`
+
 * EID 15457 - settings changed, XP_CMDSHELL means threat actor enabled ability to run commands
 * EID 18456 - will show how/if this SQL service was getting brute forced. Good to grab offending IPs
 
 `C:\Program Files\Microsoft SQL Server\MSSQL*\MSSQL\Log\log_*.trc`
+
 * Can be OP for showing IPs and underlying attacker machine names.
 * PITA to parse and read. I'd throw it to an AI tbh. If you wanna parse it yourself, try this one liner:
 ```
@@ -6479,13 +6481,11 @@ F=(./*.trc) && perl -0777 -ne'$d=$_;$n=length$d;$i=index$d,"\xf6\xff";while($i>=
 
 
 `C:\Program Files\Microsoft SQL Server\MSSQL*\MSSQL\Log\errorlog*`
+
 * I honestly don't bother all that much with this one where application.evtx has good retention
 * Successful logins will only be if login auditing has been explicitly enabled (it never is lol)
 
 
-Application log
-
-log_*.trc
  
 ## Remote Management Logs
 ### Action1
