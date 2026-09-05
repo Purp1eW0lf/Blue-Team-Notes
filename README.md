@@ -6393,10 +6393,6 @@ C:\inetpub\logs\LogFiles\W3SVC*\*.log,
 C:\Resources\Directory\*\LogFiles\Web\W3SVC*\*.log
 ```
 
-MSQL
-
-`C:\Program Files\Microsoft SQL Server\*\MSSQL\LOG\ERRORLOG`
-
 OneNote
 
 ```
@@ -6465,6 +6461,31 @@ C:\Program Files\Microsoft\Exchange Server\V15\FrontEnd\HttpProxy\owa\auth\*\*\
 
 C:\Program Files\Microsoft\Exchange Server\*\TransportRoles\Logs\*\*.log
 ```
+
+#### Microsoft SQL Server
+Collect the following
+
+`C:\Windows\System32\winevt\Logs\Application.evtx`
+* EID 15457 - settings changed, XP_CMDSHELL means threat actor enabled ability to run commands
+* EID 18456 - will show how/if this SQL service was getting brute forced. Good to grab offending IPs
+
+`C:\Program Files\Microsoft SQL Server\MSSQL*\MSSQL\Log\log_*.trc`
+* Can be OP for showing IPs and underlying attacker machine names.
+* PITA to parse and read. I'd throw it to an AI tbh. If you wanna parse it yourself, try this one liner:
+```
+F=(./*.trc) && perl -0777 -ne'$d=$_;$n=length$d;$i=index$d,"\xf6\xff";while($i>=0&&$i+9<=$n){($c,$L)=unpack"x".($i+3)."vV",$d;if($L<10||$i+$L>$n){$i=index$d,"\xf6\xff",$i+2;next}%f=();$p=$i+9;$e=$i+$L;while($p+3<=$e){$k=unpack"x".$p."v",$d;last if$k<1||$k>200;$l=ord substr$d,$p+2,1;$p+=3;if($l==255){$l=unpack"x".$p."V",$d;$p+=4}$v=substr$d,$p,$l;$p+=$l;$f{$k}=$k==14?sprintf("%d-%02d-%02d %02d:%02d:%02d",(unpack"v8",$v)[0,1,3,4,5,6]):$k=~/^(1|8|10|11)$/?join("",map{chr}unpack"v*",$v):$l==4?unpack("l",$v):"";last if$p>=$e}$i=index$d,"\xf6\xff",$i+$L;next if$c>1000;($x=$f{1}//"")=~s/\s+/ /g;print join("\t",$f{14}//"-",$c,($x=~/CLIENT: ([^\]]+)/)[0]//"-",$f{8}//"-",$f{10}//"-",$f{9}//"-",$f{11}//"-",$x,($ARGV=~s{.*/}{}r)),"\n"}' "${F[@]}" | awk -F'\t' '$2==20{n++;k=$3" "$4" pid "$6" ("$5")";c[k]++;s[k,$7]++||u[k]++;f[k]=f[k]?f[k]:$1;l[k]=$1;if($8~/not match/)r[$3"  "$7]++;next}$2==14||$8~/xp_cmdshell|sp_configure|RECONFIG|CREATE LOGIN|addsrvrole|OPENROWSET|BULK INSERT|sp_add_job|xp_reg/{v[++m]=$1"  "$2"  "$4"  "$7"  "$9"  "substr($8,1,140)}END{for(k in c)printf"SPRAY %8d fails %6d logins %s -> %s  %s\n",c[k],u[k],f[k],l[k],k;for(k in r)printf"REAL  %8d guesses  %s\n",r[k],k;for(j=1;j<=m;j++)print"EVENT "v[j];printf"-- %d records: %d auth fails, %d notable, %d routine\n",NR,n,m,NR-n-m}'
+```
+<img width="1511" height="387" alt="image" src="https://github.com/user-attachments/assets/f25c3d4e-deb8-46d4-b2a3-bc538b19bb57" />
+
+
+`C:\Program Files\Microsoft SQL Server\MSSQL*\MSSQL\Log\errorlog*`
+* I honestly don't bother all that much with this one where application.evtx has good retention
+* Successful logins will only be if login auditing has been explicitly enabled (it never is lol)
+
+
+Application log
+
+log_*.trc
  
 ## Remote Management Logs
 ### Action1
