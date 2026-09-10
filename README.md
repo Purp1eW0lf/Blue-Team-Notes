@@ -6485,6 +6485,9 @@ F=(./*.trc) && perl -0777 -ne'$d=$_;$n=length$d;$i=index$d,"\xf6\xff";while($i>=
 * I honestly don't bother all that much with this one where application.evtx has good retention
 * Successful logins will only be if login auditing has been explicitly enabled (it never is lol)
 
+If you can't find where MSSQL logging paths are, go go the Registry key:
+
+`HKLM\SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL*\MSSQLServer\Parameters`
 
  
 ## Remote Management Logs
