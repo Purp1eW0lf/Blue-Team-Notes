@@ -5776,6 +5776,9 @@ Win10/11 telemetry source only. Very accurate timeline of user activities
 Location
 ```
 C:\Users\<username>\AppData\Local\ConnectedDevicesPlatform\L.<username>\ActivitiesCache.db
+# or
+C:\Users\<username>\AppData\Local\ConnectedDevicesPlatform\AAD.*\ActivitiesCache.db
+C:\Users\<username>\AppData\Local\ConnectedDevicesPlatform\*\ActivitiesCache.db
 
 #example for user `foster`
 C:\Users\foster\AppData\Local\ConnectedDevicesPlatform\L.foster\ActivitiesCache.db
